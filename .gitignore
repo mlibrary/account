@@ -1,0 +1,4 @@
+# no environment variables
+.env/
+
+.byebug_history
