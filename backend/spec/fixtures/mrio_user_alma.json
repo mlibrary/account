@@ -1,0 +1,1096 @@
+{
+    "account_type": {
+        "desc": "Internal",
+        "value": "INTERNAL"
+    },
+    "campus_code": {
+        "desc": "",
+        "value": null
+    },
+    "cataloger_level": {
+        "desc": "[00] Default Level",
+        "value": "00"
+    },
+    "contact_info": {
+        "address": [
+            {
+                "address_note": "User Address Type: Permanent address",
+                "address_type": [
+                    {
+                        "desc": "Home",
+                        "value": "home"
+                    }
+                ],
+                "city": "",
+                "country": {
+                    "desc": "",
+                    "value": ""
+                },
+                "line1": "1440 Fake Street",
+                "line2": "Ann Arbor, MI  48105",
+                "line3": null,
+                "line4": null,
+                "line5": null,
+                "postal_code": "48105",
+                "preferred": false,
+                "segment_type": "Internal",
+                "state_province": ""
+            },
+            {
+                "address_note": "User Address Type: Mailing address",
+                "address_type": [
+                    {
+                        "desc": "Home",
+                        "value": "home"
+                    }
+                ],
+                "city": "",
+                "country": {
+                    "desc": "",
+                    "value": ""
+                },
+                "line1": "Library Info Tech - AIM",
+                "line2": "300 Hatcher North",
+                "line3": "Ann Arbor, MI  48109-1190",
+                "line4": null,
+                "line5": null,
+                "postal_code": "481091190",
+                "preferred": true,
+                "segment_type": "Internal",
+                "state_province": ""
+            }
+        ],
+        "email": [
+            {
+                "description": null,
+                "email_address": "mrio@umich.edu",
+                "email_type": [
+                    {
+                        "desc": "Personal",
+                        "value": "personal"
+                    }
+                ],
+                "preferred": true,
+                "segment_type": "Internal"
+            }
+        ],
+        "phone": [
+            {
+                "phone_number": "555-555-5555",
+                "phone_type": [
+                    {
+                        "desc": "Home",
+                        "value": "home"
+                    }
+                ],
+                "preferred": true,
+                "preferred_sms": false,
+                "segment_type": "Internal"
+            }
+        ]
+    },
+    "external_id": "",
+    "fees": null,
+    "first_name": "Monique",
+    "force_password_change": "",
+    "full_name": "Monique Rio",
+    "gender": {
+        "desc": "",
+        "value": ""
+    },
+    "is_researcher": false,
+    "job_category": {
+        "desc": "",
+        "value": ""
+    },
+    "job_description": "",
+    "last_name": "Rio",
+    "link": null,
+    "loans": null,
+    "middle_name": "",
+    "password": "",
+    "pref_first_name": "",
+    "pref_last_name": "",
+    "pref_middle_name": "",
+    "pref_name_suffix": "",
+    "preferred_language": {
+        "desc": "English",
+        "value": "en"
+    },
+    "primary_id": "MRIO",
+    "proxy_for_user": [],
+    "record_type": {
+        "desc": "Public",
+        "value": "PUBLIC"
+    },
+    "requests": null,
+    "researcher": null,
+    "status": {
+        "desc": "Active",
+        "value": "ACTIVE"
+    },
+    "status_date": "2020-09-01Z",
+    "user_block": [],
+    "user_group": {
+        "desc": "Staff Level",
+        "value": "02"
+    },
+    "user_identifier": [
+        {
+            "id_type": {
+                "desc": "System number",
+                "value": "00"
+            },
+            "note": null,
+            "segment_type": "Internal",
+            "status": "ACTIVE",
+            "value": "000000377644"
+        },
+        {
+            "id_type": {
+                "desc": "Barcode",
+                "value": "01"
+            },
+            "note": null,
+            "segment_type": "Internal",
+            "status": "ACTIVE",
+            "value": "29015022761089"
+        },
+        {
+            "id_type": {
+                "desc": "UM ID",
+                "value": "02"
+            },
+            "note": null,
+            "segment_type": "Internal",
+            "status": "ACTIVE",
+            "value": "12345678"
+        }
+    ],
+    "user_note": [],
+    "user_role": [
+        {
+            "parameter": [],
+            "role_type": {
+                "desc": "Patron",
+                "value": "200"
+            },
+            "scope": {
+                "desc": "University of Michigan",
+                "value": "01UMICH_INST"
+            },
+            "status": {
+                "desc": "Active",
+                "value": "ACTIVE"
+            }
+        },
+        {
+            "parameter": [],
+            "role_type": {
+                "desc": "Known issues operator",
+                "value": "301"
+            },
+            "scope": {
+                "desc": "University of Michigan",
+                "value": "01UMICH_INST"
+            },
+            "status": {
+                "desc": "Active",
+                "value": "ACTIVE"
+            }
+        },
+        {
+            "parameter": [],
+            "role_type": {
+                "desc": "Letter Administrator",
+                "value": "57"
+            },
+            "scope": {
+                "desc": "University of Michigan",
+                "value": "01UMICH_INST"
+            },
+            "status": {
+                "desc": "Active",
+                "value": "ACTIVE"
+            }
+        },
+        {
+            "parameter": [],
+            "role_type": {
+                "desc": "Catalog Manager",
+                "value": "206"
+            },
+            "scope": {
+                "desc": "University of Michigan",
+                "value": "01UMICH_INST"
+            },
+            "status": {
+                "desc": "Active",
+                "value": "ACTIVE"
+            }
+        },
+        {
+            "parameter": [],
+            "role_type": {
+                "desc": "API Infra Read",
+                "value": "238"
+            },
+            "scope": {
+                "desc": "University of Michigan",
+                "value": "01UMICH_INST"
+            },
+            "status": {
+                "desc": "Active",
+                "value": "ACTIVE"
+            }
+        },
+        {
+            "parameter": [],
+            "role_type": {
+                "desc": "Analytics Administrator",
+                "value": "2200"
+            },
+            "scope": {
+                "desc": "University of Michigan",
+                "value": "01UMICH_INST"
+            },
+            "status": {
+                "desc": "Active",
+                "value": "ACTIVE"
+            }
+        },
+        {
+            "parameter": [],
+            "role_type": {
+                "desc": "Designs Analytics",
+                "value": "220"
+            },
+            "scope": {
+                "desc": "University of Michigan",
+                "value": "01UMICH_INST"
+            },
+            "status": {
+                "desc": "Active",
+                "value": "ACTIVE"
+            }
+        },
+        {
+            "parameter": [],
+            "role_type": {
+                "desc": "Discovery - Admin",
+                "value": "300"
+            },
+            "scope": {
+                "desc": "University of Michigan",
+                "value": "01UMICH_INST"
+            },
+            "status": {
+                "desc": "Active",
+                "value": "ACTIVE"
+            }
+        },
+        {
+            "parameter": [],
+            "role_type": {
+                "desc": "General System Administrator",
+                "value": "26"
+            },
+            "scope": {
+                "desc": "University of Michigan",
+                "value": "01UMICH_INST"
+            },
+            "status": {
+                "desc": "Active",
+                "value": "ACTIVE"
+            }
+        },
+        {
+            "parameter": [
+                {
+                    "scope": {
+                        "desc": "Resource Sharing Library",
+                        "value": "RES_SHARE"
+                    },
+                    "type": {
+                        "desc": null,
+                        "value": "CirculationDesk"
+                    },
+                    "value": {
+                        "desc": "Resource Sharing Desk",
+                        "value": "RES_DESK"
+                    }
+                }
+            ],
+            "role_type": {
+                "desc": "Requests Operator",
+                "value": "51"
+            },
+            "scope": {
+                "desc": "Resource Sharing Library",
+                "value": "RES_SHARE"
+            },
+            "status": {
+                "desc": "Active",
+                "value": "ACTIVE"
+            }
+        },
+        {
+            "parameter": [],
+            "role_type": {
+                "desc": "Fulfillment Services Operator",
+                "value": "38"
+            },
+            "scope": {
+                "desc": "University of Michigan",
+                "value": "01UMICH_INST"
+            },
+            "status": {
+                "desc": "Active",
+                "value": "ACTIVE"
+            }
+        },
+        {
+            "parameter": [],
+            "role_type": {
+                "desc": "Purchase Request Manager",
+                "value": "247"
+            },
+            "scope": {
+                "desc": "University of Michigan",
+                "value": "01UMICH_INST"
+            },
+            "status": {
+                "desc": "Active",
+                "value": "ACTIVE"
+            }
+        },
+        {
+            "parameter": [],
+            "role_type": {
+                "desc": "SDK Write",
+                "value": "222"
+            },
+            "scope": {
+                "desc": "University of Michigan",
+                "value": "01UMICH_INST"
+            },
+            "status": {
+                "desc": "Active",
+                "value": "ACTIVE"
+            }
+        },
+        {
+            "parameter": [],
+            "role_type": {
+                "desc": "User Manager",
+                "value": "21"
+            },
+            "scope": {
+                "desc": "University of Michigan",
+                "value": "01UMICH_INST"
+            },
+            "status": {
+                "desc": "Active",
+                "value": "ACTIVE"
+            }
+        },
+        {
+            "parameter": [],
+            "role_type": {
+                "desc": "Fiscal Period Manager",
+                "value": "45"
+            },
+            "scope": {
+                "desc": "University of Michigan",
+                "value": "01UMICH_INST"
+            },
+            "status": {
+                "desc": "Active",
+                "value": "ACTIVE"
+            }
+        },
+        {
+            "parameter": [],
+            "role_type": {
+                "desc": "Purchasing Operator Extended",
+                "value": "47"
+            },
+            "scope": {
+                "desc": "University of Michigan",
+                "value": "01UMICH_INST"
+            },
+            "status": {
+                "desc": "Active",
+                "value": "ACTIVE"
+            }
+        },
+        {
+            "parameter": [],
+            "role_type": {
+                "desc": "Selector Extended",
+                "value": "243"
+            },
+            "scope": {
+                "desc": "University of Michigan",
+                "value": "01UMICH_INST"
+            },
+            "status": {
+                "desc": "Active",
+                "value": "ACTIVE"
+            }
+        },
+        {
+            "parameter": [],
+            "role_type": {
+                "desc": "Trial Manager",
+                "value": "217"
+            },
+            "scope": {
+                "desc": "University of Michigan",
+                "value": "01UMICH_INST"
+            },
+            "status": {
+                "desc": "Active",
+                "value": "ACTIVE"
+            }
+        },
+        {
+            "parameter": [],
+            "role_type": {
+                "desc": "Usage Data Operator",
+                "value": "244"
+            },
+            "scope": {
+                "desc": "University of Michigan",
+                "value": "01UMICH_INST"
+            },
+            "status": {
+                "desc": "Active",
+                "value": "ACTIVE"
+            }
+        },
+        {
+            "parameter": [],
+            "role_type": {
+                "desc": "Vendor Account Manager",
+                "value": "250"
+            },
+            "scope": {
+                "desc": "University of Michigan",
+                "value": "01UMICH_INST"
+            },
+            "status": {
+                "desc": "Active",
+                "value": "ACTIVE"
+            }
+        },
+        {
+            "parameter": [
+                {
+                    "scope": {
+                        "desc": "Hatcher Graduate",
+                        "value": "HATCH"
+                    },
+                    "type": {
+                        "desc": null,
+                        "value": "CirculationDesk"
+                    },
+                    "value": {
+                        "desc": "North Information Desk",
+                        "value": "DEFAULT_CIRC_DESK"
+                    }
+                },
+                {
+                    "scope": {
+                        "desc": "Hatcher Graduate",
+                        "value": "HATCH"
+                    },
+                    "type": {
+                        "desc": null,
+                        "value": "CirculationDesk"
+                    },
+                    "value": {
+                        "desc": "South Information Desk",
+                        "value": "southcirc"
+                    }
+                },
+                {
+                    "scope": {
+                        "desc": "Hatcher Graduate",
+                        "value": "HATCH"
+                    },
+                    "type": {
+                        "desc": null,
+                        "value": "CantEditRestrictedUsers"
+                    },
+                    "value": {
+                        "desc": null,
+                        "value": "false"
+                    }
+                }
+            ],
+            "role_type": {
+                "desc": "Circulation Desk Manager",
+                "value": "221"
+            },
+            "scope": {
+                "desc": "Hatcher Graduate",
+                "value": "HATCH"
+            },
+            "status": {
+                "desc": "Active",
+                "value": "ACTIVE"
+            }
+        },
+        {
+            "parameter": [],
+            "role_type": {
+                "desc": "Course Reserves Manager",
+                "value": "231"
+            },
+            "scope": {
+                "desc": "University of Michigan",
+                "value": "01UMICH_INST"
+            },
+            "status": {
+                "desc": "Active",
+                "value": "ACTIVE"
+            }
+        },
+        {
+            "parameter": [],
+            "role_type": {
+                "desc": "Course Reserves Viewer",
+                "value": "251"
+            },
+            "scope": {
+                "desc": "University of Michigan",
+                "value": "01UMICH_INST"
+            },
+            "status": {
+                "desc": "Active",
+                "value": "ACTIVE"
+            }
+        },
+        {
+            "parameter": [],
+            "role_type": {
+                "desc": "Fulfillment Services Manager",
+                "value": "215"
+            },
+            "scope": {
+                "desc": "University of Michigan",
+                "value": "01UMICH_INST"
+            },
+            "status": {
+                "desc": "Active",
+                "value": "ACTIVE"
+            }
+        },
+        {
+            "parameter": [
+                {
+                    "scope": {
+                        "desc": "Hatcher Graduate",
+                        "value": "HATCH"
+                    },
+                    "type": {
+                        "desc": null,
+                        "value": "CirculationDesk"
+                    },
+                    "value": {
+                        "desc": "North Information Desk",
+                        "value": "DEFAULT_CIRC_DESK"
+                    }
+                },
+                {
+                    "scope": {
+                        "desc": "Hatcher Graduate",
+                        "value": "HATCH"
+                    },
+                    "type": {
+                        "desc": null,
+                        "value": "CirculationDesk"
+                    },
+                    "value": {
+                        "desc": "South Information Desk",
+                        "value": "southcirc"
+                    }
+                }
+            ],
+            "role_type": {
+                "desc": "Requests Operator",
+                "value": "51"
+            },
+            "scope": {
+                "desc": "Hatcher Graduate",
+                "value": "HATCH"
+            },
+            "status": {
+                "desc": "Active",
+                "value": "ACTIVE"
+            }
+        },
+        {
+            "parameter": [],
+            "role_type": {
+                "desc": "Work Order Operator",
+                "value": "214"
+            },
+            "scope": {
+                "desc": "University of Michigan",
+                "value": "01UMICH_INST"
+            },
+            "status": {
+                "desc": "Active",
+                "value": "ACTIVE"
+            }
+        },
+        {
+            "parameter": [],
+            "role_type": {
+                "desc": "CDI Inventory Operator",
+                "value": "208"
+            },
+            "scope": {
+                "desc": "University of Michigan",
+                "value": "01UMICH_INST"
+            },
+            "status": {
+                "desc": "Active",
+                "value": "ACTIVE"
+            }
+        },
+        {
+            "parameter": [],
+            "role_type": {
+                "desc": "Collection Inventory Operator Extended",
+                "value": "229"
+            },
+            "scope": {
+                "desc": "University of Michigan",
+                "value": "01UMICH_INST"
+            },
+            "status": {
+                "desc": "Active",
+                "value": "ACTIVE"
+            }
+        },
+        {
+            "parameter": [
+                {
+                    "scope": {
+                        "desc": "Resource Sharing Library",
+                        "value": "RES_SHARE"
+                    },
+                    "type": {
+                        "desc": null,
+                        "value": "CirculationDesk"
+                    },
+                    "value": {
+                        "desc": "Resource Sharing Desk",
+                        "value": "RES_DESK"
+                    }
+                }
+            ],
+            "role_type": {
+                "desc": "Circulation Desk Operator",
+                "value": "32"
+            },
+            "scope": {
+                "desc": "Resource Sharing Library",
+                "value": "RES_SHARE"
+            },
+            "status": {
+                "desc": "Active",
+                "value": "ACTIVE"
+            }
+        },
+        {
+            "parameter": [],
+            "role_type": {
+                "desc": "Printout Queue Manager",
+                "value": "428"
+            },
+            "scope": {
+                "desc": "University of Michigan",
+                "value": "01UMICH_INST"
+            },
+            "status": {
+                "desc": "Active",
+                "value": "ACTIVE"
+            }
+        },
+        {
+            "parameter": [],
+            "role_type": {
+                "desc": "Deposit Manager",
+                "value": "0"
+            },
+            "scope": {
+                "desc": "University of Michigan",
+                "value": "01UMICH_INST"
+            },
+            "status": {
+                "desc": "Active",
+                "value": "ACTIVE"
+            }
+        },
+        {
+            "parameter": [],
+            "role_type": {
+                "desc": "Digital Inventory Operator Extended",
+                "value": "226"
+            },
+            "scope": {
+                "desc": "University of Michigan",
+                "value": "01UMICH_INST"
+            },
+            "status": {
+                "desc": "Active",
+                "value": "ACTIVE"
+            }
+        },
+        {
+            "parameter": [],
+            "role_type": {
+                "desc": "Electronic Inventory Operator Extended",
+                "value": "224"
+            },
+            "scope": {
+                "desc": "University of Michigan",
+                "value": "01UMICH_INST"
+            },
+            "status": {
+                "desc": "Active",
+                "value": "ACTIVE"
+            }
+        },
+        {
+            "parameter": [],
+            "role_type": {
+                "desc": "Physical Inventory Operator Extended",
+                "value": "225"
+            },
+            "scope": {
+                "desc": "University of Michigan",
+                "value": "01UMICH_INST"
+            },
+            "status": {
+                "desc": "Active",
+                "value": "ACTIVE"
+            }
+        },
+        {
+            "parameter": [],
+            "role_type": {
+                "desc": "Fulfillment Administrator",
+                "value": "52"
+            },
+            "scope": {
+                "desc": "University of Michigan",
+                "value": "01UMICH_INST"
+            },
+            "status": {
+                "desc": "Active",
+                "value": "ACTIVE"
+            }
+        },
+        {
+            "parameter": [],
+            "role_type": {
+                "desc": "Repository Administrator",
+                "value": "53"
+            },
+            "scope": {
+                "desc": "University of Michigan",
+                "value": "01UMICH_INST"
+            },
+            "status": {
+                "desc": "Active",
+                "value": "ACTIVE"
+            }
+        },
+        {
+            "parameter": [],
+            "role_type": {
+                "desc": "Catalog Administrator",
+                "value": "205"
+            },
+            "scope": {
+                "desc": "University of Michigan",
+                "value": "01UMICH_INST"
+            },
+            "status": {
+                "desc": "Active",
+                "value": "ACTIVE"
+            }
+        },
+        {
+            "parameter": [],
+            "role_type": {
+                "desc": "Resource Sharing Partners Manager",
+                "value": "239"
+            },
+            "scope": {
+                "desc": "University of Michigan",
+                "value": "01UMICH_INST"
+            },
+            "status": {
+                "desc": "Active",
+                "value": "ACTIVE"
+            }
+        },
+        {
+            "parameter": [],
+            "role_type": {
+                "desc": "Electronic Inventory Operator",
+                "value": "209"
+            },
+            "scope": {
+                "desc": "University of Michigan",
+                "value": "01UMICH_INST"
+            },
+            "status": {
+                "desc": "Active",
+                "value": "ACTIVE"
+            }
+        },
+        {
+            "parameter": [],
+            "role_type": {
+                "desc": "Physical Inventory Operator",
+                "value": "210"
+            },
+            "scope": {
+                "desc": "University of Michigan",
+                "value": "01UMICH_INST"
+            },
+            "status": {
+                "desc": "Active",
+                "value": "ACTIVE"
+            }
+        },
+        {
+            "parameter": [],
+            "role_type": {
+                "desc": "Cataloger",
+                "value": "204"
+            },
+            "scope": {
+                "desc": "University of Michigan",
+                "value": "01UMICH_INST"
+            },
+            "status": {
+                "desc": "Active",
+                "value": "ACTIVE"
+            }
+        },
+        {
+            "parameter": [],
+            "role_type": {
+                "desc": "Repository Manager",
+                "value": "29"
+            },
+            "scope": {
+                "desc": "University of Michigan",
+                "value": "01UMICH_INST"
+            },
+            "status": {
+                "desc": "Active",
+                "value": "ACTIVE"
+            }
+        },
+        {
+            "parameter": [
+                {
+                    "scope": null,
+                    "type": {
+                        "desc": null,
+                        "value": "ServiceUnit"
+                    },
+                    "value": {
+                        "desc": "",
+                        "value": "RecvDept"
+                    }
+                }
+            ],
+            "role_type": {
+                "desc": "Receiving Operator",
+                "value": "37"
+            },
+            "scope": {
+                "desc": "University of Michigan",
+                "value": "01UMICH_INST"
+            },
+            "status": {
+                "desc": "Active",
+                "value": "ACTIVE"
+            }
+        },
+        {
+            "parameter": [],
+            "role_type": {
+                "desc": "User Administrator",
+                "value": "50"
+            },
+            "scope": {
+                "desc": "University of Michigan",
+                "value": "01UMICH_INST"
+            },
+            "status": {
+                "desc": "Active",
+                "value": "ACTIVE"
+            }
+        },
+        {
+            "parameter": [],
+            "role_type": {
+                "desc": "Invoice Manager",
+                "value": "44"
+            },
+            "scope": {
+                "desc": "University of Michigan",
+                "value": "01UMICH_INST"
+            },
+            "status": {
+                "desc": "Active",
+                "value": "ACTIVE"
+            }
+        },
+        {
+            "parameter": [],
+            "role_type": {
+                "desc": "Vendor Manager",
+                "value": "33"
+            },
+            "scope": {
+                "desc": "University of Michigan",
+                "value": "01UMICH_INST"
+            },
+            "status": {
+                "desc": "Active",
+                "value": "ACTIVE"
+            }
+        },
+        {
+            "parameter": [],
+            "role_type": {
+                "desc": "Ledger Manager",
+                "value": "34"
+            },
+            "scope": {
+                "desc": "University of Michigan",
+                "value": "01UMICH_INST"
+            },
+            "status": {
+                "desc": "Active",
+                "value": "ACTIVE"
+            }
+        },
+        {
+            "parameter": [],
+            "role_type": {
+                "desc": "Fund Manager",
+                "value": "36"
+            },
+            "scope": {
+                "desc": "University of Michigan",
+                "value": "01UMICH_INST"
+            },
+            "status": {
+                "desc": "Active",
+                "value": "ACTIVE"
+            }
+        },
+        {
+            "parameter": [],
+            "role_type": {
+                "desc": "License Manager",
+                "value": "41"
+            },
+            "scope": {
+                "desc": "University of Michigan",
+                "value": "01UMICH_INST"
+            },
+            "status": {
+                "desc": "Active",
+                "value": "ACTIVE"
+            }
+        },
+        {
+            "parameter": [],
+            "role_type": {
+                "desc": "Invoice Operator",
+                "value": "43"
+            },
+            "scope": {
+                "desc": "University of Michigan",
+                "value": "01UMICH_INST"
+            },
+            "status": {
+                "desc": "Active",
+                "value": "ACTIVE"
+            }
+        },
+        {
+            "parameter": [],
+            "role_type": {
+                "desc": "Purchasing Operator",
+                "value": "54"
+            },
+            "scope": {
+                "desc": "University of Michigan",
+                "value": "01UMICH_INST"
+            },
+            "status": {
+                "desc": "Active",
+                "value": "ACTIVE"
+            }
+        },
+        {
+            "parameter": [],
+            "role_type": {
+                "desc": "Purchasing Manager",
+                "value": "55"
+            },
+            "scope": {
+                "desc": "University of Michigan",
+                "value": "01UMICH_INST"
+            },
+            "status": {
+                "desc": "Active",
+                "value": "ACTIVE"
+            }
+        },
+        {
+            "parameter": [],
+            "role_type": {
+                "desc": "Acquisitions Administrator",
+                "value": "56"
+            },
+            "scope": {
+                "desc": "University of Michigan",
+                "value": "01UMICH_INST"
+            },
+            "status": {
+                "desc": "Active",
+                "value": "ACTIVE"
+            }
+        }
+    ],
+    "user_statistic": [
+        {
+            "segment_type": "Internal",
+            "statistic_category": {
+                "desc": "Staff",
+                "value": "ST"
+            }
+        }
+    ],
+    "user_title": {
+        "desc": "",
+        "value": ""
+    },
+    "web_site_url": ""
+}

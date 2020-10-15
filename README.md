@@ -1,6 +1,3 @@
-
-
-  `
 # My Account 
 My Account for Alma
 
@@ -17,8 +14,8 @@ copy .env-example directory to .env
 ```
 cp -r .env-example .env
 ```
-edit .env/development/web with Alma Credentials
-```
+edit .env/development/backend with Alma Credentials
+
 ```ruby
 #.env/development/backend
 ALMA_API_KEY='YOURAPIKEY'

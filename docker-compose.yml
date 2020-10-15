@@ -2,11 +2,11 @@ version: '3'
 
 services:
   backend:
-    build: .
+    build: ./backend/.
     ports:
       - "4567:4567"
     volumes:
-      - .:/usr/src/app
+      - ./backend/.:/usr/src/app
       - gem_cache:/gems
     env_file:
       - .env/development/backend
