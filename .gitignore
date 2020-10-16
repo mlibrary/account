@@ -1,4 +1,6 @@
 # no environment variables
 .env/
+backend/drupal_models
+backend/drupal_models_specs
 
 .byebug_history

@@ -1,16 +1,35 @@
 class Patron
-  attr_reader :uniqname
-  def initialize(uniqname:, client: AlmaClient.new)
+  def initialize(uniqname: '#fixme', client: AlmaClient.new, parsed_response: '#FIXME')
     @uniqname = uniqname
-    @response = client.get(url)
-    @parsed_response = @response.parsed_response
+    @parsed_response = parsed_response
   end
+
+  def self.for(uniqname:, client: AlmaClient.new)
+    url = "/users/#{uniqname}?user_id_type=all_unique&view=full&expand=none" 
+    response = client.get(url)
+    if response.code == 200
+      Patron.new(uniqname: uniqname, parsed_response: response.parsed_response)
+    else
+      AlmaError.new(response)
+    end
+  end
+
   def to_h
-    {
-      full_name: full_name,
-      uniqname: uniqname,
-      addresses: addresses.map{ |x| x.to_h }
-    }
+      {
+        uniqname: uniqname,
+        full_name: full_name,
+        addresses: addresses.map{ |x| x.to_h },
+        sms_number: sms_number,
+      }
+  end
+  def response(resp = Response.new(body: to_h))
+    resp.to_a
+  end
+  def uniqname
+    @parsed_response["primary_id"].downcase
+  end
+  def sms_number
+    @parsed_response["contact_info"]["phone"].find(-> {{}}){|x| x["preferred_sms"]}["phone_number"]
   end
   def full_name
     @parsed_response["full_name"]
@@ -20,9 +39,6 @@ class Patron
   end
 
   private
-  def url
-    "/users/#{@uniqname}?user_id_type=all_unique&view=full&expand=none" 
-  end
 
   class Address
     def initialize(address)
