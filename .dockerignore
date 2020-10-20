@@ -1,0 +1,6 @@
+.git
+.gitignore
+.env-example
+
+drupal_models
+drupal_models_specs

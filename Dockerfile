@@ -1,4 +1,4 @@
-FROM ruby:2.7
+FROM ruby:2.7.2
 
 LABEL maintainer="mrio@umich.edu"
 
@@ -13,6 +13,6 @@ ENV BUNDLE_PATH /gems
 
 RUN bundle install
 
-COPY ./ /usr/src/app/
+COPY . /usr/src/app/
 
 CMD ["bundle", "exec", "ruby", "my_account.rb", "-o", "0.0.0.0"]

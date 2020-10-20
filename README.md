@@ -14,22 +14,22 @@ copy .env-example directory to .env
 ```
 cp -r .env-example .env
 ```
-edit .env/development/backend with Alma Credentials
+edit .env/development/web with Alma Credentials
 
 ```ruby
-#.env/development/backend
+#.env/development/web
 ALMA_API_KEY='YOURAPIKEY'
 ALMA_API_HOST='https://api-na.hosted.exlibrisgroup.com'
 ```	
 
-build backend container
+build web container
 ```
-docker-compose build backend
+docker-compose build web
 ```
 
 bundle install 
 ```
-docker-compose run backend bundle install
+docker-compose run web bundle install
 ```
 
 start containers

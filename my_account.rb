@@ -13,7 +13,7 @@ end
 
 get '/users/:uniqname' do |uniqname|
   #[200, {"Content-Type"=> "application/json"}, Patron.new(uniqname: uniqname).to_json]
-  Patron.new(uniqname:uniqname).response
+  Patron.for(uniqname:uniqname).response
 end
   
 
