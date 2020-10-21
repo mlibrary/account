@@ -2,5 +2,7 @@
 .env/
 drupal_models
 drupal_models_specs
+node_modules
 
 .byebug_history
+.sass-cache

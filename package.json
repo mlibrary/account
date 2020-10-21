@@ -1,0 +1,25 @@
+{
+  "name": "my_account",
+  "version": "1.0.0",
+  "description": "My Account for Alma",
+  "dependencies": {
+    "node-sass": "^4.14.1",
+    "sass": "^1.27.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "scss": "node-sass --watch css -o public",
+    "compile": "node-sass css -o public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mlibrary/my_account.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mlibrary/my_account/issues"
+  },
+  "homepage": "https://github.com/mlibrary/my_account#readme"
+}

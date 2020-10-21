@@ -1,5 +1,5 @@
 class Patron
-  def initialize(uniqname: '#fixme', client: AlmaClient.new, parsed_response: '#FIXME')
+  def initialize(uniqname:, parsed_response:)
     @uniqname = uniqname
     @parsed_response = parsed_response
   end
@@ -10,6 +10,7 @@ class Patron
     if response.code == 200
       Patron.new(uniqname: uniqname, parsed_response: response.parsed_response)
     else
+      #should be something else
       AlmaError.new(response)
     end
   end

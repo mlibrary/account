@@ -1,6 +1,9 @@
 .git
 .gitignore
 .env-example
+public/index.css
+
+node_modules
 
 drupal_models
 drupal_models_specs

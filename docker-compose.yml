@@ -10,5 +10,12 @@ services:
       - gem_cache:/gems
     env_file:
       - .env/development/web
+        
+  sass:
+    build: .
+    volumes:
+      - .:/usr/src/app
+    command: "npm run scss"
+
 volumes:
   gem_cache:

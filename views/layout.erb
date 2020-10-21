@@ -1,0 +1,63 @@
+<html lang="en">
+  <head>
+        <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link
+      href="https://unpkg.com/@umich-lib/css@v1/dist/umich-lib.css"
+      rel="stylesheet"
+      />
+    <link href='index.css' rel="stylesheet" />
+    <script
+      type="module"
+      src="https://unpkg.com/@umich-lib/components@v1/dist/umich-lib/umich-lib.esm.js"
+      ></script>
+    <script
+      nomodule
+      src="https://unpkg.com/@umich-lib/components@v1/dist/umich-lib/umich-lib.js"
+      ></script>
+    <title>Fake Title</title>
+  </head>
+  <body> 
+    <m-universal-header></m-universal-header>
+    <m-website-header name="Account"></m-website-header>
+
+
+    </article>
+
+    <main class="layout">
+
+      <nav class="site-navigation site-layout__left">
+        <div class="sticky-top">
+          <ul>
+            <li class="my-active-class">
+              <a href="#">Test</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+      <article class="site-layout__center owl prose">
+
+        <%= yield %>
+      </article>
+    </main>
+    <footer class="site-footer">
+      <div class="site-footer__content layout">
+        <section class="owl">
+          <h2 class="m-details-xxx-small">University of Michigan Library</h2>
+          <p>913 S. University Avenue<br>Ann Arbor, MI 48109</p>
+        </section>
+      </div>
+      <div class="site-footer__disclaimer layout">
+        <section>
+          <p>© 2020, Regents of the University of Michigan</p>
+          <p>Built with the <a href="http://design-system.lib.umich.edu">U-M Library Design System</a>.</p>
+        </section>
+      </div>
+    </footer>
+    <script src="https://unpkg.com/anchor-js/anchor.min.js"></script>
+  </body>
+  <script>
+    anchors.add();
+  </script>
+</html>
