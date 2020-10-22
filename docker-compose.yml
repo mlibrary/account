@@ -14,7 +14,8 @@ services:
   sass:
     build: .
     volumes:
-      - .:/usr/src/app
+      - ./css:/usr/src/app/css
+      - ./public:/usr/src/app/public
     command: "npm run scss"
 
 volumes:
