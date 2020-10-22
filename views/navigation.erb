@@ -1,0 +1,17 @@
+<% pages = [
+  {name: 'Your shelf', url: '/'},
+  {name: 'Fines', url: '/fines'},
+  {name: 'Notifications', url: '/notifications'},
+] %>
+
+<nav class="site-navigation site-layout__left">
+  <div class="sticky-top">
+    <ul>
+      <% pages.each do |page| %>
+        <li <%= page[:url] == request.path_info ? 'class="my-active-class"' : '' %> >
+        <a href="<%=page[:url]%>"><%=page[:name]%></a>
+      </li>
+    <% end %>
+    </ul>
+  </div>
+</nav>

@@ -1,0 +1,11 @@
+<h1>Your shelf</h1>
+<p>The home for your University of Michigan Library account.</p>
+<h2>Loans</h2>
+<p>A list of loans of all kinds. And a way to view your loan history.</p>
+<ul>
+<% loans.each do |loan| %>
+  <li><b>Title</b>: <%= loan.title %> | <b>Due Date</b>: <%= loan.due_date %></li>
+<% end %>
+</ul>
+<h2>Holds</h2>
+<p>A list of all your holds, including scheduled holds.</p>
