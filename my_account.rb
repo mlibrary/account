@@ -3,16 +3,17 @@ require "sinatra/reloader" if development?
 require 'byebug' if development?
 
 require_relative "./models/response"
-require_relative "./models/patron"
 require_relative "./models/alma_client"
 require_relative "./models/alma_error"
 
-require_relative "./models/prototypes/loans"
+require_relative "./models/patron"
+require_relative "./models/loans"
 
 enable :sessions
 
 get '/' do
-  loans = Prototypes::Loans.new
+  #loans = Loans.for(uniqname: 'etude') #student with nothing
+  loans = Loans.for(uniqname: 'tutor') #faculty with too much
   erb :shelf, :locals => {loans: loans} 
 end
 
@@ -26,7 +27,7 @@ end
 
 #demos info from Alma
 get '/profile' do 
-  session[:uniqname] = 'mrio' #need to get this from cosign?
+  session[:uniqname] = 'tutor' #need to get this from cosign?
   patron = Patron.for(uniqname: session[:uniqname])
   erb :patron, :locals => {patron: patron}
 end
