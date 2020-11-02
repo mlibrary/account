@@ -7,7 +7,9 @@ require_relative "./models/alma_client"
 require_relative "./models/alma_error"
 
 require_relative "./models/patron"
+require_relative "./models/item"
 require_relative "./models/loans"
+require_relative "./models/requests"
 
 enable :sessions
 

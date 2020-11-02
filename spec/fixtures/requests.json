@@ -1,0 +1,77 @@
+{
+  "user_request": [
+    {
+      "user_primary_id": "tutor",
+      "request_id": "1383955240006381",
+      "request_type": "BOOKING",
+      "request_sub_type": {
+        "value": "BOOKING",
+        "desc": "Booking request"
+      },
+      "mms_id": "991512150000541",
+      "title": "Candle flame / Katharine Howard.",
+      "author": "Howard, Katharine.",
+      "description": null,
+      "pickup_location": "Media Library",
+      "pickup_location_type": "LIBRARY",
+      "pickup_location_library": "MEDIA",
+      "managed_by_library": "",
+      "managed_by_circulation_desk": "",
+      "managed_by_library_code": "",
+      "managed_by_circulation_desk_code": "",
+      "material_type": {
+        "value": null,
+        "desc": null
+      },
+      "volume": "",
+      "issue": "",
+      "part": "",
+      "date_of_publication": "",
+      "comment": null,
+      "request_status": "NOT_STARTED",
+      "request_date": "2020-11-02Z",
+      "request_time": "2020-11-02T16:09:05.810Z",
+      "booking_start_date": "2020-11-19T16:09:00Z",
+      "booking_end_date": "2020-11-21T04:59:00Z",
+      "adjusted_booking_start_date": "2020-11-19T16:09:00Z",
+      "adjusted_booking_end_date": "2020-11-21T04:59:00Z",
+      "barcode": null
+    },
+    {
+      "user_primary_id": "tutor",
+      "request_id": "1383955180006381",
+      "request_type": "HOLD",
+      "request_sub_type": {
+        "value": "PATRON_PHYSICAL",
+        "desc": "Patron physical item request"
+      },
+      "mms_id": "991549170000541",
+      "title": "Stories and prose poems [by] Alexander Solzhenitsyn. Translated by Michael Glenny.",
+      "author": "Solzhenit︠s︡yn, Aleksandr Isaevich, 1918-",
+      "description": null,
+      "pickup_location": "Main Library",
+      "pickup_location_type": "LIBRARY",
+      "pickup_location_library": "MAIN",
+      "managed_by_library": "Main Library",
+      "managed_by_circulation_desk": "Main Library Circulation",
+      "managed_by_library_code": "MAIN",
+      "managed_by_circulation_desk_code": "DEFAULT_CIRC_DESK",
+      "material_type": {
+        "value": null,
+        "desc": null
+      },
+      "volume": "",
+      "issue": "",
+      "part": "",
+      "date_of_publication": "November 3, 2003.",
+      "comment": null,
+      "request_status": "IN_PROCESS",
+      "request_date": "2020-11-02Z",
+      "request_time": "2020-11-02T16:08:20.579Z",
+      "task_name": "Pickup From Shelf",
+      "expiry_date": "2020-11-10Z",
+      "barcode": null
+    }
+  ],
+  "total_record_count": 2
+}
