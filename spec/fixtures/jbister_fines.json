@@ -1,0 +1,113 @@
+{
+  "fee": [
+    {
+      "id": "121319140000521",
+      "type": {
+        "value": "OVERDUEFINE",
+        "desc": "Overdue fine"
+      },
+      "status": {
+        "value": "ACTIVE",
+        "desc": "Active"
+      },
+      "user_primary_id": {
+        "value": "jbister",
+        "link": "https://api-na.hosted.exlibrisgroup.com/almaws/v1/users/jbister"
+      },
+      "balance": 22.23,
+      "remaining_vat_amount": 0,
+      "original_amount": 25,
+      "original_vat_amount": 0,
+      "creation_time": "2015-11-10T16:59:06.987Z",
+      "status_time": "2015-11-10T16:59:50.978Z",
+      "comment": "Date generated: 11/10/2015, Due: 10/04/2015, Fine Policy/ies:  Overdue fine policy: 2.50 Open Days Overdue Fine , Action: Item was returned",
+      "owner": {
+        "value": "MAIN",
+        "desc": "Main Library"
+      },
+      "title": "The social life of language / Gillian Sankoff.",
+      "barcode": {
+        "value": "93727",
+        "link": "https://api-na.hosted.exlibrisgroup.com/almaws/v1/items?item_barcode=93727"
+      },
+      "transaction": [
+        {
+          "type": {
+            "value": "PAYMENT",
+            "desc": "Payment"
+          },
+          "amount": 2.77,
+          "vat_amount": 0,
+          "created_by": "Ex Libris",
+          "external_transaction_id": "24010000521",
+          "transaction_time": "2015-11-10T16:59:50.978Z",
+          "received_by": {
+            "value": "Circulation",
+            "desc": "Main Library"
+          },
+          "payment_method": {
+            "value": "CASH",
+            "desc": "Cash"
+          }
+        }
+      ],
+      "link": "https://api-na.hosted.exlibrisgroup.com/almaws/v1/users/jbister/fees/121319140000521"
+    },
+    {
+      "id": "690390050000521",
+      "type": {
+        "value": "OVERDUEFINE",
+        "desc": "Overdue fine"
+      },
+      "status": {
+        "value": "ACTIVE",
+        "desc": "Active"
+      },
+      "user_primary_id": {
+        "value": "jbister",
+        "link": "https://api-na.hosted.exlibrisgroup.com/almaws/v1/users/jbister"
+      },
+      "balance": 2.77,
+      "remaining_vat_amount": 0,
+      "original_amount": 25,
+      "original_vat_amount": 0,
+      "creation_time": "2016-05-31T18:23:58.233Z",
+      "status_time": "2017-05-08T11:40:19.429Z",
+      "comment": "Date generated: 05/31/2016, Due: 12/10/2015, Fine Policy/ies:  Overdue fine policy: 2.50 Open Days Overdue Fine , Action: Renewed",
+      "owner": {
+        "value": "MUS",
+        "desc": "Music Library"
+      },
+      "title": "The talent code : greatest isn't born. It's grown. Here's how. / Daniel Coyle.",
+      "barcode": {
+        "value": "15532598",
+        "link": "https://api-na.hosted.exlibrisgroup.com/almaws/v1/items?item_barcode=15532598"
+      },
+      "transaction": [
+        {
+          "type": {
+            "value": "PAYMENT",
+            "desc": "Payment"
+          },
+          "amount": 22.23,
+          "vat_amount": 0,
+          "created_by": "Ex Libris",
+          "external_transaction_id": "43010000521",
+          "transaction_time": "2017-05-08T11:40:19.429Z",
+          "received_by": {
+            "value": "Circulation",
+            "desc": "Music Library"
+          },
+          "payment_method": {
+            "value": "CASH",
+            "desc": "Cash"
+          }
+        }
+      ],
+      "link": "https://api-na.hosted.exlibrisgroup.com/almaws/v1/users/jbister/fees/690390050000521"
+    }
+  ],
+  "total_record_count": 2,
+  "total_sum": 25,
+  "currency": "USD"
+}

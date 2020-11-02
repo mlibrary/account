@@ -41,6 +41,7 @@ describe Loans do
     end
   end
 end
+
 describe Loan do
   before(:each) do
     @loan_response = JSON.parse(File.read("./spec/fixtures/loans.json"))["item_loan"][0]

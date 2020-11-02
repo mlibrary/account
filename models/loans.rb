@@ -28,7 +28,7 @@ end
 
 class Loan < Item
   def due_date
-    formatted_date(@parsed_response["due_date"])
+    DateTime.patron_format(@parsed_response["due_date"])
   end
   def renewable?
     !!@parsed_response["renewable"] #make this a real boolean

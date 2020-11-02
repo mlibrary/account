@@ -31,12 +31,12 @@ class Request < Item
     @parsed_response["pickup_location"]
   end
   def request_date
-    formatted_date(@parsed_response["request_time"])
+    DateTime.patron_format(@parsed_response["request_time"])
   end
 end
 class BookingRequest < Request
   def booking_date
-    formatted_date(@parsed_response["booking_start_date"])
+    DateTime.patron_format(@parsed_response["booking_start_date"])
   end
 end
 class HoldRequest < Request
