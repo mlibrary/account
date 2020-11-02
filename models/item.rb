@@ -14,8 +14,4 @@ class Item
   def publication_date
   end
   
-  private
-  def formatted_date(date)
-    DateTime.parse(date).strftime("%b %-d, %Y")
-  end
 end
