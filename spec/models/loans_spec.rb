@@ -58,9 +58,9 @@ describe Loan do
       expect(subject.author).to eq("Schmidt, Jan,")
     end
   end
-  context "#publication_year" do
+  context "#publication_date" do
     it "returns publication year string" do
-      expect(subject.publication_year).to eq("c1984.")
+      expect(subject.publication_date).to eq("c1984.")
     end
   end
   context "#search_url" do
