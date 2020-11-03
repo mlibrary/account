@@ -573,7 +573,7 @@ code.language-markup .token.script .token.keyword {
     color: var(--color-blue-200); }
   @media screen and (min-width: 820px) {
     .site-footer__disclaimer p {
-      display: "inline-block"; }
+      display: inline-block; }
     .site-footer__disclaimer p + p {
       margin-left: var(--space-x-large); } }
 

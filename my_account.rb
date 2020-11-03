@@ -13,7 +13,9 @@ enable :sessions
 
 get '/' do
   loans = Prototypes::Loans.new
-  erb :shelf, :locals => {loans: loans} 
+  session[:uniqname] = 'mrio' #need to get this from cosign?
+  patron = Patron.for(uniqname: session[:uniqname])
+  erb :shelf, :locals => {loans: loans, patron: patron} 
 end
 
 get '/notifications' do
