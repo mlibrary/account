@@ -47,6 +47,8 @@ In a browser, go to http://localhost:4567 to see "Hello World"
 
 ### Styling with SCSS
 
+Install packages
+
 ```
 npm install
 ```
