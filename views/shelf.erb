@@ -13,11 +13,11 @@
     <% loans.each do |loan| %>
       <tr>
         <td>
-          <a href="<%=loan[:to]%>"><%= loan[:title] %></a>
-          <span>&#183; <%= loan[:author] %></span>
+          <a href="<%=loan.search_url%>"><%= loan.title %></a>
+          <span>&#183; <%= loan.author %></span>
         </td>
         <td>
-          <%= loan[:due] %>
+          <%= loan.due_date %>
         </td>
       </tr>
     <% end %>
@@ -34,14 +34,14 @@
     </tr>
   </thead>
   <tbody>
-    <% loans.each do |loan| %>
+    <% past_loans.each do |loan| %>
       <tr>
         <td>
-          <a href="<%=loan[:to]%>"><%= loan[:title] %></a>
-          <span>&#183; <%= loan[:author] %></span>
+          <a href="<%=loan.search_url%>"><%= loan.title %></a>
+          <span>&#183; <%= loan.author %></span>
         </td>
         <td>
-          <%= loan[:due] %>
+          <%= loan.due_date %>
         </td>
       </tr>
     <% end %>
