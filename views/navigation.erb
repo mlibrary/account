@@ -28,13 +28,17 @@
     to: '/favorites',
     description: "View items that you have added to your favorites."
   },
+  {
+    label: 'Log out',
+    to: '/'
+  }
 ] %>
 
 <nav class="site-navigation site-layout__left">
   <div class="sticky-top">
-    <ul class="site-navigation-list>
+    <ul class="site-navigation-list">
       <% pages.each do |page| %>
-        <li class="<%= page[:url] == request.path_info ? 'active': '' %>">
+        <li class="<%= page[:to] == request.path_info ? 'active': '' %>">
           <a href="<%=page[:to]%>">
             <%=page[:label]%>
           </a>

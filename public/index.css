@@ -294,13 +294,9 @@ h4 {
     grid-column: content-start / span 2; }
   .site-layout__center {
     grid-row: 1;
-    grid-column: 4 / span 7;
+    grid-column: 4 / content-end;
     padding-left: var(--space-xxx-large);
-    padding-right: var(--space-large); }
-  .site-layout__right {
-    display: block;
-    grid-row: 1;
-    grid-column: 11 / content-end; } }
+    padding-right: var(--space-large); } }
 
 .site-layout__center {
   width: 100%; }
@@ -530,7 +526,7 @@ code.language-markup .token.script .token.keyword {
     padding: 0;
     margin: 0; }
   .site-navigation li {
-    display: "inline-block";
+    display: inline-block;
     margin-bottom: 0; }
     @media screen and (max-width: 919px) {
       .site-navigation li:not(:last-child) {

@@ -1,1 +1,49 @@
 <h1>Shelf</h1>
+
+<h2>Current loans</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Title & author</th>
+      <th>Due date</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% loans.each do |loan| %>
+      <tr>
+        <td>
+          <a href="<%=loan[:to]%>"><%= loan[:title] %></a>
+          <span>&#183; <%= loan[:author] %></span>
+        </td>
+        <td>
+          <%= loan[:due] %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<h2>Past loans</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Title & author</th>
+      <th>Due date</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% loans.each do |loan| %>
+      <tr>
+        <td>
+          <a href="<%=loan[:to]%>"><%= loan[:title] %></a>
+          <span>&#183; <%= loan[:author] %></span>
+        </td>
+        <td>
+          <%= loan[:due] %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

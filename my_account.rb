@@ -23,7 +23,37 @@ get '/' do
 end
 
 get '/shelf' do
-  erb :shelf
+  loans = [
+    {
+      title: "Go green: How to build an earth-friendly community",
+      author: "Nancy H. Taylor",
+      due: "December 12, 2020",
+      to: "https://search.lib.umich.edu/catalog/record/[id]"
+    },
+    {
+      title: "The betrayal : the 1919 World Series and the birth of modern baseball",
+      author: "Charles Fountain",
+      due: "November 27, 2020",
+      to: "https://search.lib.umich.edu/catalog/record/[id]"
+    }
+  ]
+
+  past_loans = [
+    {
+      title: "Go green: How to build an earth-friendly community",
+      author: "Nancy H. Taylor",
+      due: "December 12, 2020",
+      to: "https://search.lib.umich.edu/catalog/record/[id]"
+    },
+    {
+      title: "The betrayal : the 1919 World Series and the birth of modern baseball",
+      author: "Charles Fountain",
+      due: "November 27, 2020",
+      to: "https://search.lib.umich.edu/catalog/record/[id]"
+    }
+  ]
+
+  erb :shelf, :locals => { loans: loans, past_loans: past_loans }
 end
 
 get '/requests' do

@@ -154,15 +154,9 @@ h4 {
 
   .site-layout__center {
     grid-row: 1;
-    grid-column: 4 / span 7;
+    grid-column: 4 / content-end;
     padding-left: var(--space-xxx-large);
     padding-right: var(--space-large);
-  }
-
-  .site-layout__right {
-    display: block;
-    grid-row: 1;
-    grid-column: 11 / content-end;
   }
 }
 
