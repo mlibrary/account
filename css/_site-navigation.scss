@@ -16,6 +16,11 @@
         margin-right: var(--space-small);
       }
     }
+
+    &.active a {
+      color: var(--color-teal-400);
+      font-weight: bold;
+    }
   }
 
   border-bottom: solid 1px var(--color-neutral-100);

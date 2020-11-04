@@ -535,6 +535,9 @@ code.language-markup .token.script .token.keyword {
     @media screen and (max-width: 919px) {
       .site-navigation li:not(:last-child) {
         margin-right: var(--space-small); } }
+    .site-navigation li.active a {
+      color: var(--color-teal-400);
+      font-weight: bold; }
   @media screen and (min-width: 920px) {
     .site-navigation {
       border-bottom: none; }
