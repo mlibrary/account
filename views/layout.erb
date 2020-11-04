@@ -1,6 +1,6 @@
 <html lang="en">
   <head>
-        <meta charset="UTF-8" />
+    <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <link
@@ -16,19 +16,15 @@
       nomodule
       src="https://unpkg.com/@umich-lib/components@v1/dist/umich-lib/umich-lib.js"
       ></script>
-    <title>Fake Title</title>
+    <title>Account | University of Michigan Library</title>
   </head>
   <body> 
     <m-universal-header></m-universal-header>
     <m-website-header name="Account"></m-website-header>
 
-
-    </article>
-
     <main class="layout">
       <%= erb :navigation %>
       <article class="site-layout__center owl prose">
-
         <%= yield %>
       </article>
     </main>
@@ -46,9 +42,5 @@
         </section>
       </div>
     </footer>
-    <script src="https://unpkg.com/anchor-js/anchor.min.js"></script>
   </body>
-  <script>
-    anchors.add();
-  </script>
 </html>

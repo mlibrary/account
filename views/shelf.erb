@@ -1,11 +1,49 @@
-<h1>Your shelf</h1>
-<p>The home for your University of Michigan Library account.</p>
-<h2>Loans</h2>
-<p>A list of loans of all kinds. And a way to view your loan history.</p>
-<ul>
-<% loans.each do |loan| %>
-  <li><b>Title</b>: <%= loan.title %> | <b>Due Date</b>: <%= loan.due_date %></li>
-<% end %>
-</ul>
-<h2>Holds</h2>
-<p>A list of all your holds, including scheduled holds.</p>
+<h1>Shelf</h1>
+
+<h2>Current loans</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Title & author</th>
+      <th>Due date</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% loans.each do |loan| %>
+      <tr>
+        <td>
+          <a href="<%=loan[:to]%>"><%= loan[:title] %></a>
+          <span>&#183; <%= loan[:author] %></span>
+        </td>
+        <td>
+          <%= loan[:due] %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<h2>Past loans</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Title & author</th>
+      <th>Due date</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% loans.each do |loan| %>
+      <tr>
+        <td>
+          <a href="<%=loan[:to]%>"><%= loan[:title] %></a>
+          <span>&#183; <%= loan[:author] %></span>
+        </td>
+        <td>
+          <%= loan[:due] %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

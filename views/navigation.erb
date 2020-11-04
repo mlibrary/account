@@ -1,17 +1,49 @@
 <% pages = [
-  {name: 'Your shelf', url: '/'},
-  {name: 'Fines', url: '/fines'},
-  {name: 'Notifications', url: '/notifications'},
+  {
+    label: 'Overview',
+    to: '/',
+  },
+  {
+    label: 'Shelf',
+    to: '/shelf',
+    description: "View items that you have checked out and check their dates."
+  },
+  {
+    label: 'Requests',
+    to: '/requests',
+    description: "Check the status of items that you have requested or need to pick up."
+  },
+  {
+    label: 'Profile',
+    to: '/profile',
+    description: "View your contact information and edit your notifcation settings."
+  },
+  {
+    label: 'Fines & Fees',
+    to: '/fines',
+    description: "View information about fines and fees that you may owe."
+  },
+  {
+    label: 'Favorites',
+    to: '/favorites',
+    description: "View items that you have added to your favorites."
+  },
+  {
+    label: 'Log out',
+    to: '/'
+  }
 ] %>
 
 <nav class="site-navigation site-layout__left">
   <div class="sticky-top">
-    <ul>
+    <ul class="site-navigation-list">
       <% pages.each do |page| %>
-        <li <%= page[:url] == request.path_info ? 'class="my-active-class"' : '' %> >
-        <a href="<%=page[:url]%>"><%=page[:name]%></a>
-      </li>
-    <% end %>
+        <li class="<%= page[:to] == request.path_info ? 'active': '' %>">
+          <a href="<%=page[:to]%>">
+            <%=page[:label]%>
+          </a>
+        </li>
+      <% end %>
     </ul>
   </div>
 </nav>

@@ -8,13 +8,18 @@
   margin-bottom: var(--space-medium);
 
   li {
-    display: "inline-block";
+    display: inline-block;
     margin-bottom: 0;
 
     @media screen and (max-width: 919px) {
       &:not(:last-child) {
         margin-right: var(--space-small);
       }
+    }
+
+    &.active a {
+      color: var(--color-teal-400);
+      font-weight: bold;
     }
   }
 
