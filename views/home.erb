@@ -1,3 +1,49 @@
-<h1>Welcome, <%=patron.full_name %></h1>
+<h1>Welcome, Samuel Higgins</h1>
 <p>This is the home of your University of Michigan Library account.</p>
 
+<!--
+  Could this data come from back-end?
+
+  Maybe some configured data related to side navigation
+  and homepage cards could be grouped? Flag navigation
+  elements that should be these overview cards and filter
+  them to this view, or something.
+-->
+<% overview_cards = [
+  {
+    label: 'Shelf',
+    to: '/shelf',
+    description: "View items that you have checked out and check their dates."
+  },
+  {
+    label: 'Requests',
+    to: '/requests',
+    description: "Check the status of items that you have requested or need to pick up."
+  },
+  {
+    label: 'Fines & Fees',
+    to: '/fines',
+    description: "View information about fines and fees that you may owe."
+  },
+  {
+    label: 'Profile',
+    to: '/profile',
+    description: "View your contact information and edit your notifcation settings."
+  },
+  {
+    label: 'Favorites',
+    to: 'https://apps.lib.umich.edu/my-account/favorites',
+    description: "View items that you have added to your favorites."
+  }
+] %>
+
+<ul class="overview-cards">
+<% overview_cards.each do |card| %>
+  <li>
+    <a href="<%=card[:to]%>" class="overview-card">
+      <h2 class="overview-card-heading"><%=card[:label]%></h2>
+      <p class="overview-card-description"><%=card[:description]%></p>
+    </a>
+  </li>
+<% end %>
+</ul>

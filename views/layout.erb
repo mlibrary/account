@@ -22,21 +22,23 @@
     <m-universal-header></m-universal-header>
     <m-website-header name="Account"></m-website-header>
 
-    <main class="layout">
+    <main class="layout site-layout">
       <%= erb :navigation %>
       <article class="site-layout__center owl prose">
         <%= yield %>
       </article>
     </main>
     <footer class="site-footer">
-      <div class="site-footer__content layout">
-        <section class="owl">
-          <h2 class="m-details-xxx-small">University of Michigan Library</h2>
-          <p>913 S. University Avenue<br>Ann Arbor, MI 48109</p>
-        </section>
+      <div class="site-footer__content">
+        <div class="layout">
+          <section class="owl">
+            <h2 class="m-details-xxx-small">University of Michigan Library</h2>
+            <p>913 S. University Avenue<br>Ann Arbor, MI 48109</p>
+          </section>
+        </div>
       </div>
-      <div class="site-footer__disclaimer layout">
-        <section>
+      <div class="site-footer__disclaimer">
+        <section class="layout">
           <p>© 2020, Regents of the University of Michigan</p>
           <p>Built with the <a href="http://design-system.lib.umich.edu">U-M Library Design System</a>.</p>
         </section>
