@@ -6,7 +6,7 @@ services:
     ports:
       - "4567:4567"
     volumes:
-      - .:/usr/src/app
+      - .:/app
       - gem_cache:/gems
     env_file:
       - .env/development/web
@@ -14,8 +14,8 @@ services:
   sass:
     build: .
     volumes:
-      - ./css:/usr/src/app/css
-      - ./public:/usr/src/app/public
+      - ./css:/app/css
+      - ./public:/app/public
     command: "npm run scss"
 
 volumes:
