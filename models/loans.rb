@@ -1,7 +1,7 @@
 class Loans
   def initialize(parsed_response:)
     @parsed_response = parsed_response
-    @list = parsed_response["item_loan"].map{|l| Loan.new(l)}
+    @list = parsed_response["item_loan"]&.map{|l| Loan.new(l)} || []
   end
 
   def count
