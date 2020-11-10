@@ -1,4 +1,4 @@
-<h1>Welcome, Samuel Higgins</h1>
+<h1>Welcome, <%= patron.full_name %></h1>
 <p>This is the home of your University of Michigan Library account.</p>
 
 <!--
@@ -47,3 +47,17 @@
   </li>
 <% end %>
 </ul>
+
+<form method="post" action="/session_switcher">
+  <label for="test-user">
+    Select a test user for simulating accounts
+  </label>
+
+  <select id="test-user" name="uniqname">
+    <% test_users.each do |user| %>
+      <option value="<%=user[:value]%>"><%=user[:label]%></option>
+      <% end %>
+  </select>
+
+  <button>Submit</button>
+</form>

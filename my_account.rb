@@ -15,17 +15,35 @@ require_relative "./models/fees"
 
 enable :sessions
 
+post '/session_switcher' do
+  session[:uniqname] = params[:uniqname]
+  redirect '/'
+end
+
 get '/' do
-  #loans = Prototypes::Loans.new
-  #session[:uniqname] = 'mrio' #need to get this from cosign?
-  #patron = Patron.for(uniqname: session[:uniqname])
-  erb :home
+  session[:uniqname] = 'tutor' if !session[:uniqname]
+
+  test_users = [
+    {
+      label: 'Graduate student (few)',
+      value: 'scholar'
+    },
+    {
+      label: "Faculty (many)",
+      value: 'tutor'
+    },
+    {
+      label: "New student (none)",
+      value: 'etude'
+    }
+  ]
+
+  patron = Patron.for(uniqname: session[:uniqname])
+
+  erb :home, :locals => { patron: patron, test_users: test_users }
 end
 
 get '/shelf' do
-  #session[:uniqname] = 'scholar' #graduate student; small number of books
-  session[:uniqname] = 'tutor' #faculty; lots of books
-  #session[:uniqname] = 'etude' #new student; no books
   loans = Loans.for(uniqname: session[:uniqname]) 
 
   erb :shelf, :locals => { loans: loans, past_loans: loans }
