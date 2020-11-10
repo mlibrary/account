@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: patron_account
+      role: web
+  template:
+    metadata:
+      labels:
+        app: patron_account
+        role: web
+    spec:
+      volumes:
+      - name: config-settings
+        secret:
+          secretName: config-settings
+      containers:
+      - name: web
+        image: mlibrary/patron_account-web:0.0.1 #commit-hash
+        ports:
+        - containerPort: 4567
+        env:
+          - name: ALMA_API_HOST
+            value: 'https://api-na.hosted.exlibrisgroup.com'
+          - name: ALMA_API_KEY
+            valueFrom:
+              secretKeyRef:
+                name: credentials
+                key: ALMA_API_KEY
