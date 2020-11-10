@@ -19,12 +19,12 @@ get '/' do
   #loans = Prototypes::Loans.new
   #session[:uniqname] = 'mrio' #need to get this from cosign?
   #patron = Patron.for(uniqname: session[:uniqname])
-  #erb :home, :locals => {loans: loans, patron: patron} 
+  erb :home
 end
 
 get '/shelf' do
-  session[:uniqname] = 'scholar' #graduate student; small number of books
-  #session[:uniqname] = 'tutor' #faculty; lots of books
+  #session[:uniqname] = 'scholar' #graduate student; small number of books
+  session[:uniqname] = 'tutor' #faculty; lots of books
   #session[:uniqname] = 'etude' #new student; no books
   loans = Loans.for(uniqname: session[:uniqname]) 
 

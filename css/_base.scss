@@ -81,120 +81,22 @@ h4 {
 }
 
 .layout {
-  display: grid;
-  grid-template-columns:
-    [site-start] calc(50vw - 39rem)
-    [content-start] repeat(11, 1fr)
-    1fr [content-end]
-    calc(50vw - 39rem) [site-end];
-  grid-gap: var(--space-medium);
+  padding: 0 var(--space-medium);
+  max-width: 1280px;
+  margin: 0 auto;
 
-  & > * {
-    grid-column: content-start / content-end;
+  @media screen and (min-width: 721px) {
+    padding: 0 var(--space-xx-large);
   }
 }
 
-.table-of-contents {
-  h2 {
-    margin-bottom: var(--space-x-small);
-  }
-
-  ol {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-
-    & > li > ol {
-      padding-left: var(--space-large);
-    }
-
-    a {
-      display: block;
-      padding: var(--space-x-small) 0;
-      text-decoration: none;
-
-      &:hover {
-        text-decoration: underline;
-      }
-    }
-  }
-
-  li {
-    margin-bottom: 0;
-  }
-
-  margin-bottom: var(--space-x-small);
-}
-
-.table-of-contents--small details {
+.site-layout {
   @media screen and (min-width: 920px) {
-    display: none;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 12rem auto;
+    grid-gap: 3rem;
   }
-
-  h2 {
-    margin-top: 0;
-    display: inline;
-  }
-
-  ol {
-    list-style: none;
-    margin: var(--space-x-small) 0;
-  }
-}
-
-.site-layout__right {
-  display: none;
-}
-
-@media screen and (min-width: 920px) {
-  .site-layout__left {
-    grid-row: 1;
-    grid-column: content-start / span 2;
-  }
-
-  .site-layout__center {
-    grid-row: 1;
-    grid-column: 4 / content-end;
-    padding-left: var(--space-xxx-large);
-    padding-right: var(--space-large);
-  }
-}
-
-.site-layout__center {
-  width: 100%;
-}
-
-.edit-on-github__link {
-  font-size: 16px;
-  margin-top: var(--space-x-large);
-  background: var(--color-teal-100);
-  display: flex;
-  align-items: center;
-  color: var(--color-neutral-400);
-  font-weight: var(--semibold);
-  padding: var(--space-medium);
-  border-radius: 4px;
-  border-left: solid 4px var(--color-teal-400);
-  text-decoration-color: var(--color-teal-400);
-
-  svg {
-    width: 24px;
-    height: 24px;
-    fill: currentColor;
-    margin-right: var(--space-x-small);
-    flex-shrink: 0;
-  }
-
-  &:hover {
-    text-decoration-thickness: 2px;
-  }
-}
-
-.need-help {
-  border-top: solid 1px var(--color-neutral-100);
-  margin-top: var(--space-xxx-large);
-  padding-top: var(--space-x-large);
-  margin-bottom: var(--space-x-large);
 }
 
 ::selection {

@@ -54,7 +54,12 @@ th,
 td {
   padding: var(--space-medium);
   padding-left: 0;
+  padding-right: 0;
   vertical-align: top;
+
+  &:not(:last-of-type) {
+    padding-right: var(--space-x-large);
+  }
 }
 
 td {
