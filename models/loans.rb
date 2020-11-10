@@ -14,9 +14,14 @@ class Loans
     end
   end
 
-  def self.for(uniqname:, client: AlmaClient.new)
+  def self.for(uniqname:, offset: nil, limit: nil, client: AlmaClient.new)
     url = "/users/#{uniqname}/loans" 
-    response = client.get(url)
+
+    query = {}
+    query["offset"] = offset if offset
+    query["limit"] = limit if limit
+
+    response = client.get(url, query)
     if response.code == 200
       Loans.new(parsed_response: response.parsed_response)
     else

@@ -6,21 +6,9 @@ require 'json'
 # * Handling InterLibraryLoan
 # * Double checking that renewable is included in basic loans?
 describe Loans do
-  context "found uniqname" do
+  context "one loan" do
     before(:each) do
       stub_alma_get_request( url: 'users/jbister/loans', body: File.read("./spec/fixtures/loans.json") )
-      #requests = [
-        #{ url: 'users/jbister/loans', fixture: 'loans.json'},
-        #{ url: 'bibs/991246960000541/holdings/225047730000541/items/235047720000541', 
-           #fixture: 'basics_of_singing_item.json'},
-        #{ url: 'bibs/991408490000541/holdings/229209090000521/items/235561180000541', 
-            #fixture: 'plain_words_on_singing_item.json'},
-        #{ url: 'items?item_barcode=67576', fixture: 'basics_of_singing_item.json'},
-        #{ url: 'items?item_barcode=0919242913', fixture: 'plain_words_on_singing_item.json'},
-      #]
-      #requests.map do |r| 
-        #stub_alma_get_request( url: r[:url], body: File.read("./spec/fixtures/#{r[:fixture]}") )
-      #end
     end
     subject do
       Loans.for(uniqname: 'jbister')
@@ -37,6 +25,30 @@ describe Loans do
           loans_contents = loans_contents + loan.class.name
         end
         expect(loans_contents).to eq('LoanLoan')
+      end
+    end
+  end
+  context "pagination" do
+    before(:each) do
+      one_loan = JSON.parse(File.read("./spec/fixtures/loans.json"))
+      one_loan["item_loan"].delete_at(0)
+      stub_alma_get_request( url: 'users/jbister/loans', body: one_loan.to_json, query: {"offset" => 1, "limit" => 1} )
+    end
+    subject do
+      Loans.for(uniqname: 'jbister', offset: 1, limit: 1)
+    end
+    context "#count" do
+      it "returns total count for loans" do
+        expect(subject.count).to eq(2)
+      end
+    end
+    context "#each" do
+      it "iterates over limited number of items" do
+        loans_contents = ''
+        subject.each do |loan|
+          loans_contents = loans_contents + loan.class.name
+        end
+        expect(loans_contents).to eq('Loan')
       end
     end
   end
