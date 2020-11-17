@@ -1,0 +1,26 @@
+<% pages = [
+  {
+    label: 'Current loans',
+    to: '/shelf'
+  },
+  {
+    label: 'Past loans',
+    to: '/past-loans'
+  },
+  {
+    label: 'Document delivery',
+    to: '/document-delivery'
+  },
+] %>
+
+<nav aria-label="Shelf" class="local-navigation">
+  <ul>
+     <% pages.each do |page| %>
+        <li>
+          <a href="<%=page[:to]%>" class="<%= page[:to] == request.path_info ? 'active': '' %>">
+            <%=page[:label]%>
+          </a>
+        </li>
+      <% end %>
+  </ul>
+</nav>

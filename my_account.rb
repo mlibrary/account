@@ -46,7 +46,19 @@ end
 get '/shelf' do
   loans = Loans.for(uniqname: session[:uniqname]) 
 
-  erb :shelf, :locals => { loans: loans, past_loans: loans }
+  erb :shelf, :locals => { loans: loans }
+end
+
+get '/past-loans' do
+  loans = Loans.for(uniqname: session[:uniqname]) 
+
+  erb :past_loans, :locals => { past_loans: loans }
+end
+
+get '/document-delivery' do
+  loans = Loans.for(uniqname: session[:uniqname]) 
+
+  erb :document_delivery, :locals => { document_delivery: [] }
 end
 
 get '/requests' do

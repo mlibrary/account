@@ -5,7 +5,12 @@
   },
   {
     label: 'Shelf',
-    to: '/shelf'
+    to: '/shelf',
+    match: [ # Can we match the route to one of these to signal it is active?
+      '/shelf',
+      '/past-loans',
+      '/document-delivery'
+    ]
   },
   {
     label: 'Requests',

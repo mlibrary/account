@@ -2,10 +2,10 @@
 
 <%= erb :shelf_navigation %>
 
-<h2>Current loans</h2>
+<h2>Past loans</h2>
 
 <table>
-  <caption>Showing <%= loans.count %> items</caption>
+  <caption>Showing <%= past_loans.count %> items</caption>
   <thead>
     <tr>
       <th>Title & author</th>
@@ -13,7 +13,7 @@
     </tr>
   </thead>
   <tbody>
-    <% loans.each do |loan| %>
+    <% past_loans.each do |loan| %>
       <tr>
         <td>
           <a href="<%=loan.search_url%>"><%= loan.title %></a>
