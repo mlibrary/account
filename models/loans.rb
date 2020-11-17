@@ -14,6 +14,11 @@ class Loans
     end
   end
 
+  def empty?
+    count == 0
+  end
+
+
   def self.for(uniqname:, offset: nil, limit: nil, client: AlmaClient.new)
     url = "/users/#{uniqname}/loans" 
 

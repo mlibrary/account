@@ -18,6 +18,11 @@ describe Loans do
         expect(subject.count).to eq(2)
       end
     end
+    context "#empty?" do
+      it "returns false" do
+        expect(subject.empty?).to eq(false)
+      end
+    end
     context "#each" do
       it "iterates over loan objects" do
         loans_contents = ''
@@ -25,6 +30,24 @@ describe Loans do
           loans_contents = loans_contents + loan.class.name
         end
         expect(loans_contents).to eq('LoanLoan')
+      end
+    end
+  end
+  context "no loans" do
+    before(:each) do
+      stub_alma_get_request( url: 'users/jbister/loans', body: File.read("./spec/fixtures/no_loans.json") )
+    end
+    subject do
+      Loans.for(uniqname: 'jbister')
+    end
+    context "#count" do
+      it "returns total loan item count" do
+        expect(subject.count).to eq(0)
+      end
+    end
+    context "#empty?" do
+      it "returns false" do
+        expect(subject.empty?).to eq(true)
       end
     end
   end
