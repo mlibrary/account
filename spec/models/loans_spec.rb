@@ -88,10 +88,30 @@ describe Loan do
     it "returns title string" do
       expect(subject.title).to eq("Basics of singing / [compiled by] Jan Schmidt.")
     end
+    it "handles truncation for long title and very short author" do
+      @loan_response["title"] = 't' * 1000
+      @loan_response["author"] = 'aaa'
+      expect(subject.title).to eq('t' * 237)
+    end
+    it "handle for long title and long author" do
+      @loan_response["title"] = 't' * 1000
+      @loan_response["author"] = 'a' * 1000
+      expect(subject.title).to eq('t' * 120)
+    end
   end
   context "#author" do
     it "returns author string" do
       expect(subject.author).to eq("Schmidt, Jan,")
+    end
+    it "handles truncation for long author and very short title" do
+      @loan_response["author"] = 'a' * 1000
+      @loan_response["title"] = 'ttt'
+      expect(subject.author).to eq('a' * 237)
+    end
+    it "handle for long title and long author" do
+      @loan_response["title"] = 't' * 1000
+      @loan_response["author"] = 'a' * 1000
+      expect(subject.author).to eq('a' * 120)
     end
   end
   context "#publication_date" do
