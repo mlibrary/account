@@ -428,3 +428,14 @@ h4 {
 .local-navigation a.active {
   color: var(--color-teal-400);
   border-bottom: 4px solid var(--color-teal-400); }
+
+.loans-empty-state-container {
+  display: flex;
+  align-items: center;
+  padding-top: var(--space-medium); }
+  .loans-empty-state-container h2 {
+    padding-bottom: var(--space-x-small); }
+  .loans-empty-state-container div {
+    padding-right: var(--space-x-large); }
+  .loans-empty-state-container img {
+    width: 40%; }
