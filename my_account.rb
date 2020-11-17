@@ -1,4 +1,5 @@
 require 'sinatra'
+require 'sinatra/namespace'
 require "sinatra/reloader" if development?
 require 'byebug' if development?
 
@@ -44,10 +45,32 @@ get '/' do
   erb :home, :locals => { patron: patron, test_users: test_users }
 end
 
-get '/shelf' do
-  loans = Loans.for(uniqname: session[:uniqname]) 
+namespace '/shelf' do
+  get ''  do
+    redirect_to '/loans' # Redirects to /shelf/loans
+  end
 
-  erb :shelf, :locals => { loans: loans, past_loans: loans }
+  get '/'  do
+    redirect_to '/loans' # Redirects to /shelf/loans
+  end
+
+  get '/loans' do
+    loans = Loans.for(uniqname: session[:uniqname]) 
+  
+    erb :shelf, :locals => { loans: loans }
+  end
+  
+  get '/past-loans' do
+    loans = Loans.for(uniqname: session[:uniqname]) 
+  
+    erb :past_loans, :locals => { past_loans: loans }
+  end
+  
+  get '/document-delivery' do
+    loans = Loans.for(uniqname: session[:uniqname]) 
+  
+    erb :document_delivery, :locals => { document_delivery: [] }
+  end
 end
 
 get '/requests' do
