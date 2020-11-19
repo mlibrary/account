@@ -56,7 +56,6 @@ namespace '/shelf' do
   end
 
   get '/loans' do
-    session[:uniqname] = 'tutor'
     loans = Loans.for(uniqname: session[:uniqname], offset: params["offset"], limit: params["limit"]) 
   
     erb :shelf, :locals => { loans: loans }
