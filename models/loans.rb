@@ -22,20 +22,21 @@ class Loans
 
 
   def self.for(uniqname:, offset: nil, limit: nil, 
-               client: AlmaClient.new, 
-               pagination_factory: lambda{|url,co,limit,total| PaginationDecorator.new(url: url, current_offset: co, limit: limit, total: total )}
+               client: AlmaClient.new 
               )
     url = "/users/#{uniqname}/loans" 
-
     query = {}
-    query["offset"] = offset if offset
-    query["limit"] = limit if limit
+    query["offset"] = offset unless offset.nil?
+    query["limit"] = limit unless limit.nil?
 
     response = client.get(url, query)
     if response.code == 200
       pr = response.parsed_response 
+      pagination_params = { url: "/shelf/loans", total: pr["total_record_count"] }
+      pagination_params[:limit] = limit unless limit.nil?
+      pagination_params[:current_offset] = offset unless offset.nil?
       Loans.new(parsed_response: pr, 
-                pagination: pagination_factory.call(url, offset, limit, pr["total_record_count"]))
+                pagination: PaginationDecorator.new(**pagination_params))
     else
       #Error!
     end

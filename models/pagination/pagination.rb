@@ -1,9 +1,17 @@
 class Pagination
-  def initialize(current_offset: 0, total:, limit: 10)
+  def initialize(current_offset:, total:, limit: )
     @current_offset = current_offset.to_i
     @total = total.to_i
     @limit = limit.to_i
     @max_pages = 5
+  end
+  def first
+    @current_offset + 1
+  end
+  def last
+    l = @current_offset + @limit
+    l = @total if l > @total
+    l
   end
   def previous
     prev_offset = @current_offset - @limit
@@ -44,7 +52,7 @@ class Pagination
         addend = (i-curr_offset_pos_from_end)*@limit
         offset = @current_offset + addend
         is_current_page = (@current_offset == offset)
-        array.push(page(offset, is_current_page))
+        array.push(page(offset, is_current_page)) if offset >= 0
       end
     end
     array

@@ -5,6 +5,16 @@ describe Pagination do
     subject do
       Pagination.new(current_offset: 0, limit: 10, total: 100)
     end
+    context "#first" do
+      it "returns index of first item on page" do
+        expect(subject.first).to eq(1)
+      end
+    end
+    context "#last" do
+      it "returns index of last item on page" do
+        expect(subject.last).to eq(10)
+      end
+    end
     context "#previous" do
       it "returns previous page offset" do
         expect(subject.previous.offset).to eq(0)
@@ -63,6 +73,16 @@ describe Pagination do
   context "many results; one page over; default limit" do
     subject do
       Pagination.new(current_offset: 10, limit: 10, total: 100)
+    end
+    context "#first" do
+      it "returns index of first item on page" do
+        expect(subject.first).to eq(11)
+      end
+    end
+    context "#last" do
+      it "returns index of last item on page" do
+        expect(subject.last).to eq(20)
+      end
     end
     context "#previous" do
       it "returns previous page offset" do
@@ -227,6 +247,16 @@ describe Pagination do
     subject do
       Pagination.new(current_offset: 90, limit: 10, total: 100)
     end
+    context "#first" do
+      it "returns index of first item on page" do
+        expect(subject.first).to eq(91)
+      end
+    end
+    context "#last" do
+      it "returns index of last item on page" do
+        expect(subject.last).to eq(100)
+      end
+    end
     context "#previous" do
       it "returns previous page offset" do
         expect(subject.previous.offset).to eq(80)
@@ -320,6 +350,16 @@ describe Pagination do
   context "one page of results; default limit" do
     subject do
       Pagination.new(current_offset: 0, limit: 10, total: 6)
+    end
+    context "#first" do
+      it "returns index of first item on page" do
+        expect(subject.first).to eq(1)
+      end
+    end
+    context "#last" do
+      it "returns index of last item on page" do
+        expect(subject.last).to eq(6)
+      end
     end
     context "#previous" do
       it "returns previous page offset" do

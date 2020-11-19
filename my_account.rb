@@ -1,7 +1,7 @@
 require 'sinatra'
 require 'sinatra/namespace'
-require "sinatra/reloader" if development?
-require 'byebug' if development?
+require "sinatra/reloader"
+require 'byebug' 
 
 require_relative "./utility"
 require_relative "./models/pagination/pagination"
@@ -56,7 +56,8 @@ namespace '/shelf' do
   end
 
   get '/loans' do
-    loans = Loans.for(uniqname: session[:uniqname]) 
+    session[:uniqname] = 'tutor'
+    loans = Loans.for(uniqname: session[:uniqname], offset: params["offset"], limit: params["limit"]) 
   
     erb :shelf, :locals => { loans: loans }
   end

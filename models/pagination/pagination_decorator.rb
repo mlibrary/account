@@ -1,11 +1,17 @@
 class PaginationDecorator
   def initialize(url:,
-                 current_offset:, total:, limit:,
+                 current_offset: 0, total:, limit: 10,
                  base_pagination: Pagination.new(current_offset: current_offset, total: total, limit: limit)
                 )
     @base_pagination = base_pagination
     @url = url
     @limit = limit
+  end
+  def first
+    @base_pagination.first
+  end
+  def last
+    @base_pagination.last
   end
 
   def previous
