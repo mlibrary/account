@@ -4,7 +4,8 @@ require "sinatra/reloader" if development?
 require 'byebug' if development?
 
 require_relative "./utility"
-require_relative "./models/pagination"
+require_relative "./models/pagination/pagination"
+require_relative "./models/pagination/pagination_decorator"
 require_relative "./models/response"
 require_relative "./models/alma_client"
 require_relative "./models/alma_error"

@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'json'
 
 describe Pagination do
   context "many results; first page; default limit" do
