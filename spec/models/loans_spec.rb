@@ -6,21 +6,9 @@ require 'json'
 # * Handling InterLibraryLoan
 # * Double checking that renewable is included in basic loans?
 describe Loans do
-  context "found uniqname" do
+  context "one loan" do
     before(:each) do
       stub_alma_get_request( url: 'users/jbister/loans', body: File.read("./spec/fixtures/loans.json") )
-      #requests = [
-        #{ url: 'users/jbister/loans', fixture: 'loans.json'},
-        #{ url: 'bibs/991246960000541/holdings/225047730000541/items/235047720000541', 
-           #fixture: 'basics_of_singing_item.json'},
-        #{ url: 'bibs/991408490000541/holdings/229209090000521/items/235561180000541', 
-            #fixture: 'plain_words_on_singing_item.json'},
-        #{ url: 'items?item_barcode=67576', fixture: 'basics_of_singing_item.json'},
-        #{ url: 'items?item_barcode=0919242913', fixture: 'plain_words_on_singing_item.json'},
-      #]
-      #requests.map do |r| 
-        #stub_alma_get_request( url: r[:url], body: File.read("./spec/fixtures/#{r[:fixture]}") )
-      #end
     end
     subject do
       Loans.for(uniqname: 'jbister')
@@ -30,6 +18,11 @@ describe Loans do
         expect(subject.count).to eq(2)
       end
     end
+    context "#empty?" do
+      it "returns false" do
+        expect(subject.empty?).to eq(false)
+      end
+    end
     context "#each" do
       it "iterates over loan objects" do
         loans_contents = ''
@@ -37,6 +30,48 @@ describe Loans do
           loans_contents = loans_contents + loan.class.name
         end
         expect(loans_contents).to eq('LoanLoan')
+      end
+    end
+  end
+  context "no loans" do
+    before(:each) do
+      stub_alma_get_request( url: 'users/jbister/loans', body: File.read("./spec/fixtures/no_loans.json") )
+    end
+    subject do
+      Loans.for(uniqname: 'jbister')
+    end
+    context "#count" do
+      it "returns total loan item count" do
+        expect(subject.count).to eq(0)
+      end
+    end
+    context "#empty?" do
+      it "returns false" do
+        expect(subject.empty?).to eq(true)
+      end
+    end
+  end
+  context "pagination" do
+    before(:each) do
+      one_loan = JSON.parse(File.read("./spec/fixtures/loans.json"))
+      one_loan["item_loan"].delete_at(0)
+      stub_alma_get_request( url: 'users/jbister/loans', body: one_loan.to_json, query: {"offset" => 1, "limit" => 1} )
+    end
+    subject do
+      Loans.for(uniqname: 'jbister', offset: 1, limit: 1)
+    end
+    context "#count" do
+      it "returns total count for loans" do
+        expect(subject.count).to eq(2)
+      end
+    end
+    context "#each" do
+      it "iterates over limited number of items" do
+        loans_contents = ''
+        subject.each do |loan|
+          loans_contents = loans_contents + loan.class.name
+        end
+        expect(loans_contents).to eq('Loan')
       end
     end
   end
@@ -53,10 +88,30 @@ describe Loan do
     it "returns title string" do
       expect(subject.title).to eq("Basics of singing / [compiled by] Jan Schmidt.")
     end
+    it "handles truncation for long title and very short author" do
+      @loan_response["title"] = 't' * 1000
+      @loan_response["author"] = 'aaa'
+      expect(subject.title).to eq('t' * 237)
+    end
+    it "handle for long title and long author" do
+      @loan_response["title"] = 't' * 1000
+      @loan_response["author"] = 'a' * 1000
+      expect(subject.title).to eq('t' * 120)
+    end
   end
   context "#author" do
     it "returns author string" do
       expect(subject.author).to eq("Schmidt, Jan,")
+    end
+    it "handles truncation for long author and very short title" do
+      @loan_response["author"] = 'a' * 1000
+      @loan_response["title"] = 'ttt'
+      expect(subject.author).to eq('a' * 237)
+    end
+    it "handle for long title and long author" do
+      @loan_response["title"] = 't' * 1000
+      @loan_response["author"] = 'a' * 1000
+      expect(subject.author).to eq('a' * 120)
     end
   end
   context "#publication_date" do

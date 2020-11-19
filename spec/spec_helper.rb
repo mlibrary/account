@@ -114,13 +114,15 @@ RSpec.configure do |config|
 =end
 end
 
-def stub_alma_get_request(url:, body:,status: 200)
+def stub_alma_get_request(url:, body:,status: 200, query: {})
     stub_request(:get, "#{ENV["ALMA_API_HOST"]}/almaws/v1/#{url}").with( 
       headers: {   
           accept: 'application/json', 
           Authorization: "apikey #{ENV['ALMA_API_KEY']}",
           'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
           'User-Agent'=>'Ruby'
-      }).to_return(body: body, status: status, headers: {content_type: 'application/json'})   
+      },
+      query: query,
+    ).to_return(body: body, status: status, headers: {content_type: 'application/json'})   
 end
 

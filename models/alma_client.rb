@@ -9,8 +9,8 @@ class AlmaClient
     self.class.headers 'Accept' => 'application/json'
   end
 
-  def get(url)
-    self.class.get(url)
+  def get(url, query={})
+    self.class.get(url, query: query)
   end
 
   def put(url, body)
