@@ -1,5 +1,5 @@
 class Pagination
-  def initialize(current_offset:, total:, limit: )
+  def initialize(current_offset: 0, total:, limit: 10)
     @current_offset = current_offset.to_i
     @total = total.to_i
     @limit = limit.to_i
