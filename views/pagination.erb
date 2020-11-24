@@ -1,0 +1,23 @@
+<a 
+  <% unless pagination.previous.current_page? %>
+    href="<%=pagination.previous.url%>" 
+  <% end %>
+>
+<
+   </a>
+   <% pagination.pages.each do | page | %>
+<a 
+  <% unless page.current_page? %>
+    href="<%=page.url%>" 
+  <% end %>
+    >
+  <%= page.page_number %>
+   <%end%>
+</a>
+<a 
+  <% unless pagination.next.current_page? %>
+    href="<%=pagination.next.url%>" 
+  <% end %>
+>
+>
+   </a>

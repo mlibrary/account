@@ -1,7 +1,9 @@
 class Loans
-  def initialize(parsed_response:)
+  attr_reader :pagination
+  def initialize(parsed_response:, pagination:)
     @parsed_response = parsed_response
     @list = parsed_response["item_loan"]&.map{|l| Loan.new(l)} || []
+    @pagination = pagination
   end
 
   def count
@@ -14,11 +16,27 @@ class Loans
     end
   end
 
-  def self.for(uniqname:, client: AlmaClient.new)
+  def empty?
+    count == 0
+  end
+
+
+  def self.for(uniqname:, offset: nil, limit: nil, 
+               client: AlmaClient.new 
+              )
     url = "/users/#{uniqname}/loans" 
-    response = client.get(url)
+    query = {}
+    query["offset"] = offset unless offset.nil?
+    query["limit"] = limit unless limit.nil?
+
+    response = client.get(url, query)
     if response.code == 200
-      Loans.new(parsed_response: response.parsed_response)
+      pr = response.parsed_response 
+      pagination_params = { url: "/shelf/loans", total: pr["total_record_count"] }
+      pagination_params[:limit] = limit unless limit.nil?
+      pagination_params[:current_offset] = offset unless offset.nil?
+      Loans.new(parsed_response: pr, 
+                pagination: PaginationDecorator.new(**pagination_params))
     else
       #Error!
     end

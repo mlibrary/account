@@ -11,7 +11,7 @@
 <h2>Current loans</h2>
 
 <table>
-  <caption>Showing <%= loans.count %> items</caption>
+  <caption>Showing <%=loans.pagination.first%> - <%=loans.pagination.last%> of <%= loans.count %> items</caption>
   <thead>
     <tr>
       <th>Title & author</th>
@@ -32,5 +32,7 @@
     <% end %>
   </tbody>
 </table>
+
+<%= erb :pagination, locals: {pagination: loans.pagination} %>
 
 <% end %>
