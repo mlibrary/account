@@ -317,6 +317,15 @@ h4 {
 .narrow-content {
   max-width: 36rem; }
 
+.visually-hidden {
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px; }
+
 *:focus {
   outline: 0;
   box-shadow: 0 0 0 2px var(--color-maize-400), 0 0 0 3px var(--color-neutral-400);
@@ -469,3 +478,33 @@ button {
   font-weight: 800;
   background: var(--color-teal-400);
   cursor: pointer; }
+
+.pagination ol {
+  list-style: none;
+  display: grid;
+  grid-gap: var(--space-small);
+  grid-template-columns: repeat(auto-fill, var(--space-xxx-large)); }
+
+.pagination li {
+  display: inline-block;
+  margin: 0; }
+  .pagination li a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--space-xxx-large);
+    height: var(--space-xxx-large);
+    background: var(--color-blue-100);
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: var(--bold);
+    transition: all 0.1s; }
+    .pagination li a:hover {
+      box-shadow: 0 0 0 1px var(--color-neutral-400);
+      border-radius: 4px !important; }
+    .pagination li a[aria-current="true"] {
+      background: var(--color-teal-400);
+      color: white; }
+      .pagination li a[aria-current="true"]:hover {
+        box-shadow: 0 0 0 2px white, 0 0 0 3px var(--color-neutral-400);
+        border-radius: 2px !important; }
