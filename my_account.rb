@@ -78,7 +78,7 @@ get '/requests' do
   erb :requests
 end
 
-get '/profile' do 
+get '/contact-information' do 
   #session[:uniqname] = 'tutor' #need to get this from cosign?
   patron = Patron.for(uniqname: session[:uniqname])
   erb :patron, :locals => {patron: patron}

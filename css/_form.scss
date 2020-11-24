@@ -1,0 +1,24 @@
+input[type="text"] {
+  font-size: 1rem;
+  font-family: var(--font-base-family);
+  border: solid 1px rgba(0, 0, 0, 0.3);
+  box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  padding: var(--space-small);
+  margin: var(--space-xx-small) 0;
+  width: 100%;
+}
+
+button {
+  border: none;
+  font-size: 1rem;
+  font-family: var(--font-base-family);
+  color: white;
+  display: flex;
+  align-items: center;
+  border-radius: 4px;
+  padding: var(--space-small) var(--space-medium);
+  font-weight: 800;
+  background: var(--color-teal-400);
+  cursor: pointer;
+}

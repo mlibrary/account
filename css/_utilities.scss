@@ -15,7 +15,7 @@
 }
 
 .owl > * + * {
-  margin-bottom: var(--space-medium);
+  margin-top: var(--space-medium);
 }
 
 .sticky-top {
@@ -40,4 +40,18 @@
   background: var(--color-orange-100);
   border-color: var(--color-orange-300);
   color: var(--color-orange-500);
+}
+
+.narrow-content {
+  max-width: 36rem;
+}
+
+.visually-hidden {
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
 }
