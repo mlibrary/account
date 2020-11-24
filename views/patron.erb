@@ -6,20 +6,20 @@
 
   <table class="patron-table">
     <tr>
-      <th>First name</th>
-      <td>Helen</td>
-    </tr>
-    <tr>
-      <th>Last name</th>
-      <td>Bruss</td>
+      <th>Full name</th>
+      <td><%= patron.full_name %></td>
     </tr>
     <tr>
       <th>Address</th>
-      <td>1350 E. Touhy Ave<br />#200<br/>Ann Arbor, MI 48104</td>
+      <td>
+        <% patron.addresses do |address| %>
+          <p><%= address %></p>
+        <% end %>
+      </td>
     </tr>
     <tr>
       <th>Email</th>
-      <td>helenb@umich.edu</td>
+      <td><%= patron.uniqname %>@umich.edu</td>
     </tr>
   </table>
 
@@ -29,7 +29,7 @@
 
   <form method="post">
     <label>Phone number</label>
-    <input type="text" name="phone-number" />
+    <input type="text" name="phone-number" value="<%= patron.sms_number %>" />
 
     <button>Submit</button>
   </form>

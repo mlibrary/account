@@ -1,4 +1,6 @@
 .pagination {
+  margin: var(--space-x-large) 0;
+
   ol {
     list-style: none;
     display: grid;

@@ -1,68 +1,29 @@
 <nav aria-label="pagination" class="pagination">
   <ol>
+    <% unless pagination.previous.current_page? %>
     <li>
-      <a href="/shelf/loans">
+      <a href="<%=pagination.previous.url%>">
         <span class="visually-hidden">Previous page</span>
         <svg xmlns="http://www.w3.org/2000/svg" role="presentation" width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M15.41 16.09l-4.58-4.59 4.58-4.59L14 5.5l-6 6 6 6z"></path></svg>
       </a>
     </li>
+    <% end %>
+
+    <% pagination.pages.each do | page | %>
     <li>
-      <a href="/shelf/loans" aria-current="true">
-        <span class="visually-hidden">page</span> 1
+      <a href="<%=page.url%>" <% if page.current_page? %>aria-current="true"<%end%>>
+        <span class="visually-hidden">page</span> <%= page.page_number %>
       </a>
     </li>
+   <%end%>
+
+   <% unless pagination.next.current_page? %>
     <li>
-      <a href="/">
-        <span class="visually-hidden">page</span> 2
-      </a>
-    </li>
-    <li>
-      <a href="/">
-        <span class="visually-hidden">page</span> 3
-      </a>
-    </li>
-    <li>
-      <a href="/">
-        <span class="visually-hidden">page</span> 4
-      </a>
-    </li>
-    <li>
-      <a href="/">
-        <span class="visually-hidden">page</span> 5
-      </a>
-    </li>
-    <li>
-      <a href="/">
+      <a href="<%=pagination.next.url%>">
         <span class="visually-hidden">Next page</span>
         <svg xmlns="http://www.w3.org/2000/svg" role="presentation" width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M8.59 16.34l4.58-4.59-4.58-4.59L10 5.75l6 6-6 6z"></path></svg>
       </a>
     </li>
+    <% end %>
   </ol>
 </nav>
-
-<!--
-<a 
-  <% unless pagination.previous.current_page? %>
-    href="<%=pagination.previous.url%>" 
-  <% end %>
->
-<
-   </a>
-   <% pagination.pages.each do | page | %>
-<a 
-  <% unless page.current_page? %>
-    href="<%=page.url%>" 
-  <% end %>
-    >
-  <%= page.page_number %>
-   <%end%>
-</a>
-<a 
-  <% unless pagination.next.current_page? %>
-    href="<%=pagination.next.url%>" 
-  <% end %>
->
->
-   </a>
-</ol>
--->

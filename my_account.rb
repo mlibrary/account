@@ -75,7 +75,9 @@ namespace '/shelf' do
 end
 
 get '/requests' do
-  erb :requests
+  requests = Requests.for(uniqname: session[:uniqname]).holds
+
+  erb :requests, :locals => { requests: requests }
 end
 
 get '/contact-information' do 
