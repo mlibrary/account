@@ -27,7 +27,7 @@
 
   <p>I would like to recieve text message notifications from the library. This applies to items I check out and request from the U-M Library and InterLibrary Loan. Special Collections requests are not included. *Standard message and data rates apply.</p>
 
-  <form method="post">
+  <form method="post" action="/sms">
     <label>Phone number</label>
     <input type="text" name="phone-number" value="<%= patron.sms_number %>" />
 

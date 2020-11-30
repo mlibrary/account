@@ -1,6 +1,7 @@
 require 'sinatra'
 require 'sinatra/namespace'
 require "sinatra/reloader"
+require "sinatra/flash"
 require 'byebug' 
 
 require_relative "./utility"
@@ -8,7 +9,7 @@ require_relative "./models/pagination/pagination"
 require_relative "./models/pagination/pagination_decorator"
 require_relative "./models/response"
 require_relative "./models/alma_client"
-require_relative "./models/alma_error"
+require_relative "./models/error"
 
 require_relative "./models/patron"
 require_relative "./models/item"
@@ -84,6 +85,17 @@ get '/contact-information' do
   #session[:uniqname] = 'tutor' #need to get this from cosign?
   patron = Patron.for(uniqname: session[:uniqname])
   erb :patron, :locals => {patron: patron}
+end
+
+post '/sms' do
+  patron = Patron.for(uniqname: session[:uniqname])
+  response = patron.update_sms(params["phone-number"])
+  if response.code == 200
+    flash[:success] = "SMS Successfully Updated"
+  else
+    flash[:error] = response.message
+  end
+  redirect "/contact-information"
 end
 
 get '/fines' do

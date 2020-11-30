@@ -15,7 +15,7 @@ class AlmaClient
 
   def put(url, body)
     self.class.headers 'Content-Type' => 'application/json'
-    self.class.put(url, { body: body } )
+    self.class.put(url, { body: body.to_json } )
   end
 
 end

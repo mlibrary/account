@@ -126,3 +126,13 @@ def stub_alma_get_request(url:, body:,status: 200, query: {})
     ).to_return(body: body, status: status, headers: {content_type: 'application/json'})   
 end
 
+def stub_alma_put_request(url:, input:, output:, status: 200)
+    stub_request(:put, "#{ENV["ALMA_API_HOST"]}/almaws/v1/#{url}").with( 
+      body: input,
+      headers: {   
+          accept: 'application/json', 
+          Authorization: "apikey #{ENV['ALMA_API_KEY']}",
+          'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+          'User-Agent'=>'Ruby'
+      }).to_return(body: output, status: status, headers: {content_type: 'application/json'})   
+end

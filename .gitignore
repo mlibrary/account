@@ -7,4 +7,6 @@ node_modules
 
 .byebug_history
 .sass-cache
-
+.gem/
+.bundle/
+.bash_history

@@ -1,3 +1,4 @@
+require 'telephone_number'
 class Patron
   def initialize(uniqname:, parsed_response:)
     @uniqname = uniqname
@@ -15,14 +16,13 @@ class Patron
     end
   end
 
-  def to_h
-      {
-        uniqname: uniqname,
-        full_name: full_name,
-        addresses: addresses.map{ |x| x.to_h },
-        sms_number: sms_number,
-      }
+  def update_sms(sms, client=AlmaClient.new, phone=TelephoneNumber.parse(sms, :US))
+    return Error.new(message: "Phone number #{sms} is invalid") unless phone.valid?
+    url = "/users/#{uniqname}"
+    response = client.put(url, patron_with_internal_sms(phone.national_number)) 
+    response.code == 200 ? response : AlmaError.new(response)
   end
+
   def response(resp = Response.new(body: to_h))
     resp.to_a
   end
@@ -40,6 +40,27 @@ class Patron
   end
 
   private
+  def patron_with_internal_sms(sms_number)
+    updated_patron = JSON.parse(@parsed_response.to_json)
+    phones = updated_patron["contact_info"]["phone"]
+    mobile = phones.find { |x| x["preferred_sms"] == true }
+    if mobile 
+      mobile["segment_type"] = "Internal"
+      mobile["phone_number"] = sms_number
+    else
+      phones.push({
+        "phone_number"=> sms_number,
+        "preferred"=> false,
+        "preferred_sms"=> true,
+        "segment_type"=> "Internal",
+        "phone_type"=> [{
+          "value"=> "mobile",
+          "desc"=> "Mobile"
+        }]
+      })
+    end
+    updated_patron
+  end
 
   class Address
     def initialize(address)

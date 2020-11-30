@@ -5,6 +5,8 @@ ruby '2.7.2'
 
 gem 'sinatra'
 gem 'httparty'
+gem 'sinatra-flash'
+gem 'telephone_number'
 
 group :development, :test do
   gem 'pry'
