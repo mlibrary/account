@@ -86,8 +86,17 @@
                 "preferred": true,
                 "preferred_sms": false,
                 "segment_type": "Internal"
-            }
-        ]
+            }, {
+      "phone_number": "734-123-4567",
+      "preferred": false,
+      "preferred_sms": true,
+      "segment_type": "Internal",
+      "phone_type": [{
+        "value": "mobile",
+        "desc": "Mobile"
+      }]
+
+            } ]
     },
     "external_id": "",
     "fees": null,

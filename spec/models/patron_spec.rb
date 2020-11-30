@@ -14,6 +14,39 @@ describe Patron do
     subject do
       Patron.for(uniqname: 'mrio')
     end
+    context "#update_sms(sms_number)" do
+       before(:each) do
+        @new_phone = '(586) 549-5224'
+        patron = JSON.parse(@alma_response)
+        patron["contact_info"]["phone"][1]["phone_number"] = @new_phone
+        @updated_patron = patron.to_json
+       end
+       it "returns status of 200 for sucessful update" do
+
+        stub_alma_put_request(
+          url: "users/mrio",
+          input: @updated_patron,
+          output: @updated_patron
+        )
+         expect(subject.update_sms(@new_phone).code).to eq(200)
+       end
+       it "returns alma error for failed update" do
+         stub_alma_put_request(
+          url: "users/mrio",
+          input: @updated_patron,
+          output: File.read('./spec/fixtures/alma_error.json'),
+          status: 500
+        )
+         result = subject.update_sms(@new_phone)  
+         expect(result.code).to eq(500)
+         expect(result.message).to eq('User with identifier mrioaaa was not found.')
+       end
+       it "rejects invalid phone number" do
+         result = subject.update_sms('aaa1234')  
+         expect(result.code).to eq(500)
+         expect(result.message).to eq('Phone number aaa1234 is invalid')
+       end
+    end
     context "uniqname" do
       it "returns string" do
         expect(subject.uniqname).to eq('mrio')
@@ -25,17 +58,17 @@ describe Patron do
       end
     end
     context "sms_number" do
-      it "returns nil if empty sms" do
-        expect(subject.sms_number).to be_nil
-      end
       it "returns sms number if preferred_sms is set" do
+        expect(subject.sms_number).to eq('734-123-4567')
+      end
+      it "returns nil if empty sms" do
         my_response = JSON.parse(@alma_response)
-        my_response["contact_info"]["phone"][0]["preferred_sms"] = true
+        my_response["contact_info"]["phone"][1]["preferred_sms"] = false
         stub_alma_get_request(
           url: @patron_url, 
           body: my_response.to_json
         )
-        expect(subject.sms_number).to eq("555-555-5555")
+        expect(subject.sms_number).to be_nil
       end
     end
     context "addresses" do
@@ -55,11 +88,6 @@ describe Patron do
         end
       end
     end
-    context "to_h" do
-      it "returns a hash" do
-        expect(subject.to_h.class.name).to eq('Hash')
-      end
-    end
   end
   context "nonexistent uniqname" do
     before(:each) do
@@ -74,10 +102,10 @@ describe Patron do
     subject do
       Patron.for(uniqname: 'mrioaaa')
     end
-    context "response" do
-      it "returns array with error" do
-        expect(subject.response[0]).to eq(400)
-        expect(JSON.parse(subject.response[2])).to eq(JSON.parse(@alma_response))
+    context "#code" do
+      it "returns error code" do
+        expect(subject.code).to eq(400)
+        expect(subject.message).to eq('User with identifier mrioaaa was not found.')
       end
     end
   end

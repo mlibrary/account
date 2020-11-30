@@ -53,6 +53,9 @@ GEM
       rack-protection (= 2.1.0)
       sinatra (= 2.1.0)
       tilt (~> 2.0)
+    sinatra-flash (0.3.0)
+      sinatra (>= 1.0.0)
+    telephone_number (1.4.9)
     tilt (2.0.10)
     webmock (3.9.2)
       addressable (>= 2.3.6)
@@ -70,6 +73,8 @@ DEPENDENCIES
   rspec
   sinatra
   sinatra-contrib
+  sinatra-flash
+  telephone_number
   webmock
 
 RUBY VERSION
