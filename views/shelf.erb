@@ -10,12 +10,18 @@
 
 <h2>Current loans</h2>
 
+<form action="todo:renew-all-monique-help!" method="post">
+  <input type="hidden" name="renew-all" value="" />
+  <button>Renew all</button>
+</form>
+
 <table>
   <caption>Showing <%=loans.pagination.first%> - <%=loans.pagination.last%> of <%= loans.count %> items</caption>
   <thead>
     <tr>
       <th>Title & author</th>
       <th>Due date</th>
+      <th>Actions</th>
     </tr>
   </thead>
   <tbody>
@@ -27,6 +33,16 @@
         </td>
         <td style="min-width: 25%;">
           <%= loan.due_date %>
+        </td>
+        <td>
+
+          Action 1:
+          <form action="todo:monique-help!" method="post">
+            <input type="hidden" name="renew" value="todo:some-loan-id" />
+            <button>Renew</button>
+          </form>
+
+          <p>Not eligible for renewal</p>
         </td>
       </tr>
     <% end %>
