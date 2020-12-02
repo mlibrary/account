@@ -144,73 +144,18 @@ describe Loan do
       expect(subject.renewable?).to eq(false)
     end
   end
-  context "#ill?" do  
-    it "returns boolean for if item is InterLibraryLoan"
+end
+describe Loan, ".renew(loan_id:, uniqname:)" do
+  subject do
+    Loan.renew(loan_id: '1234', uniqname: 'jbister')
+  end
+  it "returns a HTTParty response of success" do
+    stub_alma_post_request( url: 'users/jbister/loans/1234', body: '{}', query: {op: 'renew'} )
+    expect(subject.code).to eq(200)
+  end
+  it "returns alma error" do
+    stub_alma_post_request( url: 'users/jbister/loans/1234', body: File.read('./spec/fixtures/alma_error.json'), query: {op: 'renew'}, status: 400 )
+    expect(subject.code).to eq(400)
+    expect(subject.message).to eq("User with identifier mrioaaa was not found.")
   end
 end
-#describe Loans, 'list' do
-  #before(:each) do 
-    #@loans = JSON.parse(File.read('./spec/fixtures/loans.json'))
-    #@requests = {
-      #'/users/jbister/loans' => ExconResponseDouble.new(body: @loans.to_json),
-      #'/bibs/991246960000541/holdings/225047730000541/items/235047720000541' =>
-        #ExconResponseDouble.new(body: File.read('./spec/fixtures/basics_of_singing_item.json')),
-      #'/bibs/991408490000541/holdings/229209090000521/items/235561180000541' =>
-        #ExconResponseDouble.new(body: File.read('./spec/fixtures/plain_words_on_singing_item.json')),
-      #'/items?item_barcode=67576' =>
-        #ExconResponseDouble.new(body: File.read('./spec/fixtures/basics_of_singing_item.json')),
-      #'/items?item_barcode=0919242913' =>
-        #ExconResponseDouble.new(body: File.read('./spec/fixtures/plain_words_on_singing_item.json')),
-    #}
-    #@expected_output = 
-      #[
-        #{
-          #"duedate"=>"20180728 2200", #z36-due-date z36-due-hour
-          #"isbn"=>"0028723406",  #z13-isbn
-          #"status"=>"", 
-          #"author"=>"Schmidt, Jan,", #z13-author
-          #"title"=>"Basics of singing / [compiled by] Jan Schmidt.", #z13-title
-          #"barcode"=>"67576", #z30-barcode
-          #"call_number"=>"MT825 .B27 1984", #z30-call-no
-          #"description"=>nil, #z30-description
-          #"id"=>"991246960000541", #z13-doc-number
-          #"bib_library"=>"", #z13-user-defined-5 || z13-user-defined-3
-          #"location"=>"Music Library",  #z30-sub-library
-          #"format"=>['Music Score'], #z30-material
-          #"num"=>0
-        #}, {
-          #"duedate"=>"20180728 2200", 
-          #"isbn"=>9781234567897, 
-          #"status"=>"", 
-          #"author"=>"Shakespeare, William,", 
-          #"title"=>"Plain words on singing / by William Shakespeare ..", 
-          #"barcode"=>"0919242913", 
-          #"call_number"=>"MT820 .S53", 
-          #"description"=>nil, 
-          #"id"=>"991408490000541", 
-          #"bib_library"=>"", 
-          #"location"=>"Music Library", 
-          #"format"=>["Book"], 
-          #"num"=>1
-        #}
-      #]
-  #end
-  #it "returns correct number of items list of loans" do
-    #dbl = HttpClientGetDouble.new(@requests)
-    #loans = Loans.new(uniqname: 'jbister', client: dbl)
-    #expect(loans.list.body.count).to eq(2) 
-  #end
-  #it "reutrns correct items" do
-    #dbl = HttpClientGetDouble.new(@requests)
-    #loans = Loans.new(uniqname: 'jbister', client: dbl)
-    #expect(loans.list.body).to eq(@expected_output) 
-  #end
-  #it "handles empty loans" do
-    #@loans['total_record_count'] = 0
-    #@loans.delete('item_loan')
-    #resp = ExconResponseDouble.new(body: @loans.to_json)
-    #dbl = HttpClientGetDouble.new({@requests.keys[0] => resp})
-    #loans = Loans.new(uniqname: 'jbister', client: dbl)
-    #expect(loans.list.body).to eq([])
-  #end
-#end

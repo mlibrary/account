@@ -87,6 +87,16 @@ get '/contact-information' do
   erb :patron, :locals => {patron: patron}
 end
 
+post '/loan' do
+  response = Loan.renew(uniqname: session[:uniqname], loan_id: params["loan_id"])
+  if response.code == 200
+    flash[:success] = URI(request.referrer).path
+  else
+    flash[:error] = response.message
+  end
+  redirect "/shelf"
+
+end
 post '/sms' do
   patron = Patron.for(uniqname: session[:uniqname])
   response = patron.update_sms(params["phone-number"])

@@ -45,6 +45,10 @@ class Loans
 end
 
 class Loan < Item
+  def self.renew(uniqname:, loan_id:, client:AlmaClient.new)
+    response = client.post("/users/#{uniqname}/loans/#{loan_id}", {op: 'renew'})
+    response.code == 200 ? response : AlmaError.new(response)
+  end
   def due_date
     DateTime.patron_format(@parsed_response["due_date"])
   end

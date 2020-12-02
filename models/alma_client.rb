@@ -12,6 +12,9 @@ class AlmaClient
   def get(url, query={})
     self.class.get(url, query: query)
   end
+  def post(url, query={})
+    self.class.post(url, query: query)
+  end
 
   def put(url, body)
     self.class.headers 'Content-Type' => 'application/json'
