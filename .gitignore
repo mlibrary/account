@@ -4,7 +4,7 @@ drupal_models
 drupal_models_specs
 spec/fixtures/fixtures_drupal
 node_modules
-
+coverage
 .byebug_history
 .sass-cache
 .gem/

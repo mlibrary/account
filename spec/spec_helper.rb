@@ -18,6 +18,8 @@ require 'rack/test'
 require 'rspec'
 require 'byebug'
 require 'webmock/rspec'
+require 'simplecov'
+SimpleCov.start
 ENV['RACK_ENV'] = 'test'
 
 require File.expand_path '../../my_account.rb', __FILE__
