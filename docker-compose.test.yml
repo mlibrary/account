@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+  web:
+    build: .
+    volumes:
+      - .:/app
+    environment:
+      - ALMA_API_KEY='YOUR_ALMA_API_KEY'
+      - ALMA_API_HOST='https://api-na.hosted.exlibrisgroup.com'
+    command: bundle exec rspec
+        
+
