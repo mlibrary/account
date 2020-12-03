@@ -8,7 +8,7 @@ require 'json'
 describe Loans do
   context "one loan" do
     before(:each) do
-      stub_alma_get_request( url: 'users/jbister/loans', body: File.read("./spec/fixtures/loans.json") )
+      stub_alma_get_request( url: 'users/jbister/loans', body: File.read("./spec/fixtures/loans.json"), query: {expand: 'renewable'} )
     end
     subject do
       Loans.for(uniqname: 'jbister')
@@ -35,7 +35,7 @@ describe Loans do
   end
   context "no loans" do
     before(:each) do
-      stub_alma_get_request( url: 'users/jbister/loans', body: File.read("./spec/fixtures/no_loans.json") )
+      stub_alma_get_request( url: 'users/jbister/loans', body: File.read("./spec/fixtures/no_loans.json"), query: {expand: 'renewable'} )
     end
     subject do
       Loans.for(uniqname: 'jbister')
@@ -55,7 +55,7 @@ describe Loans do
     before(:each) do
       one_loan = JSON.parse(File.read("./spec/fixtures/loans.json"))
       one_loan["item_loan"].delete_at(0)
-      stub_alma_get_request( url: 'users/jbister/loans', body: one_loan.to_json, query: {"offset" => 1, "limit" => 1} )
+      stub_alma_get_request( url: 'users/jbister/loans', body: one_loan.to_json, query: {"expand" => "renewable", "offset" => 1, "limit" => 1} )
     end
     subject do
       Loans.for(uniqname: 'jbister', offset: 1, limit: 1)
@@ -142,6 +142,37 @@ describe Loan do
   context "#renewable?" do
     it "returns boolean" do
       expect(subject.renewable?).to eq(false)
+    end
+  end
+end
+describe Loans do
+  context ".renew(uniqname:, loan_ids:)" do
+    subject do
+      Loans.renew(loan_ids: ['1234','5678'], uniqname: 'jbister')
+    end
+    it "returns a HTTParty response of success" do
+      stub_alma_post_request( url: 'users/jbister/loans/1234', body: '{}', query: {op: 'renew'} )
+      stub_alma_post_request( url: 'users/jbister/loans/5678', body: '{}', query: {op: 'renew'} )
+      expect(subject.code).to eq(200)
+    end
+    it "returns errors for unrenewable items" do
+      error = File.read('./spec/fixtures/alma_error.json')
+      stub_alma_post_request( status: 500, url: 'users/jbister/loans/1234', body: error, query: {op: 'renew'} )
+      stub_alma_post_request( status: 500, url: 'users/jbister/loans/5678', body: error, query: {op: 'renew'} )
+      expect(subject.code).to eq(500)
+      expect(subject.message).to eq("User with identifier mrioaaa was not found.\nUser with identifier mrioaaa was not found.")
+    end
+  end
+  context ".renew_all(uniqname:)" do
+    subject do
+      Loans.renew_all(uniqname: 'jbister')
+    end
+    it "renews all items even across pagination" do
+      stub_alma_get_request( url: 'users/jbister/loans', body: File.read('./spec/fixtures/loans.json'), query: {expand: 'renewable', limit: 100, offset: 0} )
+      stub_alma_post_request( url: 'users/jbister/loans/1332733700000521', body: '{}', query: {op: 'renew'} )
+      stub_alma_post_request( url: 'users/jbister/loans/1332734190000521', body: '{}', query: {op: 'renew'} )
+
+      expect(subject.code).to eq(200)
     end
   end
 end

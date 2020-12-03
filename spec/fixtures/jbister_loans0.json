@@ -1,0 +1,44 @@
+{
+    "item_loan": [
+        {
+            "author": "Schmidt, Jan,",
+            "call_number": "MT825 .B27 1984",
+            "circ_desk": {
+                "desc": "Circulation",
+                "value": "DEFAULT_CIRC_DESK"
+            },
+            "description": null,
+            "due_date": "2018-07-28T22:00:00Z",
+            "holding_id": "225047730000541",
+            "item_barcode": "67576",
+            "item_id": "235047720000541",
+            "item_policy": {
+                "description": null,
+                "value": null
+            },
+            "last_renew_status": {
+                "desc": "",
+                "value": null
+            },
+            "library": {
+                "desc": "Music Library",
+                "value": "MUS"
+            },
+            "loan_date": "2018-06-28T16:10:01.018Z",
+            "loan_fine": 25.0,
+            "loan_id": "1332733700000521",
+            "loan_status": "ACTIVE",
+            "location_code": {
+                "name": "Stacks",
+                "value": "music"
+            },
+            "mms_id": "991246960000541",
+            "process_status": "NORMAL",
+            "publication_year": "c1984.",
+            "renewable": null,
+            "title": "Basics of singing / [compiled by] Jan Schmidt.",
+            "user_id": "jbister"
+        }
+    ],
+    "total_record_count": 2
+}

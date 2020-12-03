@@ -35,14 +35,14 @@
           <%= loan.due_date %>
         </td>
         <td>
-
-          Action 1:
-          <form action="todo:monique-help!" method="post">
-            <input type="hidden" name="renew" value="todo:some-loan-id" />
+          <% if loan.renewable? %>
+          <form action="/renew-loan" method="post">
+            <input type="hidden" name="loan_id" value="<%=loan.loan_id%>" />
             <button>Renew</button>
           </form>
-
+          <% else %>
           <p>Not eligible for renewal</p>
+        <% end %>
         </td>
       </tr>
     <% end %>
