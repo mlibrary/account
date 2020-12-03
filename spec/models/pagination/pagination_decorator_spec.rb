@@ -14,6 +14,16 @@ describe PaginationDecorator do
     subject do
       PaginationDecorator.new(**@input)
     end
+    context "#first" do
+      it "returns first item on the page" do
+        expect(subject.first).to eq(1)
+      end
+    end
+    context "#last" do
+      it "returns first item on the page" do
+        expect(subject.last).to eq(10)
+      end
+    end
     context "#previous" do
       it "has url" do
         expect(subject.previous.url).to eq("/things")
