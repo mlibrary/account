@@ -8,17 +8,3 @@ input[type="text"] {
   margin: var(--space-xx-small) 0;
   width: 100%;
 }
-
-button {
-  border: none;
-  font-size: 1rem;
-  font-family: var(--font-base-family);
-  color: white;
-  display: flex;
-  align-items: center;
-  border-radius: 4px;
-  padding: var(--space-small) var(--space-medium);
-  font-weight: 800;
-  background: var(--color-teal-400);
-  cursor: pointer;
-}

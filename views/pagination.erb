@@ -1,8 +1,8 @@
 <nav aria-label="pagination" class="pagination">
-  <ol>
+  <ol class="pagination-pages">
     <% unless pagination.previous.current_page? %>
-    <li>
-      <a href="<%=pagination.previous.url%>">
+    <li class="pagination-page">
+      <a href="<%=pagination.previous.url%>" class="pagination-page-link">
         <span class="visually-hidden">Previous page</span>
         <svg xmlns="http://www.w3.org/2000/svg" role="presentation" width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M15.41 16.09l-4.58-4.59 4.58-4.59L14 5.5l-6 6 6 6z"></path></svg>
       </a>
@@ -10,16 +10,16 @@
     <% end %>
 
     <% pagination.pages.each do | page | %>
-    <li>
-      <a href="<%=page.url%>" <% if page.current_page? %>aria-current="true"<%end%>>
+    <li class="pagination-page">
+      <a href="<%=page.url%>" class="pagination-page-link" <% if page.current_page? %>aria-current="true"<%end%> >
         <span class="visually-hidden">page</span> <%= page.page_number %>
       </a>
     </li>
    <%end%>
 
    <% unless pagination.next.current_page? %>
-    <li>
-      <a href="<%=pagination.next.url%>">
+    <li class="pagination-page">
+      <a href="<%=pagination.next.url%>" class="pagination-page-link">
         <span class="visually-hidden">Next page</span>
         <svg xmlns="http://www.w3.org/2000/svg" role="presentation" width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M8.59 16.34l4.58-4.59-4.58-4.59L10 5.75l6 6-6 6z"></path></svg>
       </a>
