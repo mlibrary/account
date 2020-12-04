@@ -10,13 +10,18 @@
 
 <h2>Current loans</h2>
 
+<!--
+
+Renew all could be too slow. Maybe reconsider.
+
 <form action="todo:renew-all-monique-help!" method="post">
   <input type="hidden" name="renew-all" value="" />
   <button>Renew all</button>
 </form>
+-->
 
-<table>
-  <caption>Showing <%=loans.pagination.first%> - <%=loans.pagination.last%> of <%= loans.count %> items</caption>
+<table class="loans-table">
+  <caption>Showing <strong><%=loans.pagination.first%></strong> - <strong><%=loans.pagination.last%></strong> of <strong><%= loans.count %></strong> items</caption>
   <thead>
     <tr>
       <th>Title & author</th>
@@ -49,6 +54,6 @@
   </tbody>
 </table>
 
-<%= erb :pagination, locals: {pagination: loans.pagination} %>
+<%= erb :pagination, locals: {pagination: loans.pagination, count: loans.count} %>
 
 <% end %>

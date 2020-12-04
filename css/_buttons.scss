@@ -1,0 +1,44 @@
+@mixin button {
+  border: none;
+  font-size: 1rem;
+  font-family: var(--font-base-family);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  padding: var(--space-small) var(--space-medium);
+  background: var(--color-teal-400);
+  cursor: pointer;
+  text-decoration: none;
+  min-width: var(--space-xxx-large);
+  min-height: var(--space-xxx-large);
+  font-weight: var(--bold);
+  transition: all 0.05s;
+
+  &:hover {
+    box-shadow: 0 0 0 2px white, 0 0 0 3px var(--color-neutral-400);
+    border-radius: 4px !important;
+  }
+
+  // prevent icons in buttons from shrinking.
+  svg {
+    flex-shrink: 0;
+  }
+}
+
+@mixin button--light {
+  @include button;
+
+  background: var(--color-blue-100);
+  color: var(--color-teal-400);
+}
+
+button,
+.button {
+  @include button;
+}
+
+.button--light {
+  @include button--light;
+}
