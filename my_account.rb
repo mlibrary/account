@@ -4,12 +4,11 @@ require "sinatra/reloader"
 require "sinatra/flash"
 require 'byebug' 
 
+require_relative "./models/response"
 require_relative "./utility"
 require_relative "./models/pagination/pagination"
 require_relative "./models/pagination/pagination_decorator"
-require_relative "./models/response"
 require_relative "./models/alma_client"
-require_relative "./models/error"
 
 require_relative "./models/patron"
 require_relative "./models/item"
@@ -87,6 +86,16 @@ get '/contact-information' do
   erb :patron, :locals => {patron: patron}
 end
 
+post '/renew-loan' do
+  response = Loan.renew(uniqname: session[:uniqname], loan_id: params["loan_id"])
+  if response.code == 200
+    flash[:success] = "Loan Successfully Renewed"
+  else
+    flash[:error] = response.message
+  end
+  redirect URI(request.referrer).request_uri
+
+end
 post '/sms' do
   patron = Patron.for(uniqname: session[:uniqname])
   response = patron.update_sms(params["phone-number"])

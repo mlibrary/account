@@ -46,6 +46,18 @@ describe Patron do
          expect(result.code).to eq(500)
          expect(result.message).to eq('Phone number aaa1234 is invalid')
        end
+       it "submits submits internal phone number for non_existent number" do
+         my_response = JSON.parse(@alma_response)
+         my_response["contact_info"]["phone"].delete_at(1)
+         stub_alma_get_request(
+           url: @patron_url, 
+           body: my_response.to_json
+         )
+         response_dbl = double('response', code: 200)
+         client_dbl = instance_double(AlmaClient, put: response_dbl)
+         expect(client_dbl).to receive(:put).with(anything, JSON.parse(@updated_patron))
+         subject.update_sms(@new_phone, client_dbl)
+       end
     end
     context "uniqname" do
       it "returns string" do
@@ -85,6 +97,11 @@ describe Patron do
       context "Patron::Address", "type" do
         it "returns appropriate address type string" do
           expect(subject.addresses.first.type).to eq("Permanent address")
+        end
+      end
+      context "Patron::Address", "to_h" do
+        it "returns appropriate address type string" do
+          expect(subject.addresses.first.to_h).to eq({type: "Permanent address", display: "1440 Fake Street<br>Ann Arbor, MI  48105"})
         end
       end
     end

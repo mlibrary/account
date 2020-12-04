@@ -15,5 +15,6 @@ group :development, :test do
   gem 'rspec'
   gem 'sinatra-contrib'
   gem 'webmock'
+  gem 'simplecov'
 end
 

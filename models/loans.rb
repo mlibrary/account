@@ -6,6 +6,27 @@ class Loans
     @pagination = pagination
   end
 
+  #todo needs to be tested
+  def self.renew_all(uniqname:, client: AlmaClient.new)
+    url = "/users/#{uniqname}/loans" 
+    response = client.get_all(url: url, record_key: 'item_loan', query: {expand: 'renewable'})
+    renewable = response.parsed_response["item_loan"].select{|x| x["renewable"] == true}
+    loan_ids = renewable.map{|x| x["loan_id"]}
+    Loans.renew(uniqname: uniqname, loan_ids: loan_ids)
+  end
+
+  def self.renew(uniqname:, loan_ids:, client: AlmaClient.new)
+    results = loan_ids.map do |loan_id|
+      Loan.renew(uniqname: uniqname, loan_id: loan_id)
+    end
+    errors = results.select{|r| r.code != 200 }
+    if errors.empty?
+      Response.new
+    else
+      messages = errors.map{|e| e.message}.join("\n")
+      Error.new(message: messages)
+    end
+  end
   def count
     @parsed_response["total_record_count"]
   end
@@ -25,7 +46,7 @@ class Loans
                client: AlmaClient.new 
               )
     url = "/users/#{uniqname}/loans" 
-    query = {}
+    query = {"expand" => "renewable"}
     query["offset"] = offset unless offset.nil?
     query["limit"] = limit unless limit.nil?
 
@@ -45,6 +66,10 @@ class Loans
 end
 
 class Loan < Item
+  def self.renew(uniqname:, loan_id:, client:AlmaClient.new)
+    response = client.post("/users/#{uniqname}/loans/#{loan_id}", {op: 'renew'})
+    response.code == 200 ? response : AlmaError.new(response)
+  end
   def due_date
     DateTime.patron_format(@parsed_response["due_date"])
   end

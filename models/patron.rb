@@ -23,9 +23,6 @@ class Patron
     response.code == 200 ? response : AlmaError.new(response)
   end
 
-  def response(resp = Response.new(body: to_h))
-    resp.to_a
-  end
   def uniqname
     @parsed_response["primary_id"].downcase
   end
