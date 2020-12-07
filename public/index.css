@@ -132,7 +132,8 @@ body {
   /* Firefox */ }
 
 a {
-  color: var(--color-teal-400); }
+  color: var(--color-teal-400);
+  padding: 0.125rem 0; }
   a:hover {
     text-decoration-thickness: 2px; }
 
@@ -251,6 +252,9 @@ h4 {
   font-size: var(--text-small);
   font-weight: var(--bold); }
 
+table {
+  table-layout: fixed; }
+
 .layout {
   padding: 0 var(--space-medium);
   max-width: 1280px;
@@ -277,6 +281,9 @@ h4 {
 .patron-table th {
   border-width: 1px;
   border-color: var(--color-neutral-100); }
+
+.table-container {
+  overflow-x: scroll; }
 
 @media screen and (min-width: 820px) {
   .prose {
@@ -440,6 +447,9 @@ h4 {
   text-decoration: none;
   color: var(--color-neutral-400);
   font-weight: 600; }
+  .local-navigation a:not(.active):hover {
+    text-decoration: underline;
+    text-decoration-thickness: 2px; }
 
 .local-navigation a.active {
   color: var(--color-teal-400);
@@ -482,8 +492,7 @@ button,
   text-decoration: none;
   min-width: var(--space-xxx-large);
   min-height: var(--space-xxx-large);
-  font-weight: var(--bold);
-  transition: all 0.05s; }
+  font-weight: var(--bold); }
   button:hover,
   .button:hover {
     box-shadow: 0 0 0 2px white, 0 0 0 3px var(--color-neutral-400);
@@ -508,7 +517,6 @@ button,
   min-width: var(--space-xxx-large);
   min-height: var(--space-xxx-large);
   font-weight: var(--bold);
-  transition: all 0.05s;
   background: var(--color-blue-100);
   color: var(--color-teal-400); }
   .button--light:hover {
@@ -543,7 +551,6 @@ button,
       min-width: var(--space-xxx-large);
       min-height: var(--space-xxx-large);
       font-weight: var(--bold);
-      transition: all 0.05s;
       background: var(--color-blue-100);
       color: var(--color-teal-400); }
       .pagination .pagination-page .pagination-page-link:hover {
@@ -566,8 +573,7 @@ button,
         text-decoration: none;
         min-width: var(--space-xxx-large);
         min-height: var(--space-xxx-large);
-        font-weight: var(--bold);
-        transition: all 0.05s; }
+        font-weight: var(--bold); }
         .pagination .pagination-page .pagination-page-link[aria-current="true"]:hover {
           box-shadow: 0 0 0 2px white, 0 0 0 3px var(--color-neutral-400);
           border-radius: 4px !important; }

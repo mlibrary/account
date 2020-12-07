@@ -80,6 +80,10 @@ h4 {
   font-weight: var(--bold);
 }
 
+table {
+  table-layout: fixed;
+}
+
 .layout {
   padding: 0 var(--space-medium);
   max-width: 1280px;
@@ -112,4 +116,8 @@ h4 {
     border-width: 1px;
     border-color: var(--color-neutral-100);
   }
+}
+
+.table-container {
+  overflow-x: scroll;
 }

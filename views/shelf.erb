@@ -20,13 +20,14 @@ Renew all could be too slow. Maybe reconsider.
 </form>
 -->
 
-<table class="loans-table">
+<div class="table-container">
+<table>
   <caption>Showing <strong><%=loans.pagination.first%></strong> - <strong><%=loans.pagination.last%></strong> of <strong><%= loans.count %></strong> items</caption>
   <thead>
     <tr>
-      <th>Title & author</th>
-      <th>Due date</th>
-      <th>Actions</th>
+      <th style="width: 66%;">Title & author</th>
+      <th style="width: 9rem;">Due date</th>
+      <th style="width: 5rem;">Actions</th>
     </tr>
   </thead>
   <tbody>
@@ -36,14 +37,14 @@ Renew all could be too slow. Maybe reconsider.
           <a href="<%=loan.search_url%>"><%= loan.title %></a>
           <span>&#183; <%= loan.author %></span>
         </td>
-        <td style="min-width: 25%;">
+        <td>
           <%= loan.due_date %>
         </td>
         <td>
           <% if loan.renewable? %>
           <form action="/renew-loan" method="post">
             <input type="hidden" name="loan_id" value="<%=loan.loan_id%>" />
-            <button>Renew</button>
+            <button class="button--light">Renew</button>
           </form>
           <% else %>
           <p>Not eligible for renewal</p>
@@ -53,6 +54,7 @@ Renew all could be too slow. Maybe reconsider.
     <% end %>
   </tbody>
 </table>
+</div>
 
 <%= erb :pagination, locals: {pagination: loans.pagination, count: loans.count} %>
 
