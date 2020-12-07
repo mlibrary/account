@@ -26,6 +26,12 @@
       <%= erb :navigation %>
       <article class="site-layout__center owl prose">
         <%= styled_flash %>
+
+        <%= erb :message, locals: { message: "Something neutral happened, but hey, pay attention.", kind: '' } %>
+        <%= erb :message, locals: { message: "<strong>Error:</strong> Loan was not able to be renewed because of X, Y, Z", kind: "error" } %>
+        <%= erb :message, locals: { message: "<strong>Success:</strong> Loan renewed", kind: "success" } %>
+        
+
         <%= yield %>
       </article>
     </main>
