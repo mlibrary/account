@@ -54,6 +54,11 @@ describe Fee do
       expect(subject.balance).to eq("$22.23")
     end
   end
+  context "#type" do
+    it "returns fee type" do
+      expect(subject.type).to eq("Overdue fine")
+    end
+  end
   context "#original_amount" do
     it "returns formatted original_amount string" do
       expect(subject.original_amount).to eq("$25.00")

@@ -50,6 +50,9 @@ class Fee
   def balance
     @parsed_response["balance"]&.to_currency
   end
+  def type
+    @parsed_response["type"]["desc"]
+  end
   def original_amount
     @parsed_response["original_amount"]&.to_currency
   end

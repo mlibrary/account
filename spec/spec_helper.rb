@@ -19,7 +19,7 @@ require 'rspec'
 require 'byebug'
 require 'webmock/rspec'
 require 'simplecov'
-require 'sinatra/sessionography'
+#require 'sinatra/sessionography'
 SimpleCov.start
 ENV['RACK_ENV'] = 'test'
 

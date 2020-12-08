@@ -16,6 +16,6 @@ group :development, :test do
   gem 'sinatra-contrib'
   gem 'webmock'
   gem 'simplecov'
-  gem 'sinatra-sessionography'
+  #gem 'sinatra-sessionography'
 end
 
