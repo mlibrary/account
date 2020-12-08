@@ -285,6 +285,9 @@ table {
 .table-container {
   overflow-x: auto; }
 
+.content-max-width {
+  max-width: 38rem; }
+
 @media screen and (min-width: 820px) {
   .prose {
     font-size: var(--text-x-small); } }
