@@ -116,7 +116,7 @@ RSpec.configure do |config|
 =end
 end
 
-def stub_alma_get_request(url:, body:,status: 200, query: {})
+def stub_alma_get_request(url:, body: "{}",status: 200, query: {})
     stub_request(:get, "#{ENV["ALMA_API_HOST"]}/almaws/v1/#{url}").with( 
       headers: {   
           accept: 'application/json', 
@@ -128,7 +128,7 @@ def stub_alma_get_request(url:, body:,status: 200, query: {})
     ).to_return(body: body, status: status, headers: {content_type: 'application/json'})   
 end
 
-def stub_alma_post_request(url:, body:,status: 200, query: {})
+def stub_alma_post_request(url:, body: "{}",status: 200, query: {})
     stub_request(:post, "#{ENV["ALMA_API_HOST"]}/almaws/v1/#{url}").with( 
       headers: {   
           accept: 'application/json', 

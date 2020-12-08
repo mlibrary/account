@@ -24,16 +24,16 @@ class Patron
   end
 
   def uniqname
-    @parsed_response["primary_id"].downcase
+    @parsed_response["primary_id"]&.downcase
   end
   def sms_number
-    @parsed_response["contact_info"]["phone"].find(-> {{}}){|x| x["preferred_sms"]}["phone_number"]
+    @parsed_response.dig("contact_info","phone")&.find(-> {{}}){|x| x["preferred_sms"]}&.dig("phone_number")
   end
   def full_name
     @parsed_response["full_name"]
   end
   def addresses
-    @parsed_response["contact_info"]["address"].map{|x| Address.new(x)}
+    @parsed_response.dig("contact_info","address")&.map{|x| Address.new(x)}
   end
 
   private

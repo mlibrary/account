@@ -18,10 +18,12 @@ require_relative "./models/fees"
 
 enable :sessions
 
+# :nocov:
 post '/session_switcher' do
   session[:uniqname] = params[:uniqname]
   redirect '/'
 end
+# :nocov:
 
 get '/' do
   session[:uniqname] = 'tutor' if !session[:uniqname]
@@ -62,13 +64,12 @@ namespace '/shelf' do
   end
   
   get '/past-loans' do
-    loans = Loans.for(uniqname: session[:uniqname]) 
+    #loans = Loans.for(uniqname: session[:uniqname]) 
   
-    erb :past_loans, :locals => { past_loans: loans }
+    erb :past_loans, :locals => { past_loans: {} }
   end
   
   get '/document-delivery' do
-    loans = Loans.for(uniqname: session[:uniqname]) 
   
     erb :document_delivery, :locals => { document_delivery: [] }
   end
@@ -87,6 +88,7 @@ get '/contact-information' do
 end
 
 post '/renew-loan' do
+  byebug
   response = Loan.renew(uniqname: session[:uniqname], loan_id: params["loan_id"])
   if response.code == 200
     flash[:success] = "Loan Successfully Renewed"

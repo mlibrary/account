@@ -141,7 +141,7 @@ describe Loan do
   end
   context "#renewable?" do
     it "returns boolean" do
-      expect(subject.renewable?).to eq(false)
+      expect(subject.renewable?).to eq(true)
     end
   end
 end
@@ -169,10 +169,12 @@ describe Loans do
     end
     it "renews all items even across pagination" do
       stub_alma_get_request( url: 'users/jbister/loans', body: File.read('./spec/fixtures/loans.json'), query: {expand: 'renewable', limit: 100, offset: 0} )
-      stub_alma_post_request( url: 'users/jbister/loans/1332733700000521', body: '{}', query: {op: 'renew'} )
-      stub_alma_post_request( url: 'users/jbister/loans/1332734190000521', body: '{}', query: {op: 'renew'} )
+      renew1 = stub_alma_post_request( url: 'users/jbister/loans/1332733700000521', body: '{}', query: {op: 'renew'} )
+      renew2 = stub_alma_post_request( url: 'users/jbister/loans/1332734190000521', body: '{}', query: {op: 'renew'} )
 
       expect(subject.code).to eq(200)
+      expect(renew1).to have_been_requested
+      expect(renew2).to have_been_requested
     end
   end
 end
