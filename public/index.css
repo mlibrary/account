@@ -283,7 +283,7 @@ table {
   border-color: var(--color-neutral-100); }
 
 .table-container {
-  overflow-x: scroll; }
+  overflow-x: auto; }
 
 @media screen and (min-width: 820px) {
   .prose {
