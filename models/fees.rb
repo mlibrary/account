@@ -53,6 +53,9 @@ class Fee
   def type
     @parsed_response["type"]["desc"]
   end
+  def code
+    @parsed_response["type"]["value"]
+  end
   def original_amount
     @parsed_response["original_amount"]&.to_currency
   end

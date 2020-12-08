@@ -1,0 +1,11 @@
+.text-notifications-label {
+  display: block;
+  margin-top: var(--space-medium);
+}
+
+.text-notifications-input-container {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-gap: var(--space-medium);
+  margin: var(--space-large) 0;
+}

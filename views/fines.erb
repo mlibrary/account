@@ -23,7 +23,7 @@
     <% fines.each do |fine| %>
       <tr>
         <td><%= fine.title %></td>
-        <td>n/a</td>
+        <td><%= fine.type %></td>
         <td><%= fine.balance %></td>
       </tr>
     <% end %>
@@ -31,11 +31,10 @@
   </table>
 </div>
 
+
 <p>You have a total of <strong>$101.83</strong> fines due.</p>
 
 <% end %>
-
-
 
 <p><strong>Payments made are non-refundable</strong>. If you have questions or would like to contest a fine, please contact Hatcher Graduate Circulation before making any payments. Telephone: <a href="tel:734-764-0401">734-764-0401</a>. Email: <a href="glcirc@umich.edu">glcirc@umich.edu</a>. <a href="https://lib.umich.edu/find-borrow-request/borrow-and-return/reminders-and-overdue-items">Read more about fines</a>.</p>
 
