@@ -283,7 +283,10 @@ table {
   border-color: var(--color-neutral-100); }
 
 .table-container {
-  overflow-x: scroll; }
+  overflow-x: auto; }
+
+.content-max-width {
+  max-width: 38rem; }
 
 @media screen and (min-width: 820px) {
   .prose {
