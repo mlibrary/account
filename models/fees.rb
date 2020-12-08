@@ -1,7 +1,7 @@
 class Fees
   def initialize(parsed_response:)
     @parsed_response = parsed_response
-    @list = parsed_response["fee"].map{|l| Fee.new(l)}
+    @list = parsed_response["fee"]&.map{|l| Fee.new(l)}
   end
 
   def count

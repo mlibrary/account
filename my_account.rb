@@ -108,5 +108,6 @@ post '/sms' do
 end
 
 get '/fines' do
-  erb :fines
+  fines = Fees.for(uniqname: session[:uniqname])
+  erb :fines, :locals => { fines: fines }
 end

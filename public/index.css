@@ -297,6 +297,9 @@ table {
 .prose h4 {
   margin-top: var(--space-xx-large); }
 
+.prose > p {
+  max-width: 38rem; }
+
 .owl > * + * {
   margin-top: var(--space-medium); }
 
