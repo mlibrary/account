@@ -4,7 +4,9 @@
 
 <% if fines.count == 0 %>
 
-<p>No fees empty state placeholder.</p>
+<div class="content-max-width">
+<%= erb :message, locals: { message: "You have no fines or fees at this time.", kind: '' } %>
+</div>
 
 <% elsif %>
 
@@ -29,13 +31,17 @@
   </table>
 </div>
 
+<p>You have a total of <strong>$101.83</strong> fines due.</p>
+
 <% end %>
 
-<p>You have a total of <strong>$101.83</strong> fines due.</p>
+
 
 <p><strong>Payments made are non-refundable</strong>. If you have questions or would like to contest a fine, please contact Hatcher Graduate Circulation before making any payments. Telephone: <a href="tel:734-764-0401">734-764-0401</a>. Email: <a href="glcirc@umich.edu">glcirc@umich.edu</a>. <a href="https://lib.umich.edu/find-borrow-request/borrow-and-return/reminders-and-overdue-items">Read more about fines</a>.</p>
 
+<% if fines.count > 0 %>
 <form method="post" action="TODO:halp-this-form-monique">
   <input type="hidden" value="millions of $$$" />
   <button>Pay fines</button>
 </form>
+<% end %>
