@@ -23,15 +23,19 @@
     </tr>
   </table>
 
-  <h2>Would you like to recieve text message notifications?</h2>
-
-  <p>I would like to recieve text message notifications from the library. This applies to items I check out and request from the U-M Library and InterLibrary Loan. Special Collections requests are not included. *Standard message and data rates apply.</p>
-
   <form method="post" action="/sms">
-    <label>Phone number</label>
-    <input type="text" name="phone-number" value="<%= patron.sms_number %>" />
+    <h2>Text notifications</h2>
 
-    <button>Submit</button>
+    <label class="text-notifications-label">
+      <p><strong>Phone number</strong></p>
+      <p>We will use this number to send text message notifications from the library. This applies to items that been checked out or requested from the library and Interlibrary Loan. Special Collections requests are not included.</p>
+    </label>
+
+    <div class="text-notifications-input-container">
+      <input type="text" name="phone-number" value="<%= patron.sms_number %>" />
+
+      <button>Save</button>
+    </div>
   </form>
 
 </div>

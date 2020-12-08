@@ -1,0 +1,22 @@
+.tag,
+.tag--error,
+.tag--success {
+  display: inline-block;
+  padding: var(--space-xx-small) var(--space-x-small);
+  border-radius: 4px;
+}
+
+.tag {
+  background: var(--color-teal-400);
+  color: var(--color-teal-100);
+}
+
+.tag--error {
+  background: var(--color-pink-200);
+  color: var(--color-neutral-400);
+}
+
+.tag--success {
+  background: var(--color-green-400);
+  color: var(--color-green-100);
+}
