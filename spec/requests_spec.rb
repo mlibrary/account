@@ -52,7 +52,8 @@ describe "requests" do
     end
   end
   context "get /fines" do
-    it "contains 'Requests'" do
+    it "contains 'Fines'" do
+      stub_alma_get_request(url: "users/tutor/fees")
       get "/fines"
       expect(last_response.body).to include("Fines")
     end
