@@ -22,6 +22,11 @@
     text-decoration: none;
     color: var(--color-neutral-400);
     font-weight: 600;
+
+    &:not(.active):hover {
+      text-decoration: underline;
+      text-decoration-thickness: 2px;
+    }
   }
 
   a.active {

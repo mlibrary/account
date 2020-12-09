@@ -1,7 +1,7 @@
 class Fees
   def initialize(parsed_response:)
     @parsed_response = parsed_response
-    @list = parsed_response["fee"].map{|l| Fee.new(l)}
+    @list = parsed_response["fee"]&.map{|l| Fee.new(l)}
   end
 
   def count
@@ -49,6 +49,12 @@ class Fee
   end
   def balance
     @parsed_response["balance"]&.to_currency
+  end
+  def type
+    @parsed_response["type"]["desc"]
+  end
+  def code
+    @parsed_response["type"]["value"]
   end
   def original_amount
     @parsed_response["original_amount"]&.to_currency
