@@ -132,7 +132,8 @@ body {
   /* Firefox */ }
 
 a {
-  color: var(--color-teal-400); }
+  color: var(--color-teal-400);
+  padding: 0.125rem 0; }
   a:hover {
     text-decoration-thickness: 2px; }
 
@@ -251,6 +252,9 @@ h4 {
   font-size: var(--text-small);
   font-weight: var(--bold); }
 
+table {
+  table-layout: fixed; }
+
 .layout {
   padding: 0 var(--space-medium);
   max-width: 1280px;
@@ -278,6 +282,12 @@ h4 {
   border-width: 1px;
   border-color: var(--color-neutral-100); }
 
+.table-container {
+  overflow-x: auto; }
+
+.content-max-width {
+  max-width: 38rem; }
+
 @media screen and (min-width: 820px) {
   .prose {
     font-size: var(--text-x-small); } }
@@ -289,6 +299,9 @@ h4 {
 .prose h3,
 .prose h4 {
   margin-top: var(--space-xx-large); }
+
+.prose > p {
+  max-width: 38rem; }
 
 .owl > * + * {
   margin-top: var(--space-medium); }
@@ -440,6 +453,9 @@ h4 {
   text-decoration: none;
   color: var(--color-neutral-400);
   font-weight: 600; }
+  .local-navigation a:not(.active):hover {
+    text-decoration: underline;
+    text-decoration-thickness: 2px; }
 
 .local-navigation a.active {
   color: var(--color-teal-400);
@@ -463,7 +479,7 @@ input[type="text"] {
   box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.1);
   border-radius: 4px;
   padding: var(--space-small);
-  margin: var(--space-xx-small) 0;
+  margin: 0;
   width: 100%; }
 
 button,
@@ -482,8 +498,7 @@ button,
   text-decoration: none;
   min-width: var(--space-xxx-large);
   min-height: var(--space-xxx-large);
-  font-weight: var(--bold);
-  transition: all 0.05s; }
+  font-weight: var(--bold); }
   button:hover,
   .button:hover {
     box-shadow: 0 0 0 2px white, 0 0 0 3px var(--color-neutral-400);
@@ -508,7 +523,6 @@ button,
   min-width: var(--space-xxx-large);
   min-height: var(--space-xxx-large);
   font-weight: var(--bold);
-  transition: all 0.05s;
   background: var(--color-blue-100);
   color: var(--color-teal-400); }
   .button--light:hover {
@@ -543,7 +557,6 @@ button,
       min-width: var(--space-xxx-large);
       min-height: var(--space-xxx-large);
       font-weight: var(--bold);
-      transition: all 0.05s;
       background: var(--color-blue-100);
       color: var(--color-teal-400); }
       .pagination .pagination-page .pagination-page-link:hover {
@@ -566,8 +579,7 @@ button,
         text-decoration: none;
         min-width: var(--space-xxx-large);
         min-height: var(--space-xxx-large);
-        font-weight: var(--bold);
-        transition: all 0.05s; }
+        font-weight: var(--bold); }
         .pagination .pagination-page .pagination-page-link[aria-current="true"]:hover {
           box-shadow: 0 0 0 2px white, 0 0 0 3px var(--color-neutral-400);
           border-radius: 4px !important; }
@@ -576,3 +588,52 @@ button,
   .pagination .pagination-heading {
     font-size: 1rem;
     margin: 0; }
+
+.message,
+.message--error,
+.message--success {
+  padding: var(--space-small) var(--space-medium); }
+
+.message {
+  background: var(--color-teal-100);
+  border-bottom: solid 1px var(--color-teal-400);
+  color: var(--color-teal-500); }
+
+.message--error {
+  background: var(--color-pink-100);
+  border-bottom: solid 1px var(--color-pink-400);
+  color: var(--color-pink-500); }
+
+.message--success {
+  background: var(--color-green-100);
+  border-bottom: solid 1px var(--color-green-400);
+  color: var(--color-green-500); }
+
+.text-notifications-label {
+  display: block;
+  margin-top: var(--space-medium); }
+
+.text-notifications-input-container {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-gap: var(--space-medium);
+  margin: var(--space-large) 0; }
+
+.tag,
+.tag--error,
+.tag--success {
+  display: inline-block;
+  padding: var(--space-xx-small) var(--space-x-small);
+  border-radius: 4px; }
+
+.tag {
+  background: var(--color-teal-400);
+  color: var(--color-teal-100); }
+
+.tag--error {
+  background: var(--color-pink-200);
+  color: var(--color-neutral-400); }
+
+.tag--success {
+  background: var(--color-green-400);
+  color: var(--color-green-100); }

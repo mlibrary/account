@@ -16,6 +16,8 @@ require_relative "./models/loans"
 require_relative "./models/requests"
 require_relative "./models/fees"
 
+helpers StyledFlash
+
 enable :sessions
 
 # :nocov:
@@ -90,9 +92,9 @@ end
 post '/renew-loan' do
   response = Loan.renew(uniqname: session[:uniqname], loan_id: params["loan_id"])
   if response.code == 200
-    flash[:success] = "Loan Successfully Renewed"
+    flash[:success] = "<strong>Success:</strong> Loan Successfully Renewed"
   else
-    flash[:error] = response.message
+    flash[:error] = "<strong>Error:</strong> #{response.message}"
   end
   redirect "shelf/loans"
 end
@@ -101,13 +103,14 @@ post '/sms' do
   patron = Patron.for(uniqname: session[:uniqname])
   response = patron.update_sms(params["phone-number"])
   if response.code == 200
-    flash[:success] = "SMS Successfully Updated"
+    flash[:success] = "<strong>Success:</strong> SMS Successfully Updated"
   else
-    flash[:error] = response.message
+    flash[:error] = "<strong>Error:</strong> #{response.message}"
   end
   redirect "/contact-information"
 end
 
 get '/fines' do
-  erb :fines
+  fines = Fees.for(uniqname: session[:uniqname])
+  erb :fines, :locals => { fines: fines }
 end
