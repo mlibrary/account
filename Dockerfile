@@ -11,7 +11,8 @@ RUN apt-get update -yqq && apt-get install -yqq --no-install-recommends \
 RUN curl -sL https://deb.nodesource.com/setup_12.x | bash -
 
 RUN apt-get update -yqq && apt-get install -yqq --no-install-recommends \
-  nodejs
+  nodejs \
+  vim
 
 RUN gem install bundler:2.1.4
 

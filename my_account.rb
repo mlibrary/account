@@ -88,16 +88,15 @@ get '/contact-information' do
 end
 
 post '/renew-loan' do
-  byebug
   response = Loan.renew(uniqname: session[:uniqname], loan_id: params["loan_id"])
   if response.code == 200
     flash[:success] = "Loan Successfully Renewed"
   else
     flash[:error] = response.message
   end
-  redirect URI(request.referrer).request_uri
-
+  redirect "shelf/loans"
 end
+
 post '/sms' do
   patron = Patron.for(uniqname: session[:uniqname])
   response = patron.update_sms(params["phone-number"])
