@@ -2,8 +2,8 @@ class Requests
   attr_reader :holds, :bookings
   def initialize(parsed_response:)
     @parsed_response = parsed_response
-    @holds = parsed_response["user_request"].select{ |r| r["request_type"] == 'HOLD' }.map{ |r| HoldRequest.new(r)}
-    @bookings = parsed_response["user_request"].select{ |r| r["request_type"] == 'BOOKING' }.map{ |r| BookingRequest.new(r)}
+    @holds = parsed_response["user_request"]&.select{ |r| r["request_type"] == 'HOLD' }&.map{ |r| HoldRequest.new(r)} || []
+    @bookings = parsed_response["user_request"]&.select{ |r| r["request_type"] == 'BOOKING' }&.map{ |r| BookingRequest.new(r)} || []
   end
   def count
     @parsed_response["total_record_count"]

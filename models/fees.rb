@@ -1,15 +1,15 @@
 class Fees
   def initialize(parsed_response:)
     @parsed_response = parsed_response
-    @list = parsed_response["fee"]&.map{|l| Fee.new(l)}
+    @list = parsed_response["fee"]&.map{|l| Fee.new(l)} || []
   end
 
   def count
-    @parsed_response["total_record_count"]
+    @parsed_response["total_record_count"] || 0
   end
 
   def total_sum
-    @parsed_response["total_sum"]
+    @parsed_response["total_sum"] || 0
   end
   def total_sum_in_dollars
     total_sum&.to_currency

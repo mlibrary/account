@@ -35,7 +35,7 @@
             "mms_id": "991246960000541",
             "process_status": "NORMAL",
             "publication_year": "c1984.",
-            "renewable": null,
+            "renewable": true,
             "title": "Basics of singing / [compiled by] Jan Schmidt.",
             "user_id": "jbister"
         },
@@ -74,7 +74,7 @@
             "mms_id": "991408490000541",
             "process_status": "NORMAL",
             "publication_year": "[1924].",
-            "renewable": null,
+            "renewable": true,
             "title": "Plain words on singing / by William Shakespeare ..",
             "user_id": "jbister"
         }

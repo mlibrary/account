@@ -20,10 +20,12 @@ helpers StyledFlash
 
 enable :sessions
 
+# :nocov:
 post '/session_switcher' do
   session[:uniqname] = params[:uniqname]
   redirect '/'
 end
+# :nocov:
 
 get '/' do
   session[:uniqname] = 'tutor' if !session[:uniqname]
@@ -64,13 +66,12 @@ namespace '/shelf' do
   end
   
   get '/past-loans' do
-    loans = Loans.for(uniqname: session[:uniqname]) 
+    #loans = Loans.for(uniqname: session[:uniqname]) 
   
-    erb :past_loans, :locals => { past_loans: loans }
+    erb :past_loans, :locals => { past_loans: {} }
   end
   
   get '/document-delivery' do
-    loans = Loans.for(uniqname: session[:uniqname]) 
   
     erb :document_delivery, :locals => { document_delivery: [] }
   end
@@ -95,9 +96,9 @@ post '/renew-loan' do
   else
     flash[:error] = "<strong>Error:</strong> #{response.message}"
   end
-  redirect URI(request.referrer).request_uri
-
+  redirect "shelf/loans"
 end
+
 post '/sms' do
   patron = Patron.for(uniqname: session[:uniqname])
   response = patron.update_sms(params["phone-number"])

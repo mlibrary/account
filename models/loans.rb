@@ -23,7 +23,7 @@ class Loans
     if errors.empty?
       Response.new
     else
-      messages = errors.map{|e| e.message}.join("\n")
+      messages = errors&.map{|e| e.message}&.join("\n") || ''
       Error.new(message: messages)
     end
   end
