@@ -103,7 +103,11 @@ post '/sms' do
   patron = Patron.for(uniqname: session[:uniqname])
   response = patron.update_sms(params["phone-number"])
   if response.code == 200
-    flash[:success] = "<strong>Success:</strong> SMS Successfully Updated"
+    if params["phone-number"] == ''
+      flash[:success] = "<strong>Success:</strong> SMS Successfully Removed"
+    else
+      flash[:success] = "<strong>Success:</strong> SMS Successfully Updated"
+    end
   else
     flash[:error] = "<strong>Error:</strong> #{response.message}"
   end

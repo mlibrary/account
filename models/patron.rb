@@ -17,7 +17,7 @@ class Patron
   end
 
   def update_sms(sms, client=AlmaClient.new, phone=TelephoneNumber.parse(sms, :US))
-    return Error.new(message: "Phone number #{sms} is invalid") unless phone.valid?
+    return Error.new(message: "Phone number #{sms} is invalid") unless phone.valid? || sms.empty?
     url = "/users/#{uniqname}"
     response = client.put(url, patron_with_internal_sms(phone.national_number)) 
     response.code == 200 ? response : AlmaError.new(response)
@@ -39,13 +39,35 @@ class Patron
   private
   def patron_with_internal_sms(sms_number)
     updated_patron = JSON.parse(@parsed_response.to_json)
-    phones = updated_patron["contact_info"]["phone"]
-    mobile = phones.find { |x| x["preferred_sms"] == true }
-    if mobile 
-      mobile["segment_type"] = "Internal"
-      mobile["phone_number"] = sms_number
-    else
-      phones.push({
+    
+    phones = updated_patron["contact_info"].delete("phone")
+    my_phones = phones.map{ |x| Phone.new(x)}
+    my_phones.delete_if{|x| x.sms?}
+    if sms_number != ''
+      my_phones.push(NewSMS.new(sms_number))
+    end
+
+    updated_patron["contact_info"]["phone"] = my_phones.map{|x| x.to_h}
+    
+    updated_patron
+  end
+
+  class Phone
+    attr_reader :phone
+    def initialize(phone)
+      @phone = phone
+    end
+    def to_h
+      @phone
+    end
+
+    def sms?
+      @phone["preferred_sms"] == true
+    end
+  end
+  class NewSMS < Phone
+    def initialize(sms_number)
+      @phone = {
         "phone_number"=> sms_number,
         "preferred"=> false,
         "preferred_sms"=> true,
@@ -53,10 +75,9 @@ class Patron
         "phone_type"=> [{
           "value"=> "mobile",
           "desc"=> "Mobile"
-        }]
-      })
+        }] 
+      }
     end
-    updated_patron
   end
 
   class Address
