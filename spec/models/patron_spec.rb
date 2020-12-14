@@ -58,6 +58,16 @@ describe Patron do
          expect(client_dbl).to receive(:put).with(anything, JSON.parse(@updated_patron))
          subject.update_sms(@new_phone, client_dbl)
        end
+       it "submits removed phone number when sent an empty number" do
+         response_dbl = double('response', code: 200)
+         client_dbl = instance_double(AlmaClient, put: response_dbl)
+
+         expected_sent_data = JSON.parse(@alma_response)
+         expected_sent_data["contact_info"]["phone"].delete_at(1)
+
+         expect(client_dbl).to receive(:put).with(anything, expected_sent_data)
+         subject.update_sms('', client_dbl)
+       end
     end
     context "uniqname" do
       it "returns string" do

@@ -101,15 +101,18 @@ describe "requests" do
       expect(last_response.body).to include("SMS Successfully Updated")
     end
     it "handles bad phone number update" do
-      phone_number = 'aaa'
-      new_phone_patron = JSON.parse(@patron_json)
-      new_phone_patron["contact_info"]["phone"][1]["phone_number"] = phone_number
 
-      stub_alma_put_request(url: "users/mrio", input: new_phone_patron.to_json, output: new_phone_patron.to_json)
-
-      post "/sms", {'phone-number' => phone_number}
+      post "/sms", {'phone-number' => 'aaa'}
       follow_redirect!
       expect(last_response.body).to include("is invalid")
+    end
+    it "handles phone number removal" do
+      new_phone_patron = JSON.parse(@patron_json)
+      new_phone_patron["contact_info"]["phone"].delete_at(1)
+      stub_alma_put_request(url: "users/mrio", input: new_phone_patron.to_json, output: new_phone_patron.to_json)
+      post "/sms", {'phone-number' => ''}
+      follow_redirect!
+      expect(last_response.body).to include("SMS Successfully Removed")
     end
   end
 end
