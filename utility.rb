@@ -3,6 +3,10 @@ class DateTime
   def self.patron_format(date)
     DateTime.parse(date).strftime("%b %-d, %Y")
   end
+
+  def self.timestamp
+    DateTime.now.strftime('%Q')
+  end
 end
 
 class Float
