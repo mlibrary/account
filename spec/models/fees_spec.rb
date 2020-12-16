@@ -1,6 +1,6 @@
 describe Fees do
   before(:each) do
-    stub_alma_get_request( url: 'users/jbister/fees', body: File.read("./spec/fixtures/jbister_fines.json") )
+    stub_alma_get_request( url: 'users/jbister/fees', body: File.read("./spec/fixtures/jbister_fines.json"), query: {limit: 100, offset: 0}  )
   end
   subject do
     described_class.for(uniqname: 'jbister')
@@ -17,7 +17,7 @@ describe Fees do
   end 
   context "#total_sum_in_dollars" do
     it "returns string of total amount of fines and fees due" do
-      expect(subject.total_sum_in_dollars).to eq("$25.00")
+      expect(subject.total_sum_in_dollars).to eq("25.00")
     end
   end 
   context "#each" do
@@ -27,6 +27,13 @@ describe Fees do
         fees_contents = fees_contents + fee.class.name
       end
       expect(fees_contents).to eq('FeeFee')
+    end
+  end
+  context "#select(['fee_id'])" do
+    it "returns array of selected fees" do
+      result = subject.select(['690390050000521'])
+      expect(result.count).to eq(1)
+      expect(result.first.title).to eq("The talent code : greatest isn't born. It's grown. Here's how. / Daniel Coyle.")
     end
   end
 
@@ -50,8 +57,8 @@ describe Fee do
     end
   end
   context "#balance" do
-    it "returns formatted balance string" do
-      expect(subject.balance).to eq("$22.23")
+    it "returns plain balance string" do
+      expect(subject.balance).to eq("22.23")
     end
   end
   context "#code" do
@@ -65,14 +72,23 @@ describe Fee do
     end
   end
   context "#original_amount" do
-    it "returns formatted original_amount string" do
-      expect(subject.original_amount).to eq("$25.00")
+    it "returns plain original_amount string" do
+      expect(subject.original_amount).to eq("25.00")
+    end
+  end
+  context "#library" do
+    it "returns string of library that owns the item" do
+      expect(subject.library).to eq("Main Library")
     end
   end
   context "#date" do
     it "returns date the fee was assessed" do
       expect(subject.date).to eq("Nov 10, 2015")
     end
-
+  end
+  context "#fee_id" do
+    it "returns fee id" do
+      expect(subject.fee_id).to eq("121319140000521")
+    end
   end
 end

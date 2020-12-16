@@ -53,7 +53,8 @@ describe "requests" do
   end
   context "get /fines" do
     it "contains 'Fines'" do
-      stub_alma_get_request(url: "users/tutor/fees")
+      stub_alma_get_request(url: "users/tutor/fees", query: {limit: 100, offset: 0}, 
+        body: File.read("spec/fixtures/jbister_fines.json"))
       get "/fines"
       expect(last_response.body).to include("Fines")
     end

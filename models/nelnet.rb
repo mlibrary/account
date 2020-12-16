@@ -1,6 +1,7 @@
 require 'digest'
 require 'securerandom'
 class Nelnet
+  attr_reader :orderNumber
   def initialize(amountDue:, 
                  redirectUrl:, 
                  orderDescription: 'U-M Library Circulation Fines', 

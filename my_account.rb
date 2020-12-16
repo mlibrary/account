@@ -2,6 +2,7 @@ require 'sinatra'
 require 'sinatra/namespace'
 require "sinatra/reloader"
 require "sinatra/flash"
+require 'jwt'
 require 'byebug' 
 
 require_relative "./models/response"
@@ -115,7 +116,28 @@ post '/sms' do
   redirect "/contact-information"
 end
 
-get '/fines' do
-  fines = Fees.for(uniqname: session[:uniqname])
-  erb :fines, :locals => { fines: fines }
+namespace '/fines' do
+  get '' do
+    fines = Fees.for(uniqname: session[:uniqname])
+    erb :fines, :locals => { fines: fines }
+  end
+  get '/' do
+    redirect_to ''
+  end
+  post '/pay' do
+    fine_ids = params["fines"].values
+    all_fines = Fees.for(uniqname: session[:uniqname])
+    selected_fines = all_fines.select(fine_ids)
+    amount = selected_fines.reduce(0) {|sum, f| sum + f.balance.to_f}
+    nelnet = Nelnet.new(amountDue: amount.to_currency, redirectUrl: "http://localhost:4567/fines/receipt")
+    orderNumber = nelnet.orderNumber
+    token = JWT.encode selected_fines.map{|x| x.to_h}, ENV.fetch('JWT_SECRET'), 'HS256'
+    session[orderNumber] = token
+    byebug
+    redirect_to ''
+  end
+  get '/receipt' do
+    items = JWT.decode(session[params["orderNumber"]], ENV.fetch('JWT_SECRET'), true, 'HS256')
+    receipt = ReceiptPresenter.new(params: params, items: items)
+  end
 end

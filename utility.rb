@@ -11,13 +11,13 @@ end
 
 class Float
   def to_currency
-    "$#{self}"
+    sprintf('%.2f',self)
   end
 end
 
 class Integer
   def to_currency
-    "$#{self}.00"
+    "#{self}.00"
   end
 end
 

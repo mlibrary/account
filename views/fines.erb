@@ -9,38 +9,38 @@
 </div>
 
 <% elsif %>
+  <form action="/fines/pay" method="post">
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Select</th>
+            <th>Title & Author</th>
+            <th>Status</th>
+            <th>Fine</th>
+          </tr>
+        </thead>
+        <tbody>
+        <% fines.each_with_index do |fine,index| %>
+          <tr>
+            <td><input type="checkbox" name="fines[<%=index%>]" value="<%=fine.fee_id%>" id="<%=fine.fee_id%>"></td>
+            <td><%= fine.title %></td>
+            <td><%= fine.type %></td>
+            <td><%= fine.balance %></td>
+          </tr>
+        <% end %>
+        </tbody>
+      </table>
+    </div>
 
-<div class="table-container">
-  <table>
-    <thead>
-      <tr>
-        <th>Title & Author</th>
-        <th>Status</th>
-        <th>Fine</th>
-      </tr>
-    </thead>
-    <tbody>
-    <% fines.each do |fine| %>
-      <tr>
-        <td><%= fine.title %></td>
-        <td><%= fine.type %></td>
-        <td><%= fine.balance %></td>
-      </tr>
-    <% end %>
-    </tbody>
-  </table>
-</div>
 
-
-<p>You have a total of <strong>$101.83</strong> fines due.</p>
+    <p>You have a total of <strong>$<%=fines.total_sum_in_dollars%></strong> fines due.</p>
 
 <% end %>
 
 <p><strong>Payments made are non-refundable</strong>. If you have questions or would like to contest a fine, please contact Hatcher Graduate Circulation before making any payments. Telephone: <a href="tel:734-764-0401">734-764-0401</a>. Email: <a href="glcirc@umich.edu">glcirc@umich.edu</a>. <a href="https://lib.umich.edu/find-borrow-request/borrow-and-return/reminders-and-overdue-items">Read more about fines</a>.</p>
 
 <% if fines.count > 0 %>
-<form method="post" action="TODO:halp-this-form-monique">
-  <input type="hidden" value="millions of $$$" />
-  <button>Pay fines</button>
+  <button type="submit">Pay fines</button>
 </form>
 <% end %>
