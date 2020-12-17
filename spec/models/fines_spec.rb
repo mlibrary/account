@@ -1,4 +1,4 @@
-describe Fees do
+describe Fines do
   before(:each) do
     stub_alma_get_request( url: 'users/jbister/fees', body: File.read("./spec/fixtures/jbister_fines.json"), query: {limit: 100, offset: 0}  )
   end
@@ -21,15 +21,15 @@ describe Fees do
     end
   end 
   context "#each" do
-    it "iterates over fee object" do
-      fees_contents = ''
-      subject.each do |fee|
-        fees_contents = fees_contents + fee.class.name
+    it "iterates over fine object" do
+      fines_contents = ''
+      subject.each do |fine|
+        fines_contents = fines_contents + fine.class.name
       end
-      expect(fees_contents).to eq('FeeFee')
+      expect(fines_contents).to eq('FineFine')
     end
   end
-  context "#select(['fee_id'])" do
+  context "#select(['fine_id'])" do
     it "returns array of selected fees" do
       result = subject.select(['690390050000521'])
       expect(result.count).to eq(1)
@@ -39,12 +39,12 @@ describe Fees do
 
 end
 
-describe Fee do
+describe Fine do
   before(:each) do
-    @fee_response = JSON.parse(File.read("./spec/fixtures/jbister_fines.json"))["fee"][0]
+    @fine_response = JSON.parse(File.read("./spec/fixtures/jbister_fines.json"))["fee"][0]
   end
   subject do
-    Fee.new(@fee_response) 
+    described_class.new(@fine_response) 
   end
   context "#title" do
     it "returns title string" do
@@ -62,12 +62,12 @@ describe Fee do
     end
   end
   context "#code" do
-    it "returns fee type code" do
+    it "returns fine type code" do
       expect(subject.code).to eq("OVERDUEFINE")
     end
   end
   context "#type" do
-    it "returns fee type" do
+    it "returns fine type" do
       expect(subject.type).to eq("Overdue fine")
     end
   end
@@ -82,13 +82,13 @@ describe Fee do
     end
   end
   context "#date" do
-    it "returns date the fee was assessed" do
+    it "returns date the fine was assessed" do
       expect(subject.date).to eq("Nov 10, 2015")
     end
   end
-  context "#fee_id" do
-    it "returns fee id" do
-      expect(subject.fee_id).to eq("121319140000521")
+  context "#id" do
+    it "returns fine id" do
+      expect(subject.id).to eq("121319140000521")
     end
   end
 end

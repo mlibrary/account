@@ -16,7 +16,7 @@ require_relative "./models/patron"
 require_relative "./models/item"
 require_relative "./models/loans"
 require_relative "./models/requests"
-require_relative "./models/fees"
+require_relative "./models/fines"
 
 helpers StyledFlash
 
@@ -118,7 +118,7 @@ end
 
 namespace '/fines' do
   get '' do
-    fines = Fees.for(uniqname: session[:uniqname])
+    fines = Fines.for(uniqname: session[:uniqname])
     erb :fines, :locals => { fines: fines }
   end
   get '/' do
@@ -126,7 +126,7 @@ namespace '/fines' do
   end
   post '/pay' do
     fine_ids = params["fines"].values
-    all_fines = Fees.for(uniqname: session[:uniqname])
+    all_fines = Fines.for(uniqname: session[:uniqname])
     selected_fines = all_fines.select(fine_ids)
     amount = selected_fines.reduce(0) {|sum, f| sum + f.balance.to_f}
     nelnet = Nelnet.new(amountDue: amount.to_currency, redirectUrl: "http://localhost:4567/fines/receipt")

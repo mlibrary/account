@@ -23,7 +23,7 @@
         <tbody>
         <% fines.each_with_index do |fine,index| %>
           <tr>
-            <td><input type="checkbox" name="fines[<%=index%>]" value="<%=fine.fee_id%>" id="<%=fine.fee_id%>"></td>
+            <td><input type="checkbox" name="fines[<%=index%>]" value="<%=fine.id%>" id="<%=fine.id%>"></td>
             <td><%= fine.title %></td>
             <td><%= fine.type %></td>
             <td><%= fine.balance %></td>

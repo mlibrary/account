@@ -1,7 +1,7 @@
-class Fees
+class Fines
   def initialize(parsed_response:)
     @parsed_response = parsed_response
-    @list = parsed_response["fee"]&.map{|l| Fee.new(l)} || []
+    @list = parsed_response["fee"]&.map{|l| Fine.new(l)} || []
   end
 
   def count
@@ -15,7 +15,7 @@ class Fees
     total_sum&.to_currency
   end
   def select(ids)
-    @list.select{|x| ids.include?(x.fee_id) }
+    @list.select{|x| ids.include?(x.id) }
   end
 
 
@@ -35,7 +35,7 @@ class Fees
     url = "/users/#{uniqname}/fees" 
     response = client.get_all(url: url, record_key: "fee" )
     if response.code == 200
-      Fees.new(parsed_response: response.parsed_response)
+      Fines.new(parsed_response: response.parsed_response)
     else
       #Error!
     end
@@ -43,11 +43,11 @@ class Fees
   
 end
 
-class Fee 
+class Fine 
   def initialize(parsed_response)
     @parsed_response = parsed_response
   end
-  def fee_id
+  def id
     @parsed_response["id"]
   end
   def title
@@ -79,7 +79,7 @@ class Fee
   end
   def to_h
     {
-      fee_id: fee_id,
+      id: id,
       balance: balance,
       title: title,
       barcode: barcode,
