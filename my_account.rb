@@ -11,12 +11,14 @@ require_relative "./models/pagination/pagination"
 require_relative "./models/pagination/pagination_decorator"
 require_relative "./models/alma_client"
 require_relative "./models/nelnet.rb"
+require_relative "./models/fine_payer.rb"
 
 require_relative "./models/patron"
 require_relative "./models/item"
 require_relative "./models/loans"
 require_relative "./models/requests"
 require_relative "./models/fines"
+
 
 helpers StyledFlash
 
@@ -125,16 +127,21 @@ namespace '/fines' do
     redirect_to ''
   end
   post '/pay' do
-    fine_ids = params["fines"].values
-    all_fines = Fines.for(uniqname: session[:uniqname])
-    selected_fines = all_fines.select(fine_ids)
-    amount = selected_fines.reduce(0) {|sum, f| sum + f.balance.to_f}
-    nelnet = Nelnet.new(amountDue: amount.to_currency, redirectUrl: "http://localhost:4567/fines/receipt")
-    orderNumber = nelnet.orderNumber
-    token = JWT.encode selected_fines.map{|x| x.to_h}, ENV.fetch('JWT_SECRET'), 'HS256'
-    session[orderNumber] = token
-    byebug
-    redirect_to ''
+    payer = FinePayer.new(uniqname: session[:uniqname], fine_ids: params["fines"].values)
+    session[payer.orderNumber] = payer.token
+    redirect payer.url
+    
+
+
+    #all_fines = Fines.for(uniqname: session[:uniqname])
+    #selected_fines = all_fines.select(fine_ids)
+    #amount = selected_fines.reduce(0) {|sum, f| sum + f.balance.to_f}
+    #nelnet = Nelnet.new(amountDue: amount.to_currency, redirectUrl: "http://localhost:4567/fines/receipt")
+    #orderNumber = nelnet.orderNumber
+    #token = JWT.encode selected_fines.map{|x| x.to_h}, ENV.fetch('JWT_SECRET'), 'HS256'
+    #session[orderNumber] = token
+    #byebug
+    #redirect_to ''
   end
   get '/receipt' do
     items = JWT.decode(session[params["orderNumber"]], ENV.fetch('JWT_SECRET'), true, 'HS256')

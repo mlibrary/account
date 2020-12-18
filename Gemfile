@@ -8,6 +8,7 @@ gem 'httparty'
 gem 'sinatra-flash'
 gem 'telephone_number'
 gem 'jwt'
+gem 'addressable'
 
 group :development, :test do
   gem 'pry'

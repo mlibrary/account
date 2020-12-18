@@ -116,4 +116,14 @@ describe "requests" do
       expect(last_response.body).to include("SMS Successfully Removed")
     end
   end
+  context "post /fines/pay" do
+    it "puts fine information in session and redirects to nelnet with amountDue" do
+      stub_alma_get_request( url: 'users/tutor/fees', body: File.read("./spec/fixtures/jbister_fines.json"), query: {limit: 100, offset: 0}  )
+      post "/fines/pay", {'fines' => {"0" => '690390050000521'}}
+      query = Addressable::URI.parse(last_response.location).query_values
+      expect(last_request.env['rack.session'].key?(query["orderNumber"])).to eq(true)
+      expect(query["amountDue"]).to eq("277")
+    end
+    
+  end
 end

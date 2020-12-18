@@ -1,9 +1,10 @@
 require 'digest'
 require 'securerandom'
 class Nelnet
+  include UrlHelper
   attr_reader :orderNumber
   def initialize(amountDue:, 
-                 redirectUrl:, 
+                 redirectUrl: absolute_url(path:'fines/receipt'), 
                  orderDescription: 'U-M Library Circulation Fines', 
                  orderType: 'UMLibraryCirc', 
                  timestamp: DateTime.timestamp, 

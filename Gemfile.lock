@@ -75,6 +75,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  addressable
   byebug
   climate_control
   httparty
