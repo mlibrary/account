@@ -39,6 +39,7 @@ class Fines
     else
       #Error!
     end
+     
   end
   
 end
@@ -46,6 +47,10 @@ end
 class Fine 
   def initialize(parsed_response)
     @parsed_response = parsed_response
+  end
+  def self.pay(uniqname:, fine_id:, balance:, client: AlmaClient.new)
+    client.post("/users/#{uniqname}/fees/#{fine_id}", 
+          {op: "pay", method: 'ONLINE', amount: balance})
   end
   def id
     @parsed_response["id"]

@@ -18,6 +18,7 @@ require_relative "./models/item"
 require_relative "./models/loans"
 require_relative "./models/requests"
 require_relative "./models/fines"
+require_relative "./models/receipt"
 
 
 helpers StyledFlash
@@ -130,21 +131,19 @@ namespace '/fines' do
     payer = FinePayer.new(uniqname: session[:uniqname], fine_ids: params["fines"].values)
     session[payer.orderNumber] = payer.token
     redirect payer.url
-    
-
-
-    #all_fines = Fines.for(uniqname: session[:uniqname])
-    #selected_fines = all_fines.select(fine_ids)
-    #amount = selected_fines.reduce(0) {|sum, f| sum + f.balance.to_f}
-    #nelnet = Nelnet.new(amountDue: amount.to_currency, redirectUrl: "http://localhost:4567/fines/receipt")
-    #orderNumber = nelnet.orderNumber
-    #token = JWT.encode selected_fines.map{|x| x.to_h}, ENV.fetch('JWT_SECRET'), 'HS256'
-    #session[orderNumber] = token
-    #byebug
-    #redirect_to ''
   end
   get '/receipt' do
-    items = JWT.decode(session[params["orderNumber"]], ENV.fetch('JWT_SECRET'), true, 'HS256')
-    receipt = ReceiptPresenter.new(params: params, items: items)
+    if Nelnet.verify(params) 
+      items = JWT.decode(session[params["orderNumber"]], ENV.fetch('JWT_SECRET'), true, {algorithm: 'HS256'})[0]
+      items.each do item
+        Fine.pay(uniqname: session[:uniqname], id: item["id"])
+      end
+      receipt = Receipt.new(nelnet_params: params, items: items)
+      flash[:success] = "Fines successfully paid"
+    else
+      receipt = InvalidReceipt.new
+      flash[:error] = "Could not Valididate"
+    end
+    erb :receipt, :locals => {receipt: receipt, items: receipt.items, payment: receipt.payment}
   end
 end

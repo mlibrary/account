@@ -1,6 +1,6 @@
 ALMA_API_KEY='YOUR_ALMA_API_KEY'
 ALMA_API_HOST='https://api-na.hosted.exlibrisgroup.com'
 NELNET_SECRET_KEY = 'secretkey'
-NELNET_PAYMENT_URL = 'https://example.com'
+NELNET_PAYMENT_URL = 'http://localhost:4444'
 JWT_SECRET = 'myjwtsecret'
-PATRON_ACCOUNT_BASE_URL = 'http://localhost'
+PATRON_ACCOUNT_BASE_URL = 'http://localhost:4567'

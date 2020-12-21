@@ -2,7 +2,7 @@ require 'spec_helper'
 describe Nelnet  do
   context "#url" do
     it 'returns proper url' do
-      with_modified_env NELNET_SECRET_KEY: 'secret', NELNET_PAYMENT_URL: 'http://mynelnet.com' do
+      with_modified_env NELNET_SECRET_KEY: 'secretkey', NELNET_PAYMENT_URL: 'http://mynelnet.com' do
         redirectUrl  = 'http://mypatronacount.com/payment'
         timestamp = '12345'
         orderNumber = '1111.12345'
@@ -10,7 +10,7 @@ describe Nelnet  do
         orderDescription = 'U-M Library Circulation Fines'
         redirectParams = 
       "transactionType,transactionStatus,transactionId,transactionTotalAmount,transactionDate,transactionAcountType,transactionResultCode,transactionResultMessage,orderNumber,orderType,orderDescription,payerFullName,actualPayerFullName,accountHolderName,streetOne,streetTwo,city,state,zip,country,email"
-        values = orderNumber + orderType + orderDescription + '1256' + redirectUrl + redirectParams + '1' + timestamp + 'secret'
+        values = orderNumber + orderType + orderDescription + '1256' + redirectUrl + redirectParams + '1' + timestamp + 'secretkey'
         hash = Digest::SHA256.hexdigest values
         expected_url = "http://mynelnet.com?orderNumber=#{orderNumber}&orderType=#{orderType}&orderDescription=#{orderDescription}&amountDue=1256&redirectUrl=#{redirectUrl}&redirectUrlParameters=#{redirectParams}&retriesAllowed=1&timestamp=#{timestamp}&hash=#{hash}"
 

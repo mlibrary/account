@@ -92,3 +92,9 @@ describe Fine do
     end
   end
 end
+describe Fine, "self.pay" do
+  it "posts to Alma with user fine info" do
+    stub_alma_post_request(url: "users/jbister/fees/1234", query: {op: 'pay', amount: "1.00", method: "ONLINE"}, body: 'Success')
+    expect(Fine.pay(uniqname: 'jbister', fine_id: '1234', balance: '1.00').body).to eq('Success')
+  end
+end
