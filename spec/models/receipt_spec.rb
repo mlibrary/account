@@ -1,4 +1,23 @@
 require 'spec_helper'
+describe Receipt, '.for' do
+  before(:each) do
+    @items = [{
+      "id"=>"1384289260006381",
+      "balance"=>"5.00",
+      "title"=>"Short history of Georgia.",
+      "barcode"=>"95677",
+      "library"=>"Main Library",
+      "type"=>"Overdue fine",
+      "creation_time"=>"2020-12-09T17:13:29.959Z"
+    }]
+  end
+  it 'returns an InvalidReceipt with error messages for failed Alma Update' do
+    stub_alma_post_request( url: 'users/tutor/fees/1384289260006381', query: {op: "pay", method: 'ONLINE', amount: '5.00'}, body: File.read('spec/fixtures/alma_error.json'), status: 500  )
+    receipt = Receipt.for(uniqname: 'tutor', items: @items, nelnet_params: {}, is_valid: true)
+    expect(receipt.class.name).to eq('InvalidReceipt')
+    expect(receipt.message).to eq('User with identifier mrioaaa was not found.')
+  end
+end
 describe Receipt::Item do
   before(:each) do
     @params = {

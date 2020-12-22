@@ -25,8 +25,9 @@ class Nelnet
   end
 
   def self.verify(params)
-    hash = params.delete('hash')
-    string = CGI.unescape(params.values.join('') + ENV.fetch('NELNET_SECRET_KEY'))
+    hash = params['hash']
+    values = params.to_a.select{|key, value| key != 'hash'}.to_h.values.join('')
+    string = CGI.unescape(values + ENV.fetch('NELNET_SECRET_KEY'))
     hash == (Digest::SHA256.hexdigest string)
 
   end

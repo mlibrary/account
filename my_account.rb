@@ -30,6 +30,19 @@ post '/session_switcher' do
   session[:uniqname] = params[:uniqname]
   redirect '/'
 end
+get '/receipt_test' do
+  items = [{ "id"=>"1384289260006381", "balance"=>"5.00", "title"=>"Short history of Georgia.", "barcode"=>"95677", "library"=>"Main Library", "type"=>"Overdue fine", "creation_time"=>"2020-12-09T17:13:29.959Z" }]
+  nelnet_params =  { "transactionType"=>"1", "transactionStatus"=>"1", "transactionId"=>"382481568", "transactionTotalAmount"=>"2250", "transactionDate"=>"202001211341", "transactionAcountType"=>"VISA", "transactionResultCode"=>"267849", "transactionResultMessage"=>"Approved and completed", "orderNumber"=>"Afam.1608566536797", "orderType"=>"UMLibraryCirc", "orderDescription"=>"U-M Library Circulation Fines", "payerFullName"=>"Aardvark Jones", "actualPayerFullName"=>"Aardvark Jones", "accountHolderName"=>"Aardvark Jones", "streetOne"=>"555 S STATE ST", "streetTwo"=>"", "city"=>"Ann Arbor", "state"=>"MI", "zip"=>"48105", "country"=>"UNITED STATES", "email"=>"aardvark@umich.edu", "timestamp"=>"1579628471900", "hash"=>"33c52c83a5edd6755a5981368028b55238a01a918570b0552836db3250b2ed6c" }
+
+  if params["invalid"] == 'true'
+    receipt = InvalidReceipt.new('Could not Validate Transaction')
+    flash.now[:error] = receipt.message
+  else
+    receipt = Receipt.new( items: items, nelnet_params: nelnet_params)
+    flash.now[:success] = "Fines successfully paid"
+  end
+  erb :receipt, :locals => {receipt: receipt, items: receipt.items, payment: receipt.payment}
+end
 # :nocov:
 
 get '/' do
@@ -124,26 +137,31 @@ namespace '/fines' do
     fines = Fines.for(uniqname: session[:uniqname])
     erb :fines, :locals => { fines: fines }
   end
+
   get '/' do
     redirect_to ''
   end
+
   post '/pay' do
     payer = FinePayer.new(uniqname: session[:uniqname], fine_ids: params["fines"].values)
     session[payer.orderNumber] = payer.token
     redirect payer.url
   end
+
   get '/receipt' do
-    if Nelnet.verify(params) 
-      items = JWT.decode(session[params["orderNumber"]], ENV.fetch('JWT_SECRET'), true, {algorithm: 'HS256'})[0]
-      items.each do item
-        Fine.pay(uniqname: session[:uniqname], id: item["id"])
-      end
-      receipt = Receipt.new(nelnet_params: params, items: items)
-      flash[:success] = "Fines successfully paid"
+    token = session[params["orderNumber"]]
+    items = []
+    if token 
+      items = JWT.decode(token, ENV.fetch('JWT_SECRET'), true, {algorithm: 'HS256'}).first 
+    end
+
+    receipt = Receipt.for(uniqname: session[:uniqname], items: items, nelnet_params: params)
+    if receipt.valid?
+      flash.now[:success] = "Fines successfully paid"
     else
-      receipt = InvalidReceipt.new
-      flash[:error] = "Could not Valididate"
+      flash.now[:error] = receipt.message 
     end
     erb :receipt, :locals => {receipt: receipt, items: receipt.items, payment: receipt.payment}
   end
+
 end

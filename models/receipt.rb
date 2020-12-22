@@ -4,6 +4,27 @@ class Receipt
     @payment = Payment.new(nelnet_params)
     @items = items.map{|x| Item.new(x)}
   end
+  def self.for(uniqname:, items:, nelnet_params:, 
+               is_valid: Nelnet.verify(nelnet_params), 
+               error_factory: lambda{|resp| AlmaError.new(resp)}
+              )
+    if is_valid
+      errors = []
+      items.each do |item|
+        resp = Fine.pay(uniqname: uniqname, fine_id: item["id"], balance: item["balance"])
+        errors.push(error_factory.call(resp)) if resp.code != 200  
+      end
+
+      if errors.empty?
+        return Receipt.new(items: items, nelnet_params: nelnet_params)
+      else
+        message = errors.filter_map{|e| e.message unless e.message.empty? }.join(' ')
+        InvalidReceipt.new(message)
+      end
+    else
+      return InvalidReceipt.new('Could not Validate')
+    end
+  end
   def valid?
     true
   end
@@ -42,7 +63,9 @@ class Receipt
 
 end
 class InvalidReceipt < Receipt
-  def initialize
+  attr_reader :message
+  def initialize(message)
+    @message = message
   end
   def valid?
     false

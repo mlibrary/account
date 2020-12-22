@@ -124,6 +124,63 @@ describe "requests" do
       expect(last_request.env['rack.session'].key?(query["orderNumber"])).to eq(true)
       expect(query["amountDue"]).to eq("277")
     end
-    
+  end
+  context "post /fines/receipt" do
+    before(:each) do
+      @params = {
+        "transactionType"=>"1", 
+        "transactionStatus"=>"1", 
+        "transactionId"=>"382481568",
+        "transactionTotalAmount"=>"2250",
+        "transactionDate"=>"202001211341",
+        "transactionAcountType"=>"VISA",
+        "transactionResultCode"=>"267849",
+        "transactionResultMessage"=>"Approved and completed",
+        "orderNumber"=>"Afam.1608566536797",
+        "orderType"=>"UMLibraryCirc",
+        "orderDescription"=>"U-M Library Circulation Fines",
+        "payerFullName"=>"Aardvark Jones",
+        "actualPayerFullName"=>"Aardvark Jones",
+        "accountHolderName"=>"Aardvark Jones",
+        "streetOne"=>"555 S STATE ST",
+        "streetTwo"=>"",
+        "city"=>"Ann Arbor",
+        "state"=>"MI",
+        "zip"=>"48105",
+        "country"=>"UNITED STATES",
+        "email"=>"aardvark@umich.edu",
+        "timestamp"=>"1579628471900",
+        "hash"=>"9baaee6c2a0ee08c63bbbcc0435360b0d5ecef1de876b68d59956c0752fed836"
+      }
+      @item = {
+        "id"=>"1384289260006381",
+        "balance"=>"5.00",
+        "title"=>"Short history of Georgia.",
+        "barcode"=>"95677",
+        "library"=>"Main Library",
+        "type"=>"Overdue fine",
+        "creation_time"=>"2020-12-09T17:13:29.959Z"
+      }
+    end
+    it "for valid params, retrieves items from session, updates Alma, sets success flash, prints receipt" do
+      with_modified_env NELNET_SECRET_KEY: 'secret', JWT_SECRET: 'secret' do
+        stub_alma_post_request( url: 'users/tutor/fees/1384289260006381', query: {op: "pay", method: 'ONLINE', amount: '5.00'}  )
+        token = JWT.encode [@item], ENV.fetch('JWT_SECRET'), 'HS256'
+
+        env 'rack.session', 'Afam.1608566536797' => token, uniqname: 'tutor'
+        get "/fines/receipt", @params 
+        expect(last_response.body).to include("Fines successfully paid")
+      end
+    end
+    it "for invalid params,  sets fail flash" do
+      with_modified_env NELNET_SECRET_KEY: 'incorect_secret', JWT_SECRET: 'secret' do
+
+        get "/fines/receipt", @params 
+        expect(last_response.body).to include("Could not Validate")
+      end
+    end
+    def with_modified_env(options, &block)
+      ClimateControl.modify(options, &block)
+    end
   end
 end
