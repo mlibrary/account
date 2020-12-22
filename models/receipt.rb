@@ -20,20 +20,22 @@ class Receipt
     end
   end
   class Payment
-    attr_reader :orderNumber, :description, :payer_name, :email, :time, 
-      :street, :city, :state, :zip, :country
+    attr_reader :orderNumber, :description, :amount, :payer_name, :type,
+      :email, :date, :street, :city, :state, :zip, :country
     def initialize(params)
       @orderNumber = params["orderNumber"]
       @description = params["orderDescription"]
-      @payer_name = params["actualPayerFullName"]
+      @amount = (params["transactionTotalAmount"].to_f / 100 ).to_currency
+      @type = params["transactionAcountType"]
+      @payer_name = params["accountHolderName"]
       @transaction_message = params["transactionResultMessage"]
       @email = params["email"]
-      @time = params["timestamp"]
+      @date = DateTime.parse(params["transactionDate"]).strftime("%b %d, %Y %H:%M")
       @street = [params["streetOne"], params["streetTwo"]].select{|x| !x.empty?}.join('<br/>')
       @city = params["city"]
       @state = params["state"]
       @zip = params["zip"]
-      @country = params["country"]
+      @country = params["country"] == 'UNITED STATES' ? '' : params["country"]
     end
 
   end

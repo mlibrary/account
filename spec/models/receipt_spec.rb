@@ -58,7 +58,7 @@ describe Receipt::Payment do
       "transactionStatus"=>"1", 
       "transactionId"=>"382481568",
       "transactionTotalAmount"=>"2250",
-      "transactionDate"=>"202001211241",
+      "transactionDate"=>"202001211341",
       "transactionAcountType"=>"VISA",
       "transactionResultCode"=>"267849",
       "transactionResultMessage"=>"Approved and completed",
@@ -82,6 +82,16 @@ describe Receipt::Payment do
   subject do
     described_class.new(@params)
   end
+  context "#amount" do
+    it "returns string" do
+      expect(subject.amount).to eq('22.50')
+    end
+  end
+  context "#type" do
+    it "returns string" do
+      expect(subject.type).to eq('VISA')
+    end
+  end
   context "#orderNumber" do
     it "returns string" do
       expect(subject.orderNumber).to eq('Afam.1608566536797')
@@ -102,9 +112,9 @@ describe Receipt::Payment do
       expect(subject.email).to eq('aardvark@umich.edu')
     end
   end
-  context "#time" do
+  context "#date" do
     it "returns string" do
-      expect(subject.time).to eq('1579628471900')
+      expect(subject.date).to eq('Jan 21, 2020 13:41')
     end
   end
   context "#street" do
@@ -132,8 +142,12 @@ describe Receipt::Payment do
     end
   end
   context "#country" do
-    it "returns string" do
-      expect(subject.country).to eq('UNITED STATES')
+    it "returns empty string if country is UNITED STATES" do
+      expect(subject.country).to eq('')
+    end
+    it "returns country if not UNITED STATES" do
+      @params["country"] = 'CANADA'
+      expect(subject.country).to eq('CANADA')
     end
   end
 end
