@@ -160,7 +160,7 @@ describe Loans do
       stub_alma_post_request( status: 500, url: 'users/jbister/loans/1234', body: error, query: {op: 'renew'} )
       stub_alma_post_request( status: 500, url: 'users/jbister/loans/5678', body: error, query: {op: 'renew'} )
       expect(subject.code).to eq(500)
-      expect(subject.message).to eq("Error: User with identifier mrioaaa was not found.\nError: User with identifier mrioaaa was not found.")
+      expect(subject.message).to eq("User with identifier mrioaaa was not found.\nUser with identifier mrioaaa was not found.")
     end
   end
   context ".renew_all(uniqname:)" do
@@ -189,6 +189,6 @@ describe Loan, ".renew(loan_id:, uniqname:)" do
   it "returns alma error" do
     stub_alma_post_request( url: 'users/jbister/loans/1234', body: File.read('./spec/fixtures/alma_error.json'), query: {op: 'renew'}, status: 400 )
     expect(subject.code).to eq(400)
-    expect(subject.message).to eq("Error: User with identifier mrioaaa was not found.")
+    expect(subject.message).to eq("User with identifier mrioaaa was not found.")
   end
 end

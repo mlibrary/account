@@ -1,7 +1,7 @@
-class Fees
+class Fines
   def initialize(parsed_response:)
     @parsed_response = parsed_response
-    @list = parsed_response["fee"]&.map{|l| Fee.new(l)} || []
+    @list = parsed_response["fee"]&.map{|l| Fine.new(l)} || []
   end
 
   def count
@@ -14,6 +14,9 @@ class Fees
   def total_sum_in_dollars
     total_sum&.to_currency
   end
+  def select(ids)
+    @list.select{|x| ids.include?(x.id) }
+  end
 
 
   def each(&block)
@@ -22,21 +25,35 @@ class Fees
     end
   end
 
+  def each_with_index(&block)
+    @list.each_with_index do |l, index|
+      block.call(l, index)
+    end
+  end
+
   def self.for(uniqname:, client: AlmaClient.new)
     url = "/users/#{uniqname}/fees" 
-    response = client.get(url)
+    response = client.get_all(url: url, record_key: "fee" )
     if response.code == 200
-      Fees.new(parsed_response: response.parsed_response)
+      Fines.new(parsed_response: response.parsed_response)
     else
       #Error!
     end
+     
   end
   
 end
 
-class Fee 
+class Fine 
   def initialize(parsed_response)
     @parsed_response = parsed_response
+  end
+  def self.pay(uniqname:, fine_id:, balance:, client: AlmaClient.new)
+    client.post("/users/#{uniqname}/fees/#{fine_id}", 
+          {op: "pay", method: 'ONLINE', amount: balance})
+  end
+  def id
+    @parsed_response["id"]
   end
   def title
     @parsed_response["title"]
@@ -58,5 +75,22 @@ class Fee
   end
   def original_amount
     @parsed_response["original_amount"]&.to_currency
+  end
+  def library
+    @parsed_response["owner"]["desc"]
+  end
+  def creation_time
+    @parsed_response["creation_time"]
+  end
+  def to_h
+    {
+      id: id,
+      balance: balance,
+      title: title,
+      barcode: barcode,
+      library: library,
+      type: type,
+      creation_time: creation_time,
+    }
   end
 end

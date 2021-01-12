@@ -1,0 +1,8 @@
+<h1>Receipt</h1>
+
+<% if receipt.valid? %>
+  <%= payment.payer_name %></br>
+  <%= items.first.title %>
+<% else %>
+  Could not validate
+<% end %>
