@@ -133,7 +133,8 @@ body {
 
 a {
   color: var(--color-teal-400);
-  padding: 0.125rem 0; }
+  padding: 0.125rem 0;
+  text-decoration: underline; }
   a:hover {
     text-decoration-thickness: 2px; }
 
