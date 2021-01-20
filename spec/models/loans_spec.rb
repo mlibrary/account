@@ -51,6 +51,18 @@ describe Loans do
       end
     end
   end
+  context "sort" do
+    before(:each) do
+      one_loan = JSON.parse(File.read("./spec/fixtures/loans.json"))
+      @loan = one_loan["item_loan"].delete_at(0).to_json
+    end
+    it "requests loans reverse sorted by title" do
+      stub_alma_get_request( url: 'users/jbister/loans', body: @loan, query: {"expand" => "renewable", "offset" => 1, "limit" => 1, "direction" => "DESC", "order_by" => "title"} )
+      loans = Loans.for(uniqname: 'jbister', offset: 1, limit: 1, direction: "DESC", order_by: "title")
+      expect(loans.pagination.next.url).to include("direction=DESC")
+      expect(loans.pagination.next.url).to include("order_by=title")
+    end
+  end
   context "pagination" do
     before(:each) do
       one_loan = JSON.parse(File.read("./spec/fixtures/loans.json"))
