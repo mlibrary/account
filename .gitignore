@@ -12,3 +12,4 @@ coverage
 .gem/
 .bundle/
 .bash_history
+.irb_history
