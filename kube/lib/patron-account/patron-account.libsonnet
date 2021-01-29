@@ -33,24 +33,11 @@
         ]
       ),
 
-      service: $.util.serviceFor(self.deployment),
-
-      ingress: ingress.new() + ingress.mixin.metadata.withName(config.web.name)
-               + ingress.mixin.metadata.withAnnotations({
-                 'cert-manager.io/cluster-issuer': 'letsencrypt-prod',
-               }) + ingress.mixin.spec.withRules({
-        host: config.web.host,
-        http: { paths: [{
-          path: '/',
-          backend: {
-            serviceName: config.web.name,
-            servicePort: config.web.port,
-          },
-        }] },
-      }) + ingress.mixin.spec.withTls({
-        secretName: '%s-tls' % config.web.name,
-        hosts: [config.web.host],
-      }),
+      service: $.util.serviceFor(self.deployment) + $.core.v1.service.mixin.spec.withPorts($.core.v1.service.mixin.spec.portsType.newNamed(
+        name=config.web.name,
+        port=80,
+        targetPort=config.web.port,
+      )),
     },
   },
 }
