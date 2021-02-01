@@ -9,6 +9,9 @@ gem 'sinatra-flash'
 gem 'telephone_number'
 gem 'jwt'
 gem 'addressable'
+gem 'omniauth'
+gem 'omniauth_openid_connect'
+
 
 group :development, :test do
   gem 'pry'

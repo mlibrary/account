@@ -2,6 +2,8 @@ require 'sinatra'
 require 'sinatra/namespace'
 require "sinatra/reloader"
 require "sinatra/flash"
+require 'omniauth'
+require 'omniauth_openid_connect'
 require 'jwt'
 require 'byebug' 
 
@@ -24,6 +26,15 @@ require_relative "./models/receipt"
 helpers StyledFlash
 
 enable :sessions
+use OmniAuth::Builder do
+  provider :openid_connect, {
+    issuer: "https://dex.kubernetes.lib.umich.edu",
+    client_options: {
+      identifier: 'patron-account-testing',
+      secret: 'patronaccountdexsecret',
+    } 
+  }
+end
 
 # :nocov:
 post '/session_switcher' do
