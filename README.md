@@ -17,12 +17,16 @@ copy .env-example directory to .env
 cp -r .env-example .env
 ```
 
-edit .env/development/web with Alma Credentials
+edit .env/development/web with Alma Credentials. Leave the lines after ALMA_API_KEY alone. They are all set for development. 
 
 ```ruby
 #.env/development/web
 ALMA_API_KEY='YOURAPIKEY'
 ALMA_API_HOST='https://api-na.hosted.exlibrisgroup.com'
+NELNET_SECRET_KEY = 'secretkey'
+NELNET_PAYMENT_URL = 'http://localhost:4444'
+JWT_SECRET = 'myjwtsecret'
+PATRON_ACCOUNT_BASE_URL = 'http://localhost:4567'
 ```
 
 build web container

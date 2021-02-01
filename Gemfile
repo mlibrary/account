@@ -7,6 +7,8 @@ gem 'sinatra'
 gem 'httparty'
 gem 'sinatra-flash'
 gem 'telephone_number'
+gem 'jwt'
+gem 'addressable'
 
 group :development, :test do
   gem 'pry'
@@ -16,5 +18,6 @@ group :development, :test do
   gem 'sinatra-contrib'
   gem 'webmock'
   gem 'simplecov'
+  gem 'climate_control'
 end
 

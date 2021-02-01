@@ -133,7 +133,8 @@ body {
 
 a {
   color: var(--color-teal-400);
-  padding: 0.125rem 0; }
+  padding: 0.125rem 0;
+  text-decoration: underline; }
   a:hover {
     text-decoration-thickness: 2px; }
 
@@ -385,10 +386,14 @@ table {
   background: var(--color-blue-400);
   color: var(--color-blue-100);
   padding: var(--space-xxx-large) 0; }
-  .site-footer__content .m-details-xxx-small {
-    color: var(--color-blue-200); }
   .site-footer__content h2 {
-    margin-bottom: var(--space-medium); }
+    color: var(--color-blue-200);
+    margin-bottom: var(--space-medium);
+    letter-spacing: 1.25px;
+    text-transform: uppercase;
+    font-size: 14px;
+    font-weight: var(--bold);
+    font-family: var(--font-base-family); }
 
 .site-footer__disclaimer {
   background: var(--color-blue-500);

@@ -7,12 +7,14 @@
   color: var(--color-blue-100);
   padding: var(--space-xxx-large) 0;
 
-  .m-details-xxx-small {
-    color: var(--color-blue-200);
-  }
-
   h2 {
+    color: var(--color-blue-200);
     margin-bottom: var(--space-medium);
+    letter-spacing: 1.25px;
+    text-transform: uppercase;
+    font-size: 14px;
+    font-weight: var(--bold);
+    font-family: var(--font-base-family);
   }
 }
 

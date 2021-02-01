@@ -39,7 +39,7 @@ describe Patron do
         )
          result = subject.update_sms(@new_phone)  
          expect(result.code).to eq(500)
-         expect(result.message).to eq('Error: User with identifier mrioaaa was not found.')
+         expect(result.message).to eq('User with identifier mrioaaa was not found.')
        end
        it "rejects invalid phone number" do
          result = subject.update_sms('aaa1234')  
@@ -132,7 +132,7 @@ describe Patron do
     context "#code" do
       it "returns error code" do
         expect(subject.code).to eq(400)
-        expect(subject.message).to eq('Error: User with identifier mrioaaa was not found.')
+        expect(subject.message).to eq('User with identifier mrioaaa was not found.')
       end
     end
   end

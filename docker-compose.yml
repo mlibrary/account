@@ -11,6 +11,15 @@ services:
     env_file:
       - .env/development/web
         
+  nelnet-test:
+    build: ./nelnet_test/.
+    ports: 
+      - "4444:4567"
+    volumes:
+      - ./nelnet_test/.:/app
+    env_file:
+      - .env/development/web
+
   sass:
     build: .
     volumes:
