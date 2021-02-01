@@ -11,8 +11,8 @@
   },
 
   _images+:: {
-    // patron_account: {
-    //   web: 'mlibrary/patron-account-unstable',
-    // },
+    patron_account: {
+      web: 'mlibrary/patron-account-unstable:830ce82176d418fc78ee33047ac74bfc0622b2e6',
+    },
   },
 }
