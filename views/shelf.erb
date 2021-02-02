@@ -1,14 +1,16 @@
-<h1>Shelf</h1>
+<h1 aria-hidden="true">Shelf</h1>
 
-<%= erb :shelf_navigation %>
+<nav aria-labeledby="shelf-heading" class="shelf-navigation-container">
+  <h1 class="h2 shelf-heading" id="shelf-heading"><span class="visually-hidden">Shelf: </span>Current loans</h1>
+
+  <%= erb :shelf_navigation %>
+</nav>
 
 <% if loans.count == 0 %>
 
 <%= erb :loans_empty_state %>
 
 <% elsif %>
-
-<h2>Current loans</h2>
 
 <!--
 

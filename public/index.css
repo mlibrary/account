@@ -241,9 +241,12 @@ h1 {
   line-height: var(--line-height-page-heading);
   margin-bottom: var(--space-large); }
 
-h2 {
+h2,
+.h2 {
+  font-family: var(--font-base-family);
   font-size: var(--text-large);
-  font-weight: var(--bold); }
+  font-weight: var(--bold);
+  line-height: auto; }
 
 h3 {
   font-size: var(--text-medium);
@@ -476,6 +479,15 @@ table {
     padding-right: var(--space-x-large); }
   .loans-empty-state-container img {
     width: 40%; }
+
+.shelf-navigation-container {
+  display: flex;
+  flex-direction: column; }
+  .shelf-navigation-container .shelf-heading {
+    margin-top: var(--space-xx-large);
+    order: 2; }
+  .shelf-navigation-container .local-navigation {
+    order: 1; }
 
 input[type="text"] {
   font-size: 1rem;
