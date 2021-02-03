@@ -46,7 +46,7 @@ describe Patron do
          expect(result.code).to eq(500)
          expect(result.message).to eq('Phone number aaa1234 is invalid')
        end
-       it "submits submits internal phone number for non_existent number" do
+       it "submits internal phone number for non_existent number" do
          my_response = JSON.parse(@alma_response)
          my_response["contact_info"]["phone"].delete_at(1)
          stub_alma_get_request(
@@ -54,18 +54,18 @@ describe Patron do
            body: my_response.to_json
          )
          response_dbl = double('response', code: 200)
-         client_dbl = instance_double(AlmaClient, put: response_dbl)
-         expect(client_dbl).to receive(:put).with(anything, JSON.parse(@updated_patron))
+         client_dbl = instance_double(AlmaRestClient::Client, put: response_dbl)
+         expect(client_dbl).to receive(:put).with(anything, @updated_patron)
          subject.update_sms(@new_phone, client_dbl)
        end
        it "submits removed phone number when sent an empty number" do
          response_dbl = double('response', code: 200)
-         client_dbl = instance_double(AlmaClient, put: response_dbl)
+         client_dbl = instance_double(AlmaRestClient::Client, put: response_dbl)
 
          expected_sent_data = JSON.parse(@alma_response)
          expected_sent_data["contact_info"]["phone"].delete_at(1)
 
-         expect(client_dbl).to receive(:put).with(anything, expected_sent_data)
+         expect(client_dbl).to receive(:put).with(anything, expected_sent_data.to_json)
          subject.update_sms('', client_dbl)
        end
     end

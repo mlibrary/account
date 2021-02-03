@@ -1,11 +1,14 @@
 class PaginationDecorator
   def initialize(url:,
                  current_offset: 0, total:, limit: 10,
+                 direction: 'ASC', order_by: 'id',
                  base_pagination: Pagination.new(current_offset: current_offset, total: total, limit: limit)
                 )
     @base_pagination = base_pagination
     @url = url
     @limit = limit
+    @direction = direction
+    @order_by = order_by
   end
   def first
     @base_pagination.first
@@ -48,6 +51,8 @@ class PaginationDecorator
     query = []
     query.push("offset=#{offset}") if offset > 0
     query.push("limit=#{@limit}") if @limit != 10
+    query.push("direction=#{@direction}") if @direction != 'ASC' 
+    query.push("order_by=#{@order_by}") if @order_by != 'id' 
     query_string = query.join('&')
     query_string = nil if query_string == ''
 
