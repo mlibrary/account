@@ -7,15 +7,15 @@ class Loans
   end
 
   #todo needs to be tested
-  def self.renew_all(uniqname:, client: AlmaClient.new)
+  def self.renew_all(uniqname:, client: AlmaRestClient.client)
     url = "/users/#{uniqname}/loans" 
-    response = client.get_all(url: url, record_key: 'item_loan', query: {expand: 'renewable'})
+    response = client.get_all(url: url, record_key: 'item_loan', query: {"expand" => "renewable"})
     renewable = response.parsed_response["item_loan"].select{|x| x["renewable"] == true}
     loan_ids = renewable.map{|x| x["loan_id"]}
     Loans.renew(uniqname: uniqname, loan_ids: loan_ids)
   end
 
-  def self.renew(uniqname:, loan_ids:, client: AlmaClient.new)
+  def self.renew(uniqname:, loan_ids:)
     results = loan_ids.map do |loan_id|
       Loan.renew(uniqname: uniqname, loan_id: loan_id)
     end
@@ -43,7 +43,7 @@ class Loans
 
 
   def self.for(uniqname:, offset: nil, limit: nil, 
-               client: AlmaClient.new, order_by: nil, direction: nil
+               client: AlmaRestClient.client, order_by: nil, direction: nil
               )
     url = "/users/#{uniqname}/loans" 
     query = {"expand" => "renewable"}
@@ -70,7 +70,7 @@ class Loans
 end
 
 class Loan < Item
-  def self.renew(uniqname:, loan_id:, client:AlmaClient.new)
+  def self.renew(uniqname:, loan_id:, client: AlmaRestClient.client)
     response = client.post("/users/#{uniqname}/loans/#{loan_id}", {op: 'renew'})
     response.code == 200 ? response : AlmaError.new(response)
   end

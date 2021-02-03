@@ -9,7 +9,7 @@ class Requests
     @parsed_response["total_record_count"]
   end
 
-  def self.for(uniqname:, client: AlmaClient.new)
+  def self.for(uniqname:, client: AlmaRestClient.client)
     url = "/users/#{uniqname}/requests" 
     response = client.get(url)
     if response.code == 200

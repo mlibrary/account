@@ -31,7 +31,7 @@ class Fines
     end
   end
 
-  def self.for(uniqname:, client: AlmaClient.new)
+  def self.for(uniqname:, client: AlmaRestClient.client)
     url = "/users/#{uniqname}/fees" 
     response = client.get_all(url: url, record_key: "fee" )
     if response.code == 200
@@ -48,7 +48,7 @@ class Fine
   def initialize(parsed_response)
     @parsed_response = parsed_response
   end
-  def self.pay(uniqname:, fine_id:, balance:, client: AlmaClient.new)
+  def self.pay(uniqname:, fine_id:, balance:, client: AlmaRestClient.client)
     client.post("/users/#{uniqname}/fees/#{fine_id}", 
           {op: "pay", method: 'ONLINE', amount: balance})
   end

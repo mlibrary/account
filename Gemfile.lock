@@ -1,3 +1,11 @@
+GIT
+  remote: https://github.com/mlibrary/alma_rest_client
+  revision: bb9821e146cf4380146220f4196ed25014a50920
+  branch: main
+  specs:
+    alma_rest_client (0.1.0)
+      httparty
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -39,7 +47,7 @@ GEM
     method_source (1.0.0)
     mime-types (3.3.1)
       mime-types-data (~> 3.2015)
-    mime-types-data (3.2020.0512)
+    mime-types-data (3.2020.1104)
     mini_mime (1.0.2)
     minitest (5.14.3)
     multi_json (1.15.0)
@@ -66,6 +74,9 @@ GEM
     pry (0.13.1)
       coderay (~> 1.1)
       method_source (~> 1.0)
+    pry-byebug (3.9.0)
+      byebug (~> 11.0)
+      pry (~> 0.13.0)
     public_suffix (4.0.6)
     rack (2.2.3)
     rack-oauth2 (1.16.0)
@@ -139,13 +150,14 @@ PLATFORMS
 
 DEPENDENCIES
   addressable
-  byebug
+  alma_rest_client!
   climate_control
   httparty
   jwt
   omniauth
   omniauth_openid_connect
   pry
+  pry-byebug
   rack-test
   rspec
   simplecov

@@ -2,8 +2,7 @@ require 'sinatra'
 require 'sinatra/namespace'
 require "sinatra/reloader"
 require "sinatra/flash"
-require 'omniauth'
-require 'omniauth_openid_connect'
+require "alma_rest_client"
 require 'jwt'
 require 'byebug' 
 
@@ -11,7 +10,6 @@ require_relative "./models/response"
 require_relative "./utility"
 require_relative "./models/pagination/pagination"
 require_relative "./models/pagination/pagination_decorator"
-require_relative "./models/alma_client"
 require_relative "./models/nelnet.rb"
 require_relative "./models/fine_payer.rb"
 
@@ -26,15 +24,6 @@ require_relative "./models/receipt"
 helpers StyledFlash
 
 enable :sessions
-use OmniAuth::Builder do
-  provider :openid_connect, {
-    issuer: "https://dex.kubernetes.lib.umich.edu",
-    client_options: {
-      identifier: 'patron-account-testing',
-      secret: 'patronaccountdexsecret',
-    } 
-  }
-end
 
 # :nocov:
 post '/session_switcher' do
@@ -149,9 +138,12 @@ namespace '/fines' do
     erb :fines, :locals => { fines: fines }
   end
 
+  
+# :nocov:
   get '/' do
     redirect_to ''
   end
+# :nocov:
 
   post '/pay' do
     payer = FinePayer.new(uniqname: session[:uniqname], fine_ids: params["fines"].values)
