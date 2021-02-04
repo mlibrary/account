@@ -1,0 +1,34 @@
+name: Run Tests
+
+on: push
+
+jobs:
+  # Run tests
+  test:
+    runs-on: ubuntu-latest
+    env:
+      ALMA_API_KEY: 'YOUR_ALMA_API_KEY'
+      ALMA_API_HOST: 'https://api-na.hosted.exlibrisgroup.com'
+      NELNET_SECRET_KEY: 'secretkey'
+      NELNET_PAYMENT_URL: 'http://localhost:4444'
+      JWT_SECRET: 'myjwtsecret'
+      PATRON_ACCOUNT_BASE_URL: 'http://localhost:4567'
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Ruby 2.7.2
+        uses: actions/setup-ruby@v1
+        with:
+          ruby-version: 2.7.2
+      - name: Set up gem caching
+        uses: actions/cache@v2
+        with:
+          path: vendor/bundle 
+          key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-gems-
+      - name: Bundle install
+        run: |
+          bundle config path vendor/bundle
+          bundle install --jobs 4 --retry 3
+      - name: Run tests
+        run: bundle exec rspec
