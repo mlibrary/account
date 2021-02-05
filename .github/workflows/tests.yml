@@ -13,6 +13,8 @@ jobs:
       NELNET_PAYMENT_URL: 'http://localhost:4444'
       JWT_SECRET: 'myjwtsecret'
       PATRON_ACCOUNT_BASE_URL: 'http://localhost:4567'
+      ILLIAD_API_KEY: 'YOURAPIKEY'
+      ILLIAD_API_HOST: 'https://yourilliadhost.com'
     steps:
       - uses: actions/checkout@v2
       - name: Set up Ruby 2.7.2
