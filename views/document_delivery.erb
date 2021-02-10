@@ -1,7 +1,9 @@
-<h1>Shelf</h1>
+<h1 aria-hidden="true">Shelf</h1>
 
-<%= erb :shelf_navigation %>
+<nav aria-labelledby="shelf-heading" class="horizontal-navigation-container">
+  <h1 class="h2 horizontal-heading" id="shelf-heading"><span class="visually-hidden">Shelf: </span>Document delivery</h1>
 
-<h2>Document delivery</h2>
+  <%= erb :shelf_navigation %>
+</nav>
 
 [todo]
