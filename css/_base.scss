@@ -65,9 +65,12 @@ h1 {
   margin-bottom: var(--space-large);
 }
 
-h2 {
+h2,
+.h2 {
+  font-family: var(--font-base-family);
   font-size: var(--text-large);
   font-weight: var(--bold);
+  line-height: auto;
 }
 
 h3 {
