@@ -1,5 +1,6 @@
 (import 'ksonnet-util/kausal.libsonnet') +
 (import './config.libsonnet') +
+(import './envVar.libsonnet') +
 {
   local deploy = $.apps.v1.deployment,
   local container = $.core.v1.container,
@@ -18,18 +19,7 @@
           container.new(config.web.name, images.web)
           + container.withPorts(
             [port.new('ui', config.web.port)]
-          ) + container.withEnv([{
-            name: 'ALMA_API_HOST',
-            value: 'https://api-na.hosted.exlibrisgroup.com',
-          }, {
-            name: 'ALMA_API_KEY',
-            valueFrom: {
-              secretKeyRef: {
-                name: 'credentials',
-                key: 'ALMA_API_KEY',
-              },
-            },
-          }]),
+          ) + container.withEnv( $._envVar,),
         ]
       ),
 
