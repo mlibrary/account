@@ -17,7 +17,7 @@ copy .env-example directory to .env
 cp -r .env-example .env
 ```
 
-edit .env/development/web with Alma Credentials. Leave the lines after ALMA_API_KEY alone. They are all set for development. 
+edit .env/development/web with Alma Credentials. Leave the lines after ALMA_API_KEY alone. They are all set for development.
 
 ```ruby
 #.env/development/web
@@ -49,7 +49,7 @@ start containers
 docker-compose up -d
 ```
 
-In a browser, go to http://localhost:4567 to see "Hello World"
+In a browser, go to http://localhost:4567 to see the website.
 
 ### Styling with SCSS
 
