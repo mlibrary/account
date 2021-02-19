@@ -45,6 +45,7 @@ RUN bundle install
 COPY --chown=${UID}:${GID} . /app
 
 RUN npm install
-RUN npm run compile
+RUN npm run build-css
+RUN npm run build-js
 
 CMD ["bundle", "exec", "ruby", "my_account.rb", "-o", "0.0.0.0"]
