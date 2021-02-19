@@ -5,11 +5,14 @@ drupal_models_specs
 spec/fixtures/fixtures_drupal
 node_modules
 coverage
+public/bundles/
 .viminfo
 .local
 .byebug_history
 .sass-cache
 .gem/
+.npm/
+.config/
 .bundle/
 .bash_history
 .irb_history

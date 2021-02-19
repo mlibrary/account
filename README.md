@@ -17,7 +17,7 @@ copy .env-example directory to .env
 cp -r .env-example .env
 ```
 
-edit .env/development/web with Alma Credentials. Leave the lines after ALMA_API_KEY alone. They are all set for development.
+edit .env/development/web with the following environment variables. For development, only ALMA_API_KEY and ILLIAD_API_KEY need to be set with real values.
 
 ```ruby
 #.env/development/web
@@ -38,9 +38,13 @@ docker-compose build web
 ```
 
 bundle install
-
 ```
-docker-compose run web bundle install
+docker-compose run --rm web bundle install
+```
+
+npm install
+```
+docker-compose run --rm web npm install
 ```
 
 start containers
@@ -50,17 +54,3 @@ docker-compose up -d
 ```
 
 In a browser, go to http://localhost:4567 to see the website.
-
-### Styling with SCSS
-
-Install packages
-
-```
-npm install
-```
-
-Build and watch scss files:
-
-```
-npm run scss
-```

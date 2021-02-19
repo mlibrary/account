@@ -24,8 +24,19 @@ services:
     build: .
     volumes:
       - ./css:/app/css
-      - ./public:/app/public
-    command: "npm run scss"
+      - ./public/bundles:/app/public/bundles
+      - ./package.json:/app/package.json
+    command: "npm run watch-css"
+
+  webpack:
+    build: .
+    volumes:
+      - ./js:/app/js
+      - ./public/bundles:/app/public/bundles
+      - ./webpack.common.js:/app/webpack.common.js
+      - ./webpack.dev.js:/app/webpack.dev.js
+      - ./package.json:/app/package.json
+    command: "npm run watch-js"
 
 volumes:
   gem_cache:
