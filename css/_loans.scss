@@ -16,17 +16,3 @@
     width: 40%;
   }
 }
-
-.shelf-navigation-container {
-  display: flex;
-  flex-direction: column;
-
-  .shelf-heading {
-    margin-top: var(--space-xx-large);
-    order: 2;
-  }
-
-  .local-navigation {
-    order: 1;
-  }
-}

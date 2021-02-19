@@ -1,14 +1,10 @@
-<h1>Shelf</h1>
-
-<%= erb :shelf_navigation %>
+<%= erb :horizontal_nav %>
 
 <% if past_loans.count == 0 %>
 
 <%= erb :loans_empty_state %>
 
 <% elsif %>
-
-<h2>Past loans</h2>
 
 <table>
   <caption>Showing <%= past_loans.count %> items</caption>

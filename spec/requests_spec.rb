@@ -45,10 +45,30 @@ describe "requests" do
     end
   end
   context "get /requests" do
+    it "redirects to '/requests/um-library'" do
+      get "/requests"
+      expect(last_response.status).to eq(302)
+      expect(URI(last_response.headers["Location"]).path).to eq("/requests/um-library")
+    end
+  end
+  context "get /requests/" do
+    it "redirects to '/requests/um-library'" do
+      get "/requests/"
+      expect(last_response.status).to eq(302)
+      expect(URI(last_response.headers["Location"]).path).to eq("/requests/um-library")
+    end
+  end
+  context "get /requests/um-library" do
     it "contains 'Requests'" do
       stub_alma_get_request(url: "users/tutor/requests")
-      get "/requests"
+      get "/requests/um-library"
       expect(last_response.body).to include("Requests")
+    end
+  end
+  context "get /requests/interlibrary-loan" do
+    it "contains 'From Other Institutions (Interlibrary Loan)'" do
+      get "/requests/interlibrary-loan" 
+      expect(last_response.body).to include("From Other Institutions (Interlibrary Loan)")
     end
   end
   context "get /fines" do

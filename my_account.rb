@@ -13,6 +13,7 @@ require_relative "./models/pagination/pagination_decorator"
 require_relative "./models/illiad_client"
 require_relative "./models/nelnet.rb"
 require_relative "./models/fine_payer.rb"
+require_relative "./models/horizontal_nav.rb"
 
 require_relative "./models/patron"
 require_relative "./models/item"
@@ -96,10 +97,25 @@ namespace '/shelf' do
   end
 end
 
-get '/requests' do
-  requests = Requests.for(uniqname: session[:uniqname]).holds
+namespace '/requests' do
+  get ''  do
+    redirect_to '/um-library' # Redirects to /requests/um-library
+  end
 
-  erb :requests, :locals => { requests: requests }
+  get '/'  do
+    redirect_to '/um-library' # Redirects to /requests/um-library
+  end
+
+  get '/um-library' do
+    requests = Requests.for(uniqname: session[:uniqname]).holds
+
+    erb :requests, :locals => { requests: requests }
+  end
+
+  get '/interlibrary-loan' do
+
+    erb :interlibrary_loan, :locals => { interlibrary_loan: [] }
+  end
 end
 
 get '/contact-information' do 
