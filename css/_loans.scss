@@ -16,3 +16,26 @@
     width: 40%;
   }
 }
+
+.loan-caption-inner-layout {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.loan-controls,
+.loan-controls form {
+  display: flex;
+  align-items: baseline;
+  justify-content: flex-end;
+
+  & > *:not(:last-child) {
+    margin-right: var(--space-medium);
+  }
+}
+
+.loan-control {
+  & > *:not(:last-child) {
+    margin-right: var(--space-medium);
+  }
+}

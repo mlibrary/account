@@ -8,3 +8,22 @@ input[type="text"] {
   margin: 0;
   width: 100%;
 }
+
+select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border: none;
+  font-size: inherit;
+  border: solid 1px var(--color-neutral-100);
+  padding: var(--space-small) var(--space-x-small);
+  border-radius: var(--radius-default);
+}
+
+option {
+  padding: 0;
+}
+
+select::-ms-expand {
+  display: none;
+}

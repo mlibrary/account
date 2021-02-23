@@ -17,8 +17,39 @@ Renew all could be too slow. Maybe reconsider.
 -->
 
 <div class="table-container">
+
 <table>
-  <caption>Showing <strong><%=loans.pagination.first%></strong> - <strong><%=loans.pagination.last%></strong> of <strong><%= loans.count %></strong> items</caption>
+  <caption>
+    <div class="loan-caption-inner-layout">
+      <p>Showing <strong><%=loans.pagination.first%></strong> - <strong><%=loans.pagination.last%></strong> of <strong><%= loans.count %></strong> items</p>
+
+      <div class="loan-controls">
+        <form>
+          <label>
+            <span>Sort by</span>
+            <select name="sort">
+              <option value="due-asc" selected>Due date: ascending</option>
+              <option value="due-desc">Due date: descending</option>
+              <option value="title-asc">Title: ascending</option>
+              <option value="title-desc">Title: descending</option>
+            </select>
+          </label>
+
+          <label>
+            <span>Show</span>
+            <select name="show">
+              <option value="10">10 items</option>
+              <option value="25">25 items</option>
+              <option value="30">50 items</option>
+            </select>
+          </label>
+
+          <button>Submit</button> 
+        </form>
+        <button class="button button--light">Renew all</button>
+      </div>
+    </div>
+  </caption>
   <thead>
     <tr>
       <th style="width: 66%;">Title & author</th>
@@ -26,6 +57,7 @@ Renew all could be too slow. Maybe reconsider.
       <th style="width: 5rem;">Actions</th>
     </tr>
   </thead>
+
   <tbody>
     <% loans.each do |loan| %>
       <tr>
