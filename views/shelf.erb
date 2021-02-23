@@ -27,7 +27,7 @@ Renew all could be too slow. Maybe reconsider.
         <form>
           <label>
             <span>Sort by</span>
-            <select name="sort">
+            <select name="sort" data-js-submit>
               <option value="due-asc" selected>Due date: ascending</option>
               <option value="due-desc">Due date: descending</option>
               <option value="title-asc">Title: ascending</option>
@@ -37,14 +37,16 @@ Renew all could be too slow. Maybe reconsider.
 
           <label>
             <span>Show</span>
-            <select name="show">
+            <select name="show" data-js-submit>
               <option value="10">10 items</option>
               <option value="25">25 items</option>
               <option value="30">50 items</option>
             </select>
           </label>
 
-          <button>Submit</button> 
+          <noscript>
+            <div style="display: inline-flex;"><button class="button button--light">Apply</button></div>
+          </noscript>
         </form>
         <button class="button button--light">Renew all</button>
       </div>
