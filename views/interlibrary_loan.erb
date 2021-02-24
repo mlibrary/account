@@ -1,5 +1,29 @@
 <%= erb :horizontal_nav %>
 
 <div class="table-container">
-  [todo]
+<table>
+  <thead>
+    <tr>
+      <th>Title & author</th>
+      <th>Requested</th>
+      <th>Expires</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% interlibrary_loan.each do |loan| %>
+      <tr>
+        <td>
+          <a href="<%#=loan.search_url%>"><%#= loan.title %></a>
+          <span>&#183; <%#= loan.author %></span>
+        </td>
+        <td>
+          <%#= loan.request_date %>
+        </td>
+        <td>
+          <%#= loan.expiration_date %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
 </div>
