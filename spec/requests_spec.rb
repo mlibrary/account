@@ -67,6 +67,8 @@ describe "requests" do
   end
   context "get /requests/interlibrary-loan" do
     it "contains 'From Other Institutions (Interlibrary Loan)'" do
+      stub_illiad_get_request(url: "Transaction/UserRequests/tutor", 
+        body: File.read("spec/fixtures/illiad_requests.json"))
       get "/requests/interlibrary-loan" 
       expect(last_response.body).to include("From Other Institutions (Interlibrary Loan)")
     end

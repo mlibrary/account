@@ -19,7 +19,7 @@ require_relative "./models/patron"
 require_relative "./models/item"
 require_relative "./models/loans"
 require_relative "./models/requests"
-require_relative "./models/interlibrary_loan"
+require_relative "./models/interlibrary_loan_requests"
 require_relative "./models/fines"
 require_relative "./models/receipt"
 
@@ -114,9 +114,9 @@ namespace '/requests' do
   end
 
   get '/interlibrary-loan' do
-    interlibrary_loan = InterlibraryLoans.for(uniqname: session[:uniqname])
+    interlibrary_loan_requests = InterlibraryLoanRequests.new(parsed_response: JSON.parse(File.read("spec/fixtures/illiad_requests.json")))
 
-    erb :interlibrary_loan, :locals => { interlibrary_loan: interlibrary_loan }
+    erb :interlibrary_loan_requests, :locals => { interlibrary_loan_requests: interlibrary_loan_requests }
   end
 end
 

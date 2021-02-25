@@ -1,22 +1,3 @@
-.loans-empty-state-container {
-  display: flex;
-  align-items: center;
-
-  padding-top: var(--space-medium);
-
-  h2 {
-    padding-bottom: var(--space-x-small);
-  }
-
-  div {
-    padding-right: var(--space-x-large);
-  }
-
-  img {
-    width: 40%;
-  }
-}
-
 .loan-caption-inner-layout {
   display: flex;
   justify-content: space-between;
