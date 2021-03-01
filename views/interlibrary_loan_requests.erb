@@ -19,14 +19,14 @@
     <% interlibrary_loan_requests.each do |interlibrary_loan_request| %>
       <tr>
         <td>
-          <a href="<%#=interlibrary_loan_request.search_url%>"><%= interlibrary_loan_request["LoanTitle"] %></a>
-          <span>&#183; <%= interlibrary_loan_request["LoanAuthor"] %></span>
+          <a href="<%= interlibrary_loan_request.search_url %>"><%= interlibrary_loan_request.title %></a>
+          <span>&#183; <%= interlibrary_loan_request.author %></span>
         </td>
         <td>
-          <%= DateTime.patron_format(interlibrary_loan_request["CreationDate"]) %>
+          <%= interlibrary_loan_request.request_date %>
         </td>
         <td>
-          <%= DateTime.patron_format(interlibrary_loan_request["DueDate"]) %>
+          <%= interlibrary_loan_request.expiration_date %>
         </td>
       </tr>
     <% end %>

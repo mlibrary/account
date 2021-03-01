@@ -10,7 +10,8 @@ class InterlibraryLoanRequests
 
   def each(&block)
     @requests.each do |request|
-      block.call(request)
+      @request = InterlibraryLoanRequest.new(request)
+      block.call(@request)
     end
   end
 
@@ -22,5 +23,31 @@ class InterlibraryLoanRequests
     else
       #Error!
     end
+  end
+end
+
+class InterlibraryLoanRequest
+  def initialize(parsed_response)
+    @parsed_response = parsed_response
+  end
+  def title
+    extra = 120 - @parsed_response["LoanAuthor"].length
+    extra = 0 if extra < 0
+    max_length = 120 + extra
+    @parsed_response["LoanTitle"][0, max_length]
+  end
+  def author
+    extra = 120 - @parsed_response["LoanTitle"].length
+    extra = 0 if extra < 0
+    max_length = 120 + extra
+    @parsed_response["LoanAuthor"][0, max_length]
+  end
+  def search_url
+  end
+  def request_date
+    DateTime.patron_format(@parsed_response["CreationDate"])
+  end
+  def expiration_date
+    DateTime.patron_format(@parsed_response["DueDate"])
   end
 end
