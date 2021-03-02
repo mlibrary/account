@@ -1,7 +1,7 @@
 class InterlibraryLoanRequests
   def initialize(parsed_response:)
     @parsed_response = parsed_response
-    @requests = parsed_response.select { |request| request["TransactionStatus"] != "Request Finished" }
+    @requests = parsed_response.select { |request| request["ProcessType"] != "DocDel" && request["TransactionStatus"] != "Request Finished" }
   end
 
   def count
