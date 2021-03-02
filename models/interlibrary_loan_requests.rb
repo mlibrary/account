@@ -42,7 +42,8 @@ class InterlibraryLoanRequest
     max_length = 120 + extra
     @parsed_response["LoanAuthor"][0, max_length]
   end
-  def search_url
+  def request_url
+    # Link to ILLiad transaction?
   end
   def request_date
     DateTime.patron_format(@parsed_response["CreationDate"])
