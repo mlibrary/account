@@ -1,6 +1,8 @@
 class Item
-  def initialize(parsed_response)
+  attr_reader :parsed_response, :message
+  def initialize(parsed_response, message=nil)
     @parsed_response = parsed_response
+    @message = message
   end
   def title
     extra = 120 - @parsed_response["author"].length
@@ -19,5 +21,13 @@ class Item
   end
   def publication_date
   end
-  
+  def message?
+    !@message.nil?
+  end
+  def message_text
+    @message.text
+  end
+  def message_status
+    @message&.status
+  end
 end

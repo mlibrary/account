@@ -68,6 +68,9 @@ Renew all could be too slow. Maybe reconsider.
           <span>&#183; <%= loan.author %></span>
         </td>
         <td>
+          <% if loan.message? %>
+            <span class="action-<%=loan.message_status%>"><%= loan.message%></span>
+          <% end %>
           <%= loan.due_date %>
         </td>
         <td>

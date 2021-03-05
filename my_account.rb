@@ -80,8 +80,8 @@ namespace '/shelf' do
   end
 
   get '/loans' do
-    loans = Loans.for(uniqname: session[:uniqname], offset: params["offset"], limit: params["limit"], order_by: params["order_by"], direction: params["direction"]) 
-  
+    loans = Loans.for(uniqname: session[:uniqname], offset: params["offset"], limit: params["limit"], order_by: params["order_by"], direction: params["direction"], items: session[:items])
+    session.delete(:items)
     erb :shelf, :locals => { loans: loans }
   end
   
@@ -123,16 +123,29 @@ get '/contact-information' do
   patron = Patron.for(uniqname: session[:uniqname])
   erb :patron, :locals => {patron: patron}
 end
-
-post '/renew-loan' do
-  response = Loan.renew(uniqname: session[:uniqname], loan_id: params["loan_id"])
+#TODO flash message. test redirect.
+post '/renew_all' do
+  response = Loans.renew_all(uniqname: session[:uniqname])
+  session[:item_messages] = response.item_messages
+  session[:items] = response.items
   if response.code == 200
-    flash[:success] = "<strong>Success:</strong> Loan Successfully Renewed"
+    flash[:success] = response.renew_summary
+    flash[:warn] = response.unrenewed_text
   else
     flash[:error] = "<strong>Error:</strong> #{response.message}"
   end
   redirect "shelf/loans"
 end
+#TODO set up renew loan to handle renew in place with top part message???
+#post '/renew-loan' do
+  #response = Loan.renew(uniqname: session[:uniqname], loan_id: params["loan_id"])
+  #if response.code == 200
+    #flash[:success] = "<strong>Success:</strong> Loan Successfully Renewed"
+  #else
+    #flash[:error] = "<strong>Error:</strong> #{response.message}"
+  #end
+  #redirect "shelf/loans"
+#end
 
 post '/sms' do
   patron = Patron.for(uniqname: session[:uniqname])

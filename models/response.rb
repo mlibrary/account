@@ -6,6 +6,36 @@ class Response
     @parsed_response = parsed_response
   end
 end
+class RenewResponse < Response
+  attr_reader :code, :item_messages, :items
+  def initialize(code: 200, items: [])
+    @code = code
+    @items = items
+  end
+  def renewed
+    @items.filter{|x| x.message_status == :success}
+  end
+  def unrenewed
+    @items.filter{|x| x.message_status == :fail}
+  end
+  def unrenewed_text
+    count = unrenewed.count
+    if count > 0
+      message = "The following #{item(count)} could not be renewed: <ul>"
+      message = message + unrenewed.map{|x| "<li>#{x.title}</li>"}.join('')
+      message = message + "</ul>"
+      message
+    end
+  end
+  def renew_summary
+    count = renewed.count
+    "#{count} #{item(count)} successfully renewed"
+  end
+  private
+  def item(count)
+    count == 1 ? "item" : "items"
+  end
+end
 class Error < Response
   def initialize(code: 500, message: 'There was an error')
     super

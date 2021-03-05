@@ -1,8 +1,12 @@
 class Loans
   attr_reader :pagination
-  def initialize(parsed_response:, pagination:)
+  def initialize(parsed_response:, pagination:,item_messages: nil, items: [])
     @parsed_response = parsed_response
-    @list = parsed_response["item_loan"]&.map{|l| Loan.new(l)} || []
+    @item_messages = item_messages
+    @items = items
+    @list = parsed_response["item_loan"]&.map do |l| 
+        Loan.new(l, item_message(l["loan_id"]))
+    end || []
     @pagination = pagination
   end
 
@@ -10,22 +14,24 @@ class Loans
   def self.renew_all(uniqname:, client: AlmaRestClient.client)
     url = "/users/#{uniqname}/loans" 
     response = client.get_all(url: url, record_key: 'item_loan', query: {"expand" => "renewable"})
-    renewable = response.parsed_response["item_loan"].select{|x| x["renewable"] == true}
-    loan_ids = renewable.map{|x| x["loan_id"]}
-    Loans.renew(uniqname: uniqname, loan_ids: loan_ids)
+
+    loans = response.parsed_response["item_loan"].map do |loan| 
+      if loan["renewable"] == false
+        Loan.new(loan, Loan::RenewUnsuccessfulMessage.new)
+      else
+        message = Loan.renew(uniqname: uniqname, loan_id: loan["loan_id"])
+        Loan.new(loan, message)
+      end
+    end
+    RenewResponse.new( items: loans)
   end
 
-  def self.renew(uniqname:, loan_ids:)
-    results = loan_ids.map do |loan_id|
-      Loan.renew(uniqname: uniqname, loan_id: loan_id)
+  def self.renew(uniqname:, loans:)
+    results = loans.map do |loan|
+      message = Loan.renew(uniqname: uniqname, loan_id: loan.loan_id)
+      Loan.new(loan.parsed_response, message)
     end
-    errors = results.select{|r| r.code != 200 }
-    if errors.empty?
-      Response.new
-    else
-      messages = errors&.map{|e| e.message}&.join("\n") || ''
-      Error.new(message: messages)
-    end
+    RenewResponse.new(items: results)
   end
   def count
     @parsed_response["total_record_count"]
@@ -43,8 +49,8 @@ class Loans
 
 
   def self.for(uniqname:, offset: nil, limit: nil, 
-               client: AlmaRestClient.client, order_by: nil, direction: nil
-              )
+               client: AlmaRestClient.client, order_by: nil, direction: nil, 
+               items: [] )
     url = "/users/#{uniqname}/loans" 
     query = {"expand" => "renewable"}
     query["offset"] = offset unless offset.nil?
@@ -61,10 +67,15 @@ class Loans
       pagination_params[:order_by] = order_by unless order_by.nil?
       pagination_params[:direction] = direction unless direction.nil?
       Loans.new(parsed_response: pr, 
-                pagination: PaginationDecorator.new(**pagination_params))
+                pagination: PaginationDecorator.new(**pagination_params),
+                items: items)
     else
       #Error!
     end
+  end
+  private
+  def item_message(loan_id)
+    @items&.find{|loan| loan.loan_id == loan_id}&.message
   end
   
 end
@@ -72,7 +83,7 @@ end
 class Loan < Item
   def self.renew(uniqname:, loan_id:, client: AlmaRestClient.client)
     response = client.post("/users/#{uniqname}/loans/#{loan_id}", {op: 'renew'})
-    response.code == 200 ? response : AlmaError.new(response)
+    response.code == 200 ? RenewSuccessfulMessage.new : RenewUnsuccessfulMessage.new(message: AlmaError.new(response).message)
   end
   def due_date
     DateTime.patron_format(@parsed_response["due_date"])
@@ -89,7 +100,33 @@ class Loan < Item
   def publication_date
     @parsed_response["publication_year"]
   end
-  def ill?
-    #need to figure out how this works;
+end
+
+class Loan::Message
+  def text
+  end
+  def status
+  end
+  def to_s
+    text
+  end
+end
+class Loan::RenewSuccessfulMessage < Loan::Message
+  def text
+    "Renew Successful"
+  end
+  def status
+    :success
+  end
+end
+class Loan::RenewUnsuccessfulMessage < Loan::Message
+  def initialize(text="Unable to Renew")
+    @text = text
+  end
+  def text
+    @text 
+  end
+  def status
+    :fail
   end
 end
