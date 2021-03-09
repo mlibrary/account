@@ -42,7 +42,7 @@ class InterlibraryLoanRequest
     @parsed_response["LoanAuthor"][0, max_length]
   end
   def request_url
-    # Link to ILLiad transaction?
+    "https://ill.lib.umich.edu/illiad/illiad.dll?Action=10&Form=72&Value=#{@parsed_response["TransactionNumber"]}"
   end
   def request_date
     DateTime.patron_format(@parsed_response["CreationDate"])
