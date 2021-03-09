@@ -15,6 +15,8 @@ class Loans
     url = "/users/#{uniqname}/loans" 
     response = client.get_all(url: url, record_key: 'item_loan', query: {"expand" => "renewable"})
 
+    return response if response.code != 200 
+
     loans = response.parsed_response["item_loan"].map do |loan| 
       if loan["renewable"] == false
         Loan.new(loan, Loan::RenewUnsuccessfulMessage.new)

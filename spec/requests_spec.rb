@@ -32,17 +32,6 @@ describe "requests" do
       get "/shelf/loans"
       expect(last_response.body).to include("Shelf")
     end
-    it "shows inline messages and clears the session" do
-      stub_alma_get_request(url: "users/tutor/loans", query: {expand: 'renewable'}, body: File.read("spec/fixtures/loans.json"))
-      renew_successful = Loan::RenewSuccessfulMessage.new
-      renewed_loan = instance_double(Loan, loan_id: '1332733700000521', message: Loan::RenewSuccessfulMessage.new)
-      #@session[:item_messages] = [ {loan_id: '1332733700000521', loan: renewed_loan, message: renewed_loan.message}]
-      @session[:items] = [renewed_loan]
-      rack_test_session.env("rack.session", @session)
-      get "/shelf/loans"
-      expect(last_response.body).to include(renewed_loan.message.text)
-      expect(last_request.session).not_to include(:items)
-    end
   end
   
   context "get /shelf/past-loans" do
@@ -101,29 +90,39 @@ describe "requests" do
       expect(last_response.body).to include("notifications")
     end
   end
-  context "post /renew_all" do
+  context "post /shelf/loans" do
     before(:each) do
-      stub_alma_get_request( url: 'users/tutor/loans', body: File.read('./spec/fixtures/loans.json'), query: {expand: 'renewable', limit: 100, offset: 0} )
+      @alma_loans = JSON.parse(File.read('./spec/fixtures/loans.json')) 
+      @alma_loans["item_loan"][0]["renewable"] = false
+      stub_alma_get_request( url: 'users/tutor/loans', body: @alma_loans.to_json, query: {expand: 'renewable', limit: 100, offset: 0} )
+      stub_alma_get_request( url: 'users/tutor/loans', body: @alma_loans.to_json, query: {expand: 'renewable'} )
       stub_alma_post_request( url: 'users/tutor/loans/1332733700000521', query: {op: 'renew'} ) 
       stub_alma_post_request( url: 'users/tutor/loans/1332734190000521', query: {op: 'renew'} ) 
     end
-    it "stuffs items into the session" do
-      post "/renew_all" 
-      expect(last_request.env['rack.session'][:items].count).to eq(2)
-    end
-    it "redirects to shelf/loans" do
-      post "/renew_all" 
-      expect(URI(last_response.headers["Location"]).path).to eq("/shelf/loans")
-    end
     it "shows appropriate flash messages" do
-      alma_loans = JSON.parse(File.read('./spec/fixtures/loans.json')) 
-      alma_loans["item_loan"][0]["renewable"] = false
-      stub_alma_get_request( url: 'users/tutor/loans', body: alma_loans.to_json, query: {expand: 'renewable', limit: 100, offset: 0} )
-      stub_alma_get_request( url: 'users/tutor/loans', body: alma_loans.to_json, query: {expand: 'renewable'} )
-      post "/renew_all" 
-      follow_redirect!
+      post "/shelf/loans" 
       expect(last_response.body).to include("1 item successfully renewed")
       expect(last_response.body).to include('The following item could not be renewed:')
+    end
+    it "shows error flash when none have been renewed" do
+      @alma_loans["item_loan"][1]["renewable"] = false
+      stub_alma_get_request( url: 'users/tutor/loans', body: @alma_loans.to_json, query: {expand: 'renewable', limit: 100, offset: 0} )
+      stub_alma_get_request( url: 'users/tutor/loans', body: @alma_loans.to_json, query: {expand: 'renewable'} )
+
+      post "/shelf/loans" 
+
+      expect(last_response.body).to include("0 items successfully renewed")
+      expect(last_response.body).to include("error")
+    end
+    it "shows inline messages" do
+      post "/shelf/loans"
+      expect(last_response.body).to include("Unable to Renew")
+      expect(last_response.body).to include("Renew Successful")
+    end
+    it "shows error flash for major Alma Error" do
+      stub_alma_get_request( url: 'users/tutor/loans', body: File.read('./spec/fixtures/alma_error.json'), query: {expand: 'renewable', limit: 100, offset: 0}, status: 400 )
+      post "/shelf/loans"
+      expect(last_response.body).to include("Error:")
     end
   end
   #ToDO 

@@ -24,9 +24,6 @@ class Item
   def message?
     !@message.nil?
   end
-  def message_text
-    @message.text
-  end
   def message_status
     @message&.status
   end

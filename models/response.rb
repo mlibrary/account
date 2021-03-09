@@ -18,6 +18,24 @@ class RenewResponse < Response
   def unrenewed
     @items.filter{|x| x.message_status == :fail}
   end
+  def success_text?
+    renewed.count > 0
+  end
+  def error_text?
+    renewed.count == 0
+  end
+  def warn_text?
+    unrenewed.count > 0
+  end
+  def warn_text
+    unrenewed_text
+  end
+  def success_text
+    renew_summary
+  end
+  def error_text
+    renew_summary
+  end
   def unrenewed_text
     count = unrenewed.count
     if count > 0
@@ -31,6 +49,7 @@ class RenewResponse < Response
     count = renewed.count
     "#{count} #{item(count)} successfully renewed"
   end
+  
   private
   def item(count)
     count == 1 ? "item" : "items"

@@ -96,6 +96,19 @@ namespace '/shelf' do
   
     erb :document_delivery, :locals => { document_delivery: [] }
   end
+  post '/loans' do
+    response = Loans.renew_all(uniqname: session[:uniqname])
+    if response.code == 200
+      flash.now[:success] = response.success_text if response.success_text?
+      flash.now[:error] = response.error_text if response.error_text?
+      flash.now[:warn] = response.warn_text if response.warn_text?
+    else
+      flash.now[:error] = "<strong>Error:</strong> #{response.message}"
+    end
+    response.class.name == 'RenewResponse' ? items = response.items : items = []
+    loans = Loans.for(uniqname: session[:uniqname], items: items)
+    erb :shelf, :locals => { loans: loans }
+  end
 end
 
 namespace '/requests' do
@@ -124,19 +137,6 @@ get '/contact-information' do
   #session[:uniqname] = 'tutor' #need to get this from cosign?
   patron = Patron.for(uniqname: session[:uniqname])
   erb :patron, :locals => {patron: patron}
-end
-#TODO flash message. test redirect.
-post '/renew_all' do
-  response = Loans.renew_all(uniqname: session[:uniqname])
-  session[:item_messages] = response.item_messages
-  session[:items] = response.items
-  if response.code == 200
-    flash[:success] = response.renew_summary
-    flash[:warn] = response.unrenewed_text
-  else
-    flash[:error] = "<strong>Error:</strong> #{response.message}"
-  end
-  redirect "shelf/loans"
 end
 #TODO set up renew loan to handle renew in place with top part message???
 #post '/renew-loan' do
