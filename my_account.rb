@@ -11,14 +11,15 @@ require_relative "./utility"
 require_relative "./models/pagination/pagination"
 require_relative "./models/pagination/pagination_decorator"
 require_relative "./models/illiad_client"
-require_relative "./models/nelnet.rb"
-require_relative "./models/fine_payer.rb"
-require_relative "./models/horizontal_nav.rb"
+require_relative "./models/nelnet"
+require_relative "./models/fine_payer"
+require_relative "./models/horizontal_nav"
 
 require_relative "./models/patron"
 require_relative "./models/item"
 require_relative "./models/loans"
 require_relative "./models/requests"
+require_relative "./models/interlibrary_loan_requests"
 require_relative "./models/fines"
 require_relative "./models/receipt"
 
@@ -113,8 +114,9 @@ namespace '/requests' do
   end
 
   get '/interlibrary-loan' do
+    interlibrary_loan_requests = InterlibraryLoanRequests.new(parsed_response: JSON.parse(File.read("spec/fixtures/illiad_requests.json")))
 
-    erb :interlibrary_loan, :locals => { interlibrary_loan: [] }
+    erb :interlibrary_loan_requests, :locals => { interlibrary_loan_requests: interlibrary_loan_requests }
   end
 end
 
