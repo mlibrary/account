@@ -33,36 +33,6 @@ describe InterlibraryLoanRequest do
   subject do
     InterlibraryLoanRequest.new(@request) 
   end
-  context "#title" do
-    it "returns title string" do
-      expect(subject.title).to eq("What I Think")
-    end
-    it "handles truncation for long title and very short author" do
-      @request["PhotoArticleTitle"] = 't' * 1000
-      @request["PhotoArticleAuthor"] = 'aaa'
-      expect(subject.title).to eq('t' * 237)
-    end
-    it "handle for long title and long author" do
-      @request["PhotoArticleTitle"] = 't' * 1000
-      @request["PhotoArticleAuthor"] = 'a' * 1000
-      expect(subject.title).to eq('t' * 120)
-    end
-  end
-  context "#author" do
-    it "returns author string" do
-      expect(subject.author).to eq("A. Greta Mind")
-    end
-    it "handles truncation for long author and very short title" do
-      @request["PhotoArticleAuthor"] = 'a' * 1000
-      @request["PhotoArticleTitle"] = 'ttt'
-      expect(subject.author).to eq('a' * 237)
-    end
-    it "handle for long title and long author" do
-      @request["PhotoArticleTitle"] = 't' * 1000
-      @request["PhotoArticleAuthor"] = 'a' * 1000
-      expect(subject.author).to eq('a' * 120)
-    end
-  end
   context "#request_url" do
     it "returns url to the ILLiad transaction" do
       expect(subject.request_url).to eq("https://ill.lib.umich.edu/illiad/illiad.dll?Action=10&Form=72&Value=3298020")

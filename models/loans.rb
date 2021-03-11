@@ -69,7 +69,7 @@ class Loans
   
 end
 
-class Loan < Item
+class Loan < AlmaItem
   def self.renew(uniqname:, loan_id:, client: AlmaRestClient.client)
     response = client.post("/users/#{uniqname}/loans/#{loan_id}", {op: 'renew'})
     response.code == 200 ? response : AlmaError.new(response)

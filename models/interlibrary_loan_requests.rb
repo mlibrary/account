@@ -25,30 +25,7 @@ class InterlibraryLoanRequests
   end
 end
 
-class InterlibraryLoanRequest
-  def initialize(parsed_response)
-    @parsed_response = parsed_response
-    @title = @parsed_response["PhotoArticleTitle"] ||
-             @parsed_response["PhotoJournalTitle"]
-    @author = @parsed_response["PhotoItemAuthor"] || 
-              @parsed_response["PhotoArticleAuthor"] || 
-              @parsed_response["PhotoJournalAuthor"]
-  end
-  def title
-    extra = 120 - @author.length
-    extra = 0 if extra < 0
-    max_length = 120 + extra
-    @title[0, max_length]
-  end
-  def author
-    extra = 120 - @title.length
-    extra = 0 if extra < 0
-    max_length = 120 + extra
-    @author[0, max_length]
-  end
-  def request_url
-    "https://ill.lib.umich.edu/illiad/illiad.dll?Action=10&Form=72&Value=#{@parsed_response["TransactionNumber"]}"
-  end
+class InterlibraryLoanRequest < InterlibraryLoanItem
   def request_date
     @parsed_response["CreationDate"] ? DateTime.patron_format(@parsed_response["CreationDate"]) : ''
   end

@@ -20,7 +20,7 @@ class Requests
   end
 end
 
-class Request < Item
+class Request < AlmaItem
   def publication_date
     @parsed_response["date_of_publication"]
   end
