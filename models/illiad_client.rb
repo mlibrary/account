@@ -2,7 +2,7 @@ require 'httparty'
 
 class ILLiadClient
   include HTTParty
-  base_uri "#{ENV.fetch('ILLIAD_API_HOST')}/webplatform/"
+  base_uri "#{ENV.fetch('ILLIAD_API_HOST')}/webplatform"
 
   def initialize()
     self.class.headers 'ApiKey' => ENV.fetch('ILLIAD_API_KEY')
@@ -10,6 +10,7 @@ class ILLiadClient
   end
 
   def get(url, query={})
+    byebug
     self.class.get(url, query: query)
   end
 end

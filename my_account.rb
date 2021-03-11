@@ -114,7 +114,7 @@ namespace '/requests' do
   end
 
   get '/interlibrary-loan' do
-    interlibrary_loan_requests = InterlibraryLoanRequests.new(parsed_response: JSON.parse(File.read("spec/fixtures/illiad_requests.json")))
+    interlibrary_loan_requests = InterlibraryLoanRequests.for(uniqname: 'testhelp')
 
     erb :interlibrary_loan_requests, :locals => { interlibrary_loan_requests: interlibrary_loan_requests }
   end
