@@ -50,9 +50,9 @@ class InterlibraryLoanRequest
     "https://ill.lib.umich.edu/illiad/illiad.dll?Action=10&Form=72&Value=#{@parsed_response["TransactionNumber"]}"
   end
   def request_date
-    @parsed_response["CreationDate"] ? DateTime.patron_format(@parsed_response["CreationDate"]) : nil
+    @parsed_response["CreationDate"] ? DateTime.patron_format(@parsed_response["CreationDate"]) : ''
   end
   def expiration_date
-    @parsed_response["DueDate"] ? DateTime.patron_format(@parsed_response["DueDate"]) : nil
+    @parsed_response["DueDate"] ? DateTime.patron_format(@parsed_response["DueDate"]) : ''
   end
 end

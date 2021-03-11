@@ -75,7 +75,7 @@ describe InterlibraryLoanRequest do
   end
   context "#expiration_date" do
     it "returns expiration date string" do
-      expect(subject.expiration_date).to eq(nil)
+      expect(subject.expiration_date).to eq('')
     end
   end
 end
