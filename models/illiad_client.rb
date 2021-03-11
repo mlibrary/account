@@ -10,7 +10,6 @@ class ILLiadClient
   end
 
   def get(url, query={})
-    byebug
     self.class.get(url, query: query)
   end
 end
