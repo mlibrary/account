@@ -26,10 +26,4 @@ class InterlibraryLoanRequests
 end
 
 class InterlibraryLoanRequest < InterlibraryLoanItem
-  def request_date
-    @parsed_response["CreationDate"] ? DateTime.patron_format(@parsed_response["CreationDate"]) : ''
-  end
-  def expiration_date
-    @parsed_response["DueDate"] ? DateTime.patron_format(@parsed_response["DueDate"]) : ''
-  end
 end

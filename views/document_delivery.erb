@@ -24,11 +24,11 @@
     <% document_delivery.each do |delivery| %>
       <tr>
         <td>
-          <a href="<%= delivery.request_url %>"><%= delivery.title %></a>
+          <a href="<%= delivery.illiad_url %>"><%= delivery.title %></a>
           <span>&#183; <%= delivery.author %></span>
         </td>
         <td>
-          <%= delivery.request_date %>
+          <%= delivery.creation_date %>
         </td>
         <td>
           <%= delivery.expiration_date %>

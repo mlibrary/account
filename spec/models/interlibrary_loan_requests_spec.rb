@@ -33,14 +33,24 @@ describe InterlibraryLoanRequest do
   subject do
     InterlibraryLoanRequest.new(@request) 
   end
-  context "#request_url" do
+  context "#title" do
     it "returns url to the ILLiad transaction" do
-      expect(subject.request_url).to eq("https://ill.lib.umich.edu/illiad/illiad.dll?Action=10&Form=72&Value=3298020")
+      expect(subject.title).to eq("What I Think")
     end
   end
-  context "#request_date" do
-    it "returns request date string" do
-      expect(subject.request_date).to eq("Mar 9, 2021")
+  context "#author" do
+    it "returns url to the ILLiad transaction" do
+      expect(subject.author).to eq("A. Greta Mind")
+    end
+  end
+  context "#illiad_url" do
+    it "returns url to the ILLiad transaction" do
+      expect(subject.illiad_url).to eq("https://ill.lib.umich.edu/illiad/illiad.dll?Action=10&Form=72&Value=3298020")
+    end
+  end
+  context "#creation_date" do
+    it "returns creation date string" do
+      expect(subject.creation_date).to eq("Mar 9, 2021")
     end
   end
   context "#expiration_date" do
