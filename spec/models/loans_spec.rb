@@ -33,7 +33,7 @@ describe Loans do
       end
     end
     context "#initialize" do
-      it "returns loans with item_messages" do
+      it "returns loans with item messages" do
         loans = JSON.parse(File.read("./spec/fixtures/loans.json"))
         items= [ Loan.new(loans["item_loan"][0], Loan::RenewSuccessfulMessage.new) ]
         pagination = instance_double(PaginationDecorator) 

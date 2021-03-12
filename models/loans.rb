@@ -1,8 +1,7 @@
 class Loans
   attr_reader :pagination
-  def initialize(parsed_response:, pagination:,item_messages: nil, items: [])
+  def initialize(parsed_response:, pagination:, items: [])
     @parsed_response = parsed_response
-    @item_messages = item_messages
     @items = items
     @list = parsed_response["item_loan"]&.map do |l| 
         Loan.new(l, item_message(l["loan_id"]))
