@@ -18,6 +18,7 @@ require_relative "./models/horizontal_nav"
 require_relative "./models/patron"
 require_relative "./models/item"
 require_relative "./models/loans"
+require_relative "./models/document_delivery"
 require_relative "./models/requests"
 require_relative "./models/interlibrary_loan_requests"
 require_relative "./models/fines"
@@ -93,8 +94,9 @@ namespace '/shelf' do
   end
   
   get '/document-delivery' do
-  
-    erb :document_delivery, :locals => { document_delivery: [] }
+    document_delivery = DocumentDelivery.for(uniqname: 'testhelp')
+
+    erb :document_delivery, :locals => { document_delivery: document_delivery }
   end
 end
 

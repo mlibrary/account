@@ -1,5 +1,42 @@
 <%= erb :horizontal_nav %>
 
+<% if document_delivery.count == 0 %>
+
+<%= erb :loanss_empty_state %>
+
+<% elsif %>
+
 <div class="table-container">
-  [todo]
+<table>
+  <caption>
+    <div class="loan-caption-inner-layout">
+      <p>Showing <strong><%= document_delivery.count %></strong> items</p>
+    </div>
+  </caption>
+  <thead>
+    <tr>
+      <th>Title & author</th>
+      <th>Requested</th>
+      <th>Expires</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% document_delivery.each do |delivery| %>
+      <tr>
+        <td>
+          <a href="<%= delivery.request_url %>"><%= delivery.title %></a>
+          <span>&#183; <%= delivery.author %></span>
+        </td>
+        <td>
+          <%= delivery.request_date %>
+        </td>
+        <td>
+          <%= delivery.expiration_date %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
 </div>
+
+<% end %>
