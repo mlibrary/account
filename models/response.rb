@@ -7,28 +7,30 @@ class Response
   end
 end
 class RenewResponse < Response
-  attr_reader :code, :items
+  attr_reader :code, :items, :renewed, :unrenewed
   def initialize(code: 200, items: [])
     @code = code
     @items = items
-  end
-  def renewed
-    @items.filter{|x| x.message_status == :success}
-  end
-  def unrenewed
-    @items.filter{|x| x.message_status == :fail}
+    @renewed = @items.filter{|x| x.message_status == :success}
+    @unrenewed = @items.filter{|x| x.message_status == :fail}
   end
   def success_text?
-    renewed.count > 0
+    @renewed.count > 0
   end
   def error_text?
-    renewed.count == 0
+    @renewed.count == 0
   end
   def warn_text?
-    unrenewed.count > 0
+    @unrenewed.count > 0
   end
   def warn_text
-    unrenewed_text
+    count = @unrenewed.count
+    if count > 0
+      message = "The following #{item(count)} could not be renewed: <ul>"
+      message = message + @unrenewed.map{|x| "<li>#{x.title}</li>"}.join('')
+      message = message + "</ul>"
+      message
+    end
   end
   def success_text
     renew_summary
@@ -36,21 +38,12 @@ class RenewResponse < Response
   def error_text
     renew_summary
   end
-  def unrenewed_text
-    count = unrenewed.count
-    if count > 0
-      message = "The following #{item(count)} could not be renewed: <ul>"
-      message = message + unrenewed.map{|x| "<li>#{x.title}</li>"}.join('')
-      message = message + "</ul>"
-      message
-    end
-  end
+
+  private
   def renew_summary
-    count = renewed.count
-    "#{count} #{item(count)} successfully renewed"
+    "#{@renewed.count} #{item(@renewed.count)} successfully renewed"
   end
   
-  private
   def item(count)
     count == 1 ? "item" : "items"
   end
