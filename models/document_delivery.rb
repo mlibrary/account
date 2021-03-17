@@ -1,17 +1,7 @@
-class DocumentDelivery
+class DocumentDelivery < Items
   def initialize(parsed_response:)
     @parsed_response = parsed_response
-    @deliveries = parsed_response.filter_map { |delivery| DocumentDeliveryItem.new(delivery) if delivery["RequestType"] == "Loan" && delivery["TransactionStatus"] != "Request Finished" }
-  end
-
-  def count
-    @deliveries.length
-  end
-
-  def each(&block)
-    @deliveries.each do |delivery|
-      block.call(delivery)
-    end
+    @items = parsed_response.filter_map { |item| DocumentDeliveryItem.new(item) if item["RequestType"] == "Loan" && item["TransactionStatus"] != "Request Finished" }
   end
 
   def self.for(uniqname:, client: ILLiadClient.new)

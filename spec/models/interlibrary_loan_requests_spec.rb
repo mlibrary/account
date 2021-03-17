@@ -16,11 +16,11 @@ describe InterlibraryLoanRequests do
     end
     context "#each" do
       it "iterates over request objects" do
-        requests = ''
-        subject.each do |request|
-          requests = requests + request.class.name
+        items = ''
+        subject.each do |item|
+          items = items + item.class.name
         end
-        expect(requests).to eq('InterlibraryLoanRequest')
+        expect(items).to eq('InterlibraryLoanRequest')
       end
     end
   end
@@ -28,10 +28,10 @@ end
 
 describe InterlibraryLoanRequest do
   before(:each) do
-    @request = JSON.parse(File.read("./spec/fixtures/illiad_requests.json"))[2]
+    @item = JSON.parse(File.read("./spec/fixtures/illiad_requests.json"))[2]
   end
   subject do
-    InterlibraryLoanRequest.new(@request) 
+    InterlibraryLoanRequest.new(@item) 
   end
   context "#title" do
     it "returns title string" do

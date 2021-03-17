@@ -1,17 +1,7 @@
-class InterlibraryLoanRequests
+class InterlibraryLoanRequests < Items
   def initialize(parsed_response:)
-    @parsed_response = parsed_response
-    @requests = parsed_response.filter_map { |request| InterlibraryLoanRequest.new(request) if request["RequestType"] != "Loan" && request["TransactionStatus"] != "Request Finished" }
-  end
-
-  def count
-    @requests.length
-  end
-
-  def each(&block)
-    @requests.each do |request|
-      block.call(request)
-    end
+    super
+    @items = parsed_response.filter_map { |item| InterlibraryLoanRequest.new(item) if item["RequestType"] != "Loan" && item["TransactionStatus"] != "Request Finished" }
   end
 
   def self.for(uniqname:, client: ILLiadClient.new)

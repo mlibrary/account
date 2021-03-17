@@ -16,6 +16,7 @@ require_relative "./models/fine_payer"
 require_relative "./models/horizontal_nav"
 
 require_relative "./models/patron"
+require_relative "./models/items"
 require_relative "./models/item"
 require_relative "./models/loans"
 require_relative "./models/document_delivery"
