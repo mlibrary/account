@@ -12,5 +12,9 @@ class Items
     @items.each do |item|
       block.call(item)
     end
-  end  
+  end
+
+  def empty?
+    count == 0
+  end
 end

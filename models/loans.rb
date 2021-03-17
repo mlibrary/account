@@ -1,8 +1,8 @@
-class Loans
+class Loans < Items
   attr_reader :pagination
   def initialize(parsed_response:, pagination:)
     @parsed_response = parsed_response
-    @list = parsed_response["item_loan"]&.map{|l| Loan.new(l)} || []
+    @items = parsed_response["item_loan"]&.map{|item| Loan.new(item)} || []
     @pagination = pagination
   end
 
@@ -29,16 +29,6 @@ class Loans
   end
   def count
     @parsed_response["total_record_count"]
-  end
-
-  def each(&block)
-    @list.each do |l|
-      block.call(l)
-    end
-  end
-
-  def empty?
-    count == 0
   end
 
 
