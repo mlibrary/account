@@ -1,6 +1,6 @@
 class DocumentDelivery < Items
   def initialize(parsed_response:)
-    @parsed_response = parsed_response
+    super
     @items = parsed_response.filter_map { |item| DocumentDeliveryItem.new(item) if item["RequestType"] == "Loan" && item["TransactionStatus"] != "Request Finished" }
   end
 
