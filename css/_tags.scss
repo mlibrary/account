@@ -1,5 +1,5 @@
 .tag,
-.tag--error,
+.tag--fail,
 .tag--success {
   display: inline-block;
   padding: var(--space-xx-small) var(--space-x-small);
@@ -11,7 +11,7 @@
   color: var(--color-teal-100);
 }
 
-.tag--error {
+.tag--fail {
   background: var(--color-pink-200);
   color: var(--color-neutral-400);
 }
