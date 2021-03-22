@@ -68,9 +68,9 @@ describe Loans do
       @loan = one_loan["item_loan"].delete_at(0).to_json
     end
     it "requests loans sorted by title" do
-      stub_alma_get_request( url: 'users/jbister/loans', body: @loan, query: {"expand" => "renewable", "offset" => 1, "limit" => 1, "direction" => "ASC", "order_by" => "title"} )
-      loans = Loans.for(uniqname: 'jbister', offset: 1, limit: 1, direction: "ASC", order_by: "title")
-      expect(loans.pagination.next.url).to include("direction=ASC")
+      stub_alma_get_request( url: 'users/jbister/loans', body: @loan, query: {"expand" => "renewable", "offset" => 1, "limit" => 1, "direction" => "DESC", "order_by" => "title"} )
+      loans = Loans.for(uniqname: 'jbister', offset: 1, limit: 1, direction: "DESC", order_by: "title")
+      expect(loans.pagination.next.url).to include("direction=DESC")
       expect(loans.pagination.next.url).to include("order_by=title")
     end
   end
