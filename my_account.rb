@@ -33,6 +33,25 @@ post '/session_switcher' do
   session[:uniqname] = params[:uniqname]
   redirect '/'
 end
+post '/loan-controls' do
+  query = {limit: params["show"]}
+  case params["sort"]
+  when "due-asc"
+    query["order_by"] =  "due_date"
+    query["direction"] = "ASC"
+  when "due-desc"
+    query["order_by"] =  "due_date"
+    query["direction"] = "DESC"
+  when "title-asc"
+    query["order_by"] =  "title"
+    query["direction"] = "ASC"
+  when "title-desc"
+    query["order_by"] =  "title"
+    query["direction"] = "DESC"
+  end
+
+  redirect "/shelf/loans?#{URI.encode_www_form(query)}"
+end
 get '/receipt_test' do
   items = [{ "id"=>"1384289260006381", "balance"=>"5.00", "title"=>"Short history of Georgia.", "barcode"=>"95677", "library"=>"Main Library", "type"=>"Overdue fine", "creation_time"=>"2020-12-09T17:13:29.959Z" }]
   nelnet_params =  { "transactionType"=>"1", "transactionStatus"=>"1", "transactionId"=>"382481568", "transactionTotalAmount"=>"2250", "transactionDate"=>"202001211341", "transactionAcountType"=>"VISA", "transactionResultCode"=>"267849", "transactionResultMessage"=>"Approved and completed", "orderNumber"=>"Afam.1608566536797", "orderType"=>"UMLibraryCirc", "orderDescription"=>"U-M Library Circulation Fines", "payerFullName"=>"Aardvark Jones", "actualPayerFullName"=>"Aardvark Jones", "accountHolderName"=>"Aardvark Jones", "streetOne"=>"555 S STATE ST", "streetTwo"=>"", "city"=>"Ann Arbor", "state"=>"MI", "zip"=>"48105", "country"=>"UNITED STATES", "email"=>"aardvark@umich.edu", "timestamp"=>"1579628471900", "hash"=>"33c52c83a5edd6755a5981368028b55238a01a918570b0552836db3250b2ed6c" }

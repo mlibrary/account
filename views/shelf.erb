@@ -24,7 +24,7 @@ Renew all could be too slow. Maybe reconsider.
       <p>Showing <strong><%=loans.pagination.first%></strong> - <strong><%=loans.pagination.last%></strong> of <strong><%= loans.count %></strong> items</p>
 
       <div class="loan-controls">
-        <form>
+        <form method="post" action="/loan-controls">
           <label>
             <span>Sort by</span>
             <select name="sort" data-js-submit>
@@ -40,7 +40,7 @@ Renew all could be too slow. Maybe reconsider.
             <select name="show" data-js-submit>
               <option value="10">10 items</option>
               <option value="25">25 items</option>
-              <option value="30">50 items</option>
+              <option value="50">50 items</option>
             </select>
           </label>
 

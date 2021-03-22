@@ -12,6 +12,42 @@ describe "requests" do
       expect(last_response.body).to include("Welcome")
     end
   end
+  context "post /loan-controls" do
+    def params(uri=nil)
+      URI.decode_www_form(URI.parse(last_response.location).query).to_h
+    end
+    before(:each) do
+      @query = {show: 50, sort: 'due-asc'}
+    end
+    it "handles show number of results option" do
+      post '/loan-controls', @query
+      expect(params["limit"]).to eq('50')
+    end
+    it "handles due-asc" do
+      post '/loan-controls', @query
+      expect(params["order_by"]).to eq('due_date')
+      expect(params["direction"]).to eq('ASC')
+    end
+    it "handles due-desc" do
+      @query[:sort] = 'due-desc'
+      post '/loan-controls', @query
+      expect(params["order_by"]).to eq('due_date')
+      expect(params["direction"]).to eq('DESC')
+    end
+    it "handles title-asc" do
+      @query[:sort] = 'title-asc'
+      post '/loan-controls', @query
+      expect(params["order_by"]).to eq('title')
+      expect(params["direction"]).to eq('ASC')
+    end
+    it "handles title-desc" do
+      @query[:sort] = 'title-desc'
+      post '/loan-controls', @query
+      expect(params["order_by"]).to eq('title')
+      expect(params["direction"]).to eq('DESC')
+    end
+    
+  end
   context "get /shelf" do
     it "redirects to '/shelf/loans'" do
       get "/shelf"
