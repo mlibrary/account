@@ -1,0 +1,40 @@
+{
+  "loan_id": "1332733700000521",
+  "circ_desk": {
+    "value": "DEFAULT_CIRC_DESK",
+    "desc": "Main Library Circulation"
+  },
+  "library": {
+    "value": "MAIN",
+    "desc": "Main Library"
+  },
+  "user_id": "tutor",
+  "item_barcode": "95677",
+  "due_date": "2021-03-05T21:20:00.764Z",
+  "loan_status": "ACTIVE",
+  "loan_date": "2020-10-30T16:47:54.230Z",
+  "process_status": "RENEW",
+  "mms_id": "991518500000541",
+  "holding_id": "225904060000541",
+  "item_id": "235904050000541",
+  "title": "Short history of Georgia.",
+  "author": "Coulter, E. Merton",
+  "description": null,
+  "publication_year": "c1933.",
+  "location_code": {
+    "value": "main",
+    "name": "Stacks"
+  },
+  "item_policy": {
+    "value": null,
+    "description": null
+  },
+  "call_number": "975.8 C83",
+  "loan_fine": 2.5,
+  "renewable": true,
+  "last_renew_date": "2021-03-05T21:20:01.025Z",
+  "last_renew_status": {
+    "value": "401193;",
+    "desc": "Renewed Successfully"
+  }
+}

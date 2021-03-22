@@ -81,8 +81,8 @@ namespace '/shelf' do
   end
 
   get '/loans' do
-    loans = Loans.for(uniqname: session[:uniqname], offset: params["offset"], limit: params["limit"], order_by: params["order_by"], direction: params["direction"]) 
-  
+    loans = Loans.for(uniqname: session[:uniqname], offset: params["offset"], limit: params["limit"], order_by: params["order_by"], direction: params["direction"], items: session[:items])
+    session.delete(:items)
     erb :shelf, :locals => { loans: loans }
   end
   
@@ -95,6 +95,19 @@ namespace '/shelf' do
   get '/document-delivery' do
   
     erb :document_delivery, :locals => { document_delivery: [] }
+  end
+  post '/loans' do
+    response = Loans.renew_all(uniqname: session[:uniqname])
+    if response.code == 200
+      flash.now[:success] = response.success_text if response.success_text?
+      flash.now[:error] = response.error_text if response.error_text?
+      flash.now[:warn] = response.warn_text if response.warn_text?
+    else
+      flash.now[:error] = "<strong>Error:</strong> #{response.message}"
+    end
+    response.class.name == 'RenewResponse' ? items = response.items : items = []
+    loans = Loans.for(uniqname: session[:uniqname], items: items)
+    erb :shelf, :locals => { loans: loans }
   end
 end
 
@@ -125,16 +138,16 @@ get '/contact-information' do
   patron = Patron.for(uniqname: session[:uniqname])
   erb :patron, :locals => {patron: patron}
 end
-
-post '/renew-loan' do
-  response = Loan.renew(uniqname: session[:uniqname], loan_id: params["loan_id"])
-  if response.code == 200
-    flash[:success] = "<strong>Success:</strong> Loan Successfully Renewed"
-  else
-    flash[:error] = "<strong>Error:</strong> #{response.message}"
-  end
-  redirect "shelf/loans"
-end
+#TODO set up renew loan to handle renew in place with top part message???
+#post '/renew-loan' do
+  #response = Loan.renew(uniqname: session[:uniqname], loan_id: params["loan_id"])
+  #if response.code == 200
+    #flash[:success] = "<strong>Success:</strong> Loan Successfully Renewed"
+  #else
+    #flash[:error] = "<strong>Error:</strong> #{response.message}"
+  #end
+  #redirect "shelf/loans"
+#end
 
 post '/sms' do
   patron = Patron.for(uniqname: session[:uniqname])

@@ -2,7 +2,8 @@ require 'spec_helper'
 describe "requests" do
   include Rack::Test::Methods
   before(:each) do
-    env 'rack.session', uniqname: 'tutor'
+    @session = { uniqname: 'tutor' }
+    env 'rack.session', @session
   end
   context "get /" do
     it "contains 'Welcome'" do
@@ -32,6 +33,7 @@ describe "requests" do
       expect(last_response.body).to include("Shelf")
     end
   end
+  
   context "get /shelf/past-loans" do
     it "contains 'Past Loans'" do
       get "/shelf/past-loans" 
@@ -88,25 +90,61 @@ describe "requests" do
       expect(last_response.body).to include("notifications")
     end
   end
-  context "post /renew loan" do
+  context "post /shelf/loans" do
     before(:each) do
-      stub_alma_get_request(url: "users/tutor/loans", query: {expand: 'renewable'})
+      @alma_loans = JSON.parse(File.read('./spec/fixtures/loans.json')) 
+      @alma_loans["item_loan"][0]["renewable"] = false
+      stub_alma_get_request( url: 'users/tutor/loans', body: @alma_loans.to_json, query: {expand: 'renewable', limit: 100, offset: 0} )
+      stub_alma_get_request( url: 'users/tutor/loans', body: @alma_loans.to_json, query: {expand: 'renewable'} )
+      stub_alma_post_request( url: 'users/tutor/loans/1332733700000521', query: {op: 'renew'} ) 
+      stub_alma_post_request( url: 'users/tutor/loans/1332734190000521', query: {op: 'renew'} ) 
     end
-    it "handles good request" do
-      stub_alma_post_request(url: "users/tutor/loans/1234", query: {op: 'renew'} )
-      post "/renew-loan", {'loan_id' => '1234'}
-      expect(URI(last_response.headers["Location"]).path).to eq("/shelf/loans")
-      follow_redirect!
-      expect(last_response.body).to include("Loan Successfully Renewed")
+    it "shows appropriate flash messages" do
+      post "/shelf/loans" 
+      expect(last_response.body).to include("1 item successfully renewed")
+      expect(last_response.body).to include('The following item could not be renewed:')
     end
-    it "handles bad request" do
-      stub_alma_post_request(url: "users/tutor/loans/1234", query: {op: 'renew'}, status: 500 )
-      post "/renew-loan", {'loan_id' => '1234'}
-      expect(URI(last_response.headers["Location"]).path).to eq("/shelf/loans")
-      follow_redirect!
-      expect(last_response.body).to include("Error")
+    it "shows error flash when none have been renewed" do
+      @alma_loans["item_loan"][1]["renewable"] = false
+      stub_alma_get_request( url: 'users/tutor/loans', body: @alma_loans.to_json, query: {expand: 'renewable', limit: 100, offset: 0} )
+      stub_alma_get_request( url: 'users/tutor/loans', body: @alma_loans.to_json, query: {expand: 'renewable'} )
+
+      post "/shelf/loans" 
+
+      expect(last_response.body).to include("0 items successfully renewed")
+      expect(last_response.body).to include("error")
+    end
+    it "shows inline messages" do
+      post "/shelf/loans"
+      expect(last_response.body).to include("Unable to Renew")
+      expect(last_response.body).to include("Renew Successful")
+    end
+    it "shows error flash for major Alma Error" do
+      stub_alma_get_request( url: 'users/tutor/loans', body: File.read('./spec/fixtures/alma_error.json'), query: {expand: 'renewable', limit: 100, offset: 0}, status: 400 )
+      post "/shelf/loans"
+      expect(last_response.body).to include("Error:")
     end
   end
+  #ToDO 
+  #context "post /renew-loan" do
+    #before(:each) do
+      #stub_alma_get_request(url: "users/tutor/loans", query: {expand: 'renewable'})
+    #end
+    #it "handles good request" do
+      #stub_alma_post_request(url: "users/tutor/loans/1234", query: {op: 'renew'} )
+      #post "/renew-loan", {'loan_id' => '1234'}
+      #expect(URI(last_response.headers["Location"]).path).to eq("/shelf/loans")
+      #follow_redirect!
+      #expect(last_response.body).to include("Loan Successfully Renewed")
+    #end
+    #it "handles bad request" do
+      #stub_alma_post_request(url: "users/tutor/loans/1234", query: {op: 'renew'}, status: 500 )
+      #post "/renew-loan", {'loan_id' => '1234'}
+      #expect(URI(last_response.headers["Location"]).path).to eq("/shelf/loans")
+      #follow_redirect!
+      #expect(last_response.body).to include("Error")
+    #end
+  #end
   context "post /sms" do
     before(:each) do
       @patron_json = File.read("./spec/fixtures/mrio_user_alma.json")

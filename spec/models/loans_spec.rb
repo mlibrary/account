@@ -6,7 +6,7 @@ require 'json'
 # * Handling InterLibraryLoan
 # * Double checking that renewable is included in basic loans?
 describe Loans do
-  context "one loan" do
+  context "two loans" do
     before(:each) do
       stub_alma_get_request( url: 'users/jbister/loans', body: File.read("./spec/fixtures/loans.json"), query: {expand: 'renewable'} )
     end
@@ -30,6 +30,17 @@ describe Loans do
           loans_contents = loans_contents + loan.class.name
         end
         expect(loans_contents).to eq('LoanLoan')
+      end
+    end
+    context "#initialize" do
+      it "returns loans with item messages" do
+        loans = JSON.parse(File.read("./spec/fixtures/loans.json"))
+        items= [ Loan.new(loans["item_loan"][0], Loan::RenewSuccessfulMessage.new) ]
+        pagination = instance_double(PaginationDecorator) 
+        my_loans = Loans.new(parsed_response: loans, pagination: pagination, items: items)
+        my_message = ''
+        my_loans.each { |x| my_message = my_message + x.message_status.to_s }
+        expect(my_message).to eq('success')
       end
     end
   end
@@ -56,10 +67,10 @@ describe Loans do
       one_loan = JSON.parse(File.read("./spec/fixtures/loans.json"))
       @loan = one_loan["item_loan"].delete_at(0).to_json
     end
-    it "requests loans reverse sorted by title" do
-      stub_alma_get_request( url: 'users/jbister/loans', body: @loan, query: {"expand" => "renewable", "offset" => 1, "limit" => 1, "direction" => "DESC", "order_by" => "title"} )
-      loans = Loans.for(uniqname: 'jbister', offset: 1, limit: 1, direction: "DESC", order_by: "title")
-      expect(loans.pagination.next.url).to include("direction=DESC")
+    it "requests loans sorted by title" do
+      stub_alma_get_request( url: 'users/jbister/loans', body: @loan, query: {"expand" => "renewable", "offset" => 1, "limit" => 1, "direction" => "ASC", "order_by" => "title"} )
+      loans = Loans.for(uniqname: 'jbister', offset: 1, limit: 1, direction: "ASC", order_by: "title")
+      expect(loans.pagination.next.url).to include("direction=ASC")
       expect(loans.pagination.next.url).to include("order_by=title")
     end
   end
@@ -92,9 +103,19 @@ end
 describe Loan do
   before(:each) do
     @loan_response = JSON.parse(File.read("./spec/fixtures/loans.json"))["item_loan"][0]
+    @message = nil
   end
   subject do
-    Loan.new(@loan_response) 
+    Loan.new(@loan_response, @message) 
+  end
+  context "#message?" do
+    it "returns true for existing message" do
+      @message = "Message!"
+      expect(subject.message?).to eq(true)
+    end
+    it "returns false for no message" do
+      expect(subject.message?).to eq(false)
+    end
   end
   context "#title" do
     it "returns title string" do
@@ -158,35 +179,64 @@ describe Loan do
   end
 end
 describe Loans do
-  context ".renew(uniqname:, loan_ids:)" do
+  context ".renew(uniqname:, loans:)" do
     subject do
-      Loans.renew(loan_ids: ['1234','5678'], uniqname: 'jbister')
+      loan_1 = instance_double(Loan, loan_id: '1234', parsed_response: {})
+      loan_2 = instance_double(Loan, loan_id: '5678', parsed_response: {})
+      Loans.renew(loans: [loan_1, loan_2], uniqname: 'jbister')
     end
     it "returns a HTTParty response of success" do
       stub_alma_post_request( url: 'users/jbister/loans/1234', body: '{}', query: {op: 'renew'} )
       stub_alma_post_request( url: 'users/jbister/loans/5678', body: '{}', query: {op: 'renew'} )
       expect(subject.code).to eq(200)
+      expect(subject.items.count).to eq(2)
+      expect(subject.items.first.message_status).to eq(:success)
     end
     it "returns errors for unrenewable items" do
       error = File.read('./spec/fixtures/alma_error.json')
       stub_alma_post_request( status: 500, url: 'users/jbister/loans/1234', body: error, query: {op: 'renew'} )
       stub_alma_post_request( status: 500, url: 'users/jbister/loans/5678', body: error, query: {op: 'renew'} )
-      expect(subject.code).to eq(500)
-      expect(subject.message).to eq("User with identifier mrioaaa was not found.\nUser with identifier mrioaaa was not found.")
+      expect(subject.code).to eq(200)
+      expect(subject.items.count).to eq(2)
+      expect(subject.items.first.message_status).to eq(:fail)
     end
   end
   context ".renew_all(uniqname:)" do
+    before(:each) do
+      stub_alma_get_request( url: 'users/jbister/loans', body: File.read('./spec/fixtures/loans.json'), query: {expand: 'renewable', limit: 100, offset: 0} )
+    end
     subject do
       Loans.renew_all(uniqname: 'jbister')
     end
-    it "renews all items even across pagination" do
-      stub_alma_get_request( url: 'users/jbister/loans', body: File.read('./spec/fixtures/loans.json'), query: {expand: 'renewable', limit: 100, offset: 0} )
-      renew1 = stub_alma_post_request( url: 'users/jbister/loans/1332733700000521', body: '{}', query: {op: 'renew'} )
-      renew2 = stub_alma_post_request( url: 'users/jbister/loans/1332734190000521', body: '{}', query: {op: 'renew'} )
+    def stub_renew1(body='{}')
+      stub_alma_post_request( url: 'users/jbister/loans/1332733700000521', body: body, query: {op: 'renew'} ) 
+    end
+    def stub_renew2(body='{}')
+      stub_alma_post_request( url: 'users/jbister/loans/1332734190000521', body: body, query: {op: 'renew'} ) 
+    end
+    it "renews all items" do
+      renew1 = stub_renew1
+      renew2 = stub_renew2
 
       expect(subject.code).to eq(200)
       expect(renew1).to have_been_requested
       expect(renew2).to have_been_requested
+    end
+    it "returns appropriate response for renews" do
+      stub_renew1(File.read('./spec/fixtures/renew_loan1.json'))
+      stub_renew2(File.read('./spec/fixtures/renew_loan2.json'))
+      response = subject
+      expect(response.code).to eq(200)
+      expect(response.items.count).to eq(2)
+    end
+    it "handles unrenewable loans" do
+      loans = JSON.parse(File.read('./spec/fixtures/loans.json'))
+      loan_id = loans["item_loan"][0]["loan_id"]
+      loans["item_loan"][0]["renewable"] = false
+      stub_renew2
+      stub_alma_get_request( url: 'users/jbister/loans', body: loans.to_json, query: {expand: 'renewable', limit: 100, offset: 0} )
+      unrenewable_loan = subject.items.find{|x| x.loan_id == loan_id}
+      expect(unrenewable_loan.message_status).to eq(:fail)
     end
   end
 end
@@ -194,13 +244,46 @@ describe Loan, ".renew(loan_id:, uniqname:)" do
   subject do
     Loan.renew(loan_id: '1234', uniqname: 'jbister')
   end
-  it "returns a HTTParty response of success" do
+  it "returns Renew Successful message for successful renew" do
     stub_alma_post_request( url: 'users/jbister/loans/1234', body: '{}', query: {op: 'renew'} )
-    expect(subject.code).to eq(200)
+    expect(subject.class.name).to eq('Loan::RenewSuccessfulMessage')
+    expect(subject.status).to eq(:success)
   end
-  it "returns alma error" do
+  it "returns Renew Unsuccessful message for unsuccessful renews" do
     stub_alma_post_request( url: 'users/jbister/loans/1234', body: File.read('./spec/fixtures/alma_error.json'), query: {op: 'renew'}, status: 400 )
-    expect(subject.code).to eq(400)
-    expect(subject.message).to eq("User with identifier mrioaaa was not found.")
+    expect(subject.class.name).to eq('Loan::RenewUnsuccessfulMessage')
+    expect(subject.status).to eq(:fail)
+  end
+end
+describe Loan::Message do
+  describe Loan::RenewSuccessfulMessage do
+    subject do
+      Loan::RenewSuccessfulMessage.new
+    end
+    context "#message" do
+      it "shows correct message" do
+        expect(subject.text).to eq("Renew Successful")
+      end
+    end
+    context "#status" do
+      it "shows correct status" do
+        expect(subject.status).to eq(:success)
+      end
+    end
+  end
+  describe Loan::RenewUnsuccessfulMessage do
+    subject do
+      Loan::RenewUnsuccessfulMessage.new('renew failed')
+    end
+    context "#message" do
+      it "shows correct message" do
+        expect(subject.text).to eq("renew failed")
+      end
+    end
+    context "#status" do
+      it "shows correct status" do
+        expect(subject.status).to eq(:fail)
+      end
+    end
   end
 end
