@@ -1,9 +1,9 @@
-class Loans
+class Loans < Items
   attr_reader :pagination
-  def initialize(parsed_response:, pagination:, items: [])
+  def initialize(parsed_response:, pagination:, renewed_items: [])
     @parsed_response = parsed_response
-    @items = items
-    @list = parsed_response["item_loan"]&.map do |l| 
+    @renewed_items = renewed_items
+    @items = parsed_response["item_loan"]&.map do |l| 
         Loan.new(l, item_message(l["loan_id"]))
     end || []
     @pagination = pagination
@@ -38,20 +38,10 @@ class Loans
     @parsed_response["total_record_count"]
   end
 
-  def each(&block)
-    @list.each do |l|
-      block.call(l)
-    end
-  end
-
-  def empty?
-    count == 0
-  end
-
 
   def self.for(uniqname:, offset: nil, limit: nil, 
                client: AlmaRestClient.client, order_by: nil, direction: nil, 
-               items: [] )
+               renewed_items: [] )
     url = "/users/#{uniqname}/loans" 
     query = {"expand" => "renewable"}
     query["offset"] = offset unless offset.nil?
@@ -69,14 +59,14 @@ class Loans
       pagination_params[:direction] = direction unless direction.nil?
       Loans.new(parsed_response: pr, 
                 pagination: PaginationDecorator.new(**pagination_params),
-                items: items)
+                renewed_items: renewed_items)
     else
       #Error!
     end
   end
   private
   def item_message(loan_id)
-    @items&.find{|loan| loan.loan_id == loan_id}&.message
+    @renewed_items&.find{|loan| loan.loan_id == loan_id}&.message
   end
   
 end

@@ -41,7 +41,9 @@ describe "requests" do
     end
   end
   context "get /shelf/document-delivery" do
-    it "contains 'Document Delivery'" do
+    it "contains 'Document delivery'" do
+      stub_illiad_get_request(url: "Transaction/UserRequests/testhelp", 
+        body: File.read("spec/fixtures/illiad_requests.json"))
       get "/shelf/document-delivery" 
       expect(last_response.body).to include("Document delivery")
     end
