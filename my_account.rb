@@ -6,6 +6,7 @@ require "alma_rest_client"
 require 'jwt'
 require 'byebug' 
 
+require_relative "./models/navigation"
 require_relative "./models/response"
 require_relative "./utility"
 require_relative "./models/pagination/pagination"
@@ -70,7 +71,7 @@ get '/' do
 
   patron = Patron.for(uniqname: session[:uniqname])
 
-  erb :home, :locals => { patron: patron, test_users: test_users }
+  erb :home, :locals => { patron: patron, test_users: test_users, navigation: Navigation.new}
 end
 
 namespace '/shelf' do

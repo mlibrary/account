@@ -1,0 +1,74 @@
+[
+  { 
+    "title": "Account overview"
+  },
+  {
+    "title": "Current Checkouts",
+    "description": "View items that you have checked out and check their dates.",
+    "icon_name": "book",
+    "color": "teal",
+    "children": [
+      {
+        "title": "Checkouts"
+      },
+      {
+        "title": "Interlibrary Loan"
+      },
+      {
+        "title": "Document Delivery / Scans"
+      }
+    ]
+  },
+  {
+    "title": "Pending Requests",
+    "description": "See a list of library items on hold or requested for recall.",
+    "icon_name": "date-range",
+    "color": "orange",
+    "children": [
+      {
+        "title": "U-M Library"
+      },
+      {
+        "title": "Interlibrary Loan"
+      },
+      {
+        "title": "Special Collections"
+      }
+    ]
+  },
+  {
+    "title": "Past Activity",
+    "description": "Insert a brief description here. Mention U-M Library checkouts, ILL, and Special Collections",
+    "icon_name": "history",
+    "color": "pink",
+    "children": [
+      {
+        "title": "U-M Library"
+      },
+      {
+        "title": "Interlibrary Loan"
+      },
+      {
+        "title": "Special Collections"
+      }
+    ]
+  },
+  {
+    "title": "Fines & fees",
+    "description": "Fines are issues for overdue, lost, or damaged items.",
+    "icon_name": "attach-money",
+    "color": "indigo"
+  },
+  {
+    "title": "Favorites",
+    "description": "View items that you have added to your favorites.",
+    "icon_name": "star",
+    "color": "green"
+  },
+  {
+    "title": "Settings",
+    "description": "View your contact information and edit notifications and other preferences.",
+    "icon_name": "settings",
+    "color": "maize"
+  }
+]
