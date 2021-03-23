@@ -1,7 +1,8 @@
 class PaginationDecorator
+  attr_reader :limit
   def initialize(url:,
                  current_offset: 0, total:, limit: 10,
-                 direction: 'ASC', order_by: 'id',
+                 direction: 'DESC', order_by: 'due_date',
                  base_pagination: Pagination.new(current_offset: current_offset, total: total, limit: limit)
                 )
     @base_pagination = base_pagination
@@ -51,8 +52,8 @@ class PaginationDecorator
     query = []
     query.push("offset=#{offset}") if offset > 0
     query.push("limit=#{@limit}") if @limit != 10
-    query.push("direction=#{@direction}") if @direction != 'ASC' 
-    query.push("order_by=#{@order_by}") if @order_by != 'id' 
+    query.push("direction=#{@direction}") if @direction != 'DESC' 
+    query.push("order_by=#{@order_by}") if @order_by != 'due_date' 
     query_string = query.join('&')
     query_string = nil if query_string == ''
 

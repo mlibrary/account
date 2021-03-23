@@ -69,17 +69,17 @@ describe Patron do
          subject.update_sms('', client_dbl)
        end
     end
-    context "uniqname" do
+    context "#uniqname" do
       it "returns string" do
         expect(subject.uniqname).to eq('mrio')
       end
     end
-    context "full_name" do
+    context "#full_name" do
       it "returns string" do
         expect(subject.full_name).to eq('Monique Rio')
       end
     end
-    context "sms_number" do
+    context "#sms_number" do
       it "returns sms number if preferred_sms is set" do
         expect(subject.sms_number).to eq('734-123-4567')
       end
@@ -93,7 +93,21 @@ describe Patron do
         expect(subject.sms_number).to be_nil
       end
     end
-    context "addresses" do
+    context "#sms_number?" do
+      it "returns true for exisitng sms number" do
+        expect(subject.sms_number?).to eq(true)
+      end
+      it "returns false for non-existant sms number" do 
+        my_response = JSON.parse(@alma_response)
+        my_response["contact_info"]["phone"][1]["preferred_sms"] = false
+        stub_alma_get_request(
+          url: @patron_url, 
+          body: my_response.to_json
+        )
+        expect(subject.sms_number?).to eq(false)
+      end
+    end
+    context "#addresses" do
       it "returns an array of addresses" do
         expect(subject.addresses.class.name).to eq('Array')
         expect(subject.addresses.count).to eq(2)

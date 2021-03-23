@@ -48,7 +48,10 @@ Renew all could be too slow. Maybe reconsider.
             <div style="display: inline-flex;"><button class="button button--light">Apply</button></div>
           </noscript>
         </form>
-        <button class="button button--light">Renew all</button>
+        <form action="/shelf/loans" method="post">
+          <input type="hidden" name="renew-all" value="" />
+          <button class="button button--light">Renew all</button>
+        </form>
       </div>
     </div>
   </caption>
@@ -69,6 +72,9 @@ Renew all could be too slow. Maybe reconsider.
         </td>
         <td>
           <%= loan.due_date %>
+          <% if loan.message? %>
+            <span class="tag--<%=loan.message_status%>"><%= loan.message%></span>
+          <% end %>
         </td>
         <td>
           <% if loan.renewable? %>
