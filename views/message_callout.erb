@@ -1,0 +1,18 @@
+<div class="message-callout">
+  <div class="message-callout-content">
+    <% if message.renewed? %>
+      <p><strong><%= message.renewed_text %></strong></p>
+    <% end %>
+    
+    <% if message.not_renewed? %>
+      <p><strong><%=message.not_renewed_text%></strong></p>
+    <ul>
+      <% message.unrenewable_reasons.each do |reason| %>
+        <li><%=reason%></li>
+     <% end %>
+    </ul>
+    <% end %>
+  </div>
+
+  <a href="<%=request.path_info%>" class="message-callout-dismiss">Dismiss</a>
+</div>

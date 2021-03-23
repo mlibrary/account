@@ -6,14 +6,22 @@
 
 <% elsif %>
 
+  <% unless message.nil? %>
+    <%= erb :message_callout, locals: {message: message} %>
+  <% end %>
+
 <!--
+<div class="message message--error" style="margin-bottom: var(--space-large);">
+  <p><strong>We had an issue renewing the following titles:</strong></p>
 
-Renew all could be too slow. Maybe reconsider.
+  <ul>
+    <li>The end of early music : a period performer's history of music for the twenty-first century / Bruce Haynes. </li>
+    <li>Short history of Georgia. </li>
+    <li>Creative design in wall hangings; weaving patterns based on primitive and medieval art.</li>
+  </ul>
 
-<form action="todo:renew-all-monique-help!" method="post">
-  <input type="hidden" name="renew-all" value="" />
-  <button>Renew all</button>
-</form>
+  <p>Try "Renew all" again. If you still are having trouble then contact Ask a Librarian.</p>
+</div>
 -->
 
 <div class="table-container">
@@ -32,7 +40,7 @@ Renew all could be too slow. Maybe reconsider.
               <option value="due-desc">Due date: descending</option>
               <option value="title-asc">Title: ascending</option>
               <option value="title-desc">Title: descending</option>
-            </select>
+            </select, message: nil>
           </label>
 
           <label>
@@ -40,17 +48,13 @@ Renew all could be too slow. Maybe reconsider.
             <select name="show" data-js-submit>
               <option value="10">10 items</option>
               <option value="25">25 items</option>
-              <option value="30">50 items</option>
+              <option value="50">50 items</option>
             </select>
           </label>
-
-          <noscript>
-            <div style="display: inline-flex;"><button class="button button--light">Apply</button></div>
-          </noscript>
         </form>
         <form action="/shelf/loans" method="post">
           <input type="hidden" name="renew-all" value="" />
-          <button class="button button--light">Renew all</button>
+          <button class="button button--light"><m-icon name="autorenew"></m-icon><span style="padding-left: var(--space-xx-small);">Renew all</button>
         </form>
       </div>
     </div>
