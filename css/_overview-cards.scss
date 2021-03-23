@@ -17,12 +17,13 @@
 }
 
 .overview-card {
-  display: block;
+  display: flex;
   border: solid 1px var(--color-neutral-100);
   border-radius: var(--radius-default);
   padding: var(--space-large);
   padding-bottom: var(--space-x-large);
   text-decoration: none;
+  align-items: center;
 
   &:hover .overview-card-heading {
     text-decoration: underline;
@@ -39,4 +40,22 @@
 
 .overview-card-description {
   color: var(--color-neutral-300);
+}
+
+.overview-card-icon-container {
+  --overview-card-icon-color: var(--color-teal-400);
+  --overview-card-icon-background-color: var(--color-teal-100);
+
+  display: flex;
+  justify-content: space-evenly;
+  margin-left: var(--space-medium);
+  border-radius: 100%;
+  padding: var(--space-medium);
+  background: var(--overview-card-icon-background-color);
+
+  svg {
+    color: var(--overview-card-icon-color);
+    width: var(--space-xx-large);
+    height: var(--space-xx-large);
+  }
 }

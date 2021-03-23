@@ -1,5 +1,4 @@
 <h1>Welcome, <%= patron.full_name %></h1>
-<p>This is the home of your University of Michigan Library account.</p>
 
 <!--
   Could this data come from back-end?
@@ -11,29 +10,46 @@
 -->
 <% overview_cards = [
   {
-    label: 'Shelf',
-    to: '/shelf',
-    description: "View items that you have checked out and check their dates."
+    label: 'Current Checkouts',
+    to: '/current-checkouts',
+    description: "View items that you have checked out and check their dates.",
+    icon: "book",
+    color: "teal"
   },
   {
-    label: 'Requests',
-    to: '/requests',
-    description: "Check the status of items that you have requested or need to pick up."
+    label: 'Pending Requests',
+    to: '/pending-requests',
+    description: "See a list of library items on hold or requested for recall.",
+    icon: "date_range",
+    color: "orange"
+  },
+  {
+    label: "Past Activity",
+    to: "/past-activity",
+    description: "Insert a brief description here. Mention U-M Library checkouts, ILL, and Special Collections",
+    icon: "history",
+    color: "pink"
   },
   {
     label: 'Fines & fees',
-    to: '/fines',
-    description: "View information about fines and fees that you may owe."
-  },
-  {
-    label: 'Contact information',
-    to: '/contact-information',
-    description: "View your contact information and edit your notifcation settings."
+    to: '/fines-and-fees',
+    description: "Fines are issues for overdue, lost, or damaged items.",
+    icon: "attach_money",
+    color: "indigo"
   },
   {
     label: 'Favorites',
     to: 'https://apps.lib.umich.edu/my-account/favorites',
-    description: "View items that you have added to your favorites."
+    description: "View items that you have added to your favorites.",
+    icon: "star",
+    color: "green"
+  },
+  {
+    label: 'Settings',
+    to: '/settings',
+    description: "View your contact information and edit notifications and other preferences.",
+    icon: "settings",
+    color: "maize"
   }
 ] %>
 
@@ -41,23 +57,34 @@
 <% overview_cards.each do |card| %>
   <li>
     <a href="<%=card[:to]%>" class="overview-card">
-      <h2 class="overview-card-heading"><%=card[:label]%></h2>
-      <p class="overview-card-description"><%=card[:description]%></p>
+      <div>
+        <h2 class="overview-card-heading"><%=card[:label]%></h2>
+        <p class="overview-card-description"><%=card[:description]%></p>
+      </div>
+      <div class="overview-card-icon-container" style="--overview-card-icon-background-color: var(--color-<%=card[:color]%>-100); --overview-card-icon-color: var(--color-<%=card[:color]%>-400);">
+        <m-icon name="<%=card[:icon]%>"></m-icon>
+      </div>
     </a>
   </li>
 <% end %>
 </ul>
 
-<form method="post" action="/session_switcher">
-  <label for="test-user">
-    Select a test user for simulating accounts
-  </label>
+<div class="message-callout">
+  <div class="prose owl">
+    <h2 style="margin-top: 0;">design & development</h2>
 
-  <select id="test-user" name="uniqname">
-    <% test_users.each do |user| %>
-      <option value="<%=user[:value]%>"><%=user[:label]%></option>
-      <% end %>
-  </select>
+    <form method="post" action="/session_switcher" class="prose owl">
+      <label for="test-user">
+        <p>Active user account:</p>
+      </label>
 
-  <button>Apply</button>
-</form>
+      <select id="test-user" name="uniqname">
+        <% test_users.each do |user| %>
+          <option value="<%=user[:value]%>"><%=user[:label]%></option>
+          <% end %>
+      </select>
+
+      <button>Save</button>
+    </form>
+  </div>
+</div>
