@@ -29,6 +29,9 @@ class Patron
   def sms_number
     @parsed_response.dig("contact_info","phone")&.find(-> {{}}){|x| x["preferred_sms"]}&.dig("phone_number")
   end
+  def sms_number?
+    !!sms_number
+  end
   def full_name
     @parsed_response["full_name"]
   end

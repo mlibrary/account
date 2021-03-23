@@ -37,7 +37,7 @@ describe Loans do
         loans = JSON.parse(File.read("./spec/fixtures/loans.json"))
         items= [ Loan.new(loans["item_loan"][0], Loan::RenewSuccessfulMessage.new) ]
         pagination = instance_double(PaginationDecorator) 
-        my_loans = Loans.new(parsed_response: loans, pagination: pagination, items: items)
+        my_loans = Loans.new(parsed_response: loans, pagination: pagination, renewed_items: items)
         my_message = ''
         my_loans.each { |x| my_message = my_message + x.message_status.to_s }
         expect(my_message).to eq('success')

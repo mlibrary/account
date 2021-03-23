@@ -57,7 +57,13 @@ class InterlibraryLoanItem < Item
               @parsed_response["PhotoArticleAuthor"] || 
               @parsed_response["PhotoJournalAuthor"]
   end
-  def request_url
+  def illiad_url
     "https://ill.lib.umich.edu/illiad/illiad.dll?Action=10&Form=72&Value=#{@parsed_response["TransactionNumber"]}"
+  end
+  def creation_date
+    @parsed_response["CreationDate"] ? DateTime.patron_format(@parsed_response["CreationDate"]) : ''
+  end
+  def expiration_date
+    @parsed_response["DueDate"] ? DateTime.patron_format(@parsed_response["DueDate"]) : ''
   end
 end
