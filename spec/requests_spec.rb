@@ -101,10 +101,10 @@ describe "requests" do
       stub_alma_post_request( url: 'users/tutor/loans/1332733700000521', query: {op: 'renew'} ) 
       stub_alma_post_request( url: 'users/tutor/loans/1332734190000521', query: {op: 'renew'} ) 
     end
-    it "shows appropriate flash messages" do
+    it "shows appropriate " do
       post "/shelf/loans" 
-      expect(last_response.body).to include("1 item successfully renewed")
-      expect(last_response.body).to include('The following item could not be renewed:')
+      expect(last_response.body).to include("1 item was successfully renewed")
+      expect(last_response.body).to include("1 item was unable to be renewed")
     end
     it "shows error flash when none have been renewed" do
       @alma_loans["item_loan"][1]["renewable"] = false
@@ -113,8 +113,7 @@ describe "requests" do
 
       post "/shelf/loans" 
 
-      expect(last_response.body).to include("0 items successfully renewed")
-      expect(last_response.body).to include("error")
+      expect(last_response.body).to include("2 items were unable to be renewed")
     end
     it "shows inline messages" do
       post "/shelf/loans"
@@ -124,7 +123,7 @@ describe "requests" do
     it "shows error flash for major Alma Error" do
       stub_alma_get_request( url: 'users/tutor/loans', body: File.read('./spec/fixtures/alma_error.json'), query: {expand: 'renewable', limit: 100, offset: 0}, status: 400 )
       post "/shelf/loans"
-      expect(last_response.body).to include("Error:")
+      expect(last_response.body).to include("Error")
     end
   end
   #ToDO 

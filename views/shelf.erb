@@ -6,7 +6,9 @@
 
 <% elsif %>
 
-<%= erb :message_callout %>
+  <% unless message.nil? %>
+    <%= erb :message_callout, locals: {message: message} %>
+  <% end %>
 
 <!--
 <div class="message message--error" style="margin-bottom: var(--space-large);">
@@ -38,7 +40,7 @@
               <option value="due-desc">Due date: descending</option>
               <option value="title-asc">Title: ascending</option>
               <option value="title-desc">Title: descending</option>
-            </select>
+            </select, message: nil>
           </label>
 
           <label>

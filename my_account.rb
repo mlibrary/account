@@ -85,7 +85,7 @@ namespace '/shelf' do
   get '/loans' do
     loans = Loans.for(uniqname: session[:uniqname], offset: params["offset"], limit: params["limit"], order_by: params["order_by"], direction: params["direction"])
     session.delete(:items)
-    erb :shelf, :locals => { loans: loans }
+    erb :shelf, :locals => { loans: loans, message: nil }
   end
   
   get '/past-loans' do
@@ -101,16 +101,23 @@ namespace '/shelf' do
   end
   post '/loans' do
     response = Loans.renew_all(uniqname: session[:uniqname])
-    if response.code == 200
-      flash.now[:success] = response.success_text if response.success_text?
-      flash.now[:error] = response.error_text if response.error_text?
-      flash.now[:warn] = response.warn_text if response.warn_text?
-    else
+    #if response.code == 200
+      #flash.now[:success] = response.success_text if response.success_text?
+      #flash.now[:error] = response.error_text if response.error_text?
+      #flash.now[:warn] = response.warn_text if response.warn_text?
+    if response.code != 200 
       flash.now[:error] = "<strong>Error:</strong> #{response.message}"
     end
-    response.class.name == 'RenewResponse' ? items = response.items : items = []
+    if response.class.name == 'RenewResponse' 
+      items = response.items 
+      message = response
+    else
+      items = []
+      message = nil
+    end
     loans = Loans.for(uniqname: session[:uniqname], renewed_items: items)
-    erb :shelf, :locals => { loans: loans }
+    
+    erb :shelf, :locals => { loans: loans, message: message }
   end
 end
 

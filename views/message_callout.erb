@@ -1,13 +1,17 @@
 <div class="message-callout">
   <div class="message-callout-content">
-    <p><strong>15 items were successfully renewed.</strong></p>
+    <% if message.renewed? %>
+      <p><strong><%= message.renewed_text %></strong></p>
+    <% end %>
     
-    <p><strong>12 items were unable to be renewed for one of the following reasons:</strong></p>
+    <% if message.not_renewed? %>
+      <p><strong><%=message.not_renewed_text%></strong></p>
     <ul>
-      <li>Item has exceeded the number of renews allowed</li>
-      <li>Item is for building-use only</li>
-      <li>Item has been reported as lost</li>
+      <% message.unrenewable_reasons.each do |reason| %>
+        <li><%=reason%></li>
+     <% end %>
     </ul>
+    <% end %>
   </div>
 
   <a href="<%=request.path_info%>" class="message-callout-dismiss">Dismiss</a>
