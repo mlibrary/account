@@ -16,8 +16,10 @@ require_relative "./models/fine_payer"
 require_relative "./models/horizontal_nav"
 
 require_relative "./models/patron"
+require_relative "./models/items"
 require_relative "./models/item"
 require_relative "./models/loans"
+require_relative "./models/document_delivery"
 require_relative "./models/requests"
 require_relative "./models/interlibrary_loan_requests"
 require_relative "./models/fines"
@@ -81,7 +83,7 @@ namespace '/shelf' do
   end
 
   get '/loans' do
-    loans = Loans.for(uniqname: session[:uniqname], offset: params["offset"], limit: params["limit"], order_by: params["order_by"], direction: params["direction"], items: session[:items])
+    loans = Loans.for(uniqname: session[:uniqname], offset: params["offset"], limit: params["limit"], order_by: params["order_by"], direction: params["direction"])
     session.delete(:items)
     erb :shelf, :locals => { loans: loans }
   end
@@ -93,8 +95,9 @@ namespace '/shelf' do
   end
   
   get '/document-delivery' do
-  
-    erb :document_delivery, :locals => { document_delivery: [] }
+    document_delivery = DocumentDelivery.for(uniqname: 'testhelp')
+
+    erb :document_delivery, :locals => { document_delivery: document_delivery }
   end
   post '/loans' do
     response = Loans.renew_all(uniqname: session[:uniqname])
@@ -106,7 +109,7 @@ namespace '/shelf' do
       flash.now[:error] = "<strong>Error:</strong> #{response.message}"
     end
     response.class.name == 'RenewResponse' ? items = response.items : items = []
-    loans = Loans.for(uniqname: session[:uniqname], items: items)
+    loans = Loans.for(uniqname: session[:uniqname], renewed_items: items)
     erb :shelf, :locals => { loans: loans }
   end
 end

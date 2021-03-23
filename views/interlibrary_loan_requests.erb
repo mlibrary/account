@@ -24,11 +24,11 @@
     <% interlibrary_loan_requests.each do |interlibrary_loan_request| %>
       <tr>
         <td>
-          <a href="<%= interlibrary_loan_request.request_url %>"><%= interlibrary_loan_request.title %></a>
+          <a href="<%= interlibrary_loan_request.illiad_url %>"><%= interlibrary_loan_request.title %></a>
           <span>&#183; <%= interlibrary_loan_request.author %></span>
         </td>
         <td>
-          <%= interlibrary_loan_request.request_date %>
+          <%= interlibrary_loan_request.creation_date %>
         </td>
         <td>
           <%= interlibrary_loan_request.expiration_date %>
