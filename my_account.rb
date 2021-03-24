@@ -14,7 +14,6 @@ require_relative "./models/pagination/pagination_decorator"
 require_relative "./models/illiad_client"
 require_relative "./models/nelnet"
 require_relative "./models/fine_payer"
-require_relative "./models/horizontal_nav"
 
 require_relative "./models/patron"
 require_relative "./models/items"

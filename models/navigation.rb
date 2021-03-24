@@ -14,7 +14,7 @@ class Navigation
     if path_elements.count == 2
       top_level_slug = path_elements.first
       top_level_page = @pages.find{|x| x.slug == top_level_slug }
-      NewHorizontalNav.new(top_level_page)
+      HorizontalNav.new(top_level_page)
     end
   end
 end
@@ -64,7 +64,7 @@ class Page
     !!@parent
   end
 end
-class NewHorizontalNav
+class HorizontalNav
   attr_reader :pages
   def initialize(parent)
     @parent = parent
