@@ -1,5 +1,5 @@
 <div class="message-callout">
-  <div class="message-callout-content">
+  <div class="message-callout-content" aria-live="polite">
     <% if message.renewed? %>
       <p><strong><%= message.renewed_text %></strong></p>
     <% end %>
@@ -13,6 +13,4 @@
     </ul>
     <% end %>
   </div>
-
-  <a href="<%=request.path_info%>" class="message-callout-dismiss">Dismiss</a>
 </div>
