@@ -40,14 +40,14 @@ class Page
   end
  
   def slug
-    if @title == 'Account overview'
+    if @title == 'Account Overview'
       ''
     else
       @title.gsub('/','or').gsub('&','and').gsub(/[\s]/,'-').downcase
     end
   end
   def active?
-    if @title == 'Account overview'
+    if @title == 'Account Overview'
       @current_path == '/' 
     elsif @parent != nil
       path_array = @current_path.split('/')[1..-1]

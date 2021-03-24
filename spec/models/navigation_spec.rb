@@ -7,7 +7,7 @@ describe Navigation do
       described_class.new.cards
     end
     it "should not have account overview listed" do
-      expect(subject.find{|x| x.title == 'Account overview'}).to be_nil
+      expect(subject.find{|x| x.title == 'Account Overview'}).to be_nil
     end
     it "should have 6 elements" do
       expect(subject.count).to eq(6)
@@ -59,8 +59,8 @@ describe Page do
       @title = 'Document Delivery / Scans'
       expect(subject).to eq('document-delivery-or-scans')
     end
-    it "turns 'Account overview' into '/'" do
-      @title = 'Account overview'
+    it "turns 'Account Overview' into '/'" do
+      @title = 'Account Overview'
       expect(subject).to eq('')
     end
   end
@@ -89,13 +89,13 @@ describe Page do
       @args[:current_path] = '/top-level-path/next-level-path' #current path
       expect(subject).to eq(false)
     end
-    it "is true for 'Account overview' if path is '/'" do
-      @args[:title] = "Account overview"
+    it "is true for 'Account Overview' if path is '/'" do
+      @args[:title] = "Account Overview"
       @args[:current_path] = "/"
       expect(subject).to eq(true)
     end
-    it "is false for 'Account overview' if path is not '/'" do
-      @args[:title] = "Account overview"
+    it "is false for 'Account Overview' if path is not '/'" do
+      @args[:title] = "Account Overview"
       @args[:current_path] = "something-else/something-else"
       expect(subject).to eq(false)
     end
@@ -117,4 +117,3 @@ describe Page do
 
   end
 end
-
