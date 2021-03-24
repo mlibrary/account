@@ -29,14 +29,15 @@
     to: '/contact-information'
   }
 ] %>
+<% my_pages = Navigation.new(request.path_info) %>
 
 <nav class="site-navigation site-layout__left">
   <div class="sticky-top">
     <ul class="site-navigation-list">
-      <% pages.each do |page| %>
-        <li class="<%= page[:to] == request.path_info ? 'active': '' %>">
-          <a href="<%=page[:to]%>">
-            <%=page[:label]%>
+      <% my_pages.pages.each do |page| %>
+        <li class="<%= page.active? ? 'active': '' %>">
+          <a href="<%=page.path%>">
+            <%=page.title%>
           </a>
         </li>
       <% end %>

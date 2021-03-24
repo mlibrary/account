@@ -12,87 +12,28 @@ describe "requests" do
       expect(last_response.body).to include("Welcome")
     end
   end
-  context "get /shelf" do
-    it "redirects to '/shelf/loans'" do
-      get "/shelf"
+  context "get /current-checkouts" do
+    it "redirects to '/current-checkouts/checkouts'" do
+      get "/current-checkouts"
       expect(last_response.status).to eq(302)
-      expect(URI(last_response.headers["Location"]).path).to eq("/shelf/loans")
+      expect(URI(last_response.headers["Location"]).path).to eq("/current-checkouts/checkouts")
     end
   end
-  context "get /shelf/" do
-    it "redirects to '/shelf/loans'" do
-      get "/shelf/"
+  context "get /current-checkouts/" do
+    it "redirects to '/current-checkouts/checkouts'" do
+      get "/current-checkouts/"
       expect(last_response.status).to eq(302)
-      expect(URI(last_response.headers["Location"]).path).to eq("/shelf/loans")
+      expect(URI(last_response.headers["Location"]).path).to eq("/current-checkouts/checkouts")
     end
   end
-  context "get /shelf/loans" do
-    it "contains 'Shelf'" do
+  context "get /current-checkouts/checkouts" do
+    it "contains 'Checkouts'" do
       stub_alma_get_request(url: "users/tutor/loans", query: {expand: 'renewable'})
-      get "/shelf/loans"
-      expect(last_response.body).to include("Shelf")
+      get "/current-checkouts/checkouts"
+      expect(last_response.body).to include("Checkouts")
     end
   end
-  
-  context "get /shelf/past-loans" do
-    it "contains 'Past Loans'" do
-      get "/shelf/past-loans" 
-      expect(last_response.body).to include("Past loans")
-    end
-  end
-  context "get /shelf/document-delivery" do
-    it "contains 'Document delivery'" do
-      stub_illiad_get_request(url: "Transaction/UserRequests/testhelp", 
-        body: File.read("spec/fixtures/illiad_requests.json"))
-      get "/shelf/document-delivery" 
-      expect(last_response.body).to include("Document delivery")
-    end
-  end
-  context "get /requests" do
-    it "redirects to '/requests/um-library'" do
-      get "/requests"
-      expect(last_response.status).to eq(302)
-      expect(URI(last_response.headers["Location"]).path).to eq("/requests/um-library")
-    end
-  end
-  context "get /requests/" do
-    it "redirects to '/requests/um-library'" do
-      get "/requests/"
-      expect(last_response.status).to eq(302)
-      expect(URI(last_response.headers["Location"]).path).to eq("/requests/um-library")
-    end
-  end
-  context "get /requests/um-library" do
-    it "contains 'Requests'" do
-      stub_alma_get_request(url: "users/tutor/requests")
-      get "/requests/um-library"
-      expect(last_response.body).to include("Requests")
-    end
-  end
-  context "get /requests/interlibrary-loan" do
-    it "contains 'From Other Institutions (Interlibrary Loan)'" do
-      stub_illiad_get_request(url: "Transaction/UserRequests/testhelp", 
-        body: File.read("spec/fixtures/illiad_requests.json"))
-      get "/requests/interlibrary-loan" 
-      expect(last_response.body).to include("From Other Institutions (Interlibrary Loan)")
-    end
-  end
-  context "get /fines" do
-    it "contains 'Fines'" do
-      stub_alma_get_request(url: "users/tutor/fees", query: {limit: 100, offset: 0}, 
-        body: File.read("spec/fixtures/jbister_fines.json"))
-      get "/fines"
-      expect(last_response.body).to include("Fines")
-    end
-  end
-  context "get /contact-information" do
-    it "contains 'notifications'" do
-      stub_alma_get_request(url: "users/tutor?expand=none&user_id_type=all_unique&view=full")
-      get "/contact-information"
-      expect(last_response.body).to include("notifications")
-    end
-  end
-  context "post /shelf/loans" do
+  context "post /current-checkouts/checkouts" do
     before(:each) do
       @alma_loans = JSON.parse(File.read('./spec/fixtures/loans.json')) 
       @alma_loans["item_loan"][0]["renewable"] = false
@@ -102,7 +43,7 @@ describe "requests" do
       stub_alma_post_request( url: 'users/tutor/loans/1332734190000521', query: {op: 'renew'} ) 
     end
     it "shows appropriate " do
-      post "/shelf/loans" 
+      post "/current-checkouts/checkouts" 
       expect(last_response.body).to include("1 item was successfully renewed")
       expect(last_response.body).to include("1 item was unable to be renewed")
     end
@@ -111,19 +52,84 @@ describe "requests" do
       stub_alma_get_request( url: 'users/tutor/loans', body: @alma_loans.to_json, query: {expand: 'renewable', limit: 100, offset: 0} )
       stub_alma_get_request( url: 'users/tutor/loans', body: @alma_loans.to_json, query: {expand: 'renewable'} )
 
-      post "/shelf/loans" 
+      post "/current-checkouts/checkouts" 
 
       expect(last_response.body).to include("2 items were unable to be renewed")
     end
     it "shows inline messages" do
-      post "/shelf/loans"
+      post "/current-checkouts/checkouts"
       expect(last_response.body).to include("Unable to Renew")
       expect(last_response.body).to include("Renew Successful")
     end
     it "shows error flash for major Alma Error" do
       stub_alma_get_request( url: 'users/tutor/loans', body: File.read('./spec/fixtures/alma_error.json'), query: {expand: 'renewable', limit: 100, offset: 0}, status: 400 )
-      post "/shelf/loans"
+      post "/current-checkouts/checkouts"
       expect(last_response.body).to include("Error")
+    end
+  end
+  
+  context "get /current-checkouts/interlibrary-loan" do
+    it "contains 'Interlibrary Loan'" do
+      stub_illiad_get_request(url: "Transaction/UserRequests/testhelp", 
+        body: File.read("spec/fixtures/illiad_requests.json"))
+      get "/current-checkouts/interlibrary-loan" 
+      expect(last_response.body).to include("Interlibrary Loan")
+    end
+  end
+  context "get /current-checkouts/document-delivery-or-scans" do
+    it "contains 'Document Delivery'" do
+      get "/current-checkouts/document-delivery-or-scans" 
+      expect(last_response.body).to include("Document Delivery")
+    end
+  end
+  context "get /pending-requests" do
+    it "redirects to '/pending-requests/u-m-library'" do
+      get "/pending-requests"
+      expect(last_response.status).to eq(302)
+      expect(URI(last_response.headers["Location"]).path).to eq("/pending-requests/u-m-library")
+    end
+  end
+  context "get /pending-requests/" do
+    it "redirects to '/pending-requests/u-m-library'" do
+      get "/pending-requests/"
+      expect(last_response.status).to eq(302)
+      expect(URI(last_response.headers["Location"]).path).to eq("/pending-requests/u-m-library")
+    end
+  end
+  context "get /pending-requests/u-m-library" do
+    it "contains 'U-M Library'" do
+      stub_alma_get_request(url: "users/tutor/requests")
+      get "/pending-requests/u-m-library"
+      expect(last_response.body).to include("U-M Library")
+    end
+  end
+  context "get /pending-requests/interlibrary-loan" do
+    it "contains 'From Other Institutions (Interlibrary Loan)'" do
+      stub_illiad_get_request(url: "Transaction/UserRequests/testhelp", 
+        body: File.read("spec/fixtures/illiad_requests.json"))
+      get "/pending-requests/interlibrary-loan" 
+      expect(last_response.body).to include("Interlibrary Loan")
+    end
+  end
+  context "get /pending-requests/special-collections" do
+    it "exists" do
+      get "/pending-requests/special-collections" 
+      expect(last_response.status).to eq(200)
+    end
+  end
+  context "get /fines-and-fees" do
+    it "contains 'Fines'" do
+      stub_alma_get_request(url: "users/tutor/fees", query: {limit: 100, offset: 0}, 
+        body: File.read("spec/fixtures/jbister_fines.json"))
+      get "/fines-and-fees"
+      expect(last_response.body).to include("Fines")
+    end
+  end
+  context "get /settings" do
+    it "contains 'Settings'" do
+      stub_alma_get_request(url: "users/tutor?expand=none&user_id_type=all_unique&view=full")
+      get "/settings"
+      expect(last_response.body).to include("Settings")
     end
   end
   #ToDO 
@@ -134,14 +140,14 @@ describe "requests" do
     #it "handles good request" do
       #stub_alma_post_request(url: "users/tutor/loans/1234", query: {op: 'renew'} )
       #post "/renew-loan", {'loan_id' => '1234'}
-      #expect(URI(last_response.headers["Location"]).path).to eq("/shelf/loans")
+      #expect(URI(last_response.headers["Location"]).path).to eq("/current-checkouts/loans")
       #follow_redirect!
       #expect(last_response.body).to include("Loan Successfully Renewed")
     #end
     #it "handles bad request" do
       #stub_alma_post_request(url: "users/tutor/loans/1234", query: {op: 'renew'}, status: 500 )
       #post "/renew-loan", {'loan_id' => '1234'}
-      #expect(URI(last_response.headers["Location"]).path).to eq("/shelf/loans")
+      #expect(URI(last_response.headers["Location"]).path).to eq("/current-checkouts/loans")
       #follow_redirect!
       #expect(last_response.body).to include("Error")
     #end
@@ -177,16 +183,16 @@ describe "requests" do
       expect(last_response.body).to include("SMS Successfully Removed")
     end
   end
-  context "post /fines/pay" do
+  context "post /fines-and-fees/pay" do
     it "puts fine information in session and redirects to nelnet with amountDue" do
       stub_alma_get_request( url: 'users/tutor/fees', body: File.read("./spec/fixtures/jbister_fines.json"), query: {limit: 100, offset: 0}  )
-      post "/fines/pay", {'fines' => {"0" => '690390050000521'}}
+      post "/fines-and-fees/pay", {'fines' => {"0" => '690390050000521'}}
       query = Addressable::URI.parse(last_response.location).query_values
       expect(last_request.env['rack.session'].key?(query["orderNumber"])).to eq(true)
       expect(query["amountDue"]).to eq("277")
     end
   end
-  context "post /fines/receipt" do
+  context "post /fines-and-fees/receipt" do
     before(:each) do
       @params = {
         "transactionType"=>"1", 
@@ -229,14 +235,14 @@ describe "requests" do
         token = JWT.encode [@item], ENV.fetch('JWT_SECRET'), 'HS256'
 
         env 'rack.session', 'Afam.1608566536797' => token, uniqname: 'tutor'
-        get "/fines/receipt", @params 
+        get "/fines-and-fees/receipt", @params 
         expect(last_response.body).to include("Fines successfully paid")
       end
     end
     it "for invalid params,  sets fail flash" do
       with_modified_env NELNET_SECRET_KEY: 'incorect_secret', JWT_SECRET: 'secret' do
 
-        get "/fines/receipt", @params 
+        get "/fines-and-fees/receipt", @params 
         expect(last_response.body).to include("Could not Validate")
       end
     end

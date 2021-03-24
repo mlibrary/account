@@ -4,7 +4,7 @@ class Nelnet
   include UrlHelper
   attr_reader :orderNumber
   def initialize(amountDue:, 
-                 redirectUrl: absolute_url(path:'fines/receipt'), 
+                 redirectUrl: absolute_url(path:'fines-and-fees/receipt'), 
                  orderDescription: 'U-M Library Circulation Fines', 
                  orderType: 'UMLibraryCirc', 
                  timestamp: DateTime.timestamp, 
