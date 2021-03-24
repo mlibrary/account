@@ -15,6 +15,11 @@
   }
 }
 
+.loan-controls {
+  padding: var(--space-x-small);
+  padding-bottom: 0;
+}
+
 .loan-control {
   & > *:not(:last-child) {
     margin-right: var(--space-medium);
