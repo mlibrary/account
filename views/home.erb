@@ -8,61 +8,16 @@
   elements that should be these overview cards and filter
   them to this view, or something.
 -->
-<% overview_cards = [
-  {
-    label: 'Current Checkouts',
-    to: '/current-checkouts',
-    description: "View items that you have checked out and check their dates.",
-    icon: "book",
-    color: "teal"
-  },
-  {
-    label: 'Pending Requests',
-    to: '/pending-requests',
-    description: "See a list of library items on hold or requested for recall.",
-    icon: "date-range",
-    color: "orange"
-  },
-  {
-    label: "Past Activity",
-    to: "/past-activity",
-    description: "Insert a brief description here. Mention U-M Library checkouts, ILL, and Special Collections",
-    icon: "history",
-    color: "pink"
-  },
-  {
-    label: 'Fines & fees',
-    to: '/fines-and-fees',
-    description: "Fines are issues for overdue, lost, or damaged items.",
-    icon: "attach-money",
-    color: "indigo"
-  },
-  {
-    label: 'Favorites',
-    to: 'https://apps.lib.umich.edu/my-account/favorites',
-    description: "View items that you have added to your favorites.",
-    icon: "star",
-    color: "green"
-  },
-  {
-    label: 'Settings',
-    to: '/settings',
-    description: "View your contact information and edit notifications and other preferences.",
-    icon: "settings",
-    color: "maize"
-  }
-] %>
-
 <ul class="overview-cards">
-<% overview_cards.each do |card| %>
+<% navigation.cards.each do |card| %>
   <li>
-    <a href="<%=card[:to]%>" class="overview-card">
+    <a href="<%=card.slug%>" class="overview-card">
       <div>
-        <h2 class="overview-card-heading"><%=card[:label]%></h2>
-        <p class="overview-card-description"><%=card[:description]%></p>
+        <h2 class="overview-card-heading"><%=card.title%></h2>
+        <p class="overview-card-description"><%=card.description%></p>
       </div>
-      <div class="overview-card-icon-container" style="--overview-card-icon-background-color: var(--color-<%=card[:color]%>-100); --overview-card-icon-color: var(--color-<%=card[:color]%>-400);">
-        <m-icon name="<%=card[:icon]%>"></m-icon>
+      <div class="overview-card-icon-container" style="--overview-card-icon-background-color: var(--color-<%=card.color%>-100); --overview-card-icon-color: var(--color-<%=card.color%>-400);">
+        <m-icon name="<%=card.icon_name%>"></m-icon>
       </div>
     </a>
   </li>

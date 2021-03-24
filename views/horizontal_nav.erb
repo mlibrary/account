@@ -1,20 +1,19 @@
 <%
-  path = request.path_info
-  nav = HorizontalNav.for(path)
+  nav = Navigation.new(request.path_info).horizontal_nav
 %>
 
 <h1 aria-hidden="true"><%=nav.section%></h1>
 
 <nav aria-labelledby="main-heading" class="horizontal-navigation-container">
-  <h1 class="h2 horizontal-heading" id="main-heading" style="margin-bottom: 0;"><span class="visually-hidden"><%=nav.section%>: </span><%=nav.label%></h1>
+  <h1 class="h2 horizontal-heading" id="main-heading"><span class="visually-hidden"><%=nav.section%>: </span><%=nav.title%></h1>
 
   <ul class="horizontal-navigation-list">
-    <% nav.pages.each do |page| %>
-      <li>
-        <a href="<%=page.to%>" class="<%=page.active%>" >
-          <%=page.label%>
-        </a>
-      </li>
-    <% end %>
+      <% nav.pages.each do |page| %>
+        <li>
+          <a href="<%=page.path%>" class="<%=page.active%>" >
+            <%=page.title%>
+          </a>
+        </li>
+      <% end %>
   </ul>
 </nav>
