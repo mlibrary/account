@@ -88,18 +88,8 @@ namespace '/current-checkouts' do
     erb :shelf, :locals => { loans: loans, message: nil }
   end
   
-  
-  get '/interlibrary-loan' do
-    document_delivery = DocumentDelivery.for(uniqname: 'testhelp')
-
-    erb :document_delivery, :locals => { document_delivery: document_delivery }
-  end
-  get '/document-delivery-or-scans' do
-    #loans = Loans.for(uniqname: session[:uniqname]) 
-  
-    erb :past_loans, :locals => { past_loans: {} }
-  end
   post '/checkouts' do
+    byebug
     response = Loans.renew_all(uniqname: session[:uniqname])
     if response.code != 200 
       flash.now[:error] = "<strong>Error:</strong> #{response.message}"
@@ -114,6 +104,17 @@ namespace '/current-checkouts' do
     loans = Loans.for(uniqname: session[:uniqname], renewed_items: items)
     
     erb :shelf, :locals => { loans: loans, message: message }
+  end
+  
+  get '/interlibrary-loan' do
+    document_delivery = DocumentDelivery.for(uniqname: 'testhelp')
+
+    erb :document_delivery, :locals => { document_delivery: document_delivery }
+  end
+  get '/document-delivery-or-scans' do
+    #loans = Loans.for(uniqname: session[:uniqname]) 
+  
+    erb :past_loans, :locals => { past_loans: {} }
   end
 end
 
