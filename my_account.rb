@@ -89,7 +89,6 @@ namespace '/current-checkouts' do
   end
   
   post '/checkouts' do
-    byebug
     response = Loans.renew_all(uniqname: session[:uniqname])
     if response.code != 200 
       flash.now[:error] = "<strong>Error:</strong> #{response.message}"
