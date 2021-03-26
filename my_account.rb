@@ -6,6 +6,7 @@ require "alma_rest_client"
 require 'jwt'
 require 'byebug' 
 
+require_relative "./models/navigation"
 require_relative "./models/response"
 require_relative "./utility"
 require_relative "./models/pagination/pagination"
@@ -13,7 +14,6 @@ require_relative "./models/pagination/pagination_decorator"
 require_relative "./models/illiad_client"
 require_relative "./models/nelnet"
 require_relative "./models/fine_payer"
-require_relative "./models/horizontal_nav"
 
 require_relative "./models/patron"
 require_relative "./models/items"
@@ -89,60 +89,63 @@ get '/' do
 
   patron = Patron.for(uniqname: session[:uniqname])
 
-  erb :home, :locals => { patron: patron, test_users: test_users }
+  erb :home, :locals => { patron: patron, test_users: test_users, navigation: Navigation.new}
 end
 
-namespace '/shelf' do
+namespace '/current-checkouts' do
   get ''  do
-    redirect_to '/loans' # Redirects to /shelf/loans
+    redirect_to '/checkouts' # Redirects to /shelf/loans
   end
 
   get '/'  do
-    redirect_to '/loans' # Redirects to /shelf/loans
+    redirect_to '/checkouts' # Redirects to /shelf/loans
   end
 
-  get '/loans' do
+  get '/checkouts' do
     loans = Loans.for(uniqname: session[:uniqname], offset: params["offset"], limit: params["limit"], order_by: params["order_by"], direction: params["direction"])
     session.delete(:items)
-    erb :shelf, :locals => { loans: loans }
+    erb :shelf, :locals => { loans: loans, message: nil }
   end
   
-  get '/past-loans' do
-    #loans = Loans.for(uniqname: session[:uniqname]) 
-  
-    erb :past_loans, :locals => { past_loans: {} }
+  post '/checkouts' do
+    response = Loans.renew_all(uniqname: session[:uniqname])
+    if response.code != 200 
+      flash.now[:error] = "<strong>Error:</strong> #{response.message}"
+    end
+    if response.class.name == 'RenewResponse' 
+      items = response.items 
+      message = response
+    else
+      items = []
+      message = nil
+    end
+    loans = Loans.for(uniqname: session[:uniqname], renewed_items: items)
+    
+    erb :shelf, :locals => { loans: loans, message: message }
   end
   
-  get '/document-delivery' do
+  get '/interlibrary-loan' do
     document_delivery = DocumentDelivery.for(uniqname: 'testhelp')
 
     erb :document_delivery, :locals => { document_delivery: document_delivery }
   end
-  post '/loans' do
-    response = Loans.renew_all(uniqname: session[:uniqname])
-    if response.code == 200
-      flash.now[:success] = response.success_text if response.success_text?
-      flash.now[:error] = response.error_text if response.error_text?
-      flash.now[:warn] = response.warn_text if response.warn_text?
-    else
-      flash.now[:error] = "<strong>Error:</strong> #{response.message}"
-    end
-    response.class.name == 'RenewResponse' ? items = response.items : items = []
-    loans = Loans.for(uniqname: session[:uniqname], renewed_items: items)
-    erb :shelf, :locals => { loans: loans }
+  get '/document-delivery-or-scans' do
+    #loans = Loans.for(uniqname: session[:uniqname]) 
+  
+    erb :past_loans, :locals => { past_loans: {} }
   end
 end
 
-namespace '/requests' do
+namespace '/pending-requests' do
   get ''  do
-    redirect_to '/um-library' # Redirects to /requests/um-library
+    redirect_to '/u-m-library' # Redirects to /requests/um-library
   end
 
   get '/'  do
-    redirect_to '/um-library' # Redirects to /requests/um-library
+    redirect_to '/u-m-library' # Redirects to /requests/um-library
   end
 
-  get '/um-library' do
+  get '/u-m-library' do
     requests = Requests.for(uniqname: session[:uniqname]).holds
 
     erb :requests, :locals => { requests: requests }
@@ -153,9 +156,12 @@ namespace '/requests' do
 
     erb :interlibrary_loan_requests, :locals => { interlibrary_loan_requests: interlibrary_loan_requests }
   end
+  get '/special-collections' do
+    erb :past_loans, :locals => { past_loans: {} }
+  end
 end
 
-get '/contact-information' do 
+get '/settings' do 
   #session[:uniqname] = 'tutor' #need to get this from cosign?
   patron = Patron.for(uniqname: session[:uniqname])
   erb :patron, :locals => {patron: patron}
@@ -183,10 +189,10 @@ post '/sms' do
   else
     flash[:error] = "<strong>Error:</strong> #{response.message}"
   end
-  redirect "/contact-information"
+  redirect "/settings"
 end
 
-namespace '/fines' do
+namespace '/fines-and-fees' do
   get '' do
     fines = Fines.for(uniqname: session[:uniqname])
     erb :fines, :locals => { fines: fines }

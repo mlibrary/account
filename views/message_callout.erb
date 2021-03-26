@@ -1,0 +1,16 @@
+<div class="message-callout">
+  <div class="message-callout-content" aria-live="polite">
+    <% if message.renewed? %>
+      <p><strong><%= message.renewed_text %></strong></p>
+    <% end %>
+    
+    <% if message.not_renewed? %>
+      <p><strong><%=message.not_renewed_text%></strong></p>
+    <ul>
+      <% message.unrenewable_reasons.each do |reason| %>
+        <li><%=reason%></li>
+     <% end %>
+    </ul>
+    <% end %>
+  </div>
+</div>

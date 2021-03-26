@@ -12,7 +12,7 @@
     "webpack-merge": "^5.7.3"
   },
   "scripts": {
-    "watch-css": "node-sass  --source-map true --watch css -o public/bundles",
+    "watch-css": "node-sass --source-map true --watch css -o public/bundles",
     "build-css": "node-sass css -o public/bundles --output-style compressed",
     "watch-js": "webpack --config webpack.dev.js --watch",
     "build-js": "webpack --config webpack.prod.js"
