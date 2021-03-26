@@ -10,19 +10,11 @@
     <%= erb :message_callout, locals: {message: message} %>
   <% end %>
 
-<!--
-<div class="message message--error" style="margin-bottom: var(--space-large);">
-  <p><strong>We had an issue renewing the following titles:</strong></p>
-
-  <ul>
-    <li>The end of early music : a period performer's history of music for the twenty-first century / Bruce Haynes. </li>
-    <li>Short history of Georgia. </li>
-    <li>Creative design in wall hangings; weaving patterns based on primitive and medieval art.</li>
-  </ul>
-
-  <p>Try "Renew all" again. If you still are having trouble then contact Ask a Librarian.</p>
+<div class="message-callout">
+  <div class="message-callout-content" aria-live="polite">
+    <p><strong>Renew all in progress</strong>: 0 of 25 renewed so far.</strong></p>
+  </div>
 </div>
--->
 
 <div class="table-container">
 
@@ -58,7 +50,7 @@
         </form>
         <form action="/current-checkouts/checkouts" method="post">
           <input type="hidden" name="renew-all" value="" />
-          <button class="button"><m-icon name="autorenew"></m-icon><span style="padding-left: var(--space-xx-small);">Renew all</button>
+          <button class="button" data-js-loading><m-icon name="autorenew"></m-icon><span style="padding-left: var(--space-xx-small);">Renew all</button>
         </form>
       </div>
     </div>

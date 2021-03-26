@@ -14,3 +14,18 @@
     });
   });
 })();
+
+/**
+ * Handle loading indicators
+ *
+ * <button data-js-loading>
+ */
+(function () {
+  const controls = document.querySelectorAll("[data-js-loading]");
+
+  controls.forEach(function (el) {
+    el.addEventListener("click", function () {
+      el.classList.add("loading");
+    });
+  });
+})();
