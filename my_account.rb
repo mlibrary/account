@@ -52,7 +52,7 @@ post '/loan-controls' do
     query["direction"] = "DESC"
   end
 
-  redirect "/shelf/loans?#{URI.encode_www_form(query)}"
+  redirect "/current-checkouts/checkouts?#{URI.encode_www_form(query)}"
 end
 get '/receipt_test' do
   items = [{ "id"=>"1384289260006381", "balance"=>"5.00", "title"=>"Short history of Georgia.", "barcode"=>"95677", "library"=>"Main Library", "type"=>"Overdue fine", "creation_time"=>"2020-12-09T17:13:29.959Z" }]
