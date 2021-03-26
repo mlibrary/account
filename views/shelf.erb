@@ -36,7 +36,7 @@
           <label>
             <span>Sort by</span>
             <select name="sort" data-js-submit>
-              <option value="due-asc" selected>Due date: ascending</option>
+              <option value="due-asc">Due date: ascending</option>
               <option value="due-desc">Due date: descending</option>
               <option value="title-asc">Title: ascending</option>
               <option value="title-desc">Title: descending</option>
@@ -51,10 +51,14 @@
               <option value="50">50 items</option>
             </select>
           </label>
+
+          <noscript>
+            <button class="button">Apply</button>
+          </noscript>
         </form>
         <form action="/current-checkouts/checkouts" method="post">
           <input type="hidden" name="renew-all" value="" />
-          <button class="button button--loud"><m-icon name="autorenew"></m-icon><span style="padding-left: var(--space-xx-small);">Renew all</button>
+          <button class="button"><m-icon name="autorenew"></m-icon><span style="padding-left: var(--space-xx-small);">Renew all</button>
         </form>
       </div>
     </div>
