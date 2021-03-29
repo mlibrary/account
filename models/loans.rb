@@ -9,20 +9,27 @@ class Loans < Items
     @pagination = pagination
   end
 
-  #todo needs to be tested
-  def self.renew_all(uniqname:, client: AlmaRestClient.client)
+  def self.renew_all(uniqname:, client: AlmaRestClient.client, connections: [], 
+         updater: lambda {|message, uniqname| 
+           HTTParty.post("#{ENV.fetch('PATRON_ACCOUNT_BASE_URL')}/updater", query: {msg: message, uniqname: uniqname}) 
+         }
+      )
     url = "/users/#{uniqname}/loans" 
     response = client.get_all(url: url, record_key: 'item_loan', query: {"expand" => "renewable"})
 
     return response if response.code != 200 
-
+    count = 0
     loans = response.parsed_response["item_loan"].map do |loan| 
       if loan["renewable"] == false
-        Loan.new(loan, Loan::RenewUnsuccessfulMessage.new)
+        out = Loan.new(loan, Loan::RenewUnsuccessfulMessage.new)
       else
         message = Loan.renew(uniqname: uniqname, loan_id: loan["loan_id"])
-        Loan.new(loan, message)
+        out = Loan.new(loan, message)
       end
+      
+      count = count + 1
+      updater.call(count, uniqname)
+      out
     end
     RenewResponse.new( items: loans)
   end

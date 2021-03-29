@@ -1,3 +1,26 @@
+var es = new EventSource('/stream');
+es.onmessage = function(e) { 
+  document.getElementById('progress').innerHTML = e.data; 
+};
+
+(function () {
+  const my_form = document.querySelectorAll("[data-js-renew-all]")
+  my_form.forEach(function(el){
+    el.addEventListener('submit', function(event){
+      var request = new XMLHttpRequest();
+      request.open('POST', event.srcElement.action, true);
+      request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+      request.send();
+      request.onload = function(){
+        location.reload();
+      };
+    // ...
+    // stop form submission
+      event.preventDefault();
+    })
+  });
+})();
+
 /**
  * Handle self-submitting input controls.
  *
@@ -14,6 +37,7 @@
     });
   });
 })();
+
 
 /**
  * Handle loading indicators

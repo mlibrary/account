@@ -7,7 +7,7 @@ class Response
   end
 end
 class RenewResponse < Response
-  attr_reader :code, :items, :renewed, :unrenewed
+  attr_reader :code, :items, :renewed, :not_renewed
   def initialize(code: 200, items: [])
     @code = code
     @items = items

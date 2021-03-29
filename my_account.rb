@@ -8,6 +8,7 @@ require 'byebug'
 
 require_relative "./models/navigation"
 require_relative "./models/response"
+require_relative "./models/renew_response_presenter"
 require_relative "./utility"
 require_relative "./models/pagination/pagination"
 require_relative "./models/pagination/pagination_decorator"
@@ -29,7 +30,21 @@ require_relative "./models/receipt"
 helpers StyledFlash
 
 enable :sessions
+set server: 'thin', connections: []
 
+
+get '/stream', provides: 'text/event-stream' do
+  stream :keep_open do |out|
+    settings.connections << { uniqname: session[:uniqname], out: out }
+    out.callback do
+      settings.connections.delete(settings.connections.detect{ |x| x[:out] == out}) 
+    end
+  end
+end
+post '/updater' do
+  settings.connections.each { |x| x[:out] << "data: #{params[:msg]}\n\n" if x[:uniqname] == params[:uniqname] }
+  204 # response without entity body
+end
 # :nocov:
 post '/session_switcher' do
   session[:uniqname] = params[:uniqname]
@@ -70,7 +85,7 @@ end
 # :nocov:
 
 get '/' do
-  session[:uniqname] = 'tutor' if !session[:uniqname]
+#  session[:uniqname] = 'tutor' if !session[:uniqname]
 
   test_users = [
     {
@@ -102,9 +117,11 @@ namespace '/current-checkouts' do
   end
 
   get '/checkouts' do
+    session[:uniqname] = 'tutor' if !session[:uniqname] 
+
     loans = Loans.for(uniqname: session[:uniqname], offset: params["offset"], limit: params["limit"], order_by: params["order_by"], direction: params["direction"])
-    session.delete(:items)
-    erb :shelf, :locals => { loans: loans, message: nil }
+    message = session.delete(:message)
+    erb :shelf, :locals => { loans: loans, message: message}
   end
   
   post '/checkouts' do
@@ -120,8 +137,11 @@ namespace '/current-checkouts' do
       message = nil
     end
     loans = Loans.for(uniqname: session[:uniqname], renewed_items: items)
-    
-    erb :shelf, :locals => { loans: loans, message: message }
+    presenter = RenewResponsePresenter.new(renewed: message.renewed.count, not_renewed: message.not_renewed.count)
+    session[:message] = presenter 
+    204
+    #redirect_to '/checkouts' # Redirects to /requests/um-library
+    #erb :shelf, :locals => { loans: loans, message: presenter }
   end
   
   get '/interlibrary-loan' do

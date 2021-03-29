@@ -12,7 +12,7 @@
 
 <div class="message-callout">
   <div class="message-callout-content" aria-live="polite">
-    <p><strong>Renew all in progress</strong>: 0 of 25 renewed so far.</strong></p>
+    <p><strong>Renew all in progress</strong>: <span id="progress">0</span> of 25 renewed so far.</strong></p>
   </div>
 </div>
 
@@ -48,7 +48,7 @@
             <button class="button">Apply</button>
           </noscript>
         </form>
-        <form action="/current-checkouts/checkouts" method="post">
+        <form action="/current-checkouts/checkouts" method="post" data-js-renew-all>
           <input type="hidden" name="renew-all" value="" />
           <button class="button" data-js-loading><m-icon name="autorenew"></m-icon><span style="padding-left: var(--space-xx-small);">Renew all</button>
         </form>
