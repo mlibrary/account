@@ -6,7 +6,7 @@
       <% my_pages.pages.each do |page| %>
         <li class="<%= page.active? ? 'active': '' %>">
           <a href="<%=page.path%>">
-            <m-icon name="<%=page.icon_name%>"></m-icon> <%=page.title%>
+            <m-icon name="<%=page.icon_name%>"></m-icon><span><%=page.title%></span>
           </a>
         </li>
       <% end %>
