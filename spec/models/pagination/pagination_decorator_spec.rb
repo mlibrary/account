@@ -8,7 +8,7 @@ describe PaginationDecorator do
         url: '/things',
         current_offset: 0,
         total: 20,
-        limit: 10
+        limit: 15
       }
     end
     subject do
@@ -21,7 +21,7 @@ describe PaginationDecorator do
     end
     context "#last" do
       it "returns first item on the page" do
-        expect(subject.last).to eq(10)
+        expect(subject.last).to eq(15)
       end
     end
     context "#previous" do
@@ -34,7 +34,7 @@ describe PaginationDecorator do
     end
     context "#next" do
       it "has url" do
-        expect(subject.next.url).to eq("/things?offset=10")
+        expect(subject.next.url).to eq("/things?offset=15")
       end
       it "shows current_page status" do
         expect(subject.next.current_page?).to eq(false)

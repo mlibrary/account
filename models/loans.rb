@@ -52,7 +52,7 @@ class Loans < Items
     response = client.get(url, query)
     if response.code == 200
       pr = response.parsed_response 
-      pagination_params = { url: "/shelf/loans", total: pr["total_record_count"] }
+      pagination_params = { url: "/current-checkouts/checkouts", total: pr["total_record_count"] }
       pagination_params[:limit] = limit unless limit.nil?
       pagination_params[:current_offset] = offset unless offset.nil?
       pagination_params[:order_by] = order_by unless order_by.nil?
