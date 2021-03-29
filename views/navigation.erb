@@ -1,34 +1,3 @@
-<% pages = [
-  {
-    label: 'Account overview',
-    to: '/',
-  },
-  {
-    label: 'Shelf',
-    to: '/shelf/loans',
-    match: [ # Can we match the route to one of these to signal it is active?
-      '/shelf',
-      '/past-loans',
-      '/document-delivery'
-    ]
-  },
-  {
-    label: 'Requests',
-    to: '/requests/um-library',
-    match: [
-      '/requests',
-      '/interlibrary-loan'
-    ]
-  },
-  {
-    label: 'Fines & fees',
-    to: '/fines'
-  },
-  {
-    label: 'Contact information',
-    to: '/contact-information'
-  }
-] %>
 <% my_pages = Navigation.new(request.path_info) %>
 
 <nav class="site-navigation site-layout__left">
