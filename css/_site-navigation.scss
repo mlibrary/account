@@ -52,5 +52,10 @@
       color: var(--color-teal-400);
       font-weight: var(--semibold);
     }
+
+    m-icon {
+      position: relative;
+      top: var(--space-xxx-small);
+    }
   }
 }
