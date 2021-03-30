@@ -12,7 +12,7 @@ describe Nelnet  do
       "transactionType,transactionStatus,transactionId,transactionTotalAmount,transactionDate,transactionAcountType,transactionResultCode,transactionResultMessage,orderNumber,orderType,orderDescription,payerFullName,actualPayerFullName,accountHolderName,streetOne,streetTwo,city,state,zip,country,email"
         values = orderNumber + orderType + orderDescription + '1256' + redirectUrl + redirectParams + '1' + timestamp + 'secretkey'
         hash = Digest::SHA256.hexdigest values
-        expected_url = "http://mynelnet.com?orderNumber=#{orderNumber}&orderType=#{orderType}&orderDescription=#{orderDescription}&amountDue=1256&redirectUrl=#{redirectUrl}&redirectUrlParameters=#{redirectParams}&retriesAllowed=1&timestamp=#{timestamp}&hash=#{hash}"
+        expected_url = "http://mynelnet.com?orderNumber=#{CGI.escape(orderNumber)}&orderType=#{CGI.escape(orderType)}&orderDescription=#{CGI.escape(orderDescription)}&amountDue=1256&redirectUrl=#{CGI.escape(redirectUrl)}&redirectUrlParameters=#{CGI.escape(redirectParams)}&retriesAllowed=1&timestamp=#{CGI.escape(timestamp)}&hash=#{hash}"
 
         nelnet = Nelnet.new(amountDue: '12.56', redirectUrl: redirectUrl, timestamp: timestamp, orderNumber: orderNumber)
         expect(nelnet.url).to eq(expected_url)
@@ -22,7 +22,6 @@ describe Nelnet  do
   end
   context "self.verify" do
     it "returns true for valid params" do
-
       with_modified_env NELNET_SECRET_KEY: 'secret' do
         hash = Digest::SHA256.hexdigest '12secret'
         params = { "one" => '1', "two" => "2", 'hash' => hash } 
