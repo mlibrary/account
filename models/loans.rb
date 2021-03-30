@@ -10,10 +10,7 @@ class Loans < Items
   end
 
   def self.renew_all(uniqname:, client: AlmaRestClient.client, connections: [], 
-         updater: lambda {|message, uniqname| 
-           HTTParty.post("#{ENV.fetch('PATRON_ACCOUNT_BASE_URL')}/updater", query: {msg: message, uniqname: uniqname}) 
-         }
-      )
+                     publisher: Publisher.new) 
     url = "/users/#{uniqname}/loans" 
     response = client.get_all(url: url, record_key: 'item_loan', query: {"expand" => "renewable"})
 
@@ -28,7 +25,7 @@ class Loans < Items
       end
       
       count = count + 1
-      updater.call(count, uniqname)
+      publisher.publish({msg: count, uniqname: uniqname})
       out
     end
     RenewResponse.new( items: loans)

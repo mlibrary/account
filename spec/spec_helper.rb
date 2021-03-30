@@ -116,7 +116,15 @@ RSpec.configure do |config|
   Kernel.srand config.seed
 =end
 end
-
+def stub_updater(params)
+  query = Authenticator.params_with_signature(params: params)
+  stub_request(:post, "#{ENV["PATRON_ACCOUNT_BASE_URL"]}/updater/#{query}").with( 
+          headers: {
+           'Accept'=>'*/*',
+           'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+           'User-Agent'=>'Ruby'
+         }).to_return(status: 200, body: "", headers: {})      
+end
 def stub_alma_get_request(url:, body: "{}",status: 200, query: {})
     stub_request(:get, "#{ENV["ALMA_API_HOST"]}/almaws/v1/#{url}").with( 
       headers: {   

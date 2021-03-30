@@ -10,6 +10,7 @@ require_relative "./models/navigation"
 require_relative "./models/response"
 require_relative "./models/renew_response_presenter"
 require_relative "./utility"
+require_relative "./models/publisher"
 require_relative "./models/pagination/pagination"
 require_relative "./models/pagination/pagination_decorator"
 require_relative "./models/illiad_client"
@@ -41,7 +42,8 @@ get '/stream', provides: 'text/event-stream' do
     end
   end
 end
-post '/updater' do
+post '/updater/' do
+  return 403 unless Authenticator.verify(params: params)
   settings.connections.each { |x| x[:out] << "data: #{params[:msg]}\n\n" if x[:uniqname] == params[:uniqname] }
   204 # response without entity body
 end
@@ -85,7 +87,7 @@ end
 # :nocov:
 
 get '/' do
-#  session[:uniqname] = 'tutor' if !session[:uniqname]
+  session[:uniqname] = 'tutor' if !session[:uniqname]
 
   test_users = [
     {
@@ -127,21 +129,11 @@ namespace '/current-checkouts' do
   post '/checkouts' do
     response = Loans.renew_all(uniqname: session[:uniqname])
     if response.code != 200 
-      flash.now[:error] = "<strong>Error:</strong> #{response.message}"
-    end
-    if response.class.name == 'RenewResponse' 
-      items = response.items 
-      message = response
+      flash[:error] = "<strong>Error:</strong> #{response.message}"
     else
-      items = []
-      message = nil
+      session[:message] = RenewResponsePresenter.new(renewed: response&.renewed&.count, not_renewed: response&.not_renewed&.count)
+      204
     end
-    loans = Loans.for(uniqname: session[:uniqname], renewed_items: items)
-    presenter = RenewResponsePresenter.new(renewed: message.renewed.count, not_renewed: message.not_renewed.count)
-    session[:message] = presenter 
-    204
-    #redirect_to '/checkouts' # Redirects to /requests/um-library
-    #erb :shelf, :locals => { loans: loans, message: presenter }
   end
   
   get '/interlibrary-loan' do
