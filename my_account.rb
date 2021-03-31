@@ -131,7 +131,7 @@ namespace '/current-checkouts' do
     if response.code != 200 
       flash[:error] = "<strong>Error:</strong> #{response.message}"
     else
-      session[:message] = RenewResponsePresenter.new(renewed: response&.renewed&.count, not_renewed: response&.not_renewed&.count)
+      session[:message] = RenewResponsePresenter.new(renewed: response.renewed_count, not_renewed: response.not_renewed_count)
       204
     end
   end

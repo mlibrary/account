@@ -1,8 +1,7 @@
 class Item
-  attr_reader :parsed_response, :message
-  def initialize(parsed_response, message=nil)
+  attr_reader :parsed_response
+  def initialize(parsed_response)
     @parsed_response = parsed_response
-    @message = message
     @author = @parsed_response["author"]
     @title = @parsed_response["title"]
   end
@@ -11,12 +10,6 @@ class Item
   end
   def author
     shorten(:author)
-  end
-  def message?
-    !@message.nil?
-  end
-  def message_status
-    @message&.status
   end
   private
   def shorten(type)
@@ -39,7 +32,7 @@ class Item
   
 end
 class AlmaItem < Item
-  def initialize(parsed_response, message=nil)
+  def initialize(parsed_response)
     super
     @author = @parsed_response["author"]
     @title = @parsed_response["title"]
@@ -49,7 +42,7 @@ class AlmaItem < Item
   end
 end
 class InterlibraryLoanItem < Item
-  def initialize(parsed_response, message=nil)
+  def initialize(parsed_response)
     super
     @title = @parsed_response["PhotoArticleTitle"] ||
              @parsed_response["PhotoJournalTitle"]

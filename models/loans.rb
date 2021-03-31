@@ -1,10 +1,9 @@
 class Loans < Items
   attr_reader :pagination
-  def initialize(parsed_response:, pagination:, renewed_items: [])
+  def initialize(parsed_response:, pagination:)
     @parsed_response = parsed_response
-    @renewed_items = renewed_items
-    @items = parsed_response["item_loan"]&.map do |l| 
-        Loan.new(l, item_message(l["loan_id"]))
+    @items = parsed_response["item_loan"]&.map do |loan| 
+      Loan.new(loan) 
     end || []
     @pagination = pagination
   end
@@ -15,28 +14,31 @@ class Loans < Items
     response = client.get_all(url: url, record_key: 'item_loan', query: {"expand" => "renewable"})
 
     return response if response.code != 200 
-    count = 0
-    loans = response.parsed_response["item_loan"].map do |loan| 
-      if loan["renewable"] == false
-        out = Loan.new(loan, Loan::RenewUnsuccessfulMessage.new)
-      else
-        message = Loan.renew(uniqname: uniqname, loan_id: loan["loan_id"])
-        out = Loan.new(loan, message)
-      end
-      
-      count = count + 1
-      publisher.publish({msg: count, uniqname: uniqname})
-      out
+    loans = response.parsed_response["item_loan"]&.map do |loan| 
+      Loan.new(loan) 
     end
-    RenewResponse.new( items: loans)
+    self.renew(uniqname: uniqname, loans: loans, publisher: publisher)
+
   end
 
-  def self.renew(uniqname:, loans:)
-    results = loans.map do |loan|
-      message = Loan.renew(uniqname: uniqname, loan_id: loan.loan_id)
-      Loan.new(loan.parsed_response, message)
+  def self.renew(uniqname:, loans:, publisher: Publisher.new)
+    count = 0
+    renew_statuses = []
+    loans.each do |loan|
+      if loan.renewable? == false
+        renew_statuses.push(:fail)
+      else
+         response = Loan.renew(uniqname: uniqname, loan_id: loan.loan_id)
+         if response.code != 200
+           renew_statuses.push(:fail)
+         else
+           renew_statuses.push(:success)
+         end
+      end
+      count = count + 1
+      publisher.publish({msg: count, uniqname: uniqname})
     end
-    RenewResponse.new(items: results)
+    RenewResponse.new(renew_statuses: renew_statuses )
   end
   def count
     @parsed_response["total_record_count"]
@@ -44,8 +46,7 @@ class Loans < Items
 
 
   def self.for(uniqname:, offset: nil, limit: nil, 
-               client: AlmaRestClient.client, order_by: nil, direction: nil, 
-               renewed_items: [] )
+               client: AlmaRestClient.client, order_by: nil, direction: nil )
     url = "/users/#{uniqname}/loans" 
     query = {"expand" => "renewable"}
     query["offset"] = offset unless offset.nil?
@@ -61,24 +62,18 @@ class Loans < Items
       pagination_params[:current_offset] = offset unless offset.nil?
       pagination_params[:order_by] = order_by unless order_by.nil?
       pagination_params[:direction] = direction unless direction.nil?
-      Loans.new(parsed_response: pr, 
-                pagination: PaginationDecorator.new(**pagination_params),
-                renewed_items: renewed_items)
+      Loans.new(parsed_response: pr, pagination: PaginationDecorator.new(**pagination_params) )
+               
     else
       #Error!
     end
-  end
-  private
-  def item_message(loan_id)
-    @renewed_items&.find{|loan| loan.loan_id == loan_id}&.message
   end
   
 end
 
 class Loan < AlmaItem
   def self.renew(uniqname:, loan_id:, client: AlmaRestClient.client)
-    response = client.post("/users/#{uniqname}/loans/#{loan_id}", {op: 'renew'})
-    response.code == 200 ? RenewSuccessfulMessage.new : RenewUnsuccessfulMessage.new(message: AlmaError.new(response).message)
+    client.post("/users/#{uniqname}/loans/#{loan_id}", {op: 'renew'})
   end
   def due_date
     DateTime.patron_format(@parsed_response["due_date"])
@@ -94,34 +89,5 @@ class Loan < AlmaItem
   end
   def publication_date
     @parsed_response["publication_year"]
-  end
-end
-
-class Loan::Message
-  def text
-  end
-  def status
-  end
-  def to_s
-    text
-  end
-end
-class Loan::RenewSuccessfulMessage < Loan::Message
-  def text
-    "Renew Successful"
-  end
-  def status
-    :success
-  end
-end
-class Loan::RenewUnsuccessfulMessage < Loan::Message
-  def initialize(text="Unable to Renew")
-    @text = text
-  end
-  def text
-    @text 
-  end
-  def status
-    :fail
   end
 end

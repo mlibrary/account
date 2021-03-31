@@ -7,41 +7,13 @@ class Response
   end
 end
 class RenewResponse < Response
-  attr_reader :code, :items, :renewed, :not_renewed
-  def initialize(code: 200, items: [])
+  attr_reader :code,  :renewed, :not_renewed, :messages, :renewed_count, :not_renewed_count
+  def initialize(code: 200, messages: [], renew_statuses: [])
     @code = code
-    @items = items
-    @renewed = @items.filter{|x| x.message_status == :success}
-    @not_renewed = @items.filter{|x| x.message_status == :fail}
-  end
-  def renewed?
-    @renewed.count > 0
-  end
-  def not_renewed?
-    @not_renewed.count > 0
-  end
-  def renewed_text
-    count = @renewed.count
-    "#{count} #{item(count)} #{verb(count)} successfully renewed."
-  end
-  def not_renewed_text
-    count = @not_renewed.count
-    "#{count} #{item(count)} #{verb(count)} unable to be renewed for one of the following reasons:"
-  end
-  def unrenewable_reasons
-    [
-      "Item has exceeded the number of renews allowed",
-      "Item is for building-use only",
-      "Item has been reported as lost",
-    ]
-  end
-    
-  private
-  def verb(count)
-    count == 1 ? "was" : "were"
-  end
-  def item(count)
-    count == 1 ? "item" : "items"
+    @messages = messages
+    @renew_statuses = renew_statuses
+    @renewed_count = @renew_statuses.filter{|x| x == :success}.count
+    @not_renewed_count = @renew_statuses.filter{|x| x == :fail}.count
   end
 end
 class Error < Response

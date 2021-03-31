@@ -72,9 +72,6 @@
         </td>
         <td>
           <%= loan.due_date %>
-          <% if loan.message? %>
-            <span class="tag--<%=loan.message_status%>"><%= loan.message%></span>
-          <% end %>
         </td>
         <td>
           <% if loan.renewable? %>
