@@ -51,7 +51,4 @@ class Nelnet
   def redirectParams
     "transactionType,transactionStatus,transactionId,transactionTotalAmount,transactionDate,transactionAcountType,transactionResultCode,transactionResultMessage,orderNumber,orderType,orderDescription,payerFullName,actualPayerFullName,accountHolderName,streetOne,streetTwo,city,state,zip,country,email"
   end
-  def secret
-    ENV.fetch('NELNET_PAYMENT_URL')
-  end
 end
