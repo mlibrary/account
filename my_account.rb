@@ -6,26 +6,33 @@ require "alma_rest_client"
 require 'jwt'
 require 'byebug' 
 
-require_relative "./models/navigation"
-require_relative "./models/response"
-require_relative "./models/renew_response_presenter"
-require_relative "./utility"
-require_relative "./models/publisher"
-require_relative "./models/pagination/pagination"
-require_relative "./models/pagination/pagination_decorator"
-require_relative "./models/illiad_client"
-require_relative "./models/nelnet"
-require_relative "./models/fine_payer"
+require_relative "./lib/illiad_client"
+require_relative "./lib/navigation"
+require_relative "./lib/publisher"
+require_relative "./lib/utility"
+require_relative "./lib/pagination/pagination"
+require_relative "./lib/pagination/pagination_decorator"
 
 require_relative "./models/patron"
-require_relative "./models/items"
-require_relative "./models/item"
-require_relative "./models/loans"
-require_relative "./models/document_delivery"
-require_relative "./models/requests"
-require_relative "./models/interlibrary_loan_requests"
-require_relative "./models/fines"
-require_relative "./models/receipt"
+
+require_relative "./models/response/response"
+require_relative "./models/response/renew_response_presenter"
+
+require_relative "./models/fines/nelnet"
+require_relative "./models/fines/fine_payer"
+require_relative "./models/fines/fines"
+require_relative "./models/fines/receipt"
+
+require_relative "./models/items/items"
+require_relative "./models/items/item"
+
+require_relative "./models/items/alma/alma_item"
+require_relative "./models/items/alma/loans"
+require_relative "./models/items/alma/requests"
+
+require_relative "./models/items/interlibrary_loan/interlibrary_loan_item"
+require_relative "./models/items/interlibrary_loan/document_delivery"
+require_relative "./models/items/interlibrary_loan/interlibrary_loan_requests"
 
 
 helpers StyledFlash
