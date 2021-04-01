@@ -6,12 +6,14 @@ require "alma_rest_client"
 require 'jwt'
 require 'byebug' 
 
+require_relative "./lib/utility"
 require_relative "./lib/illiad_client"
 require_relative "./lib/navigation"
 require_relative "./lib/publisher"
-require_relative "./lib/utility"
+require_relative "./lib/loan_controls.rb"
 require_relative "./lib/pagination/pagination"
 require_relative "./lib/pagination/pagination_decorator"
+
 
 require_relative "./models/patron"
 
@@ -54,29 +56,15 @@ post '/updater/' do
   settings.connections.each { |x| x[:out] << "data: #{params[:msg]}\n\n" if x[:uniqname] == params[:uniqname] }
   204 # response without entity body
 end
+post '/loan-controls' do
+  lc = LoanControlsParamsGenerator.new(show: params["show"], sort: params["sort"])
+
+  redirect "/current-checkouts/checkouts#{lc}"
+end
 # :nocov:
 post '/session_switcher' do
   session[:uniqname] = params[:uniqname]
   redirect '/'
-end
-post '/loan-controls' do
-  query = {limit: params["show"]}
-  case params["sort"]
-  when "due-asc"
-    query["order_by"] =  "due_date"
-    query["direction"] = "ASC"
-  when "due-desc"
-    query["order_by"] =  "due_date"
-    query["direction"] = "DESC"
-  when "title-asc"
-    query["order_by"] =  "title"
-    query["direction"] = "ASC"
-  when "title-desc"
-    query["order_by"] =  "title"
-    query["direction"] = "DESC"
-  end
-
-  redirect "/current-checkouts/checkouts?#{URI.encode_www_form(query)}"
 end
 get '/receipt_test' do
   items = [{ "id"=>"1384289260006381", "balance"=>"5.00", "title"=>"Short history of Georgia.", "barcode"=>"95677", "library"=>"Main Library", "type"=>"Overdue fine", "creation_time"=>"2020-12-09T17:13:29.959Z" }]

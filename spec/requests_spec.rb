@@ -20,6 +20,17 @@ describe "requests" do
       expect(connections.detect{|x| x[:uniqname] =='blah'}[:out].count).to  eq(0)
     end
   end
+  context "post /loan-controls" do
+    it "redirects to current_checkouts with appropriate params" do
+      post "/loan-controls", {show: '30', sort: 'title-desc'}
+      uri = URI.parse(last_response.location)
+      params = CGI.parse(uri.query)
+      expect(uri.path).to eq("/current-checkouts/checkouts")
+      expect(params["limit"].first).to eq("30")
+      expect(params["direction"].first).to eq("DESC")
+      expect(params["order_by"].first).to eq('title')
+    end
+  end
   context "get /" do
     it "contains 'Welcome'" do
       stub_alma_get_request(url: "users/tutor?expand=none&user_id_type=all_unique&view=full")
