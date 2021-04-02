@@ -1,4 +1,4 @@
-describe LoanControlsParamsGenerator do
+describe LoanControls::ParamsGenerator do
   before(:each) do
     @show = 15
     @sort = 'due-asc'
@@ -38,5 +38,49 @@ describe LoanControlsParamsGenerator do
       expect(subject.to_s).to eq("?limit=15&order_by=due_date&direction=ASC")
     end
 
+  end
+end
+describe LoanControls::Form do
+  before(:each) do
+    @limit = nil
+    @order_by = nil
+    @direction = nil
+  end
+  subject do
+    described_class.new(limit: @limit, order_by: @order_by, direction: @direction)
+  end
+  context "#show" do
+    it "has show with correct default" do
+      expect(subject.show.first.selected).to eq('selected')
+    end
+  end
+  context "#sort" do
+    it "shows text and value for each sort" do
+      expect(subject.sort.first.text).to eq('Due date: ascending')
+      expect(subject.sort.first.value).to eq('due-asc')
+    end
+    it "has sort with correct default" do
+      expect(subject.sort.first.selected).to eq('selected')
+    end
+    it "has correct selected for 'due-asc'" do
+      @order_by = 'due_date'
+      @direction = 'ASC'
+      expect(subject.sort[0].selected).to eq('selected')
+    end
+    it "has correct selected for 'due-desc'" do
+      @order_by = 'due_date'
+      @direction = 'DESC'
+      expect(subject.sort[1].selected).to eq('selected')
+    end
+    it "has correct selected for 'title-asc'" do
+      @order_by = 'title'
+      @direction = 'ASC'
+      expect(subject.sort[2].selected).to eq('selected')
+    end
+    it "has correct selected for 'title-desc'" do
+      @order_by = 'title'
+      @direction = 'DESC'
+      expect(subject.sort[3].selected).to eq('selected')
+    end
   end
 end

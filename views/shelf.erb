@@ -28,19 +28,18 @@
           <label>
             <span>Sort by</span>
             <select name="sort" data-js-submit>
-              <option value="due-asc">Due date: ascending</option>
-              <option value="due-desc">Due date: descending</option>
-              <option value="title-asc">Title: ascending</option>
-              <option value="title-desc">Title: descending</option>
+              <% loan_controls.sort.each do |sort| %>
+                <option value="<%=sort.value%>" <%=sort.selected%>><%=sort.text%></option>
+              <% end %>
             </select>
           </label>
 
           <label>
             <span>Show</span>
             <select name="show" data-js-submit>
-              <option value="15">15 items</option>
-              <option value="25">25 items</option>
-              <option value="50">50 items</option>
+              <% loan_controls.show.each do |show| %>
+                <option value="<%=show.value%>" <%=show.selected%>><%=show.text%></option>
+              <% end %>
             </select>
           </label>
 

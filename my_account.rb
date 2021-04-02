@@ -57,7 +57,7 @@ post '/updater/' do
   204 # response without entity body
 end
 post '/loan-controls' do
-  lc = LoanControlsParamsGenerator.new(show: params["show"], sort: params["sort"])
+  lc = LoanControls::ParamsGenerator.new(show: params["show"], sort: params["sort"])
 
   redirect "/current-checkouts/checkouts#{lc}"
 end
@@ -115,10 +115,11 @@ namespace '/current-checkouts' do
 
   get '/checkouts' do
     session[:uniqname] = 'tutor' if !session[:uniqname] 
-
+  
+    loan_controls = LoanControls::Form.new(limit: params["limit"], order_by: params["order_by"], direction: params["direction"])
     loans = Loans.for(uniqname: session[:uniqname], offset: params["offset"], limit: params["limit"], order_by: params["order_by"], direction: params["direction"])
     message = session.delete(:message)
-    erb :shelf, :locals => { loans: loans, message: message}
+    erb :shelf, :locals => { loans: loans, message: message, loan_controls: loan_controls}
   end
   
   post '/checkouts' do
