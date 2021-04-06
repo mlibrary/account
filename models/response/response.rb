@@ -30,7 +30,7 @@ class AlmaError < Error
   end
   private
   def get_messages
-    errors = @parsed_response.dig("errorList","error")&.map{|x| x["errorMessage"]} 
+    errors = @parsed_response.dig("errorList","error")&.map{|x| x["errorMessage"].strip} 
     message = errors&.join(' ') || ''
     "#{message}"
   end

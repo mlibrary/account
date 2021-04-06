@@ -74,7 +74,7 @@
         </td>
         <td>
           <% if loan.renewable? %>
-          <form action="/renew-loan" method="post">
+          <form action="/renew-loan" data-js-renew method="post">
             <input type="hidden" name="loan_id" value="<%=loan.loan_id%>" />
             <button class="button--light">Renew</button>
           </form>

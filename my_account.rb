@@ -175,15 +175,18 @@ get '/settings' do
   erb :patron, :locals => {patron: patron}
 end
 #TODO set up renew loan to handle renew in place with top part message???
-#post '/renew-loan' do
-  #response = Loan.renew(uniqname: session[:uniqname], loan_id: params["loan_id"])
-  #if response.code == 200
-    #flash[:success] = "<strong>Success:</strong> Loan Successfully Renewed"
-  #else
-    #flash[:error] = "<strong>Error:</strong> #{response.message}"
-  #end
-  #redirect "shelf/loans"
-#end
+post '/renew-loan' do
+  response = Loan.renew(uniqname: session[:uniqname], loan_id: params["loan_id"])
+  if response.code == 200
+    loan = response.parsed_response
+    status 200
+    { due_date: DateTime.patron_format(loan["due_date"]), loan_id: loan["loan_id"] }.to_json
+  else
+    error = AlmaError.new(response)
+    status error.code
+    { message: error.message }.to_json
+  end
+end
 
 post '/sms' do
   patron = Patron.for(uniqname: session[:uniqname])
