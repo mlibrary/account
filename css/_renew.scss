@@ -37,20 +37,32 @@ h3.progress-heading {
   color: var(--color-neutral-300);
 }
 
+@mixin progress-bar-border-radius {
+  border-radius: var(--space-small);
+}
+
+@mixin progress-bar-background {
+  background-color: var(--color-neutral-100);
+  @include progress-bar-border-radius;
+}
+
+@mixin progress-bar-value {
+  background-color: var(--color-teal-400);
+  @include progress-bar-border-radius;
+}
+
 progress {
   width: 32rem;
   max-width: 100%;
   height: var(--space-large);
-  background-color: var(--color-neutral-100);
-  border-radius: 4px;
+  @include progress-bar-background;
 }
-progress::-webkit-progress-bar,
-progress::-moz-progress-bar {
-  background-color: var(--color-teal-400);
-  border-radius: 4px;
+progress::-webkit-progress-bar {
+  @include progress-bar-background;
 }
-
 progress::-webkit-progress-value {
-  background-color: var(--color-teal-400);
-  border-radius: 4px;
+  @include progress-bar-value;
+}
+progress::-moz-progress-bar {
+  @include progress-bar-value;
 }
