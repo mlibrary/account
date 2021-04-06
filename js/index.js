@@ -4,7 +4,7 @@
  * 
  */
 (function () {
-  let es = new EventSource('/stream');
+  const es = new EventSource('/stream');
 
   es.onmessage = function(e) { 
     const el = document.getElementById('renew-all-progress')
