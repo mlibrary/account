@@ -1,34 +1,3 @@
-<% pages = [
-  {
-    label: 'Account overview',
-    to: '/',
-  },
-  {
-    label: 'Shelf',
-    to: '/shelf/loans',
-    match: [ # Can we match the route to one of these to signal it is active?
-      '/shelf',
-      '/past-loans',
-      '/document-delivery'
-    ]
-  },
-  {
-    label: 'Requests',
-    to: '/requests/um-library',
-    match: [
-      '/requests',
-      '/interlibrary-loan'
-    ]
-  },
-  {
-    label: 'Fines & fees',
-    to: '/fines'
-  },
-  {
-    label: 'Contact information',
-    to: '/contact-information'
-  }
-] %>
 <% my_pages = Navigation.new(request.path_info) %>
 
 <nav class="site-navigation site-layout__left">
@@ -37,7 +6,7 @@
       <% my_pages.pages.each do |page| %>
         <li class="<%= page.active? ? 'active': '' %>">
           <a href="<%=page.path%>">
-            <m-icon name="<%=page.icon_name%>"></m-icon> <%=page.title%>
+            <m-icon name="<%=page.icon_name%>"></m-icon><span><%=page.title%></span>
           </a>
         </li>
       <% end %>
