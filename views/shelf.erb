@@ -16,14 +16,22 @@
   <!--
     TODO:
 
-    - [ ] Make accessible: https://accessible-app.com/pattern/vue/progress
+    - [x] Make accessible: https://accessible-app.com/pattern/vue/progress
     - [ ] Implement data with JavaScript
   -->
-
-  <label><span class="progress-label-text">Fetching loans...</span>
-    <progress id="renew-all-progress" max="100" value="42">42%</progress>
+  <label>
+    <span class="progress-label-text">Fetching loans...</span>
+    <progress 
+      id="renew-all-progress" 
+      value="42"
+      aria-valuenow="42"
+      aria-valuemin="0"
+      aria-valuemax="100" 
+      max="100"
+      role="progressbar"
+      aria-live="polite"
+    >42%</progress>
   </label>
-
   <p class="progress-percent">42% complete</p>
 </div>
 
