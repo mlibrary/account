@@ -1,7 +1,17 @@
-var es = new EventSource('/stream');
-es.onmessage = function(e) { 
-  document.getElementById('progress').innerHTML = e.data; 
-};
+/**
+ * Renew All progress data stream
+ * 
+ * 
+ */
+(function () {
+  let es = new EventSource('/stream');
+
+  es.onmessage = function(e) { 
+    const el = document.getElementById('renew-all-progress')
+
+    console.log('e.data', e.data)
+  };
+})
 
 (function () {
   const my_form = document.querySelectorAll("[data-js-renew-all]")

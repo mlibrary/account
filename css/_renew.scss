@@ -13,3 +13,44 @@
   animation-iteration-count: infinite;
   animation-timing-function: linear;
 }
+
+h3.progress-heading {
+  margin-top: 0;
+  margin-bottom: var(--space-small);
+}
+
+.progress-container {
+  text-align: center;
+  margin-bottom: var(--space-x-large);
+}
+
+.progress-container progress {
+  margin: var(--space-small) 0;
+}
+
+.progress-label-text {
+  display: block;
+  margin-bottom: var(--space-x-small);
+}
+
+.progress-percent {
+  color: var(--color-neutral-300);
+}
+
+progress {
+  width: 32rem;
+  max-width: 100%;
+  height: var(--space-large);
+  background-color: var(--color-neutral-100);
+  border-radius: 4px;
+}
+progress::-webkit-progress-bar,
+progress::-moz-progress-bar {
+  background-color: var(--color-teal-400);
+  border-radius: 4px;
+}
+
+progress::-webkit-progress-value {
+  background-color: var(--color-teal-400);
+  border-radius: 4px;
+}
