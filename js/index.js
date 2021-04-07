@@ -1,12 +1,12 @@
 /**
  * Renew All progress data stream
- * 
- * 
+ *
+ *
  */
 (function () {
   const es = new EventSource('/stream');
 
-  es.onmessage = function(e) { 
+  es.onmessage = function (e) {
     // const el = document.getElementById('renew-all-progress');
 
     console.log('e.data', e.data);
@@ -22,13 +22,13 @@
       fetch(`/renew-loan?loan_id=${loanID}`, {
         method: 'POST'
       }).then((response) => {
-        if(response.status === 200) {
+        if (response.status === 200) {
           return response.json();
         }
         event.target.innerHTML = 'Error!';
         throw new Error(`Could not renew loan id ${loanID}.`);
       }).then((data) => {
-        if(data.due_date) {
+        if (data.due_date) {
           document.querySelector(`[data-loan-due-date="${loanID}"]`).innerHTML = data.due_date;
           event.target.innerHTML = 'Renewed!';
         }
@@ -42,18 +42,18 @@
 })();
 
 (function () {
-  const my_form = document.querySelectorAll("[data-js-renew-all]");
-  my_form.forEach(function(el){
-    el.addEventListener('submit', function(event){
-      let request = new XMLHttpRequest();
-      request.open('POST', event.srcElement.action, true);
+  const myForm = document.querySelectorAll('[data-js-renew-all]');
+  myForm.forEach(function (el) {
+    el.addEventListener('submit', function (event) {
+      const request = new XMLHttpRequest();
+      request.open('POST', event.target.action, true);
       request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
       request.send();
-      request.onload = function(){
+      request.onload = function () {
         location.reload();
       };
-    // ...
-    // stop form submission
+      // ...
+      // stop form submission
       event.preventDefault();
     });
   });
@@ -67,15 +67,14 @@
  * </form>
  */
 (function () {
-  const controls = document.querySelectorAll("[data-js-submit]");
+  const controls = document.querySelectorAll('[data-js-submit]');
 
   controls.forEach(function (el) {
-    el.addEventListener("change", function () {
+    el.addEventListener('change', function () {
       this.form.submit();
     });
   });
 })();
-
 
 /**
  * Handle loading indicators
@@ -83,11 +82,11 @@
  * <button data-js-loading>
  */
 (function () {
-  const controls = document.querySelectorAll("[data-js-loading]");
+  const controls = document.querySelectorAll('[data-js-loading]');
 
   controls.forEach(function (el) {
-    el.addEventListener("click", function () {
-      el.classList.add("loading");
+    el.addEventListener('click', function () {
+      el.classList.add('loading');
     });
   });
 })();
