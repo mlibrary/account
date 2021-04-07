@@ -4,6 +4,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '2.7.2'
 
 gem 'sinatra'
+gem 'thin'
 gem 'httparty'
 gem 'sinatra-flash'
 gem 'telephone_number'

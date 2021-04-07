@@ -5,6 +5,32 @@ describe "requests" do
     @session = { uniqname: 'tutor' }
     env 'rack.session', @session
   end
+  context "post /updater/" do
+    it "returns 403 if message doesn't authenticate" do
+      post "/updater/", {msg: "one", uniqname: "tutor", hash: "notcorrect"}
+      expect(last_response.status).to eq(403)
+    end
+    it "returns 204 and posts data to connections for uniqname if hash is correct" do
+      query = Authenticator.params_with_signature(params: {msg: "one", uniqname: "tutor"})
+      connections = Sinatra::Application.settings.connections
+      connections << { uniqname: 'blah', out: [] }
+      connections << { uniqname: 'tutor', out: [] }
+      post "/updater/#{query}"
+      expect(connections.detect{|x| x[:uniqname] =='tutor'}[:out].first).to eq("data: one\n\n")
+      expect(connections.detect{|x| x[:uniqname] =='blah'}[:out].count).to  eq(0)
+    end
+  end
+  context "post /loan-controls" do
+    it "redirects to current_checkouts with appropriate params" do
+      post "/loan-controls", {show: '30', sort: 'title-desc'}
+      uri = URI.parse(last_response.location)
+      params = CGI.parse(uri.query)
+      expect(uri.path).to eq("/current-checkouts/checkouts")
+      expect(params["limit"].first).to eq("30")
+      expect(params["direction"].first).to eq("DESC")
+      expect(params["order_by"].first).to eq('title')
+    end
+  end
   context "get /" do
     it "contains 'Welcome'" do
       stub_alma_get_request(url: "users/tutor?expand=none&user_id_type=all_unique&view=full")
@@ -41,30 +67,30 @@ describe "requests" do
       stub_alma_get_request( url: 'users/tutor/loans', body: @alma_loans.to_json, query: {expand: 'renewable'} )
       stub_alma_post_request( url: 'users/tutor/loans/1332733700000521', query: {op: 'renew'} ) 
       stub_alma_post_request( url: 'users/tutor/loans/1332734190000521', query: {op: 'renew'} ) 
+      stub_updater({msg: '1', uniqname: 'tutor'})
+      stub_updater({msg: '2', uniqname: 'tutor'})
     end
     it "shows appropriate " do
       post "/current-checkouts/checkouts" 
-      expect(last_response.body).to include("1 item was successfully renewed")
-      expect(last_response.body).to include("1 item was unable to be renewed")
+      session = last_request.env["rack.session"]
+      expect(session["message"].renewed).to eq(1)
+      expect(session["message"].not_renewed).to eq(1)
     end
-    it "shows error flash when none have been renewed" do
+    it "has correct counts for none renewable" do
       @alma_loans["item_loan"][1]["renewable"] = false
       stub_alma_get_request( url: 'users/tutor/loans', body: @alma_loans.to_json, query: {expand: 'renewable', limit: 100, offset: 0} )
       stub_alma_get_request( url: 'users/tutor/loans', body: @alma_loans.to_json, query: {expand: 'renewable'} )
 
       post "/current-checkouts/checkouts" 
-
-      expect(last_response.body).to include("2 items were unable to be renewed")
-    end
-    it "shows inline messages" do
-      post "/current-checkouts/checkouts"
-      expect(last_response.body).to include("Unable to Renew")
-      expect(last_response.body).to include("Renew Successful")
+      session = last_request.env["rack.session"]
+      expect(session["message"].renewed).to eq(0)
+      expect(session["message"].not_renewed).to eq(2)
     end
     it "shows error flash for major Alma Error" do
       stub_alma_get_request( url: 'users/tutor/loans', body: File.read('./spec/fixtures/alma_error.json'), query: {expand: 'renewable', limit: 100, offset: 0}, status: 400 )
       post "/current-checkouts/checkouts"
-      expect(last_response.body).to include("Error")
+      session = last_request.env["rack.session"]
+      expect(session["flash"][:error]).to include("Error")
     end
   end
   

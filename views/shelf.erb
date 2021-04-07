@@ -10,19 +10,11 @@
     <%= erb :message_callout, locals: {message: message} %>
   <% end %>
 
-<!--
-<div class="message message--error" style="margin-bottom: var(--space-large);">
-  <p><strong>We had an issue renewing the following titles:</strong></p>
-
-  <ul>
-    <li>The end of early music : a period performer's history of music for the twenty-first century / Bruce Haynes. </li>
-    <li>Short history of Georgia. </li>
-    <li>Creative design in wall hangings; weaving patterns based on primitive and medieval art.</li>
-  </ul>
-
-  <p>Try "Renew all" again. If you still are having trouble then contact Ask a Librarian.</p>
+<div class="message-callout">
+  <div class="message-callout-content" aria-live="polite">
+    <p><strong>Renew all in progress</strong>: <span id="progress">0</span> of 25 renewed so far.</strong></p>
+  </div>
 </div>
--->
 
 <div class="table-container">
 
@@ -32,29 +24,32 @@
       <p>Showing <strong><%=loans.pagination.first%></strong> - <strong><%=loans.pagination.last%></strong> of <strong><%= loans.count %></strong> items</p>
 
       <div class="loan-controls">
-        <form>
+        <form method="post" action="/loan-controls">
           <label>
             <span>Sort by</span>
             <select name="sort" data-js-submit>
-              <option value="due-asc" selected>Due date: ascending</option>
-              <option value="due-desc">Due date: descending</option>
-              <option value="title-asc">Title: ascending</option>
-              <option value="title-desc">Title: descending</option>
+              <% loan_controls.sort.each do |sort| %>
+                <option value="<%=sort.value%>" <%=sort.selected%>><%=sort.text%></option>
+              <% end %>
             </select>
           </label>
 
           <label>
             <span>Show</span>
             <select name="show" data-js-submit>
-              <option value="15">15 items</option>
-              <option value="25">25 items</option>
-              <option value="50">50 items</option>
+              <% loan_controls.show.each do |show| %>
+                <option value="<%=show.value%>" <%=show.selected%>><%=show.text%></option>
+              <% end %>
             </select>
           </label>
+
+          <noscript>
+            <button class="button">Apply</button>
+          </noscript>
         </form>
-        <form action="/current-checkouts/checkouts" method="post">
+        <form action="/current-checkouts/checkouts" method="post" data-js-renew-all>
           <input type="hidden" name="renew-all" value="" />
-          <button class="button button--loud"><m-icon name="autorenew"></m-icon><span style="padding-left: var(--space-xx-small);">Renew all</button>
+          <button class="button" data-js-loading><m-icon name="autorenew"></m-icon><span style="padding-left: var(--space-xx-small);">Renew all</button>
         </form>
       </div>
     </div>
@@ -76,13 +71,10 @@
         </td>
         <td>
           <%= loan.due_date %>
-          <% if loan.message? %>
-            <span class="tag--<%=loan.message_status%>"><%= loan.message%></span>
-          <% end %>
         </td>
         <td>
           <% if loan.renewable? %>
-          <form action="/renew-loan" method="post">
+          <form action="/renew-loan" data-js-renew method="post">
             <input type="hidden" name="loan_id" value="<%=loan.loan_id%>" />
             <button class="button--light">Renew</button>
           </form>

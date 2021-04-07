@@ -9,7 +9,6 @@ class Nelnet
                  orderType: 'UMLibraryCirc', 
                  timestamp: DateTime.timestamp, 
                  orderNumber: "#{SecureRandom.alphanumeric(4)}.#{timestamp}")
-    @secret = ENV.fetch('NELNET_SECRET_KEY')
     @paymentUrl = ENV.fetch('NELNET_PAYMENT_URL')
    
     @amountDue = amountDue.gsub(/\./, '')
@@ -25,25 +24,17 @@ class Nelnet
   end
 
   def self.verify(params)
-    hash = params['hash']
-    values = params.to_a.select{|key, value| key != 'hash'}.to_h.values.join('')
-    string = CGI.unescape(values + ENV.fetch('NELNET_SECRET_KEY'))
-    hash == (Digest::SHA256.hexdigest string)
-
+    Authenticator.verify(params: params, key: ENV.fetch('NELNET_SECRET_KEY'))
   end
 
   def url
-    base_params = request_params.to_a.map{|key, value| "#{key}=#{value}"}.join('&') 
-    "#{@paymentUrl}?#{base_params}&hash=#{hash}"
+    query=Authenticator.params_with_signature(params: request_params, key: ENV.fetch('NELNET_SECRET_KEY')) 
+    #base_params = request_params.to_a.map{|key, value| "#{key}=#{value}"}.join('&') 
+    "#{@paymentUrl}#{query}"
   end
 
 
   private
-  def hash
-    params = request_params.values.join('')
-    params = params + @secret
-    Digest::SHA256.hexdigest params
-  end
 
   def request_params
      {
@@ -59,7 +50,5 @@ class Nelnet
   end
   def redirectParams
     "transactionType,transactionStatus,transactionId,transactionTotalAmount,transactionDate,transactionAcountType,transactionResultCode,transactionResultMessage,orderNumber,orderType,orderDescription,payerFullName,actualPayerFullName,accountHolderName,streetOne,streetTwo,city,state,zip,country,email"
-  end
-  def secret
   end
 end

@@ -34,7 +34,7 @@
 }
 
 .message-callout-content {
-  p {
+  p:not(:last-child) {
     padding-bottom: var(--space-small);
   }
 

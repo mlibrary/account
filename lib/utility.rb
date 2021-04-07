@@ -1,4 +1,7 @@
 require 'addressable'
+require 'digest'
+require 'securerandom'
+
 #App-wide formatting
 class DateTime
   def self.patron_format(date)
@@ -36,5 +39,25 @@ module UrlHelper
     url.path = path
     url.query_values = query.to_a #preserves query hash order
     url.normalize.to_s
+  end
+end
+class Authenticator
+  def self.verify(params:,key: ENV.fetch('JWT_SECRET'))
+    hash = params['hash']
+    values = params.to_a.select{|key, value| key != 'hash'}.to_h.values.join('')
+    string = CGI.unescape(values + key)
+    hash == (Digest::SHA256.hexdigest string)
+  end
+  def self.params_with_signature(params:, key: ENV.fetch('JWT_SECRET'))
+
+    params_array = params.to_a
+    values = params_array.map{|key,value| value}.join('')
+    values = values + key
+    hash = Digest::SHA256.hexdigest values
+
+
+    base_params = params_array.map{|key, value| "#{CGI.escape(key.to_s)}=#{CGI.escape(value.to_s)}"}.join('&') 
+
+    "?#{base_params}&hash=#{hash}"
   end
 end

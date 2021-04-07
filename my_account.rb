@@ -6,30 +6,61 @@ require "alma_rest_client"
 require 'jwt'
 require 'byebug' 
 
-require_relative "./models/navigation"
-require_relative "./models/response"
-require_relative "./utility"
-require_relative "./models/pagination/pagination"
-require_relative "./models/pagination/pagination_decorator"
-require_relative "./models/illiad_client"
-require_relative "./models/nelnet"
-require_relative "./models/fine_payer"
+require_relative "./lib/utility"
+require_relative "./lib/illiad_client"
+require_relative "./lib/navigation"
+require_relative "./lib/publisher"
+require_relative "./lib/loan_controls.rb"
+require_relative "./lib/pagination/pagination"
+require_relative "./lib/pagination/pagination_decorator"
+
 
 require_relative "./models/patron"
-require_relative "./models/items"
-require_relative "./models/item"
-require_relative "./models/loans"
-require_relative "./models/document_delivery"
-require_relative "./models/requests"
-require_relative "./models/interlibrary_loan_requests"
-require_relative "./models/fines"
-require_relative "./models/receipt"
+
+require_relative "./models/response/response"
+require_relative "./models/response/renew_response_presenter"
+
+require_relative "./models/fines/nelnet"
+require_relative "./models/fines/fine_payer"
+require_relative "./models/fines/fines"
+require_relative "./models/fines/receipt"
+
+require_relative "./models/items/items"
+require_relative "./models/items/item"
+
+require_relative "./models/items/alma/alma_item"
+require_relative "./models/items/alma/loans"
+require_relative "./models/items/alma/requests"
+
+require_relative "./models/items/interlibrary_loan/interlibrary_loan_item"
+require_relative "./models/items/interlibrary_loan/document_delivery"
+require_relative "./models/items/interlibrary_loan/interlibrary_loan_requests"
 
 
 helpers StyledFlash
 
 enable :sessions
+set server: 'thin', connections: []
 
+
+get '/stream', provides: 'text/event-stream' do
+  stream :keep_open do |out|
+    settings.connections << { uniqname: session[:uniqname], out: out }
+    out.callback do
+      settings.connections.delete(settings.connections.detect{ |x| x[:out] == out}) 
+    end
+  end
+end
+post '/updater/' do
+  return 403 unless Authenticator.verify(params: params)
+  settings.connections.each { |x| x[:out] << "data: #{params[:msg]}\n\n" if x[:uniqname] == params[:uniqname] }
+  204 # response without entity body
+end
+post '/loan-controls' do
+  lc = LoanControls::ParamsGenerator.new(show: params["show"], sort: params["sort"])
+
+  redirect "/current-checkouts/checkouts#{lc}"
+end
 # :nocov:
 post '/session_switcher' do
   session[:uniqname] = params[:uniqname]
@@ -83,26 +114,22 @@ namespace '/current-checkouts' do
   end
 
   get '/checkouts' do
+    session[:uniqname] = 'tutor' if !session[:uniqname] 
+  
+    loan_controls = LoanControls::Form.new(limit: params["limit"], order_by: params["order_by"], direction: params["direction"])
     loans = Loans.for(uniqname: session[:uniqname], offset: params["offset"], limit: params["limit"], order_by: params["order_by"], direction: params["direction"])
-    session.delete(:items)
-    erb :shelf, :locals => { loans: loans, message: nil }
+    message = session.delete(:message)
+    erb :shelf, :locals => { loans: loans, message: message, loan_controls: loan_controls}
   end
   
   post '/checkouts' do
     response = Loans.renew_all(uniqname: session[:uniqname])
     if response.code != 200 
-      flash.now[:error] = "<strong>Error:</strong> #{response.message}"
-    end
-    if response.class.name == 'RenewResponse' 
-      items = response.items 
-      message = response
+      flash[:error] = "<strong>Error:</strong> #{response.message}"
     else
-      items = []
-      message = nil
+      session[:message] = RenewResponsePresenter.new(renewed: response.renewed_count, not_renewed: response.not_renewed_count)
+      204
     end
-    loans = Loans.for(uniqname: session[:uniqname], renewed_items: items)
-    
-    erb :shelf, :locals => { loans: loans, message: message }
   end
   
   get '/interlibrary-loan' do
@@ -148,15 +175,18 @@ get '/settings' do
   erb :patron, :locals => {patron: patron}
 end
 #TODO set up renew loan to handle renew in place with top part message???
-#post '/renew-loan' do
-  #response = Loan.renew(uniqname: session[:uniqname], loan_id: params["loan_id"])
-  #if response.code == 200
-    #flash[:success] = "<strong>Success:</strong> Loan Successfully Renewed"
-  #else
-    #flash[:error] = "<strong>Error:</strong> #{response.message}"
-  #end
-  #redirect "shelf/loans"
-#end
+post '/renew-loan' do
+  response = Loan.renew(uniqname: session[:uniqname], loan_id: params["loan_id"])
+  if response.code == 200
+    loan = response.parsed_response
+    status 200
+    { due_date: DateTime.patron_format(loan["due_date"]), loan_id: loan["loan_id"] }.to_json
+  else
+    error = AlmaError.new(response)
+    status error.code
+    { message: error.message }.to_json
+  end
+end
 
 post '/sms' do
   patron = Patron.for(uniqname: session[:uniqname])
