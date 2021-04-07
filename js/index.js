@@ -14,54 +14,30 @@
 })();
 
 (function () {
-  /*
-    Steps:
-    - [x] Click event of button
-    - [x] Get loan id for posting renewal
-    - [ ] Visual processing
-    - [ ] Receive data onload
-    - [ ] Update success/error
-      - [ ] On success: New due date
-      - [ ] Error: Message on why it was not renewed
-  */
   const renewItems = document.querySelectorAll('[data-js-renew]');
   renewItems.forEach((renewItem) => {
     renewItem.addEventListener('click', (event) => {
+      event.target.innerHTML = 'Processing...';
       const loanID = event.target.dataset.jsRenew;
-      let test;
       fetch(`/renew-loan?loan_id=${loanID}`, {
         method: 'POST'
       }).then((response) => {
-        return response.json();
+        if(response.status === 200) {
+          return response.json();
+        }
+        event.target.innerHTML = 'Error!';
+        throw new Error(`Could not renew loan id ${loanID}.`);
       }).then((data) => {
+        if(data.due_date) {
+          document.querySelector(`[data-loan-due-date="${loanID}"]`).innerHTML = data.due_date;
+          event.target.innerHTML = 'Renewed!';
+        }
         return data;
       }).catch((error) => {
-        console.error('error', error);
+        console.error(error);
       });
     });
     renewItem.removeAttribute('disabled');
-  });
-})();
-
-(function () {
-  const myForm = document.querySelectorAll('[data-js-renew]');
-  myForm.forEach(function(el) {
-    el.addEventListener('submit', function(event) {
-
-      const request = new XMLHttpRequest();
-      request.open('POST', event.target.action, true);
-      request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
-      request.send(`loan_id=${this[0].value}`);
-      request.onload = function() {
-        if(this.status === 200) {
-          data = JSON.parse(this.response)
-        } else {
-          data = JSON.parse(this.response)
-        }
-      };
-      // stop form submission
-      event.preventDefault();
-    })
   });
 })();
 
