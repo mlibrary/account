@@ -10,7 +10,7 @@
     <%= erb :message_callout, locals: {message: message} %>
   <% end %>
 
-<div class="progress-container">
+<div class="progress-container" aria-live="polite">
   <h3 class="progress-heading">Step 1 of 3</h3>
 
   <!--
@@ -29,7 +29,6 @@
       aria-valuemax="100" 
       max="100"
       role="progressbar"
-      aria-live="polite"
     >42%</progress>
   </label>
   <p class="progress-percent">42% complete</p>
