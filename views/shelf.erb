@@ -10,7 +10,7 @@
     <%= erb :message_callout, locals: {message: message} %>
   <% end %>
 
-<div class="progress-container">
+<div class="progress-container" aria-live="polite">
   <h3 class="progress-heading">Step 1 of 3</h3>
 
   <!--
@@ -29,7 +29,6 @@
       aria-valuemax="100" 
       max="100"
       role="progressbar"
-      aria-live="polite"
     >42%</progress>
   </label>
   <p class="progress-percent">42% complete</p>
@@ -88,18 +87,15 @@
           <a href="<%=loan.search_url%>"><%= loan.title %></a>
           <span>&#183; <%= loan.author %></span>
         </td>
-        <td>
+        <td data-loan-due-date="<%=loan.loan_id%>">
           <%= loan.due_date %>
         </td>
         <td>
           <% if loan.renewable? %>
-          <form action="/renew-loan" data-js-renew method="post">
-            <input type="hidden" name="loan_id" value="<%=loan.loan_id%>" />
-            <button class="button--light">Renew</button>
-          </form>
+            <button class="button--light" data-js-renew="<%=loan.loan_id%>" disabled>Renew</button>
           <% else %>
-          <p>Not eligible for renewal</p>
-        <% end %>
+            <p>Not eligible for renewal</p>
+          <% end %>
         </td>
       </tr>
     <% end %>
