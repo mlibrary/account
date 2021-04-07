@@ -7,9 +7,9 @@
   const es = new EventSource('/stream');
 
   es.onmessage = function(e) { 
-    const el = document.getElementById('renew-all-progress')
+    // const el = document.getElementById('renew-all-progress');
 
-    console.log('e.data', e.data)
+    console.log('e.data', e.data);
   };
 })();
 
@@ -42,10 +42,10 @@
 })();
 
 (function () {
-  const my_form = document.querySelectorAll("[data-js-renew-all]")
+  const my_form = document.querySelectorAll("[data-js-renew-all]");
   my_form.forEach(function(el){
     el.addEventListener('submit', function(event){
-      var request = new XMLHttpRequest();
+      let request = new XMLHttpRequest();
       request.open('POST', event.srcElement.action, true);
       request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
       request.send();
@@ -55,7 +55,7 @@
     // ...
     // stop form submission
       event.preventDefault();
-    })
+    });
   });
 })();
 
