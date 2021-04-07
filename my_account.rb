@@ -169,6 +169,27 @@ namespace '/pending-requests' do
   end
 end
 
+namespace '/past-activity' do
+  get ''  do
+    redirect_to '/u-m-library' # Redirects to /past-activity/um-library
+  end
+
+  get '/'  do
+    redirect_to '/u-m-library' # Redirects to /past-activity/um-library
+  end
+
+  get '/u-m-library' do
+    erb :past_activity, :locals => { past_activity: {} }
+  end
+
+  get '/interlibrary-loan' do
+    erb :past_interlibrary_loans, :locals => { past_interlibrary_loans: {} }
+  end
+  get '/special-collections' do
+    erb :past_special_collections, :locals => { past_special_collections: {} }
+  end
+end
+
 get '/settings' do 
   #session[:uniqname] = 'tutor' #need to get this from cosign?
   patron = Patron.for(uniqname: session[:uniqname])
