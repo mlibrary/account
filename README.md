@@ -29,6 +29,7 @@ NELNET_SECRET_KEY = 'secretkey'
 NELNET_PAYMENT_URL = 'http://localhost:4444'
 JWT_SECRET = 'myjwtsecret'
 PATRON_ACCOUNT_BASE_URL = 'http://localhost:4567'
+NELNET_PAYMENT_URL = 'http://localhost:4433'
 ```
 
 build web container
