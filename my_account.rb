@@ -9,6 +9,7 @@ require 'byebug'
 require_relative "./lib/empty_state"
 require_relative "./lib/utility"
 require_relative "./lib/illiad_client"
+require_relative "./lib/circ_history_client"
 require_relative "./lib/navigation"
 require_relative "./lib/publisher"
 require_relative "./lib/loan_controls.rb"
@@ -34,6 +35,7 @@ require_relative "./models/items/alma/alma_item"
 require_relative "./models/items/alma/loans"
 require_relative "./models/items/alma/requests"
 
+require_relative "./models/items/circ_history/circ_history_item"
 require_relative "./models/items/interlibrary_loan/interlibrary_loan_item"
 require_relative "./models/items/interlibrary_loan/document_delivery"
 require_relative "./models/items/interlibrary_loan/interlibrary_loans"
@@ -204,7 +206,10 @@ namespace '/past-activity' do
   end
 
   get '/u-m-library' do
-    erb :past_activity, :locals => { past_activity: {} }
+    session[:uniqname] = 'tutor'
+
+    past_loans = CirculationHistoryItems.for(uniqname: session[:uniqname], offset: params["offset"], limit: params["limit"], order_by: params["order_by"], direction: params["direction"])
+    erb :past_loans, :locals => {past_loans: past_loans}
   end
 
   get '/interlibrary-loan' do
