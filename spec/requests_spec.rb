@@ -143,6 +143,38 @@ describe "requests" do
       expect(last_response.status).to eq(200)
     end
   end
+  context "get /past-activity" do
+    it "redirects to '/past-activity/u-m-library'" do
+      get "/past-activity"
+      expect(last_response.status).to eq(302)
+      expect(URI(last_response.headers["Location"]).path).to eq("/past-activity/u-m-library")
+    end
+  end
+  context "get /past-activity/" do
+    it "redirects to '/past-activity/u-m-library'" do
+      get "/past-activity/"
+      expect(last_response.status).to eq(302)
+      expect(URI(last_response.headers["Location"]).path).to eq("/past-activity/u-m-library")
+    end
+  end
+  context "get /past-activity/u-m-library" do
+    it "exists" do
+      get "/past-activity/u-m-library" 
+      expect(last_response.status).to eq(200)
+    end
+  end
+  context "get /past-activity/interlibrary-loan" do
+    it "exists" do
+      get "/past-activity/interlibrary-loan" 
+      expect(last_response.status).to eq(200)
+    end
+  end
+  context "get /past-activity/special-collections" do
+    it "exists" do
+      get "/past-activity/special-collections" 
+      expect(last_response.status).to eq(200)
+    end
+  end
   context "get /fines-and-fees" do
     it "contains 'Fines'" do
       stub_alma_get_request(url: "users/tutor/fees", query: {limit: 100, offset: 0}, 
