@@ -20,7 +20,9 @@
   </head>
   <body> 
     <m-universal-header></m-universal-header>
-    <m-website-header name="Account"></m-website-header>
+    <m-website-header name="Account">
+      <%= erb :user_drop_down %>
+    </m-website-header>
 
     <main class="layout site-layout">
       <%= erb :navigation %>
