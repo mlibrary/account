@@ -1,20 +1,26 @@
 <% my_pages = Navigation.new(request.path_info) %>
 
 <nav class="user-navigation">
-  <ul class="site-navigation-list">
-    <% my_pages.pages.each do |page| %>
-      <li class="<%= page.active? ? 'active': '' %>">
-        <a href="<%=page.path%>">
-          <span><%=page.title%></span>
+  <button aria-expanded="false">
+    <m-icon name="person-outline"></m-icon>
+    <span>User</span>
+  </button>
+  <div class="navigation-lists">
+    <ul class="site-navigation-list">
+      <% my_pages.pages.each do |page| %>
+        <li class="<%= page.active? ? 'active': '' %>">
+          <a href="<%=page.path%>">
+            <span><%=page.title%></span>
+          </a>
+        </li>
+      <% end %>
+    </ul>
+    <ul class="user-navigation-list">
+      <li>
+        <a href="/">
+          <span>Log out</span>
         </a>
       </li>
-    <% end %>
-  </ul>
-  <ul class="user-navigation-list">
-    <li>
-      <a href="/">
-        <span>Log out</span>
-      </a>
-    </li>
-  </ul>
+    </ul>
+  </div>
 </nav>
