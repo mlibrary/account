@@ -90,3 +90,18 @@
     });
   });
 })();
+
+// Dropdown Menu
+(function () {
+  const dropdowns = document.querySelectorAll('[data-dropdown]');
+  dropdowns.forEach((dropdown) => {
+    const getID = dropdown.getAttribute('data-dropdown');
+    const getDropdown = document.getElementById(getID);
+    let getAriaExpanded = dropdown.getAttribute('aria-expanded');
+    dropdown.addEventListener('click', (event) => {
+      getAriaExpanded = getAriaExpanded !== true;
+      event.target.setAttribute('aria-expanded', getAriaExpanded);
+      getDropdown.style.display = getAriaExpanded ? 'block' : 'none';
+    });
+  });
+})();

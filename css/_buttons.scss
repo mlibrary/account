@@ -41,3 +41,8 @@ button,
 .button--light {
   @include button--light;
 }
+
+[data-dropdown] * {
+  // prevent addEventListener from detecting children
+  pointer-events: none;
+}
