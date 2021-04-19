@@ -1,12 +1,12 @@
 <% my_pages = Navigation.new(request.path_info) %>
 
-<nav class="user-navigation">
-  <button aria-expanded="false" data-dropdown="user-nav-dropdown">
+<nav class="user-navigation dropdown">
+  <button aria-expanded="false" data-dropdown="user-nav-dropdown" class="button--light">
     <m-icon name="person-outline"></m-icon>
     <span>User</span>
     <m-icon name="keyboard-arrow-down"></m-icon>
   </button>
-  <div class="navigation-lists" id="user-nav-dropdown" style="display: none;">
+  <div class="navigation-lists dropdown-container" id="user-nav-dropdown" style="display: none;">
     <ul class="site-navigation-list">
       <% my_pages.pages.each do |page| %>
         <li class="<%= page.active? ? 'active': '' %>">
