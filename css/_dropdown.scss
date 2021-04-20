@@ -7,6 +7,19 @@
   position: relative;
 }
 
+.button--dropdown {
+  background-color: transparent;
+  color: var(--color-neutral-400);
+  font-weight: normal;
+  padding: 0;
+  span {
+    margin: 0 var(--space-xx-small);
+  }
+  &[aria-expanded="true"] > span {
+    text-decoration: underline;
+  }
+}
+
 .dropdown-container {
   background: white;
   border-radius: 	var(--space-xx-small);
