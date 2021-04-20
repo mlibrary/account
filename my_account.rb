@@ -190,6 +190,10 @@ namespace '/past-activity' do
   end
 end
 
+get '/favorites' do 
+  erb :favorites, :locals => { favorites: {} }
+end
+
 get '/settings' do 
   #session[:uniqname] = 'tutor' #need to get this from cosign?
   patron = Patron.for(uniqname: session[:uniqname])
