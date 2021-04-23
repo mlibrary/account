@@ -15,9 +15,9 @@
   </caption>
   <thead>
     <tr>
-      <th>Title & author</th>
-      <th>Requested</th>
-      <th>Expires</th>
+      <th style="width: 66%;">Title &amp; author</th>
+      <th style="width: 9rem;">Due date</th>
+      <th style="width: 5rem;">Actions</th>
     </tr>
   </thead>
   <tbody>
@@ -28,10 +28,10 @@
           <span>&#183; <%= interlibrary_loan.author %></span>
         </td>
         <td>
-          <%= interlibrary_loan.creation_date %>
+          <%= interlibrary_loan.expiration_date %>
         </td>
         <td>
-          <%= interlibrary_loan.expiration_date %>
+          <a class="button--light" href="https://ill.lib.umich.edu/illiad/illiad.dll?Action=11&Form=71&Value=<%=interlibrary_loan.illiad_id%>" disabled>Renew</a>
         </td>
       </tr>
     <% end %>
