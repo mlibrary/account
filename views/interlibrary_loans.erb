@@ -10,14 +10,7 @@
 <table>
   <caption>
     <div class="loan-caption-inner-layout">
-      <p>
-        Showing <strong><%= interlibrary_loans.count %></strong> 
-        <% if interlibrary_loans.count == 1 %>
-          item
-        <% else %>
-          items
-        <% end %>
-      </p>
+      <p>Showing <strong><%= interlibrary_loans.count %></strong> <%= interlibrary_loans.count == 1 ? "item" : "items" %></p>
     </div>
   </caption>
   <thead>
