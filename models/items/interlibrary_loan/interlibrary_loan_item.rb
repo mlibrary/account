@@ -19,4 +19,7 @@ class InterlibraryLoanItem < Item
   def expiration_date
     @parsed_response["DueDate"] ? DateTime.patron_format(@parsed_response["DueDate"]) : ''
   end
+  def renewable?
+    @parsed_response["RenewalsAllowed"]
+  end
 end
