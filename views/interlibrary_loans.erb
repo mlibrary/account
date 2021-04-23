@@ -1,0 +1,49 @@
+<%= erb :horizontal_nav %>
+
+<% if interlibrary_loans.count == 0 %>
+
+<%= erb :requests_empty_state %>
+
+<% elsif %>
+
+<div class="table-container">
+<table>
+  <caption>
+    <div class="loan-caption-inner-layout">
+      <p>
+        Showing <strong><%= interlibrary_loans.count %></strong> 
+        <% if interlibrary_loans.count == 1 %>
+          item
+        <% else %>
+          items
+        <% end %>
+      </p>
+    </div>
+  </caption>
+  <thead>
+    <tr>
+      <th>Title & author</th>
+      <th>Requested</th>
+      <th>Expires</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% interlibrary_loans.each do |interlibrary_loan| %>
+      <tr>
+        <td>
+          <a href="<%= interlibrary_loan.illiad_url %>"><%= interlibrary_loan.title %></a>
+          <span>&#183; <%= interlibrary_loan.author %></span>
+        </td>
+        <td>
+          <%= interlibrary_loan.creation_date %>
+        </td>
+        <td>
+          <%= interlibrary_loan.expiration_date %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+</div>
+
+<% end %>
