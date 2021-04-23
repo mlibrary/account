@@ -1,7 +1,7 @@
 class InterlibraryLoans < Items
   def initialize(parsed_response:)
     super
-    @items = parsed_response.filter_map { |item| InterlibraryLoan.new(item) if item["RequestType"] != "Loan" && item["TransactionStatus"] != "Request Finished" }
+    @items = parsed_response.filter_map { |item| InterlibraryLoan.new(item) if item["RequestType"] != "Loan" && item["TransactionStatus"] == "Delivered to Web" }
   end
 
   def self.for(uniqname:, client: ILLiadClient.new)
