@@ -184,9 +184,10 @@ describe "requests" do
     end
   end
   context "get /favorites" do
-    it "exists" do
+    it "goes to olde favorites" do
       get "/favorites" 
-      expect(last_response.status).to eq(200)
+      expect(last_response.status).to eq(302)
+      expect(last_response.location).to eq("https://apps.lib.umich.edu/my-account/favorites")
     end
   end
   context "get /settings" do
