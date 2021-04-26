@@ -8,8 +8,7 @@
 
   es.onmessage = function (e) {
     // const el = document.getElementById('renew-all-progress');
-
-    console.log('e.data', e.data);
+    console.log('e.data', JSON.parse(e.data));
   };
 })();
 

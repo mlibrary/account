@@ -11,6 +11,7 @@ class Loans < Items
   def self.renew_all(uniqname:, client: AlmaRestClient.client, connections: [], 
                      publisher: Publisher.new) 
     url = "/users/#{uniqname}/loans" 
+    publisher.publish({step: 1, count: 0, uniqname: uniqname})
     response = client.get_all(url: url, record_key: 'item_loan', query: {"expand" => "renewable"})
 
     return response if response.code != 200 
@@ -36,8 +37,9 @@ class Loans < Items
          end
       end
       count = count + 1
-      publisher.publish({msg: count, uniqname: uniqname})
+      publisher.publish({step: 2, count: count, uniqname: uniqname})
     end
+    publisher.publish({step: 3, count: count, uniqname: uniqname})
     RenewResponse.new(renew_statuses: renew_statuses )
   end
   def count
