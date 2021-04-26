@@ -1,11 +1,14 @@
 class InterlibraryLoanItem < Item
   def initialize(parsed_response)
     super
-    @title = @parsed_response["PhotoArticleTitle"] ||
-             @parsed_response["PhotoJournalTitle"]
-    @author = @parsed_response["PhotoItemAuthor"] || 
-              @parsed_response["PhotoArticleAuthor"] || 
-              @parsed_response["PhotoJournalAuthor"]
+    @title = @parsed_response["LoanTitle"] ||
+             @parsed_response["PhotoArticleTitle"] ||
+             @parsed_response["PhotoJournalTitle"] ||
+             @parsed_response["CitedTitle"]
+
+    @author = @parsed_response["LoanAuthor"] ||
+              @parsed_response["PhotoItemAuthor"] || 
+              @parsed_response["PhotoArticleAuthor"]
   end
   def illiad_id
     @parsed_response["TransactionNumber"]
