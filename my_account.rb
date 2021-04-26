@@ -190,6 +190,12 @@ namespace '/past-activity' do
   end
 end
 
+get '/favorites' do 
+  #when there is a new favorites
+  #erb :favorites, :locals => { favorites: {} }
+  redirect 'https://apps.lib.umich.edu/my-account/favorites' 
+end
+
 get '/settings' do 
   #session[:uniqname] = 'tutor' #need to get this from cosign?
   patron = Patron.for(uniqname: session[:uniqname])

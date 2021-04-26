@@ -183,6 +183,13 @@ describe "requests" do
       expect(last_response.body).to include("Fines")
     end
   end
+  context "get /favorites" do
+    it "goes to olde favorites" do
+      get "/favorites" 
+      expect(last_response.status).to eq(302)
+      expect(last_response.location).to eq("https://apps.lib.umich.edu/my-account/favorites")
+    end
+  end
   context "get /settings" do
     it "contains 'Settings'" do
       stub_alma_get_request(url: "users/tutor?expand=none&user_id_type=all_unique&view=full")
