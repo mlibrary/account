@@ -41,20 +41,21 @@
 })();
 
 (function () {
-  const myForm = document.querySelectorAll('[data-js-renew-all]');
-  myForm.forEach(function (el) {
-    el.addEventListener('submit', function (event) {
-      const request = new XMLHttpRequest();
-      request.open('POST', event.target.action, true);
-      request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
-      request.send();
-      request.onload = function () {
+  const renewAll = document.querySelectorAll('[data-js-renew-all]');
+  renewAll.forEach((renewItem) => {
+    renewItem.addEventListener('click', (event) => {
+      event.target.classList.add('loading');
+      fetch('/current-checkouts/checkouts', {
+        method: 'POST'
+      }).then((response) => {
+        if (response.status === 200) {
+          return response.json();
+        }
+      }).then((data) => {
         location.reload();
-      };
-      // ...
-      // stop form submission
-      event.preventDefault();
+      });
     });
+    renewItem.removeAttribute('disabled');
   });
 })();
 

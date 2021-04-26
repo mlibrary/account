@@ -14,9 +14,10 @@
   <h3 class="progress-heading">Step 1 of 3</h3>
 
   <!--
-    1. Fetching loans (0% to 25%)
-    2. Renewing loans ((26% to 95%) / # of items)
-    3. Wrapping up (96% to 100%)
+    1. Fetching loans (Loading icon)
+    2. Renewing loans ((0% to 100%) / # of items)
+    3. Wrapping up (Loading icon)
+    4. Done (Check mark?)
 
     TODO:
 
@@ -69,10 +70,9 @@
             <button class="button">Apply</button>
           </noscript>
         </form>
-        <form action="/current-checkouts/checkouts" method="post" data-js-renew-all>
-          <input type="hidden" name="renew-all" value="" />
-          <button class="button" data-js-loading><m-icon name="autorenew"></m-icon><span style="padding-left: var(--space-xx-small);">Renew all</button>
-        </form>
+        <button class="button" data-js-renew-all disabled>
+          <m-icon name="autorenew"></m-icon><span style="padding-left: var(--space-xx-small);">Renew all</span>
+        </button>
       </div>
     </div>
   </caption>
