@@ -34,6 +34,7 @@ require_relative "./models/items/alma/requests"
 
 require_relative "./models/items/interlibrary_loan/interlibrary_loan_item"
 require_relative "./models/items/interlibrary_loan/document_delivery"
+require_relative "./models/items/interlibrary_loan/interlibrary_loans"
 require_relative "./models/items/interlibrary_loan/interlibrary_loan_requests"
 
 
@@ -133,14 +134,14 @@ namespace '/current-checkouts' do
   end
   
   get '/interlibrary-loan' do
+    interlibrary_loans = InterlibraryLoans.for(uniqname: 'testhelp')
+
+    erb :interlibrary_loans, :locals => { interlibrary_loans: interlibrary_loans }
+  end
+  get '/document-delivery-or-scans' do
     document_delivery = DocumentDelivery.for(uniqname: 'testhelp')
 
     erb :document_delivery, :locals => { document_delivery: document_delivery }
-  end
-  get '/document-delivery-or-scans' do
-    #loans = Loans.for(uniqname: session[:uniqname]) 
-  
-    erb :past_loans, :locals => { past_loans: {} }
   end
 end
 

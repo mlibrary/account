@@ -103,9 +103,11 @@ describe "requests" do
     end
   end
   context "get /current-checkouts/document-delivery-or-scans" do
-    it "contains 'Document Delivery'" do
+    it "contains 'Document Delivery / Scans'" do
+      stub_illiad_get_request(url: "Transaction/UserRequests/testhelp", 
+        body: File.read("spec/fixtures/illiad_requests.json"))
       get "/current-checkouts/document-delivery-or-scans" 
-      expect(last_response.body).to include("Document Delivery")
+      expect(last_response.body).to include("Document Delivery / Scans")
     end
   end
   context "get /pending-requests" do

@@ -1,0 +1,46 @@
+<%= erb :horizontal_nav %>
+
+<% if interlibrary_loans.count == 0 %>
+
+<%= erb :requests_empty_state %>
+
+<% elsif %>
+
+<div class="table-container">
+<table>
+  <caption>
+    <div class="loan-caption-inner-layout">
+      <p>Showing <strong><%= interlibrary_loans.count %></strong> <%= interlibrary_loans.count == 1 ? "item" : "items" %></p>
+    </div>
+  </caption>
+  <thead>
+    <tr>
+      <th style="width: 66%;">Title &amp; author</th>
+      <th style="width: 9rem;">Due date</th>
+      <th style="width: 5rem;">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% interlibrary_loans.each do |interlibrary_loan| %>
+      <tr>
+        <td>
+          <a href="<%= interlibrary_loan.illiad_url %>"><%= interlibrary_loan.title %></a>
+          <span>&#183; <%= interlibrary_loan.author %></span>
+        </td>
+        <td>
+          <%= interlibrary_loan.expiration_date %>
+        </td>
+        <td>
+          <% if interlibrary_loan.renewable? %>
+            <a class="button--light" href="https://ill.lib.umich.edu/illiad/illiad.dll?Action=11&Form=71&Value=<%=interlibrary_loan.illiad_id%>" disabled>Renew</a>
+          <% else %>
+            <p>Not eligible for renewal</p>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+</div>
+
+<% end %>
