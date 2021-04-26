@@ -4,11 +4,11 @@ class InterlibraryLoanItem < Item
     @title = @parsed_response["LoanTitle"] ||
              @parsed_response["PhotoArticleTitle"] ||
              @parsed_response["PhotoJournalTitle"] ||
-             @parsed_response["CitedTitle"]
+             @parsed_response["CitedTitle"] || ""
 
     @author = @parsed_response["LoanAuthor"] ||
               @parsed_response["PhotoItemAuthor"] || 
-              @parsed_response["PhotoArticleAuthor"]
+              @parsed_response["PhotoArticleAuthor"] || ""
   end
   def illiad_id
     @parsed_response["TransactionNumber"]
