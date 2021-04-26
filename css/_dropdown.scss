@@ -1,0 +1,72 @@
+[data-dropdown] * {
+  // prevent addEventListener from detecting children
+  pointer-events: none;
+}
+
+.dropdown {
+  position: relative;
+}
+
+.button--dropdown {
+  background-color: transparent;
+  color: var(--color-neutral-400);
+  font-weight: normal;
+  padding: 0;
+  span {
+    margin: 0 var(--space-xx-small);
+  }
+  &[aria-expanded="true"] > span {
+    text-decoration: underline;
+  }
+}
+
+.dropdown-container {
+  background: white;
+  border-radius: 	var(--space-xx-small);
+  box-shadow: var(--z-space-medium);
+  padding: var(--space-medium) var(--space-large);
+  position: absolute;
+  right: 0;
+  top: 100%;
+  z-index: 101;
+  ul,
+  li {
+    margin: 0;
+    padding: 0;
+  }
+  ul {
+    list-style: none;
+    & + ul {
+      border-top: solid 1px var(--color-neutral-100);
+      margin-top: var(--space-xx-small);
+      padding-top: var(--space-xx-small);
+    }
+  }
+  a {
+    display: block;
+    text-decoration: none;
+    color: var(--color-neutral-400);
+    padding: var(--space-xx-small) 0;
+    white-space: nowrap;
+
+    &:hover,
+    &:focus {
+      text-decoration: underline;
+    }
+
+    &.active {
+      color: var(--color-teal-400);
+      font-weight: var(--semibold);
+    }
+
+    m-icon {
+      position: relative;
+      top: var(--space-xxx-small);
+      margin-right: var(--space-xx-small);
+    }
+  }
+  li.active a {
+    color: var(--color-teal-400);
+    font-weight: bold;
+  }
+}
