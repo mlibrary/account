@@ -182,8 +182,10 @@ describe Loans do
   context ".renew_all(uniqname:)" do
     before(:each) do
       stub_alma_get_request( url: 'users/jbister/loans', body: File.read('./spec/fixtures/loans.json'), query: {expand: 'renewable', limit: 100, offset: 0} )
-      stub_updater({msg: '1', uniqname: 'jbister'})
-      stub_updater({msg: '2', uniqname: 'jbister'})
+      stub_updater({step: '1', count: '0', uniqname: 'jbister'})
+      stub_updater({step: '2', count: '1', uniqname: 'jbister'})
+      stub_updater({step: '2', count: '2', uniqname: 'jbister'})
+      stub_updater({step: '3', count: '2', uniqname: 'jbister'})
     end
     subject do
       Loans.renew_all(uniqname: 'jbister')
