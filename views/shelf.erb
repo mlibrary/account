@@ -10,10 +10,25 @@
   <%= erb :message_callout, locals: {message: message} %>
 <% end %>
 
+<%= loans.loan_count %>
+
 <div class="progress-container" aria-live="polite" style="display: none;">
+  <!-- <h3 class="progress-heading">Step <%= renew_step %> of 3</h3>-->
   <h3 class="progress-heading">Step 1 of 3</h3>
   <label>
+    <!-- <span class="progress-label-text"><%= renew_step_description %></span>-->
     <span class="progress-label-text">Fetching loans...</span>
+    <!--
+    <progress 
+      id="renew-all-progress" 
+      value="<%= renew_progress %>"
+      aria-valuenow="<%= renew_progress %>"
+      aria-valuemin="0"
+      aria-valuemax="100" 
+      max="100"
+      role="progressbar"
+    ><%= renew_progress %>%</progress>
+    -->
     <progress 
       id="renew-all-progress" 
       value="0"
@@ -24,6 +39,7 @@
       role="progressbar"
     >0%</progress>
   </label>
+  <!-- <p class="progress-percent"><%= renew_progress %>% complete</p> -->
   <p class="progress-percent">0% complete</p>
 </div>
 
