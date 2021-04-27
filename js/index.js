@@ -20,7 +20,7 @@
     const progressCount = Math.ceil((100 / progressLoanCount) * eventData.count);
     progressBar.value = progressCount;
     progressBar.setAttribute('aria-valuenow', progressCount);
-    progressBar.textContent = progressCount;
+    progressBar.textContent = `${progressCount}%`;
     progressPercent.textContent = `${progressCount}% complete`;
   };
 })();
