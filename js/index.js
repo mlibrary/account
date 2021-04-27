@@ -4,11 +4,24 @@
  *
  */
 (function () {
-  const es = new EventSource('/stream');
+  const eventSource = new EventSource('/stream');
+  const progressContainer = document.querySelector('.progress-container');
+  const progressHeading = progressContainer.querySelector('.progress-heading');
+  const progressStepsText = progressContainer.querySelector('.progress-label-text');
+  const progressSteps = ['Fetching loans...', 'Renewing loans...', 'Wrapping up...'];
+  const progressLoanCount = document.querySelector('[data-js-renew-all]').getAttribute('data-js-renew-all');
+  const progressBar = progressContainer.querySelector('progress');
+  const progressPercent = progressContainer.querySelector('.progress-percent');
 
-  es.onmessage = function (e) {
-    // const el = document.getElementById('renew-all-progress');
-    console.log('e.data', JSON.parse(e.data));
+  eventSource.onmessage = (event) => {
+    const eventData = JSON.parse(event.data);
+    progressHeading.textContent = `Step ${eventData.step} of 3`;
+    progressStepsText.textContent = progressSteps[eventData.step - 1];
+    const progressCount = Math.ceil((100 / progressLoanCount) * eventData.count);
+    progressBar.value = progressCount;
+    progressBar.setAttribute('aria-valuenow', progressCount);
+    progressBar.textContent = `${progressCount}%`;
+    progressPercent.textContent = `${progressCount}% complete`;
   };
 })();
 
@@ -45,6 +58,7 @@
   renewAll.forEach((renewItem) => {
     renewItem.addEventListener('click', (event) => {
       event.target.classList.add('loading');
+      document.querySelector('.progress-container').style.display = 'block';
       fetch('/current-checkouts/checkouts', {
         method: 'POST'
       }).then((response) => {
