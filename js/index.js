@@ -21,7 +21,7 @@
     progressBar.value = progressCount;
     progressBar.setAttribute('aria-valuenow', progressCount);
     progressBar.textContent = `${progressCount}%`;
-    progressPercent.textContent = `${progressCount}% complete`;
+    progressPercent.textContent = `${eventData.renewed} of ${progressLoanCount} renewed`;
   };
 })();
 
