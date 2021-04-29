@@ -1,9 +1,6 @@
 require 'spec_helper'
 require 'json'
 
-# TODO 
-# * Pagination of requests????
-# * Handling InterLibraryRequests
 describe Requests do
   before(:each) do
     stub_alma_get_request( url: 'users/tutor/requests', body: File.read("./spec/fixtures/requests.json") )
@@ -43,6 +40,19 @@ describe Requests do
     it "returns the correct item" do
       expect(subject.bookings.first.request_id).to eq("1383955240006381")
     end
+  end
+end
+describe Request, '.cancel(request_id:, uniqname:)' do
+  subject do
+    described_class.cancel(request_id: '1234', uniqname: 'jbister')
+  end
+  it "properly cancels a request in alma" do
+    stub_alma_delete_request( url: 'users/jbister/requests/1234', body: '{}', query: {reason: 'CancelledAtPatronRequest'} )
+    expect(subject.code).to eq(200)
+  end
+  it "returns response from alma on failed cancelation request" do
+    stub_alma_delete_request( url: 'users/jbister/requests/1234', body: File.read('./spec/fixtures/alma_error.json'), query: {reason: 'CancelledAtPatronRequest'}, status: 400 )
+    expect(subject.code).to eq(400)
   end
 end
 describe HoldRequest do
