@@ -1,7 +1,5 @@
 /**
  * Renew All progress data stream
- *
- *
  */
 (function () {
   const eventSource = new EventSource('/stream');
@@ -20,9 +18,23 @@
     const progressCount = Math.ceil((100 / progressLoanCount) * eventData.count);
     progressBar.value = progressCount;
     progressBar.setAttribute('aria-valuenow', progressCount);
-    progressBar.textContent = `${progressCount}%`;
+    progressBar.textContent = `${progressCount}% complete`;
     progressPercent.textContent = `${eventData.renewed} of ${progressLoanCount} renewed`;
   };
+})();
+
+/**
+ * Close message callout
+ */
+(function () {
+  const messageCallouts = document.querySelectorAll('.message-callout');
+  messageCallouts.forEach((messageCallout) => {
+    const buttonClose = messageCallout.querySelector('.button--close');
+    buttonClose.removeAttribute('disabled');
+    buttonClose.addEventListener('click', (event) => {
+      messageCallout.style.display = 'none';
+    });
+  });
 })();
 
 (function () {
