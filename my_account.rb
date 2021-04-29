@@ -54,7 +54,13 @@ get '/stream', provides: 'text/event-stream' do
 end
 post '/updater/' do
   return 403 unless Authenticator.verify(params: params)
-  data = { step: params[:step], count: params[:count], renewed: params[:renewed] }.to_json
+  data = {}
+  params.each do |key, value|
+    if key != "uniqname" && key != "hash"
+      data[key] = value
+    end
+  end
+  data = data.to_json
   settings.connections.each { |x| x[:out] << "data: #{data}\n\n" if x[:uniqname] == params[:uniqname] }
   204 # response without entity body
 end
