@@ -5,9 +5,9 @@
   <thead>
     <tr>
       <th>Title & author</th>
-
-      <th>Pickup location</th>
-      <th>Request date</th>
+      <th style="width: 9rem;">Pickup location</th>
+      <th style="width: 9rem;">Request date</th>
+      <th style="width: 6rem;">Actions</th>
     </tr>
   </thead>
   <tbody>
@@ -17,11 +17,14 @@
           <a href="<%=request.search_url%>"><%= request.title %></a>
           <span>&#183; <%= request.author %></span>
         </td>
-        <td style="min-width: 20%;">
+        <td>
           <%= request.pickup_location %>
         </td>
-        <td style="min-width: 20%;">
+        <td>
           <%= request.request_date %>
+        </td>
+        <td>
+          <button class="button--light" data-js-cancel="<%=request.request_id%>" disabled>Cancel</button>
         </td>
       </tr>
     <% end %>
