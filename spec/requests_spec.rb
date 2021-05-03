@@ -11,12 +11,13 @@ describe "requests" do
       expect(last_response.status).to eq(403)
     end
     it "returns 204 and posts data to connections for uniqname if hash is correct" do
-      query = Authenticator.params_with_signature(params: {msg: "one", uniqname: "tutor"})
+      params = {step: "1", count: "1"} 
+      query = Authenticator.params_with_signature(params: {**params, uniqname: "tutor"})
       connections = Sinatra::Application.settings.connections
       connections << { uniqname: 'blah', out: [] }
       connections << { uniqname: 'tutor', out: [] }
       post "/updater/#{query}"
-      expect(connections.detect{|x| x[:uniqname] =='tutor'}[:out].first).to eq("data: one\n\n")
+      expect(connections.detect{|x| x[:uniqname] =='tutor'}[:out].first).to eq("data: #{params.to_json}\n\n")
       expect(connections.detect{|x| x[:uniqname] =='blah'}[:out].count).to  eq(0)
     end
   end
@@ -67,10 +68,15 @@ describe "requests" do
       stub_alma_get_request( url: 'users/tutor/loans', body: @alma_loans.to_json, query: {expand: 'renewable'} )
       stub_alma_post_request( url: 'users/tutor/loans/1332733700000521', query: {op: 'renew'} ) 
       stub_alma_post_request( url: 'users/tutor/loans/1332734190000521', query: {op: 'renew'} ) 
-      stub_updater({msg: '1', uniqname: 'tutor'})
-      stub_updater({msg: '2', uniqname: 'tutor'})
+      stub_updater({step: '1', count: '0', renewed: '0', uniqname: 'tutor'})
+      stub_updater({step: '2', count: '1', renewed: '1', uniqname: 'tutor'})
+      stub_updater({step: '2', count: '2', renewed: '2', uniqname: 'tutor'})
+      stub_updater({step: '3', count: '2', renewed: '2', uniqname: 'tutor'})
     end
     it "shows appropriate " do
+      stub_updater({step: '2', count: '1', renewed: '0', uniqname: 'tutor'})
+      stub_updater({step: '2', count: '2', renewed: '1', uniqname: 'tutor'})
+      stub_updater({step: '3', count: '2', renewed: '1', uniqname: 'tutor'})
       post "/current-checkouts/checkouts" 
       session = last_request.env["rack.session"]
       expect(session["message"].renewed).to eq(1)
@@ -81,6 +87,9 @@ describe "requests" do
       stub_alma_get_request( url: 'users/tutor/loans', body: @alma_loans.to_json, query: {expand: 'renewable', limit: 100, offset: 0} )
       stub_alma_get_request( url: 'users/tutor/loans', body: @alma_loans.to_json, query: {expand: 'renewable'} )
 
+      stub_updater({step: '2', count: '1', renewed: '0', uniqname: 'tutor'})
+      stub_updater({step: '2', count: '2', renewed: '0', uniqname: 'tutor'})
+      stub_updater({step: '3', count: '2', renewed: '0', uniqname: 'tutor'})
       post "/current-checkouts/checkouts" 
       session = last_request.env["rack.session"]
       expect(session["message"].renewed).to eq(0)
