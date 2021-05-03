@@ -68,12 +68,15 @@ describe "requests" do
       stub_alma_get_request( url: 'users/tutor/loans', body: @alma_loans.to_json, query: {expand: 'renewable'} )
       stub_alma_post_request( url: 'users/tutor/loans/1332733700000521', query: {op: 'renew'} ) 
       stub_alma_post_request( url: 'users/tutor/loans/1332734190000521', query: {op: 'renew'} ) 
-      stub_updater({step: '1', count: '0', uniqname: 'tutor'})
-      stub_updater({step: '2', count: '1', uniqname: 'tutor'})
-      stub_updater({step: '2', count: '2', uniqname: 'tutor'})
-      stub_updater({step: '3', count: '2', uniqname: 'tutor'})
+      stub_updater({step: '1', count: '0', renewed: '0', uniqname: 'tutor'})
+      stub_updater({step: '2', count: '1', renewed: '1', uniqname: 'tutor'})
+      stub_updater({step: '2', count: '2', renewed: '2', uniqname: 'tutor'})
+      stub_updater({step: '3', count: '2', renewed: '2', uniqname: 'tutor'})
     end
     it "shows appropriate " do
+      stub_updater({step: '2', count: '1', renewed: '0', uniqname: 'tutor'})
+      stub_updater({step: '2', count: '2', renewed: '1', uniqname: 'tutor'})
+      stub_updater({step: '3', count: '2', renewed: '1', uniqname: 'tutor'})
       post "/current-checkouts/checkouts" 
       session = last_request.env["rack.session"]
       expect(session["message"].renewed).to eq(1)
@@ -84,6 +87,9 @@ describe "requests" do
       stub_alma_get_request( url: 'users/tutor/loans', body: @alma_loans.to_json, query: {expand: 'renewable', limit: 100, offset: 0} )
       stub_alma_get_request( url: 'users/tutor/loans', body: @alma_loans.to_json, query: {expand: 'renewable'} )
 
+      stub_updater({step: '2', count: '1', renewed: '0', uniqname: 'tutor'})
+      stub_updater({step: '2', count: '2', renewed: '0', uniqname: 'tutor'})
+      stub_updater({step: '3', count: '2', renewed: '0', uniqname: 'tutor'})
       post "/current-checkouts/checkouts" 
       session = last_request.env["rack.session"]
       expect(session["message"].renewed).to eq(0)
