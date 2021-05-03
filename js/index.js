@@ -102,7 +102,7 @@ if (window.location.pathname === '/current-checkouts/checkouts') {
     cancelItem.addEventListener('click', (event) => {
       event.target.innerHTML = 'Processing...';
       const requestID = event.target.dataset.jsCancel;
-      fetch('/pending-requests/u-m-library/cancel-request', {
+      fetch(`/pending-requests/u-m-library/cancel-request?request_id=${requestID}`, {
         method: 'POST'
       }).then((response) => {
         if (response.status === 200) {
