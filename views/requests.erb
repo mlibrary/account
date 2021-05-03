@@ -1,5 +1,11 @@
 <%= erb :horizontal_nav %>
 
+<% if requests.count == 0 %>
+
+<%= erb :requests_empty_state %>
+
+<% elsif %>
+
 <div class="table-container">
 <table>
   <thead>
@@ -31,3 +37,5 @@
   </tbody>
 </table>
 </div>
+
+<% end %>

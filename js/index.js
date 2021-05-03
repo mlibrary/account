@@ -112,7 +112,7 @@ if (window.location.pathname === '/current-checkouts/checkouts') {
         throw new Error(`Could not cancel request id ${requestID}.`);
       }).then((data) => {
         event.target.innerHTML = 'Canceled!';
-        return data;
+        event.target.addAttribute('disabled');
       }).catch((error) => {
         console.error(error);
       });

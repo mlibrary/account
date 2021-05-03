@@ -172,6 +172,7 @@ namespace '/pending-requests' do
     if response.code == 204
       loan = response.parsed_response
       status 200
+      {}.to_json
     else
       error = AlmaError.new(response)
       status error.code
