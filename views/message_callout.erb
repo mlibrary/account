@@ -1,4 +1,7 @@
 <div class="message-callout">
+  <button class="button--light button--close" disabled>
+    <m-icon name="close"></m-icon><span class="visually-hidden">Close</span>
+  </button>
   <div class="message-callout-content" aria-live="polite">
     <% if message.renewed? %>
       <p><strong><%= message.renewed_text %></strong></p>
