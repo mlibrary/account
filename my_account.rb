@@ -67,7 +67,7 @@ end
 post '/loan-controls' do
   lc = LoanControls::ParamsGenerator.new(show: params["show"], sort: params["sort"])
 
-  redirect "/current-checkouts/checkouts#{lc}"
+  redirect "/current-checkouts/u-m-library#{lc}"
 end
 # :nocov:
 post '/session_switcher' do
@@ -114,14 +114,14 @@ end
 
 namespace '/current-checkouts' do
   get ''  do
-    redirect_to '/checkouts' # Redirects to /shelf/loans
+    redirect_to '/u-m-library' # Redirects to /shelf/loans
   end
 
   get '/'  do
-    redirect_to '/checkouts' # Redirects to /shelf/loans
+    redirect_to '/u-m-library' # Redirects to /shelf/loans
   end
 
-  get '/checkouts' do
+  get '/u-m-library' do
     session[:uniqname] = 'tutor' if !session[:uniqname] 
   
     loan_controls = LoanControls::Form.new(limit: params["limit"], order_by: params["order_by"], direction: params["direction"])
@@ -130,7 +130,7 @@ namespace '/current-checkouts' do
     erb :shelf, :locals => { loans: loans, message: message, loan_controls: loan_controls}
   end
   
-  post '/checkouts' do
+  post '/u-m-library' do
     response = Loans.renew_all(uniqname: session[:uniqname])
     if response.code != 200 
       flash[:error] = "<strong>Error:</strong> #{response.message}"
