@@ -1,7 +1,16 @@
 class InterlibraryLoanRequests < Items
   def initialize(parsed_response:)
     super
-    @items = parsed_response.filter_map { |item| InterlibraryLoanRequest.new(item) if item["TransactionStatus"].include?("Submitted") || item["TransactionStatus"].include?("Pending") }
+    actions = [
+      "Awaiting",
+      "In Transit",
+      "Pending",
+      "Queue",
+      "Request Sent",
+      "Searching",
+      "Submitted"
+    ]
+    @items = parsed_response.filter_map { |item| InterlibraryLoanRequest.new(item) if actions.any?{|action| item["TransactionStatus"].include?(action)}}
   end
 
   def self.for(uniqname:, client: ILLiadClient.new)
