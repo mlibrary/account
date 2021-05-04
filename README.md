@@ -54,3 +54,14 @@ docker-compose up -d
 ```
 
 In a browser, go to http://localhost:4567 to see the website.
+
+## Adding a javascript file for a specific page
+In `webpack.common.js` add a key value pair to entry where the value is the path to the js file, and the key is the path for the page with inner '/' changed to '-'. 
+
+Exmaple: the key for a js file to be used at the following path "/current-checkouts/u-m-library" would be "current-checkouts-u-m-library"
+
+In `my_account.rb`, for the route, locals should include has_js: true.
+
+
+
+
