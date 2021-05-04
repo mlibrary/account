@@ -32,7 +32,7 @@
         </td>
         <td>
           <% if interlibrary_loan.renewable? %>
-            <a class="button--light" href="https://ill.lib.umich.edu/illiad/illiad.dll?Action=11&Form=71&Value=<%=interlibrary_loan.illiad_id%>" disabled>Renew</a>
+            <a href="https://ill.lib.umich.edu/illiad/illiad.dll?Action=11&Form=71&Value=<%=interlibrary_loan.illiad_id%>" disabled>Request Renewal</a>
           <% else %>
             <p>Not eligible for renewal</p>
           <% end %>

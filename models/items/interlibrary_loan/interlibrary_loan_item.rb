@@ -2,8 +2,8 @@ class InterlibraryLoanItem < Item
   def initialize(parsed_response)
     super
     @title = @parsed_response["LoanTitle"] ||
-             @parsed_response["PhotoArticleTitle"] ||
              @parsed_response["PhotoJournalTitle"] ||
+             @parsed_response["PhotoArticleTitle"] ||
              @parsed_response["CitedTitle"] || ""
 
     @author = @parsed_response["LoanAuthor"] ||
