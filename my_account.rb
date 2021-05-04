@@ -161,10 +161,24 @@ namespace '/pending-requests' do
   end
 
   get '/u-m-library' do
+    session[:uniqname] = 'tutor' if !session[:uniqname] 
     requests = Requests.for(uniqname: session[:uniqname]).holds
 
     erb :requests, :locals => { requests: requests }
   end
+  post '/u-m-library/cancel-request' do
+    response = Request.cancel(uniqname: session[:uniqname], request_id: params["request_id"])
+    if response.code == 204
+      loan = response.parsed_response
+      status 200
+      {}.to_json
+    else
+      error = AlmaError.new(response)
+      status error.code
+      { message: error.message }.to_json
+    end
+  end
+
 
   get '/interlibrary-loan' do
     interlibrary_loan_requests = InterlibraryLoanRequests.for(uniqname: 'testhelp')

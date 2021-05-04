@@ -21,6 +21,9 @@ class Requests
 end
 
 class Request < AlmaItem
+  def self.cancel(uniqname:, request_id:, client: AlmaRestClient.client)
+    client.delete("/users/#{uniqname}/requests/#{request_id}", {reason: "CancelledAtPatronRequest"})
+  end
   def publication_date
     @parsed_response["date_of_publication"]
   end

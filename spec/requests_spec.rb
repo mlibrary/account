@@ -234,6 +234,16 @@ describe "requests" do
       #expect(last_response.body).to include("Error")
     #end
   #end
+  context "post /pending-requests/u-m-library/cancel-request" do
+    before(:each) do
+      @req = stub_alma_get_request( url: 'users/tutor/requests', body: File.read("./spec/fixtures/requests.json") )
+    end
+    it "handles good cancel request" do
+      stub_alma_delete_request( url: 'users/tutor/requests/1234', status: 204, body: '{}', query: {reason: 'CancelledAtPatronRequest'} )
+      post "/pending-requests/u-m-library/cancel-request", {'request_id' => '1234'}
+      expect(last_response.status).to eq(200)
+    end
+  end
   context "post /sms" do
     before(:each) do
       @patron_json = File.read("./spec/fixtures/mrio_user_alma.json")

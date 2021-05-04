@@ -15,6 +15,34 @@
 })();
 
 /**
+ * Cancel single item
+ */
+(function () {
+  const cancelItems = document.querySelectorAll('[data-js-cancel]');
+  cancelItems.forEach((cancelItem) => {
+    cancelItem.addEventListener('click', (event) => {
+      event.target.innerHTML = 'Processing...';
+      const requestID = event.target.dataset.jsCancel;
+      fetch(`/pending-requests/u-m-library/cancel-request?request_id=${requestID}`, {
+        method: 'POST'
+      }).then((response) => {
+        if (response.status === 200) {
+          return response.json();
+        }
+        event.target.innerHTML = 'Error!';
+        throw new Error(`Could not cancel request id ${requestID}.`);
+      }).then((data) => {
+        event.target.innerHTML = 'Canceled!';
+        event.target.addAttribute('disabled');
+      }).catch((error) => {
+        console.error(error);
+      });
+    });
+    cancelItem.removeAttribute('disabled');
+  });
+})();
+
+/**
  * Handle self-submitting input controls.
  *
  * <form>
