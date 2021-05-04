@@ -123,11 +123,10 @@ namespace '/current-checkouts' do
 
   get '/u-m-library' do
     session[:uniqname] = 'tutor' if !session[:uniqname] 
-  
     loan_controls = LoanControls::Form.new(limit: params["limit"], order_by: params["order_by"], direction: params["direction"])
     loans = Loans.for(uniqname: session[:uniqname], offset: params["offset"], limit: params["limit"], order_by: params["order_by"], direction: params["direction"])
     message = session.delete(:message)
-    erb :shelf, :locals => { loans: loans, message: message, loan_controls: loan_controls}
+    erb :shelf, :locals => { loans: loans, message: message, loan_controls: loan_controls, has_js: true}
   end
   
   post '/u-m-library' do

@@ -5,10 +5,12 @@
   const messageCallouts = document.querySelectorAll('.message-callout');
   messageCallouts.forEach((messageCallout) => {
     const buttonClose = messageCallout.querySelector('.button--close');
-    buttonClose.removeAttribute('disabled');
-    buttonClose.addEventListener('click', (event) => {
-      messageCallout.style.display = 'none';
-    });
+    if (buttonClose) {
+      buttonClose.removeAttribute('disabled');
+      buttonClose.addEventListener('click', (event) => {
+        messageCallout.style.display = 'none';
+      });
+    }
   });
 })();
 

@@ -53,8 +53,8 @@
 
     <m-chat></m-chat>
     <script src="/bundles/main.bundle.js"></script>
-    <% if request.path == '/current-checkouts/checkouts' %>
-      <script src="/bundles/currentCheckouts.bundle.js"></script>
+    <% if defined?(has_js)  %>
+      <script src="/bundles/<%=request.js_filename%>.bundle.js"></script>
     <% end %>
   </body>
 </html>

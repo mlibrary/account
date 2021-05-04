@@ -25,6 +25,12 @@ class Integer
   end
 end
 
+class Sinatra::Request
+  def js_filename
+    path.gsub('/',' ').strip.gsub(' ','-')
+  end
+end
+
 module StyledFlash
   def patron_styled_flash(key=:flash)
     return "" if flash(key).empty?

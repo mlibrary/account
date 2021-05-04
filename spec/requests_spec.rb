@@ -54,10 +54,16 @@ describe "requests" do
     end
   end
   context "get /current-checkouts/u-m-library" do
-    it "contains 'Checkouts'" do
+    before(:each) do
       stub_alma_get_request(url: "users/tutor/loans", query: {expand: 'renewable'})
+    end
+    it "contains 'U-M Library'" do
       get "/current-checkouts/u-m-library"
       expect(last_response.body).to include("U-M Library")
+    end
+    it "has checkouts js" do
+      get "/current-checkouts/u-m-library"
+      expect(last_response.body).to include("current-checkouts-u-m-library.bundle.js")
     end
   end
   context "post /current-checkouts/u-m-library" do
