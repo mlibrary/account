@@ -63,7 +63,7 @@
     renewItem.addEventListener('click', (event) => {
       event.target.classList.add('loading');
       document.querySelector('.progress-container').style.display = 'block';
-      fetch('/current-checkouts/checkouts', {
+      fetch('/current-checkouts/u-m-library', {
         method: 'POST'
       }).then((response) => {
         if (response.status === 200) {
