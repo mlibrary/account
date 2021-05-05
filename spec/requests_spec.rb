@@ -176,6 +176,7 @@ describe "requests" do
   end
   context "get /past-activity/u-m-library" do
     it "exists" do
+      stub_circ_history_get_request(url: "users/tutor/loans")
       get "/past-activity/u-m-library" 
       expect(last_response.status).to eq(200)
     end
