@@ -24,7 +24,7 @@
     <% interlibrary_loans.each do |interlibrary_loan| %>
       <tr>
         <td>
-          <a href="<%= interlibrary_loan.illiad_url %>"><%= interlibrary_loan.title %></a>
+          <a href="<%= interlibrary_loan.url_transaction %>"><%= interlibrary_loan.title %></a>
           <span>&#183; <%= interlibrary_loan.author %></span>
         </td>
         <td>
@@ -32,7 +32,7 @@
         </td>
         <td>
           <% if interlibrary_loan.renewable? %>
-            <a href="https://ill.lib.umich.edu/illiad/illiad.dll?Action=11&Form=71&Value=<%=interlibrary_loan.illiad_id%>">Request Renewal</a>
+            <a href="<%= interlibrary_loan.url_request_renewal %>">Request Renewal</a>
           <% else %>
             <p>Not eligible for renewal</p>
           <% end %>
