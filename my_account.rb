@@ -36,6 +36,7 @@ require_relative "./models/items/interlibrary_loan/interlibrary_loan_item"
 require_relative "./models/items/interlibrary_loan/document_delivery"
 require_relative "./models/items/interlibrary_loan/interlibrary_loans"
 require_relative "./models/items/interlibrary_loan/interlibrary_loan_requests"
+require_relative "./models/items/interlibrary_loan/past_interlibrary_loans"
 
 
 helpers StyledFlash
@@ -204,7 +205,9 @@ namespace '/past-activity' do
   end
 
   get '/interlibrary-loan' do
-    erb :past_interlibrary_loans, :locals => { past_interlibrary_loans: {} }
+    past_interlibrary_loans = PastInterlibraryLoans.for(uniqname: 'testhelp')
+
+    erb :past_interlibrary_loans, :locals => { past_interlibrary_loans: past_interlibrary_loans }
   end
   get '/special-collections' do
     erb :past_special_collections, :locals => { past_special_collections: {} }

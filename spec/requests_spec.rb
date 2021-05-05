@@ -181,9 +181,11 @@ describe "requests" do
     end
   end
   context "get /past-activity/interlibrary-loan" do
-    it "exists" do
+    it "contains 'Interlibrary Loan'" do
+      stub_illiad_get_request(url: "Transaction/UserRequests/testhelp", 
+        body: File.read("spec/fixtures/illiad_requests.json"))
       get "/past-activity/interlibrary-loan" 
-      expect(last_response.status).to eq(200)
+      expect(last_response.body).to include("Interlibrary Loan")
     end
   end
   context "get /past-activity/special-collections" do
