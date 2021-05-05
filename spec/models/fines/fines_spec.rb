@@ -83,7 +83,7 @@ describe Fine do
   end
   context "#date" do
     it "returns date the fine was assessed" do
-      expect(subject.date).to eq("Nov 10, 2015")
+      expect(subject.date).to eq("11/10/15")
     end
   end
   context "#id" do

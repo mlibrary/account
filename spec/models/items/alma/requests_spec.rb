@@ -89,7 +89,7 @@ describe HoldRequest do
   end
   context "#request_date" do
     it "returns date of the request" do
-      expect(subject.request_date).to eq("Nov 2, 2020")
+      expect(subject.request_date).to eq("11/02/20")
     end
   end
   context "#pickup_location" do
@@ -107,7 +107,7 @@ describe BookingRequest do
   end
   context "#booking_date" do
     it "returns date booking is scheduled for" do
-      expect(subject.booking_date).to eq("Nov 19, 2020")
+      expect(subject.booking_date).to eq("11/19/20")
     end
   end
 end
