@@ -25,7 +25,7 @@ describe InterlibraryLoanItem do
   end
   context "#creation_date" do
     it "returns creation date string" do
-      expect(subject.creation_date).to eq("Mar 9, 2021")
+      expect(subject.creation_date).to eq("03/09/21")
     end
   end
   context "#expiration_date" do
