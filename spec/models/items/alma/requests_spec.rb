@@ -1,9 +1,6 @@
 require 'spec_helper'
 require 'json'
 
-# TODO 
-# * Pagination of requests????
-# * Handling InterLibraryRequests
 describe Requests do
   before(:each) do
     stub_alma_get_request( url: 'users/tutor/requests', body: File.read("./spec/fixtures/requests.json") )
@@ -45,6 +42,19 @@ describe Requests do
     end
   end
 end
+describe Request, '.cancel(request_id:, uniqname:)' do
+  subject do
+    described_class.cancel(request_id: '1234', uniqname: 'jbister')
+  end
+  it "properly cancels a request in alma" do
+    stub_alma_delete_request( url: 'users/jbister/requests/1234', body: '{}', query: {reason: 'CancelledAtPatronRequest'} )
+    expect(subject.code).to eq(200)
+  end
+  it "returns response from alma on failed cancelation request" do
+    stub_alma_delete_request( url: 'users/jbister/requests/1234', body: File.read('./spec/fixtures/alma_error.json'), query: {reason: 'CancelledAtPatronRequest'}, status: 400 )
+    expect(subject.code).to eq(400)
+  end
+end
 describe HoldRequest do
   before(:each) do
     @hold_response = JSON.parse(File.read("./spec/fixtures/requests.json"))["user_request"][1]
@@ -79,7 +89,7 @@ describe HoldRequest do
   end
   context "#request_date" do
     it "returns date of the request" do
-      expect(subject.request_date).to eq("Nov 2, 2020")
+      expect(subject.request_date).to eq("11/02/20")
     end
   end
   context "#pickup_location" do
@@ -97,7 +107,7 @@ describe BookingRequest do
   end
   context "#booking_date" do
     it "returns date booking is scheduled for" do
-      expect(subject.booking_date).to eq("Nov 19, 2020")
+      expect(subject.booking_date).to eq("11/19/20")
     end
   end
 end

@@ -5,7 +5,7 @@ require 'securerandom'
 #App-wide formatting
 class DateTime
   def self.patron_format(date)
-    DateTime.parse(date).strftime("%b %-d, %Y")
+    DateTime.parse(date).strftime('%D')
   end
 
   def self.timestamp
@@ -22,6 +22,12 @@ end
 class Integer
   def to_currency
     "#{self}.00"
+  end
+end
+
+class Sinatra::Request
+  def js_filename
+    path.gsub('/',' ').strip.gsub(' ','-')
   end
 end
 

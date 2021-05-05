@@ -100,6 +100,10 @@ describe Loan do
     it "returns title string" do
       expect(subject.title).to eq("Basics of singing / [compiled by] Jan Schmidt.")
     end
+    it "handles non-existent title" do
+      @loan_response["title"] =  nil
+      expect(subject.title).to eq('')
+    end
     it "handles truncation for long title and very short author" do
       @loan_response["title"] = 't' * 1000
       @loan_response["author"] = 'aaa'
@@ -120,6 +124,10 @@ describe Loan do
       @loan_response["title"] = 'ttt'
       expect(subject.author).to eq('a' * 237)
     end
+    it "handles non-existent author" do
+      @loan_response["author"] =  nil
+      expect(subject.author).to eq('')
+    end
     it "handle for long title and long author" do
       @loan_response["title"] = 't' * 1000
       @loan_response["author"] = 'a' * 1000
@@ -138,7 +146,7 @@ describe Loan do
   end
   context "#due_date" do
     it "returns due date string" do
-      expect(subject.due_date).to eq("Jul 8, 2018")
+      expect(subject.due_date).to eq("07/08/18")
     end
   end
   context "#loan_id" do

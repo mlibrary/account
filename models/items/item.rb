@@ -2,8 +2,8 @@ class Item
   attr_reader :parsed_response
   def initialize(parsed_response)
     @parsed_response = parsed_response
-    @author = @parsed_response["author"]
-    @title = @parsed_response["title"]
+    @author = @parsed_response["author"] || ""
+    @title = @parsed_response["title"] || ""
   end
   def title
     shorten(:title)
