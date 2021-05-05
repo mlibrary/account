@@ -5,7 +5,7 @@ require 'securerandom'
 #App-wide formatting
 class DateTime
   def self.patron_format(date)
-    DateTime.parse(date).strftime("%b %-d, %Y")
+    DateTime.parse(date).strftime('%D')
   end
 
   def self.timestamp

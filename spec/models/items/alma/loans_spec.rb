@@ -146,7 +146,7 @@ describe Loan do
   end
   context "#due_date" do
     it "returns due date string" do
-      expect(subject.due_date).to eq("Jul 8, 2018")
+      expect(subject.due_date).to eq("07/08/18")
     end
   end
   context "#loan_id" do

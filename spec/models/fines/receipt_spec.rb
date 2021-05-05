@@ -60,7 +60,7 @@ describe Receipt::Item do
   end
   context "#creation_time" do
     it "returns string" do
-      expect(subject.creation_time).to eq('Dec 9, 2020')
+      expect(subject.creation_time).to eq('12/09/20')
     end
   end
   context "#library" do
