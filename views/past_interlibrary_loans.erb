@@ -1,5 +1,42 @@
 <%= erb :horizontal_nav %>
 
+<% if past_interlibrary_loans.count == 0 %>
+
+<%= erb :requests_empty_state %>
+
+<% elsif %>
+
 <div class="table-container">
-  [To do]
+<table>
+  <caption>
+    <div class="loan-caption-inner-layout">
+      <p>Showing <strong><%= past_interlibrary_loans.count %></strong> <%= past_interlibrary_loans.count == 1 ? "item" : "items" %></p>
+    </div>
+  </caption>
+  <thead>
+    <tr>
+      <th>Title &amp; author</th>
+      <th style="width: 9rem;">Requested</th>
+      <th style="width: 9rem;">Returned</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% past_interlibrary_loans.each do |past_interlibrary_loan| %>
+      <tr>
+        <td>
+          <a href="<%= past_interlibrary_loan.illiad_url %>"><%= past_interlibrary_loan.title %></a>
+          <span>&#183; <%= past_interlibrary_loan.author %></span>
+        </td>
+        <td>
+          <%= past_interlibrary_loan.creation_date %>
+        </td>
+        <td>
+          <%= past_interlibrary_loan.transaction_date %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
 </div>
+
+<% end %>
