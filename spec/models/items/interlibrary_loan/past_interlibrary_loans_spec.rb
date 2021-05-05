@@ -23,5 +23,15 @@ describe PastInterlibraryLoans do
         expect(items).to eq('PastInterlibraryLoanPastInterlibraryLoanPastInterlibraryLoan')
       end
     end
+    context "#empty?" do
+      it "returns a boolean" do
+        expect(subject.empty?).to eq(false)
+      end
+    end
+    context "#item_text" do
+      it "returns 'item' if there is only one loan, or 'items' if there is not" do
+        expect(subject.item_text).to eq('items')
+      end
+    end
   end
 end

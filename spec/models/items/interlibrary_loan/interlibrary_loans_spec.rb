@@ -23,5 +23,15 @@ describe InterlibraryLoans do
         expect(items).to eq('InterlibraryLoan')
       end
     end
+    context "#empty?" do
+      it "returns a boolean" do
+        expect(subject.empty?).to eq(false)
+      end
+    end
+    context "#item_text" do
+      it "returns 'item' if there is only one loan, or 'items' if there is not" do
+        expect(subject.item_text).to eq('item')
+      end
+    end
   end
 end
