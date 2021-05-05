@@ -2,10 +2,13 @@ const path = require('path');
 const ESLintPlugin = require('eslint-webpack-plugin');
 
 module.exports = {
-  entry: './js/index.js',
-  output: {
-    filename: 'bundle.js',
-    path: path.resolve(__dirname, 'public/bundles'),
+  entry: {
+    main: './js/index.js',
+    "current-checkouts-u-m-library": './js/current-checkouts.js'
   },
-  plugins: [new ESLintPlugin()],
+  output: {
+    filename: '[name].bundle.js',
+    path: path.resolve(__dirname, 'public/bundles')
+  },
+  plugins: [new ESLintPlugin()]
 };

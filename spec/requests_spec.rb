@@ -22,11 +22,11 @@ describe "requests" do
     end
   end
   context "post /loan-controls" do
-    it "redirects to current_checkouts with appropriate params" do
+    it "redirects to current-checkouts with appropriate params" do
       post "/loan-controls", {show: '30', sort: 'title-desc'}
       uri = URI.parse(last_response.location)
       params = CGI.parse(uri.query)
-      expect(uri.path).to eq("/current-checkouts/checkouts")
+      expect(uri.path).to eq("/current-checkouts/u-m-library")
       expect(params["limit"].first).to eq("30")
       expect(params["direction"].first).to eq("DESC")
       expect(params["order_by"].first).to eq('title')
@@ -40,27 +40,33 @@ describe "requests" do
     end
   end
   context "get /current-checkouts" do
-    it "redirects to '/current-checkouts/checkouts'" do
+    it "redirects to '/current-checkouts/u-m-library'" do
       get "/current-checkouts"
       expect(last_response.status).to eq(302)
-      expect(URI(last_response.headers["Location"]).path).to eq("/current-checkouts/checkouts")
+      expect(URI(last_response.headers["Location"]).path).to eq("/current-checkouts/u-m-library")
     end
   end
   context "get /current-checkouts/" do
-    it "redirects to '/current-checkouts/checkouts'" do
+    it "redirects to '/current-checkouts/u-m-library'" do
       get "/current-checkouts/"
       expect(last_response.status).to eq(302)
-      expect(URI(last_response.headers["Location"]).path).to eq("/current-checkouts/checkouts")
+      expect(URI(last_response.headers["Location"]).path).to eq("/current-checkouts/u-m-library")
     end
   end
-  context "get /current-checkouts/checkouts" do
-    it "contains 'Checkouts'" do
+  context "get /current-checkouts/u-m-library" do
+    before(:each) do
       stub_alma_get_request(url: "users/tutor/loans", query: {expand: 'renewable'})
-      get "/current-checkouts/checkouts"
-      expect(last_response.body).to include("Checkouts")
+    end
+    it "contains 'U-M Library'" do
+      get "/current-checkouts/u-m-library"
+      expect(last_response.body).to include("U-M Library")
+    end
+    it "has checkouts js" do
+      get "/current-checkouts/u-m-library"
+      expect(last_response.body).to include("current-checkouts-u-m-library.bundle.js")
     end
   end
-  context "post /current-checkouts/checkouts" do
+  context "post /current-checkouts/u-m-library" do
     before(:each) do
       @alma_loans = JSON.parse(File.read('./spec/fixtures/loans.json')) 
       @alma_loans["item_loan"][0]["renewable"] = false
@@ -77,7 +83,7 @@ describe "requests" do
       stub_updater({step: '2', count: '1', renewed: '0', uniqname: 'tutor'})
       stub_updater({step: '2', count: '2', renewed: '1', uniqname: 'tutor'})
       stub_updater({step: '3', count: '2', renewed: '1', uniqname: 'tutor'})
-      post "/current-checkouts/checkouts" 
+      post "/current-checkouts/u-m-library" 
       session = last_request.env["rack.session"]
       expect(session["message"].renewed).to eq(1)
       expect(session["message"].not_renewed).to eq(1)
@@ -90,14 +96,14 @@ describe "requests" do
       stub_updater({step: '2', count: '1', renewed: '0', uniqname: 'tutor'})
       stub_updater({step: '2', count: '2', renewed: '0', uniqname: 'tutor'})
       stub_updater({step: '3', count: '2', renewed: '0', uniqname: 'tutor'})
-      post "/current-checkouts/checkouts" 
+      post "/current-checkouts/u-m-library" 
       session = last_request.env["rack.session"]
       expect(session["message"].renewed).to eq(0)
       expect(session["message"].not_renewed).to eq(2)
     end
     it "shows error flash for major Alma Error" do
       stub_alma_get_request( url: 'users/tutor/loans', body: File.read('./spec/fixtures/alma_error.json'), query: {expand: 'renewable', limit: 100, offset: 0}, status: 400 )
-      post "/current-checkouts/checkouts"
+      post "/current-checkouts/u-m-library"
       session = last_request.env["rack.session"]
       expect(session["flash"][:error]).to include("Error")
     end

@@ -45,13 +45,16 @@
       </div>
       <div class="site-footer__disclaimer">
         <section class="layout">
-          <p>© <%= Date.today.year %>, Regents of the University of Michigan</p>
+          <p>&copy; <%= Date.today.year %>, Regents of the University of Michigan</p>
           <p>Built with the <a href="http://design-system.lib.umich.edu">U-M Library Design System</a>.</p>
         </section>
       </div>
     </footer>
 
     <m-chat></m-chat>
-    <script src="/bundles/bundle.js"></script>
+    <script src="/bundles/main.bundle.js"></script>
+    <% if defined?(has_js)  %>
+      <script src="/bundles/<%=request.js_filename%>.bundle.js"></script>
+    <% end %>
   </body>
 </html>
