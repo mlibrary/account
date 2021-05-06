@@ -1,0 +1,12 @@
+<%
+  empty_state = EmptyState.new(request.path_info)
+%>
+
+<section class="empty-state-container">
+  <div>
+    <h2><%=empty_state.heading%></h2>
+    <p><%=empty_state.message%></p>
+  </div>
+
+  <img src="/not-found.png" alt="Planes with spotlights." />
+</section>
