@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'json'
 
 describe InterlibraryLoanRequests do
-  context "one request" do
+  context "two requests" do
     before(:each) do
       requests = JSON.parse(File.read('./spec/fixtures/illiad_requests.json'))
       requests.delete_at(0)
