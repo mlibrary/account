@@ -2,7 +2,7 @@ class Navigation
   attr_reader :pages
   def initialize(current_path=nil)
     @pages = JSON.parse(File.read('./config/navigation.json')).map do |p|
-      Page.new(title: p["title"], description: p["description"], icon_name: p["icon_name"], color: p["color"], children: p["children"], current_path: current_path)
+      Page.new(title: p["title"], description: p["description"], icon_name: p["icon_name"], color: p["color"], children: p["children"], empty_state: p["empty_state"], current_path: current_path)
     end
     @current_path = current_path
   end
@@ -19,15 +19,16 @@ class Navigation
   end
 end
 class Page
-  attr_reader :title, :description, :icon_name, :color, :children
-  def initialize(title:, description: nil, icon_name: nil, color: nil, children: nil, current_path: nil, parent: nil)
+  attr_reader :title, :description, :icon_name, :color, :children, :empty_state
+  def initialize(title:, description: nil, icon_name: nil, color: nil, children: nil, empty_state: nil, current_path: nil, parent: nil)
     @title = title
     @description = description
     @icon_name = icon_name
     @color = color
     @children = children&.map{ |x| 
-      Page.new(title: x["title"], parent: self, current_path: current_path)
+      Page.new(title: x["title"], empty_state: x["empty_state"], parent: self, current_path: current_path)
     }
+    @empty_state = empty_state
     @current_path = current_path
     @parent = parent
   end

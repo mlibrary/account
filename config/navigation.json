@@ -18,7 +18,11 @@
       {
         "title": "Document Delivery / Scans"
       }
-    ]
+    ],
+    "empty_state": {
+      "heading": "You don't have any loans yet.",
+      "message": "Learn more about <a href=\"https://www.lib.umich.edu/find-borrow-request/find-materials\">what you can borrow from the library</a>."
+    }
   },
   {
     "title": "Pending Requests",
@@ -30,12 +34,19 @@
         "title": "U-M Library"
       },
       {
-        "title": "Interlibrary Loan"
+        "title": "Interlibrary Loan",
+        "empty_state": {
+          "message": "View your <a href=\"\/current-checkouts\/interlibrary-loan\">interlibrary loan checkouts</a> to see if you would like to renew any items."
+        }
       },
       {
         "title": "Special Collections"
       }
-    ]
+    ],
+    "empty_state": {
+      "heading": "You don't have any pending requests.",
+      "message": "View your <a href=\"\/current-checkouts\">current checkouts</a> to see if you would like to renew any items."
+    }
   },
   {
     "title": "Past Activity",
