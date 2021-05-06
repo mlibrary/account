@@ -13,10 +13,10 @@ class EmptyState
     }
     empty_state = default_state["#{prop}"]
     current_parent = @pages.find{|p| p.active?}
-    if current_parent.empty_state != nil
+    if current_parent.empty_state
       empty_state = current_parent.empty_state["#{prop}"] || empty_state
     end
-    if current_parent.children.find{|page| page.active? }.empty_state != nil
+    if current_parent.children.find{|page| page.active? }.empty_state
       empty_state = current_parent.children.find{|page| page.active? }.empty_state["#{prop}"] || empty_state
     end
     empty_state
