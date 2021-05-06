@@ -6,6 +6,13 @@ class EmptyState
     end
     @current_path = current_path
   end
+  def heading
+    get_empty_state("heading")
+  end
+  def message
+    get_empty_state("message")
+  end
+  private
   def get_empty_state(prop)
     default_state = {
       "heading" => "You have no items.",
@@ -20,11 +27,5 @@ class EmptyState
       empty_state = current_parent.children.find{|page| page.active? }.empty_state["#{prop}"] || empty_state
     end
     empty_state
-  end
-  def heading
-    self.get_empty_state("heading")
-  end
-  def message
-    self.get_empty_state("message")
   end
 end
