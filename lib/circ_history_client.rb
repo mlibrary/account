@@ -6,6 +6,7 @@ class CircHistoryClient
 
   def initialize(uniqname)
     self.class.headers 'Accept' => 'application/json'
+    self.class.headers 'Authorization' => "apikey #{ENV.fetch('CIRCULATION_HISTORY_API_KEY')}"
     @uniqname = uniqname
   end
 
@@ -17,9 +18,9 @@ class CircHistoryClient
     self.class.get("/users/#{@uniqname}/loans", query: query)
   end
 
-  #def download_csv
-    #self.class.get("/users/#{@uniqname}/loans/download.csv")
-  #end
+  def download_csv
+    self.class.get("/users/#{@uniqname}/loans/download.csv")
+  end
 
   def set_retain_history(retain_history)
     self.class.put("users/#{@uniqname}", query: {retain_history: retain_history})

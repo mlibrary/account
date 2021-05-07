@@ -204,11 +204,25 @@ namespace '/past-activity' do
     redirect_to '/u-m-library' # Redirects to /past-activity/um-library
   end
 
-  get '/u-m-library' do
-    session[:uniqname] = 'tutor' if !session[:uniqname] 
-    table_controls = LoanControls::Form.new(limit: params["limit"], order_by: params["order_by"], direction: params["direction"])
-    past_loans = CirculationHistoryItems.for(uniqname: session[:uniqname], offset: params["offset"], limit: params["limit"], order_by: params["order_by"], direction: params["direction"])
-    erb :past_loans, :locals => {past_loans: past_loans, table_controls: table_controls}
+  namespace '/u-m-library' do
+    get '' do
+      session[:uniqname] = 'tutor' if !session[:uniqname] 
+      table_controls = LoanControls::Form.new(limit: params["limit"], order_by: params["order_by"], direction: params["direction"])
+      past_loans = CirculationHistoryItems.for(uniqname: session[:uniqname], offset: params["offset"], limit: params["limit"], order_by: params["order_by"], direction: params["direction"])
+      erb :past_loans, :locals => {past_loans: past_loans, table_controls: table_controls}
+    end
+    get '/download.csv' do
+      resp = CircHistoryClient.new(session[:uniqname]).download_csv
+      unless resp.code == 200
+        #Error
+      else
+        filename = resp.headers["content-disposition"]&.split('=')&.at(1)&.gsub('"','')
+        filename = 'my_filename.csv' if filename.nil?
+        content_type 'application/csv'
+        attachment filename
+        resp.body
+      end
+    end
   end
 
   get '/interlibrary-loan' do

@@ -13,6 +13,10 @@
 
       <div class="loan-controls">
     <%= erb :table_controls, locals: { table_controls: table_controls} %>
+    <form method="get" action="/past-activity/u-m-library/download.csv">
+   <button class = "button" type="submit">Download CSV</button>
+</form>
+
     </div>
     </div>
   </caption>
