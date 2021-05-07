@@ -35,29 +35,7 @@
       <p>Showing <strong><%=loans.pagination.first%></strong> - <strong><%=loans.pagination.last%></strong> of <strong><%= loans.count %></strong> <%= loans.item_text %></p>
 
       <div class="loan-controls">
-        <form method="post" action="/loan-controls">
-          <label>
-            <span>Sort by</span>
-            <select name="sort" data-js-submit>
-              <% loan_controls.sort.each do |sort| %>
-                <option value="<%=sort.value%>" <%=sort.selected%>><%=sort.text%></option>
-              <% end %>
-            </select>
-          </label>
-
-          <label>
-            <span>Show</span>
-            <select name="show" data-js-submit>
-              <% loan_controls.show.each do |show| %>
-                <option value="<%=show.value%>" <%=show.selected%>><%=show.text%></option>
-              <% end %>
-            </select>
-          </label>
-
-          <noscript>
-            <button class="button">Apply</button>
-          </noscript>
-        </form>
+        <%= erb :table_controls, locals: { table_controls: loan_controls} %>
         <button class="button" data-js-renew-all="<%= loans.count %>" disabled>
           <m-icon name="autorenew"></m-icon><span style="padding-left: var(--space-xx-small);">Renew all</span>
         </button>

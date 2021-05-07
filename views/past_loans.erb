@@ -7,7 +7,15 @@
 <% elsif %>
 
 <table>
-  <caption>Showing <%= past_loans.count %> <%= past_loans.item_text %></caption>
+  <caption>
+    <div class="loan-caption-inner-layout">
+      <p>Showing <strong><%=past_loans.pagination.first%></strong> - <strong><%=past_loans.pagination.last%></strong> of <strong><%= past_loans.count %></strong> items</p>
+
+      <div class="loan-controls">
+    <%= erb :table_controls, locals: { table_controls: table_controls} %>
+    </div>
+    </div>
+  </caption>
   <thead>
     <tr>
       <th>Title & author</th>

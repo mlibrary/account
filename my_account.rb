@@ -69,10 +69,9 @@ post '/updater/' do
   settings.connections.each { |x| x[:out] << "data: #{data}\n\n" if x[:uniqname] == params[:uniqname] }
   204 # response without entity body
 end
-post '/loan-controls' do
+post '/table-controls' do
   lc = LoanControls::ParamsGenerator.new(show: params["show"], sort: params["sort"])
-
-  redirect "/current-checkouts/u-m-library#{lc}"
+  redirect "#{URI(request.referer).path}#{lc}"
 end
 # :nocov:
 post '/session_switcher' do
@@ -206,10 +205,10 @@ namespace '/past-activity' do
   end
 
   get '/u-m-library' do
-    session[:uniqname] = 'tutor'
-
+    session[:uniqname] = 'tutor' if !session[:uniqname] 
+    table_controls = LoanControls::Form.new(limit: params["limit"], order_by: params["order_by"], direction: params["direction"])
     past_loans = CirculationHistoryItems.for(uniqname: session[:uniqname], offset: params["offset"], limit: params["limit"], order_by: params["order_by"], direction: params["direction"])
-    erb :past_loans, :locals => {past_loans: past_loans}
+    erb :past_loans, :locals => {past_loans: past_loans, table_controls: table_controls}
   end
 
   get '/interlibrary-loan' do
