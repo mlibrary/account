@@ -70,7 +70,7 @@ post '/updater/' do
   204 # response without entity body
 end
 post '/table-controls' do
-  lc = TableControls::ParamsGenerator.new(show: params["show"], sort: params["sort"])
+  lc = TableControls::LoansParamsGenerator.new(show: params["show"], sort: params["sort"])
   redirect "#{URI(request.referer).path}#{lc}"
 end
 # :nocov:

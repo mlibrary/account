@@ -25,6 +25,8 @@ module TableControls
       "?limit=#{limit}&order_by=#{order_by}&direction=#{direction}"
     end
   end
+  class LoansParamsGenerator < ParamsGenerator
+  end
   class Form
     def initialize(limit:,order_by:,direction:)
       @limit = limit || '15'
