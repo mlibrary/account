@@ -1,17 +1,17 @@
 require 'spec_helper'
 require 'json'
 
-describe PastInterlibraryLoans do
-  context "three loans" do
+describe InterlibraryLoans do
+  context "one loan" do
     before(:each) do
       stub_illiad_get_request(url: 'Transaction/UserRequests/testhelp', body: File.read('./spec/fixtures/illiad_requests.json'))
     end
     subject do
-      PastInterlibraryLoans.for(uniqname: 'testhelp')
+      InterlibraryLoans.for(uniqname: 'testhelp')
     end
     context "#count" do
       it "returns total request item count" do
-        expect(subject.count).to eq(3)
+        expect(subject.count).to eq(1)
       end
     end
     context "#each" do
@@ -20,7 +20,7 @@ describe PastInterlibraryLoans do
         subject.each do |item|
           items = items + item.class.name
         end
-        expect(items).to eq('PastInterlibraryLoanPastInterlibraryLoanPastInterlibraryLoan')
+        expect(items).to eq('InterlibraryLoan')
       end
     end
     context "#empty?" do
@@ -30,7 +30,7 @@ describe PastInterlibraryLoans do
     end
     context "#item_text" do
       it "returns 'item' if there is only one loan, or 'items' if there is not" do
-        expect(subject.item_text).to eq('items')
+        expect(subject.item_text).to eq('item')
       end
     end
   end

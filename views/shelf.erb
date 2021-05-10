@@ -32,7 +32,7 @@
 <table>
   <caption>
     <div class="loan-caption-inner-layout">
-      <p>Showing <strong><%=loans.pagination.first%></strong> - <strong><%=loans.pagination.last%></strong> of <strong><%= loans.count %></strong> items</p>
+      <p>Showing <strong><%=loans.pagination.first%></strong> - <strong><%=loans.pagination.last%></strong> of <strong><%= loans.count %></strong> <%= loans.item_text %></p>
 
       <div class="loan-controls">
         <form method="post" action="/loan-controls">

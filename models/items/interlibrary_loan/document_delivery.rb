@@ -16,9 +16,4 @@ class DocumentDelivery < Items
 end
 
 class DocumentDeliveryItem < InterlibraryLoanItem
-  def initialize(parsed_response)
-    super
-    @title = @parsed_response["LoanTitle"]
-    @author = @parsed_response["LoanAuthor"]
-  end
 end

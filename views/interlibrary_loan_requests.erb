@@ -10,28 +10,28 @@
 <table>
   <caption>
     <div class="loan-caption-inner-layout">
-      <p>Showing <strong><%= interlibrary_loan_requests.count %></strong> items</p>
+      <p>Showing <strong><%= interlibrary_loan_requests.count %></strong> <%= interlibrary_loan_requests.item_text %></p>
     </div>
   </caption>
   <thead>
     <tr>
       <th>Title & author</th>
-      <th>Requested</th>
-      <th>Expires</th>
+      <th style="width: 9rem;">Request date</th>
+      <th style="width: 6rem;">Actions</th>
     </tr>
   </thead>
   <tbody>
     <% interlibrary_loan_requests.each do |interlibrary_loan_request| %>
       <tr>
         <td>
-          <a href="<%= interlibrary_loan_request.illiad_url %>"><%= interlibrary_loan_request.title %></a>
+          <a href="<%= interlibrary_loan_request.url_transaction %>"><%= interlibrary_loan_request.title %></a>
           <span>&#183; <%= interlibrary_loan_request.author %></span>
         </td>
         <td>
           <%= interlibrary_loan_request.creation_date %>
         </td>
         <td>
-          <%= interlibrary_loan_request.expiration_date %>
+          <a href="<%= interlibrary_loan_request.url_cancel_request %>">Cancel Request</a>
         </td>
       </tr>
     <% end %>
