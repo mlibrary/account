@@ -1,4 +1,4 @@
-module LoanControls
+module TableControls
   class ParamsGenerator
     attr_reader :limit
     def initialize(show:, sort:)

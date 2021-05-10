@@ -1,4 +1,4 @@
-describe LoanControls::ParamsGenerator do
+describe TableControls::ParamsGenerator do
   before(:each) do
     @show = 15
     @sort = 'due-asc'
@@ -40,7 +40,7 @@ describe LoanControls::ParamsGenerator do
 
   end
 end
-describe LoanControls::Form do
+describe TableControls::Form do
   before(:each) do
     @limit = nil
     @order_by = nil
