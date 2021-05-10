@@ -24,18 +24,43 @@
   </table>
 
   <form method="post" action="/sms">
-    <h2>Text notifications</h2>
+    <h2>Text Notifications</h2>
 
-    <label class="text-notifications-label">
-      <p><strong>Phone number</strong></p>
-      <p>We will use this number to send text message notifications from the library. This applies to items that been checked out or requested from the library and Interlibrary Loan. Special Collections requests are not included.</p>
+    <p>Add a phone number to receive text notifications on the status 
+    of your request and loans. Special collections requests are not 
+    included. Standard message and data rates apply.</p>
+
+    <label class="text-notifications-label" for="phone-number">
+      Phone number
     </label>
-
     <div class="text-notifications-input-container">
-      <input type="text" name="phone-number" value="<%= patron.sms_number %>" />
-
+      <input type="text" name="phone-number" id="phone-number" value="<%= patron.sms_number %>" />
       <button>Save</button>
     </div>
+  </form>
+
+  <form method="post" action="/checkout-history">
+    <h2>Checkout History</h2>
+
+    <p>We have been recording your checkout history since April 2016. 
+    You are now able to decide whether or not you want us to continue 
+    recording your checkout history. Please note that if you choose to 
+    discontinue, your checkout history will be deleted and it cannot 
+    be recovered.</p>
+
+    <fieldset>
+      <legend>Checkout history</legend>
+      <div>
+        <input type="radio" name="checkout-history" id="history-yes" value="yes" checked>
+        <label for="history-yes">Yes, record my checkout history.</label>
+      </div>
+      <div>
+        <input type="radio" name="checkout-history" id="history-no" value="no">
+        <label for="history-no">No, do not record my checkout history.</label>
+      </div>
+    </fieldset>
+    
+    <button>Update preferences</button>
   </form>
 
 </div>
