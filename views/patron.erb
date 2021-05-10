@@ -13,14 +13,6 @@
       <td><%= patron.full_name %></td>
     </tr>
     <tr>
-      <th>Address</th>
-      <td>
-        <% patron.addresses do |address| %>
-          <p><%= address %></p>
-        <% end %>
-      </td>
-    </tr>
-    <tr>
       <th>Email</th>
       <td><%= patron.uniqname %>@umich.edu</td>
     </tr>
@@ -32,6 +24,9 @@
     <p>Add a phone number to receive text notifications on the status 
     of your request and loans. Special collections requests are not 
     included. Standard message and data rates apply.</p>
+
+    <input type="checkbox" id="text-notifications" <% if patron.sms_number? %>checked<% end%>>
+    <label for="text-notifications">Text notifications are on</label>
 
     <label class="text-notifications-label" for="phone-number">
       Phone number
