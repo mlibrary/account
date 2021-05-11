@@ -2,7 +2,7 @@ require 'spec_helper'
 describe "requests" do
   include Rack::Test::Methods
   before(:each) do
-    @session = { uniqname: 'tutor' }
+    @session = { uniqname: 'tutor', full_name: "Julian, Tutor" }
     env 'rack.session', @session
   end
   context "post /updater/" do
