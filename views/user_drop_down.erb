@@ -3,7 +3,7 @@
 <nav class="user-navigation dropdown">
   <button aria-expanded="false" data-dropdown="user-nav-dropdown" class="button--dropdown">
     <m-icon name="person-outline"></m-icon>
-    <span><%=session[:patron].full_name%></span>
+    <span><%=session[:full_name]%></span>
     <m-icon name="keyboard-arrow-down"></m-icon>
   </button>
   <div class="navigation-lists dropdown-container" id="user-nav-dropdown" style="display: none;">

@@ -111,7 +111,7 @@ get '/' do
   ]
 
   patron = SessionPatron.new(session[:uniqname])
-  session[:patron] = patron
+  patron.to_h.each{|k,v| session[k] = v}
 
   erb :home, :locals => { patron: patron, test_users: test_users, navigation: Navigation.new}
 end
