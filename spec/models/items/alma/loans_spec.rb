@@ -8,7 +8,7 @@ require 'json'
 describe Loans do
   context "two loans" do
     before(:each) do
-      stub_alma_get_request( url: 'users/jbister/loans', body: File.read("./spec/fixtures/loans.json"), query: {expand: 'renewable'} )
+      stub_alma_get_request( url: 'users/jbister/loans', body: File.read("./spec/fixtures/loans.json"), query: {expand: 'renewable', limit: 15, order_by: 'due_date'} )
     end
     subject do
       Loans.for(uniqname: 'jbister')
@@ -35,7 +35,7 @@ describe Loans do
   end
   context "no loans" do
     before(:each) do
-      stub_alma_get_request( url: 'users/jbister/loans', body: File.read("./spec/fixtures/no_loans.json"), query: {expand: 'renewable'} )
+      stub_alma_get_request( url: 'users/jbister/loans', body: File.read("./spec/fixtures/no_loans.json"), query: {expand: 'renewable', limit: 15, order_by: 'due_date'} )
     end
     subject do
       Loans.for(uniqname: 'jbister')
@@ -67,7 +67,7 @@ describe Loans do
     before(:each) do
       one_loan = JSON.parse(File.read("./spec/fixtures/loans.json"))
       one_loan["item_loan"].delete_at(0)
-      stub_alma_get_request( url: 'users/jbister/loans', body: one_loan.to_json, query: {"expand" => "renewable", "offset" => 1, "limit" => 1} )
+      stub_alma_get_request( url: 'users/jbister/loans', body: one_loan.to_json, query: {"expand" => "renewable", "offset" => 1, "limit" => 1, "order_by" => "due_date"} )
     end
     subject do
       Loans.for(uniqname: 'jbister', offset: 1, limit: 1)

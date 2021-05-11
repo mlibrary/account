@@ -49,14 +49,15 @@ class Loans < Items
   end
 
 
-  def self.for(uniqname:, offset: nil, limit: nil, 
+  def self.for(uniqname:, offset: nil, limit: 15, 
                client: AlmaRestClient.client, order_by: nil, direction: nil )
     url = "/users/#{uniqname}/loans" 
     query = {"expand" => "renewable"}
     query["offset"] = offset unless offset.nil?
-    query["limit"] = limit unless limit.nil?
-    query["order_by"] = order_by unless order_by.nil?
     query["direction"] = direction unless direction.nil?
+
+    order_by.nil? ? query["order_by"] = "due_date" : query["order_by"] = order_by
+    limit.nil? ? query["limit"] = 15 : query["limit"] = limit
 
     response = client.get(url, query)
     if response.code == 200
