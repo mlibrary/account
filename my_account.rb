@@ -17,6 +17,7 @@ require_relative "./lib/pagination/pagination_decorator"
 
 
 require_relative "./models/patron"
+require_relative "./models/session_patron"
 
 require_relative "./models/response/response"
 require_relative "./models/response/renew_response_presenter"
@@ -109,7 +110,8 @@ get '/' do
     }
   ]
 
-  patron = Patron.for(uniqname: session[:uniqname])
+  patron = SessionPatron.new(session[:uniqname])
+  session[:patron] = patron
 
   erb :home, :locals => { patron: patron, test_users: test_users, navigation: Navigation.new}
 end
