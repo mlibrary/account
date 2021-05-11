@@ -3,7 +3,7 @@ require 'json'
 
 describe Requests do
   before(:each) do
-    stub_alma_get_request( url: 'users/tutor/requests', body: File.read("./spec/fixtures/requests.json") )
+    stub_alma_get_request( url: 'users/tutor/requests', body: File.read("./spec/fixtures/requests.json"), query: {limit: 100, offset: 0} )
   end
   subject do
     Requests.for(uniqname: 'tutor')
