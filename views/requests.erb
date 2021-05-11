@@ -20,8 +20,7 @@
     <% requests.each do |request| %>
       <tr>
         <td>
-          <a href="<%=request.search_url%>"><%= request.title %></a>
-          <span>&#183; <%= request.author %></span>
+          <%= erb :title_author, locals: {item: request} %>
         </td>
         <td>
           <%= request.pickup_location %>

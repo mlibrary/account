@@ -1,9 +1,10 @@
 class Item
-  attr_reader :parsed_response
+  attr_reader :parsed_response, :description
   def initialize(parsed_response)
     @parsed_response = parsed_response
     @author = @parsed_response["author"] || ""
     @title = @parsed_response["title"] || ""
+    @description = @parsed_response["description"] || ""
   end
   def title
     shorten(:title)
@@ -11,9 +12,15 @@ class Item
   def author
     shorten(:author)
   end
+  def author?
+    @author != ""
+  end
+  def description?
+    @description != ""
+  end
   private
   def shorten(type)
-    total_character_length = 240
+    total_character_length = 240 - @description.length
     case type
     when :author
       main = @author

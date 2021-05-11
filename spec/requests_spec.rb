@@ -55,7 +55,7 @@ describe "requests" do
   end
   context "get /current-checkouts/u-m-library" do
     before(:each) do
-      stub_alma_get_request(url: "users/tutor/loans", query: {expand: 'renewable'})
+      stub_alma_get_request(url: "users/tutor/loans", query: {expand: 'renewable', limit: 15, order_by: "due_date"})
     end
     it "contains 'U-M Library'" do
       get "/current-checkouts/u-m-library"
