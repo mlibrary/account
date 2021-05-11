@@ -15,6 +15,9 @@ class Item
   def author?
     @author != ""
   end
+  def description?
+    @description != ""
+  end
   private
   def shorten(type)
     total_character_length = 240 - @description.length
