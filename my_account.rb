@@ -70,8 +70,8 @@ post '/updater/' do
   204 # response without entity body
 end
 post '/table-controls' do
-  lc = TableControls::LoansParamsGenerator.new(show: params["show"], sort: params["sort"])
-  redirect "#{URI(request.referer).path}#{lc}"
+  urlGenerator = TableControls::URLGenerator.for(show: params["show"], sort: params["sort"], referrer: request.referrer)
+  redirect urlGenerator.to_s
 end
 # :nocov:
 post '/session_switcher' do
@@ -128,7 +128,7 @@ namespace '/current-checkouts' do
 
   get '/u-m-library' do
     session[:uniqname] = 'tutor' if !session[:uniqname] 
-    loan_controls = TableControls::Form.new(limit: params["limit"], order_by: params["order_by"], direction: params["direction"])
+    loan_controls = TableControls::LoansForm.new(limit: params["limit"], order_by: params["order_by"], direction: params["direction"])
     loans = Loans.for(uniqname: session[:uniqname], offset: params["offset"], limit: params["limit"], order_by: params["order_by"], direction: params["direction"])
     message = session.delete(:message)
     erb :shelf, :locals => { loans: loans, message: message, loan_controls: loan_controls, has_js: true}
@@ -207,7 +207,7 @@ namespace '/past-activity' do
   namespace '/u-m-library' do
     get '' do
       session[:uniqname] = 'tutor' if !session[:uniqname] 
-      table_controls = TableControls::Form.new(limit: params["limit"], order_by: params["order_by"], direction: params["direction"])
+      table_controls = TableControls::PastLoansForm.new(limit: params["limit"], order_by: params["order_by"], direction: params["direction"])
       past_loans = CirculationHistoryItems.for(uniqname: session[:uniqname], offset: params["offset"], limit: params["limit"], order_by: params["order_by"], direction: params["direction"])
       erb :past_loans, :locals => {past_loans: past_loans, table_controls: table_controls}
     end

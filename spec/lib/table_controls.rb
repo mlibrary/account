@@ -1,10 +1,20 @@
-describe TableControls::ParamsGenerator do
+describe TableControls::URLGenerator, "self.for" do
+  it "picks PastLoans for referrer of 'past-activity'" do
+    url = described_class.for(show: 15, sort: 'title', referrer: 'http://somedomain.com/past-activity/u-m-libary')
+    expect(url.class.name.to_s).to eq("TableControls::PastLoansURLGenerator")
+  end
+  it "picks LoanURLGenerator for current-activity" do
+    url = described_class.for(show: 15, sort: 'title', referrer: 'http://somedomain.com/current-activity/u-m-libary')
+    expect(url.class.name.to_s).to eq("TableControls::LoansURLGenerator")
+  end
+end
+describe TableControls::LoansURLGenerator do
   before(:each) do
     @show = 15
     @sort = 'due-asc'
   end
   subject do
-    described_class.new(show: @show, sort: @sort)
+    described_class.new(show: @show, sort: @sort, referrer: 'http://somedomain.com/thing')
   end
   context "#limit" do
     it "returns limit string" do
@@ -34,13 +44,12 @@ describe TableControls::ParamsGenerator do
     end
   end
   context "to_s" do
-    it "returns appopriate query string" do
-      expect(subject.to_s).to eq("?limit=15&order_by=due_date&direction=ASC")
+    it "returns appopriate url string" do
+      expect(subject.to_s).to eq("/thing?limit=15&order_by=due_date&direction=ASC")
     end
-
   end
 end
-describe TableControls::Form do
+describe TableControls::LoansForm do
   before(:each) do
     @limit = nil
     @order_by = nil

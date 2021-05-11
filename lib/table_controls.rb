@@ -1,36 +1,55 @@
 module TableControls
-  class ParamsGenerator
+  class URLGenerator
     attr_reader :limit
-    def initialize(show:, sort:)
+    def initialize(show:, sort:, referrer: 'tbc')
       @limit = show.to_s
       @sort = sort.split('-')
+      @referrer = referrer
     end
+    def self.for(show:, sort:, referrer:)
+      case referrer
+      when /past-activity/
+        PastLoansURLGenerator.new(show: show, sort: sort, referrer: referrer)
+      else
+        LoansURLGenerator.new(show: show, sort: sort, referrer: referrer)
+      end
+    end
+    def order_by
+    end
+    def direction
+      @sort[1].upcase
+    end
+    def to_s
+      "#{URI(@referrer).path}?limit=#{limit}&order_by=#{order_by}&direction=#{direction}"
+    end
+  end
+  class LoansURLGenerator < URLGenerator
     def order_by
       case @sort[0]
       when "due"
         "due_date"
-      when "title"
-        "title"
+      else 
+        @sort[0]
       end
-    end
-    def direction
-      case @sort[1]
-      when "asc"
-        "ASC"
-      when "desc"
-        "DESC"
-      end
-    end
-    def to_s
-      "?limit=#{limit}&order_by=#{order_by}&direction=#{direction}"
     end
   end
-  class LoansParamsGenerator < ParamsGenerator
+  class PastLoansURLGenerator < URLGenerator
+    def order_by
+      case @sort[0]
+      when "return"
+        "return_date"
+      when "checkout"
+        "checkout_date"
+      when "call"
+        "call_number"
+      else 
+        @sort[0]
+      end
+    end
   end
   class Form
     def initialize(limit:,order_by:,direction:)
       @limit = limit || '15'
-      @order_by = order_by || 'due_date'
       @direction = direction || 'ASC'
     end
     def show
@@ -39,14 +58,6 @@ module TableControls
         {value: '25', text: '25 items'},
         {value: '50', text: '50 items'}
       ].map{ |x| Select.new(value: x[:value], text: x[:text], selected: x[:value] == @limit)}
-    end
-    def sort
-      [
-        {value: 'due-asc', text: 'Due date: ascending'},
-        {value: 'due-desc', text: 'Due date: descending'},
-        {value: 'title-asc', text: 'Title: ascending'},
-        {value: 'title-desc', text: 'Title: descending'},
-      ].map{ |x| Select.new(value: x[:value], text: x[:text], selected: x[:value] == selected_sort)}
     end
     class Select
       attr_reader :text, :value
@@ -62,13 +73,46 @@ module TableControls
 
     private
     def selected_sort
-      order = @order_by 
-      order = 'due' if order == 'due_date'
+      order = @order_by.split('_').first 
       dir = @direction.downcase
       "#{order}-#{dir}"
     end
     
     private_constant :Select
 
+  end
+  class PastLoansForm < Form
+    def initialize(limit:,order_by:,direction:)
+      @order_by = order_by || 'checkout_date'
+      super
+    end
+    def sort
+      [
+        {value: 'title-asc', text: 'Title: ascending'},
+        {value: 'title-desc', text: 'Title: descending'},
+        {value: 'author-asc', text: 'Author: ascending'},
+        {value: 'author-desc', text: 'Author: descending'},
+        {value: 'call-asc', text: 'Call Number: ascending'},
+        {value: 'call-desc', text: 'Call Number: descending'},
+        {value: 'checkout-asc', text: 'Checkout Date: ascending'},
+        {value: 'checkout-desc', text: 'Checkout Date: descending'},
+        {value: 'return-asc', text: 'Return Date: ascending'},
+        {value: 'return-desc', text: 'Return Date: descending'},
+      ].map{ |x| Select.new(value: x[:value], text: x[:text], selected: x[:value] == selected_sort)}
+    end
+  end
+  class LoansForm < Form
+    def initialize(limit:,order_by:,direction:)
+      @order_by = order_by || 'due_date'
+      super
+    end
+    def sort
+      [
+        {value: 'due-asc', text: 'Due date: ascending'},
+        {value: 'due-desc', text: 'Due date: descending'},
+        {value: 'title-asc', text: 'Title: ascending'},
+        {value: 'title-desc', text: 'Title: descending'},
+      ].map{ |x| Select.new(value: x[:value], text: x[:text], selected: x[:value] == selected_sort)}
+    end
   end
 end
