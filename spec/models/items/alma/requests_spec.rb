@@ -77,9 +77,9 @@ describe HoldRequest do
       expect(subject.publication_date).to eq("November 3, 2003.")
     end
   end
-  context "#search_url" do
+  context "#url" do
     it "returns url to search with mms_id" do
-      expect(subject.search_url).to eq("https://search.lib.umich.edu/catalog/record/991549170000541")
+      expect(subject.url).to eq("https://search.lib.umich.edu/catalog/record/991549170000541")
     end
   end
   context "#request_id" do

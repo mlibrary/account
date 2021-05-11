@@ -1,0 +1,5 @@
+<a href="<%=item.url%>"><%= item.title %></a>
+<% if item.author? %>
+  <span>&#183; <%= item.author %></span>
+<% end %>
+<span> <%=item.description %> </span>

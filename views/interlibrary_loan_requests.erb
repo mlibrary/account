@@ -24,8 +24,7 @@
     <% interlibrary_loan_requests.each do |interlibrary_loan_request| %>
       <tr>
         <td>
-          <a href="<%= interlibrary_loan_request.url_transaction %>"><%= interlibrary_loan_request.title %></a>
-          <span>&#183; <%= interlibrary_loan_request.author %></span>
+          <%= erb :title_author, locals: {item: interlibrary_loan_request} %>
         </td>
         <td>
           <%= interlibrary_loan_request.creation_date %>
