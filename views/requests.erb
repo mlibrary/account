@@ -38,7 +38,7 @@
 </div>
 
 <% end %>
-<% if session[:can_book] %>
+<% if session[:can_book] && bookings.count > 0%>
 <h3>Media Booking Requests</h3>
 
 <div class="table-container">
@@ -60,7 +60,7 @@
           <%= booking_request.pickup_location %>
         </td>
         <td>
-          <%= booking_request.request_date %>
+          <%= booking_request.booking_date %>
         </td>
         <td>
           <button class="button--light" data-js-cancel="<%=booking_request.request_id%>" disabled>Cancel</button>
@@ -71,5 +71,4 @@
 </table>
 </div>
 
-<% end %>
 <% end %>
