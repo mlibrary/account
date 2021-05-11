@@ -96,6 +96,7 @@ end
 get '/' do
   session[:uniqname] = 'tutor' if !session[:uniqname]
   session[:full_name] = 'Julian Tutor' if session[:uniqname] == 'tutor'
+  session[:can_book] = true if session[:uniqname] == 'tutor'
 
   test_users = [
     {

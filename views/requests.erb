@@ -40,11 +40,6 @@
 <% end %>
 <% if session[:can_book] %>
 <h3>Media Booking Requests</h3>
-<% if bookings.count == 0 %>
-
-<%= erb :empty_state %>
-
-<% elsif %>
 
 <div class="table-container">
 <table>
@@ -65,7 +60,7 @@
           <%= booking_request.pickup_location %>
         </td>
         <td>
-          <%= booking_request.booking_date %>
+          <%= booking_request.request_date %>
         </td>
         <td>
           <button class="button--light" data-js-cancel="<%=booking_request.request_id%>" disabled>Cancel</button>
