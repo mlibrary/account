@@ -4,20 +4,20 @@ require 'json'
 describe Patron do
   context "found uniqname" do
     before(:each) do
-      @alma_response = File.read('./spec/fixtures/mrio_user_alma.json')
+      @alma_response = JSON.parse(File.read('./spec/fixtures/mrio_user_alma.json'))
       @patron_url = "users/mrio?user_id_type=all_unique&view=full&expand=none"
-      stub_alma_get_request(
-        url: @patron_url, 
-        body: @alma_response
-      )
     end
     subject do
+      stub_alma_get_request(
+        url: @patron_url, 
+        body: @alma_response.to_json
+      )
       Patron.for(uniqname: 'mrio')
     end
     context "#update_sms(sms_number)" do
        before(:each) do
         @new_phone = '(586) 549-5224'
-        patron = JSON.parse(@alma_response)
+        patron = JSON.parse(@alma_response.to_json)
         patron["contact_info"]["phone"][1]["phone_number"] = @new_phone
         @updated_patron = patron.to_json
        end
@@ -47,12 +47,7 @@ describe Patron do
          expect(result.message).to eq('Phone number aaa1234 is invalid')
        end
        it "submits internal phone number for non_existent number" do
-         my_response = JSON.parse(@alma_response)
-         my_response["contact_info"]["phone"].delete_at(1)
-         stub_alma_get_request(
-           url: @patron_url, 
-           body: my_response.to_json
-         )
+         @alma_response["contact_info"]["phone"].delete_at(1)
          response_dbl = double('response', code: 200)
          client_dbl = instance_double(AlmaRestClient::Client, put: response_dbl)
          expect(client_dbl).to receive(:put).with(anything, @updated_patron)
@@ -62,7 +57,7 @@ describe Patron do
          response_dbl = double('response', code: 200)
          client_dbl = instance_double(AlmaRestClient::Client, put: response_dbl)
 
-         expected_sent_data = JSON.parse(@alma_response)
+         expected_sent_data = JSON.parse(@alma_response.to_json)
          expected_sent_data["contact_info"]["phone"].delete_at(1)
 
          expect(client_dbl).to receive(:put).with(anything, expected_sent_data.to_json)
@@ -79,17 +74,34 @@ describe Patron do
         expect(subject.full_name).to eq('Monique Rio')
       end
     end
+    context "#user_group" do
+      it "returns the user group name" do
+        expect(subject.user_group).to eq('Staff Level')
+      end
+    end
+    context "#can_book?" do
+      it "returns true for staff" do
+        expect(subject.can_book?).to eq(true)
+      end
+      it "returns true for faculty" do
+        @alma_response["user_group"]["desc"] = "Faculty Level"
+        expect(subject.can_book?).to eq(true)
+      end
+      it "returns true for graduate students" do
+        @alma_response["user_group"]["desc"] = "Graduate Level"
+        expect(subject.can_book?).to eq(true)
+      end
+      it "returns false for undergraduate students" do
+        @alma_response["user_group"]["desc"] = "Undergraduate Level"
+        expect(subject.can_book?).to eq(false)
+      end
+    end
     context "#sms_number" do
       it "returns sms number if preferred_sms is set" do
         expect(subject.sms_number).to eq('734-123-4567')
       end
       it "returns nil if empty sms" do
-        my_response = JSON.parse(@alma_response)
-        my_response["contact_info"]["phone"][1]["preferred_sms"] = false
-        stub_alma_get_request(
-          url: @patron_url, 
-          body: my_response.to_json
-        )
+        @alma_response["contact_info"]["phone"][1]["preferred_sms"] = false
         expect(subject.sms_number).to be_nil
       end
     end
@@ -98,12 +110,7 @@ describe Patron do
         expect(subject.sms_number?).to eq(true)
       end
       it "returns false for non-existant sms number" do 
-        my_response = JSON.parse(@alma_response)
-        my_response["contact_info"]["phone"][1]["preferred_sms"] = false
-        stub_alma_get_request(
-          url: @patron_url, 
-          body: my_response.to_json
-        )
+        @alma_response["contact_info"]["phone"][1]["preferred_sms"] = false
         expect(subject.sms_number?).to eq(false)
       end
     end
