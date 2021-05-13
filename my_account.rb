@@ -17,6 +17,7 @@ require_relative "./lib/pagination/pagination_decorator"
 
 
 require_relative "./models/patron"
+require_relative "./models/session_patron"
 
 require_relative "./models/response/response"
 require_relative "./models/response/renew_response_presenter"
@@ -73,7 +74,8 @@ post '/loan-controls' do
 end
 # :nocov:
 post '/session_switcher' do
-  session[:uniqname] = params[:uniqname]
+  patron = SessionPatron.new(params[:uniqname])
+  patron.to_h.each{|k,v| session[k] = v}
   redirect '/'
 end
 get '/receipt_test' do
@@ -93,6 +95,8 @@ end
 
 get '/' do
   session[:uniqname] = 'tutor' if !session[:uniqname]
+  session[:full_name] = 'Julian Tutor' if session[:uniqname] == 'tutor'
+  session[:can_book] = true if session[:uniqname] == 'tutor'
 
   test_users = [
     {
@@ -109,9 +113,7 @@ get '/' do
     }
   ]
 
-  patron = Patron.for(uniqname: session[:uniqname])
-
-  erb :home, :locals => { patron: patron, test_users: test_users, navigation: Navigation.new}
+  erb :home, :locals => { test_users: test_users, navigation: Navigation.new}
 end
 
 namespace '/current-checkouts' do
@@ -164,9 +166,9 @@ namespace '/pending-requests' do
 
   get '/u-m-library' do
     session[:uniqname] = 'tutor' if !session[:uniqname] 
-    requests = Requests.for(uniqname: session[:uniqname]).holds
+    requests = Requests.for(uniqname: session[:uniqname])
 
-    erb :requests, :locals => { requests: requests }
+    erb :requests, :locals => { holds: requests.holds, bookings: requests.bookings }
   end
   post '/u-m-library/cancel-request' do
     response = Request.cancel(uniqname: session[:uniqname], request_id: params["request_id"])

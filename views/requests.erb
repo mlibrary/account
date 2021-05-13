@@ -1,6 +1,6 @@
 <%= erb :horizontal_nav %>
-
-<% if requests.count == 0 %>
+<h3>Hold Requests</h4>
+<% if holds.count == 0 %>
 
 <%= erb :empty_state %>
 
@@ -17,20 +17,53 @@
     </tr>
   </thead>
   <tbody>
-    <% requests.each do |request| %>
+    <% holds.each do |hold_request| %>
       <tr>
         <td>
-          <a href="<%=request.search_url%>"><%= request.title %></a>
-          <span>&#183; <%= request.author %></span>
+          <%= erb :title_author, locals: {item: hold_request} %>
         </td>
         <td>
-          <%= request.pickup_location %>
+          <%= hold_request.pickup_location %>
         </td>
         <td>
-          <%= request.request_date %>
+          <%= hold_request.request_date %>
         </td>
         <td>
-          <button class="button--light" data-js-cancel="<%=request.request_id%>" disabled>Cancel</button>
+          <button class="button--light" data-js-cancel="<%=hold_request.request_id%>" disabled>Cancel</button>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+</div>
+
+<% end %>
+<% if session[:can_book] && bookings.count > 0%>
+<h3>Media Booking Requests</h3>
+
+<div class="table-container">
+<table>
+  <thead>
+    <tr>
+      <th>Title & author</th>
+      <th style="width: 9rem;">Pickup location</th>
+      <th style="width: 9rem;">Pickup date</th>
+      <th style="width: 6rem;">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% bookings.each do |booking_request| %>
+      <tr>
+        <td>
+          <%= erb :title_author, locals: {item: booking_request} %>
+        <td>
+          <%= booking_request.pickup_location %>
+        </td>
+        <td>
+          <%= booking_request.booking_date %>
+        </td>
+        <td>
+          <button class="button--light" data-js-cancel="<%=booking_request.request_id%>" disabled>Cancel</button>
         </td>
       </tr>
     <% end %>

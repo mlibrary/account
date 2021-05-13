@@ -8,7 +8,7 @@ require 'json'
 describe Loans do
   context "two loans" do
     before(:each) do
-      stub_alma_get_request( url: 'users/jbister/loans', body: File.read("./spec/fixtures/loans.json"), query: {expand: 'renewable'} )
+      stub_alma_get_request( url: 'users/jbister/loans', body: File.read("./spec/fixtures/loans.json"), query: {expand: 'renewable', limit: 15, order_by: 'due_date'} )
     end
     subject do
       Loans.for(uniqname: 'jbister')
@@ -35,7 +35,7 @@ describe Loans do
   end
   context "no loans" do
     before(:each) do
-      stub_alma_get_request( url: 'users/jbister/loans', body: File.read("./spec/fixtures/no_loans.json"), query: {expand: 'renewable'} )
+      stub_alma_get_request( url: 'users/jbister/loans', body: File.read("./spec/fixtures/no_loans.json"), query: {expand: 'renewable', limit: 15, order_by: 'due_date'} )
     end
     subject do
       Loans.for(uniqname: 'jbister')
@@ -67,7 +67,7 @@ describe Loans do
     before(:each) do
       one_loan = JSON.parse(File.read("./spec/fixtures/loans.json"))
       one_loan["item_loan"].delete_at(0)
-      stub_alma_get_request( url: 'users/jbister/loans', body: one_loan.to_json, query: {"expand" => "renewable", "offset" => 1, "limit" => 1} )
+      stub_alma_get_request( url: 'users/jbister/loans', body: one_loan.to_json, query: {"expand" => "renewable", "offset" => 1, "limit" => 1, "order_by" => "due_date"} )
     end
     subject do
       Loans.for(uniqname: 'jbister', offset: 1, limit: 1)
@@ -114,6 +114,12 @@ describe Loan do
       @loan_response["author"] = 'a' * 1000
       expect(subject.title).to eq('t' * 120)
     end
+    it "handles description" do
+      @loan_response["description"] = 'v'*20
+      @loan_response["title"] = 't' * 1000
+      @loan_response["author"] = 'a' * 1000
+      expect(subject.title).to eq('t' * 110)
+    end
   end
   context "#author" do
     it "returns author string" do
@@ -133,15 +139,21 @@ describe Loan do
       @loan_response["author"] = 'a' * 1000
       expect(subject.author).to eq('a' * 120)
     end
+    it "handles description" do
+      @loan_response["description"] = 'v'*20
+      @loan_response["title"] = 't' * 1000
+      @loan_response["author"] = 'a' * 1000
+      expect(subject.author).to eq('a' * 110)
+    end
   end
   context "#publication_date" do
     it "returns publication year string" do
       expect(subject.publication_date).to eq("c1984.")
     end
   end
-  context "#search_url" do
+  context "#url" do
     it "returns url to search with mms_id" do
-      expect(subject.search_url).to eq("https://search.lib.umich.edu/catalog/record/991246960000541")
+      expect(subject.url).to eq("https://search.lib.umich.edu/catalog/record/991246960000541")
     end
   end
   context "#due_date" do

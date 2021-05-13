@@ -9,12 +9,16 @@ class InterlibraryLoanItem < Item
     @author = @parsed_response["LoanAuthor"] ||
               @parsed_response["PhotoItemAuthor"] || 
               @parsed_response["PhotoArticleAuthor"] || ""
+    @description = @parsed_response["CitedVolume"] || ""
   end
   def illiad_id
     @parsed_response["TransactionNumber"]
   end
   def illiad_url(action, form, type = false)
     "https://ill.lib.umich.edu/illiad/illiad.dll?Action=#{action}&#{type ? "Type" : "Form"}=#{form}&Value=#{self.illiad_id}"
+  end
+  def url 
+    url_transaction
   end
   def url_transaction
     self.illiad_url(10, 72)

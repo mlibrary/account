@@ -2,7 +2,7 @@ require 'spec_helper'
 describe "requests" do
   include Rack::Test::Methods
   before(:each) do
-    @session = { uniqname: 'tutor' }
+    @session = { uniqname: 'tutor', full_name: "Julian, Tutor" }
     env 'rack.session', @session
   end
   context "post /updater/" do
@@ -55,7 +55,7 @@ describe "requests" do
   end
   context "get /current-checkouts/u-m-library" do
     before(:each) do
-      stub_alma_get_request(url: "users/tutor/loans", query: {expand: 'renewable'})
+      stub_alma_get_request(url: "users/tutor/loans", query: {expand: 'renewable', limit: 15, order_by: "due_date"})
     end
     it "contains 'U-M Library'" do
       get "/current-checkouts/u-m-library"
@@ -141,7 +141,7 @@ describe "requests" do
   end
   context "get /pending-requests/u-m-library" do
     it "contains 'U-M Library'" do
-      stub_alma_get_request(url: "users/tutor/requests")
+      stub_alma_get_request(url: "users/tutor/requests", body: File.read("./spec/fixtures/requests.json"), query: {limit: 100, offset: 0}  )
       get "/pending-requests/u-m-library"
       expect(last_response.body).to include("U-M Library")
     end

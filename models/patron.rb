@@ -35,6 +35,12 @@ class Patron
   def full_name
     @parsed_response["full_name"]
   end
+  def user_group
+    @parsed_response.dig("user_group","desc")
+  end
+  def can_book?
+    ['Faculty','Graduate','Staff'].any?{|x| user_group.match(x)}
+  end
   def addresses
     @parsed_response.dig("contact_info","address")&.map{|x| Address.new(x)}
   end

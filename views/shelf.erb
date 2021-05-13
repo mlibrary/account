@@ -76,8 +76,7 @@
     <% loans.each do |loan| %>
       <tr>
         <td>
-          <a href="<%=loan.search_url%>"><%= loan.title %></a>
-          <span>&#183; <%= loan.author %></span>
+          <%= erb :title_author, locals: {item: loan} %>
         </td>
         <td data-loan-due-date="<%=loan.loan_id%>">
           <%= loan.due_date %>
