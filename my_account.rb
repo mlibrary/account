@@ -226,7 +226,7 @@ end
 get '/settings' do 
   #session[:uniqname] = 'tutor' #need to get this from cosign?
   patron = Patron.for(uniqname: session[:uniqname])
-  erb :patron, :locals => {patron: patron}
+  erb :patron, :locals => {patron: patron, has_js: true}
 end
 #TODO set up renew loan to handle renew in place with top part message???
 post '/renew-loan' do
