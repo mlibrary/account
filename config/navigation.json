@@ -5,14 +5,14 @@
   },
   {
     "title": "Current Checkouts",
-    "description": "View items you’ve checked out and see when they’re due.",
+    "description": "View items you've checked out and see when they're due.",
     "icon_name": "book",
     "color": "teal",
     "children": [
       {
         "title": "U-M Library",
         "empty_state": {
-          "heading": "You don’t have any U-M Library materials checked out."
+          "heading": "You don't have any U-M Library materials checked out."
         }
       },
       {
@@ -25,13 +25,13 @@
       {
         "title": "Document Delivery / Scans",
         "empty_state": {
-          "heading": "You don’t have any scans to view or download.",
+          "heading": "You don't have any scans to view or download.",
           "message": "See how you can <a href=\"https://www.lib.umich.edu/find-borrow-request/request-digital-copies-or-duplication/scans\">request a scan</a> for small portions of physical items such as book chapters or articles."
         }
       }
     ],
     "empty_state": {
-      "heading": "You don’t have any items checked out."
+      "heading": "You don't have any items checked out."
     }
   },
   {
@@ -57,7 +57,7 @@
       }
     ],
     "empty_state": {
-      "heading": "You don’t have any active requests."
+      "heading": "You don't have any active requests."
     }
   },
   {
@@ -69,25 +69,25 @@
       {
         "title": "U-M Library",
         "empty_state": {
-          "heading": "You don’t have any saved history.",
+          "heading": "You don't have any saved history.",
           "message": "You can turn on your checkout history in <a href=\"\/settings\">Settings</a>."
         }
       },
       {
         "title": "Interlibrary Loan",
         "empty_state": {
-          "message": "Once you’ve used <a href=\"https://www.lib.umich.edu/find-borrow-request/request-items-pick-or-delivery/items-another-institution-using-interlibrary\">interlibrary loan</a>, you’ll be able to review what you borrowed here."
+          "message": "Once you've used <a href=\"https://www.lib.umich.edu/find-borrow-request/request-items-pick-or-delivery/items-another-institution-using-interlibrary\">interlibrary loan</a>, you'll be able to review what you borrowed here."
         }
       },
       {
         "title": "Special Collections",
         "empty_state": {
-          "message": "Once you’ve viewed an item at the <a href=\"https://www.lib.umich.edu/locations-and-hours/special-collections-research-center/access-our-materials\">Special Collections Research Center</a>, you’ll be able to see its record here."
+          "message": "Once you've viewed an item at the <a href=\"https://www.lib.umich.edu/locations-and-hours/special-collections-research-center/access-our-materials\">Special Collections Research Center</a>, you'll be able to see its record here."
         }
       }
     ],
     "empty_state": {
-      "heading": "You don’t have any history."
+      "heading": "You don't have any history."
     }
   },
   {
@@ -96,17 +96,17 @@
     "icon_name": "attach-money",
     "color": "indigo",
     "empty_state": {
-      "heading": "You don’t have any fines.",
+      "heading": "You don't have any fines.",
       "message": "Fines are charged for overdue, lost, and damaged items."
     }
   },
   {
     "title": "Favorites",
-    "description": "View items you’ve added to your favorites.",
+    "description": "View items you've added to your favorites.",
     "icon_name": "star",
     "color": "green",
     "empty_state": {
-      "heading": "You haven’t added any favorites.",
+      "heading": "You haven't added any favorites.",
       "message": "You can save items to appear here by selecting “Save to Favorites” when viewing an item record in <a href=\"https://search.lib.umich.edu/everything?query=&utm_source=lib-home\">Library Search</a>."
     }
   },

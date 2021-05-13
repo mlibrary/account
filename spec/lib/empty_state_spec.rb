@@ -12,7 +12,7 @@ describe EmptyState do
     # end
     it "returns the empty state heading of the parent if one isn't define in the current page" do
       @current_path = "/pending-requests/special-collections" 
-      expect(subject).to eq("You don\’t have any active requests.")
+      expect(subject).to eq("You don\'t have any active requests.")
     end
     it "returns the empty state heading of the current page if defined" do
       @current_path = "/current-checkouts/interlibrary-loan" 
