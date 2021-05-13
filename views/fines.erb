@@ -4,9 +4,7 @@
 
 <% if fines.count == 0 %>
 
-<div class="content-max-width">
-<%= erb :message, locals: { message: "You have no fines or fees at this time.", kind: '' } %>
-</div>
+<%= erb :empty_state %>
 
 <% elsif %>
   <form action="/fines-and-fees/pay" method="post">
