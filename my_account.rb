@@ -96,6 +96,7 @@ end
 get '/' do
   session[:uniqname] = 'tutor' if !session[:uniqname]
   session[:full_name] = 'Julian Tutor' if session[:uniqname] == 'tutor'
+  session[:can_book] = true if session[:uniqname] == 'tutor'
 
   test_users = [
     {
@@ -165,9 +166,9 @@ namespace '/pending-requests' do
 
   get '/u-m-library' do
     session[:uniqname] = 'tutor' if !session[:uniqname] 
-    requests = Requests.for(uniqname: session[:uniqname]).holds
+    requests = Requests.for(uniqname: session[:uniqname])
 
-    erb :requests, :locals => { requests: requests }
+    erb :requests, :locals => { holds: requests.holds, bookings: requests.bookings }
   end
   post '/u-m-library/cancel-request' do
     response = Request.cancel(uniqname: session[:uniqname], request_id: params["request_id"])

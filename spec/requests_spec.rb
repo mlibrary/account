@@ -141,7 +141,7 @@ describe "requests" do
   end
   context "get /pending-requests/u-m-library" do
     it "contains 'U-M Library'" do
-      stub_alma_get_request(url: "users/tutor/requests")
+      stub_alma_get_request(url: "users/tutor/requests", body: File.read("./spec/fixtures/requests.json"), query: {limit: 100, offset: 0}  )
       get "/pending-requests/u-m-library"
       expect(last_response.body).to include("U-M Library")
     end
