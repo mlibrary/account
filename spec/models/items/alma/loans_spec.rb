@@ -61,6 +61,7 @@ describe Loans do
       loans = Loans.for(uniqname: 'jbister', offset: 1, limit: 1, direction: "DESC", order_by: "title")
       expect(loans.pagination.next.url).to include("direction=DESC")
       expect(loans.pagination.next.url).to include("order_by=title")
+      expect(loans.pagination.next.url).to include("current-checkouts/u-m-library")
     end
   end
   context "pagination" do

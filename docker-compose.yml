@@ -20,6 +20,13 @@ services:
     env_file:
       - .env/development/web
 
+  circ-history-test:
+    build: ./circ_history_test/.
+    ports:
+      - "4433:4567"
+    volumes:
+      - ./circ_history_test/.:/app
+
   sass:
     build: .
     volumes:
