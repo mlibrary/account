@@ -9,9 +9,10 @@ require 'byebug'
 require_relative "./lib/empty_state"
 require_relative "./lib/utility"
 require_relative "./lib/illiad_client"
+require_relative "./lib/circ_history_client"
 require_relative "./lib/navigation"
 require_relative "./lib/publisher"
-require_relative "./lib/loan_controls.rb"
+require_relative "./lib/table_controls.rb"
 require_relative "./lib/pagination/pagination"
 require_relative "./lib/pagination/pagination_decorator"
 
@@ -34,6 +35,7 @@ require_relative "./models/items/alma/alma_item"
 require_relative "./models/items/alma/loans"
 require_relative "./models/items/alma/requests"
 
+require_relative "./models/items/circ_history/circ_history_item"
 require_relative "./models/items/interlibrary_loan/interlibrary_loan_item"
 require_relative "./models/items/interlibrary_loan/document_delivery"
 require_relative "./models/items/interlibrary_loan/interlibrary_loans"
@@ -67,10 +69,9 @@ post '/updater/' do
   settings.connections.each { |x| x[:out] << "data: #{data}\n\n" if x[:uniqname] == params[:uniqname] }
   204 # response without entity body
 end
-post '/loan-controls' do
-  lc = LoanControls::ParamsGenerator.new(show: params["show"], sort: params["sort"])
-
-  redirect "/current-checkouts/u-m-library#{lc}"
+post '/table-controls' do
+  urlGenerator = TableControls::URLGenerator.for(show: params["show"], sort: params["sort"], referrer: request.referrer)
+  redirect urlGenerator.to_s
 end
 # :nocov:
 post '/session_switcher' do
@@ -127,7 +128,7 @@ namespace '/current-checkouts' do
 
   get '/u-m-library' do
     session[:uniqname] = 'tutor' if !session[:uniqname] 
-    loan_controls = LoanControls::Form.new(limit: params["limit"], order_by: params["order_by"], direction: params["direction"])
+    loan_controls = TableControls::LoansForm.new(limit: params["limit"], order_by: params["order_by"], direction: params["direction"])
     loans = Loans.for(uniqname: session[:uniqname], offset: params["offset"], limit: params["limit"], order_by: params["order_by"], direction: params["direction"])
     message = session.delete(:message)
     erb :shelf, :locals => { loans: loans, message: message, loan_controls: loan_controls, has_js: true}
@@ -203,8 +204,25 @@ namespace '/past-activity' do
     redirect_to '/u-m-library' # Redirects to /past-activity/um-library
   end
 
-  get '/u-m-library' do
-    erb :past_activity, :locals => { past_activity: {} }
+  namespace '/u-m-library' do
+    get '' do
+      session[:uniqname] = 'tutor' if !session[:uniqname] 
+      table_controls = TableControls::PastLoansForm.new(limit: params["limit"], order_by: params["order_by"], direction: params["direction"])
+      past_loans = CirculationHistoryItems.for(uniqname: session[:uniqname], offset: params["offset"], limit: params["limit"], order_by: params["order_by"], direction: params["direction"])
+      erb :past_loans, :locals => {past_loans: past_loans, table_controls: table_controls}
+    end
+    get '/download.csv' do
+      resp = CircHistoryClient.new(session[:uniqname]).download_csv
+      unless resp.code == 200
+        #Error
+      else
+        filename = resp.headers["content-disposition"]&.split('=')&.at(1)&.gsub('"','')
+        filename = 'my_filename.csv' if filename.nil?
+        content_type 'application/csv'
+        attachment filename
+        resp.body
+      end
+    end
   end
 
   get '/interlibrary-loan' do

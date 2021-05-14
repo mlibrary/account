@@ -55,7 +55,11 @@
     "color": "pink",
     "children": [
       {
-        "title": "U-M Library"
+        "title": "U-M Library",
+        "empty_state": {
+          "heading": "You do not have any history",
+          "message": "Please update your <a href=\"\/settings\">settings</a> to start saving your history."
+        }
       },
       {
         "title": "Interlibrary Loan"

@@ -21,12 +21,13 @@ describe "requests" do
       expect(connections.detect{|x| x[:uniqname] =='blah'}[:out].count).to  eq(0)
     end
   end
-  context "post /loan-controls" do
+  context "post /table-controls" do
     it "redirects to current-checkouts with appropriate params" do
-      post "/loan-controls", {show: '30', sort: 'title-desc'}
+      header "Referer", 'http://localhost:4567/referer'
+      post "/table-controls", {show: '30', sort: 'title-desc'} 
       uri = URI.parse(last_response.location)
       params = CGI.parse(uri.query)
-      expect(uri.path).to eq("/current-checkouts/u-m-library")
+      expect(uri.path).to eq("/referer")
       expect(params["limit"].first).to eq("30")
       expect(params["direction"].first).to eq("DESC")
       expect(params["order_by"].first).to eq('title')
@@ -176,6 +177,7 @@ describe "requests" do
   end
   context "get /past-activity/u-m-library" do
     it "exists" do
+      stub_circ_history_get_request(url: "users/tutor/loans")
       get "/past-activity/u-m-library" 
       expect(last_response.status).to eq(200)
     end
