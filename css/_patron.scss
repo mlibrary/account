@@ -1,0 +1,12 @@
+form[method="post"] {
+  p,
+  button,
+  fieldset,
+  .sms-number-container {
+    margin-top: var(--space-medium);
+  }
+
+  #text-notifications:not(:checked) ~ .sms-number-container {
+    display: none;
+  }
+}
