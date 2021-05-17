@@ -244,7 +244,7 @@ end
 get '/settings' do 
   #session[:uniqname] = 'tutor' #need to get this from cosign?
   patron = Patron.for(uniqname: session[:uniqname])
-  erb :patron, :locals => {patron: patron, has_js: true}
+  erb :patron, :locals => {patron: patron}
 end
 #TODO set up renew loan to handle renew in place with top part message???
 post '/renew-loan' do
@@ -262,9 +262,9 @@ end
 
 post '/sms' do
   patron = Patron.for(uniqname: session[:uniqname])
-  response = patron.update_sms(params["phone-number"])
+  response = patron.update_sms(params["sms-number"])
   if response.code == 200
-    if params["phone-number"] == ''
+    if params["sms-number"] == ''
       flash[:success] = "<strong>Success:</strong> SMS Successfully Removed"
     else
       flash[:success] = "<strong>Success:</strong> SMS Successfully Updated"
