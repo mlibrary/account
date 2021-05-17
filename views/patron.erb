@@ -17,12 +17,12 @@
     </tr>
   </table>
 
-  <form method="post" action="/sms">
+  <form class="owl" method="post" action="/sms">
     <h2>Text Notifications</h2>
 
     <p>Add a phone number to receive text notifications on the status of your request and loans. Special collections requests are not included. Message and data rates may apply.</p>
 
-    <input type="checkbox" id="text-notifications" <% if patron.sms_number? %>checked<% end%>>
+    <input type="checkbox" id="text-notifications" name="text-notifications" <% if patron.sms_number? %>checked<% end%>>
     <label for="text-notifications">You wish to receive text notifications</label>
 
     <div class="sms-number-container">
@@ -35,7 +35,7 @@
     <button>Update notification preferences</button>
   </form>
 
-  <form method="post" action="/checkout-history">
+  <form class="owl" method="post" action="/checkout-history">
     <h2>Checkout History</h2>
 
     <p>We've been preserving your checkout history since April 2016. If you’d like to continue to keep a record of your checkout history, you can select that option now.</p>
