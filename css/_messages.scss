@@ -24,7 +24,10 @@
 
 .message-callout {
   border: solid 1px var(--color-neutral-100);
-  border-left: solid var(--space-x-small) var(--color-teal-400);
+  border-left: solid var(--space-xx-small) var(--color-teal-400);
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-gap: 0.75rem;
   padding: var(--space-large);
   padding-right: var(--space-x-large);
   border-radius: var(--radius-default);
@@ -39,6 +42,28 @@
     position: absolute;
     right: 0;
     top: 0;
+  }
+
+  .message-callout-icon {
+    color: var(--color-teal-400);
+    m-icon > svg {
+      height: auto;
+      width: var(--space-large);
+    }
+  }
+}
+
+.message-callout--success {
+  border-left-color: var(--color-green-400);
+  .message-callout-icon {
+    color: var(--color-green-500);
+  }
+}
+
+.message-callout--warning {
+  border-left-color: var(--color-maize-400);
+  .message-callout-icon {
+    color: var(--color-maize-500);
   }
 }
 

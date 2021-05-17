@@ -16,7 +16,7 @@ class EmptyState
   def get_empty_state(prop)
     default_state = {
       "heading" => "You have no items.",
-      "message" => "See how you can <a href=\"https://www.lib.umich.edu/find-borrow-request\">find, borrow, or request materials<\/a> from the Library!"
+      "message" => "See <a href=\"https://www.lib.umich.edu/find-borrow-request\">what you can borrow from the library<\/a>."
     }
     empty_state = default_state["#{prop}"]
     current_parent = @pages.find{|p| p.active?}
