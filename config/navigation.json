@@ -104,7 +104,7 @@
     "title": "Favorites",
     "description": "View items you've added to your favorites.",
     "icon_name": "star",
-    "color": "green",
+    "color": "maize",
     "empty_state": {
       "heading": "You haven't added any favorites.",
       "message": "You can save items to appear here by selecting “Save to Favorites” when viewing an item record in <a href=\"https://search.lib.umich.edu/everything?query=&utm_source=lib-home\">Library Search</a>."
@@ -114,6 +114,6 @@
     "title": "Settings",
     "description": "Review your contact information and update your account preferences.",
     "icon_name": "settings",
-    "color": "maize"
+    "color": "green"
   }
 ]
