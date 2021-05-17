@@ -1,14 +1,12 @@
 <h1>Fines & Fees</h1>
 
-<p>Fines are issued for overdue items from Askwith Media Library, overdue Course Reserve materials, overdue recalled items, and lost or damaged items.</p>
-
 <% if fines.count == 0 %>
 
-<div class="content-max-width">
-<%= erb :message, locals: { message: "You have no fines or fees at this time.", kind: '' } %>
-</div>
+<%= erb :empty_state %>
 
 <% elsif %>
+  <p>You are charged <a href="https://lib.umich.edu/find-borrow-request/borrow-and-return/reminders-and-overdue-items">overdue fines</a> for high-use materials that are returned late. This includes material from the Askwith Media Library, course reserves, and other items that have been "recalled" or are lost or damaged.</p>
+
   <form action="/fines-and-fees/pay" method="post">
     <div class="table-container">
       <table>
@@ -34,13 +32,13 @@
     </div>
 
 
-    <p>You have a total of <strong>$<%=fines.total_sum_in_dollars%></strong> fines due.</p>
+    <p>Your total due is <strong>$<%=fines.total_sum_in_dollars%></strong></p>
 
-<% end %>
+    <button type="submit">Pay fines</button>
 
-<p><strong>Payments made are non-refundable</strong>. If you have questions or would like to contest a fine, please contact Hatcher Graduate Circulation before making any payments. Telephone: <a href="tel:734-764-0401">734-764-0401</a>. Email: <a href="glcirc@umich.edu">glcirc@umich.edu</a>. <a href="https://lib.umich.edu/find-borrow-request/borrow-and-return/reminders-and-overdue-items">Read more about fines</a>.</p>
+    <p><strong>Payments made are non-refundable</strong>.</p>
+    
+    <p>If you have a question about your account or would like to contest a fine, please contact us at the <a href="https://lib.umich.edu/locations-and-hours/hatcher-library/hatcher-north-information-services-desk">Hatcher North Information Services Desk</a> before making payments.</p>
 
-<% if fines.count > 0 %>
-  <button type="submit">Pay fines</button>
-</form>
+  </form>
 <% end %>

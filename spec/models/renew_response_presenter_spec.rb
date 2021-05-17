@@ -47,8 +47,13 @@ describe RenewResponsePresenter do
       expect(subject.not_renewed_text).to eq("2 items were unable to be renewed for one of the following reasons:")
     end
   end
-  context "unrenewable_reasons" do
+  context "#unrenewable_reasons" do
     it "has an array with reasons" do
+      expect(subject.unrenewable_reasons.count).to eq(3)
+    end
+  end
+  context "#not_renewed_continued_text" do
+    it "has an array with paragraphs" do
       expect(subject.unrenewable_reasons.count).to eq(3)
     end
   end
