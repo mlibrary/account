@@ -29,6 +29,8 @@ NELNET_SECRET_KEY = 'secretkey'
 NELNET_PAYMENT_URL = 'http://localhost:4444'
 JWT_SECRET = 'myjwtsecret'
 PATRON_ACCOUNT_BASE_URL = 'http://localhost:4567'
+CIRCULATION_HISTORY_URL = 'http://circ-history-test:4567'
+CIRCULATION_HISTORY_API_KEY = 'YOURAPIKEY'
 ```
 
 build web container

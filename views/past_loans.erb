@@ -7,26 +7,43 @@
 <% elsif %>
 
 <table>
-  <caption>Showing <%= past_loans.count %> <%= past_loans.item_text %></caption>
+  <caption>
+    <div class="loan-caption-inner-layout">
+      <p>Showing <strong><%=past_loans.pagination.first%></strong> - <strong><%=past_loans.pagination.last%></strong> of <strong><%= past_loans.count %></strong> items</p>
+
+      <div class="loan-controls">
+    <%= erb :table_controls, locals: { table_controls: table_controls} %>
+    <form method="get" action="/past-activity/u-m-library/download.csv">
+   <button class = "button" type="submit">Download CSV</button>
+</form>
+
+    </div>
+    </div>
+  </caption>
   <thead>
     <tr>
       <th>Title & author</th>
-      <th>Due date</th>
+      <th>Checkout Date</th>
+      <th>Return Date</th>
     </tr>
   </thead>
   <tbody>
     <% past_loans.each do |loan| %>
       <tr>
         <td>
-          <a href="<%=loan.search_url%>"><%= loan.title %></a>
+          <a href="#"><%= loan.title %></a>
           <span>&#183; <%= loan.author %></span>
         </td>
         <td style="min-width: 25%;">
-          <%= loan.due_date %>
+          <%= loan.checkout_date %>
+        </td>
+        <td style="min-width: 25%;">
+          <%= loan.return_date %>
         </td>
       </tr>
     <% end %>
   </tbody>
 </table>
 
+<%= erb :pagination, locals: {pagination: past_loans.pagination, count: past_loans.count} %>
 <% end %>

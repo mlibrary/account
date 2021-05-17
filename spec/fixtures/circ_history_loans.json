@@ -1,0 +1,25 @@
+{
+    "loans": [
+        {
+            "author": "Fake Author",
+            "barcode": "39015061357532",
+            "call_number": "Z7401 .S68",
+            "checkout_date": "2021-03-29T00:00:00.000-04:00",
+            "description": "v.32 2005",
+            "mms_id": "990005467650206381",
+            "return_date": null,
+            "title": "Archives of natural history."
+        },
+        {
+            "author": null,
+            "barcode": "39015092111528",
+            "call_number": "LC 213.2 .C565 2013",
+            "checkout_date": "2021-03-29T00:00:00.000-04:00",
+            "description": null,
+            "mms_id": "990123682790206381",
+            "return_date": null,
+            "title": "Closing the opportunity gap : what America must do to give every child an even chance /"
+        }
+    ],
+    "total_record_count": 2
+}
