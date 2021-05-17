@@ -28,9 +28,10 @@
     Phone number
   </label>
   <div class="text-notifications-input-container">
-    <input type="text" name="sms-number" id="sms-number" value="<%= patron.sms_number %>" />
-    <button data-js-sms disabled>Update Phone Number</button>
+    <input type="tel" name="sms-number" id="sms-number" placeholder="555-555-5555" value="<%= patron.sms_number %>" />
+    <button class="button--light" data-js-sms-remove disabled>Remove</button>
   </div>
+    <button data-js-sms disabled>Update notification preferences</button>
 
   <form method="post" action="/checkout-history">
     <h2>Checkout History</h2>
@@ -54,6 +55,6 @@
     </fieldset>
     
   </form>
-  <button>Update preferences</button>
+  <button>Update history preferences</button>
 
 </div>
