@@ -262,7 +262,7 @@ end
 
 post '/sms' do
   patron = Patron.for(uniqname: session[:uniqname])
-  response = patron.update_sms(params["sms-number"])
+  response = patron.update_sms(params["text-notifications"] ? params["sms-number"] : "")
   if response.code == 200
     if params["sms-number"] == ''
       flash[:success] = "<strong>Success:</strong> SMS Successfully Removed"
