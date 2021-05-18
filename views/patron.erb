@@ -58,17 +58,38 @@
 
     <p>You can change this preference at any time.</p>
 
-    <fieldset>
-      <legend>Checkout history</legend>
-      <div>
-        <input type="radio" name="checkout-history" id="opt-in" value="yes" checked>
-        <label for="opt-in">Yes, record my checkout history.</label>
+    <div class="checkout-history-options owl">
+      <div class="checkout-history-option">
+        <input 
+          type="radio" 
+          name="checkout-history" 
+          class="visually-hidden"
+          id="opt-in" 
+          value="opt-in" 
+          <%# if patron.checkout_history == "opt-in" %><%# checked %><%# end%>
+        >
+        <label for="opt-in">
+          <m-icon name="radio-button-checked"></m-icon>
+          <m-icon name="radio-button-unchecked"></m-icon>
+          <span>Yes, record my checkout history.</span>
+        </label>
       </div>
-      <div>
-        <input type="radio" name="checkout-history" id="opt-out" value="no">
-        <label for="opt-out">No, do not record my checkout history.</label>
+      <div class="checkout-history-option">
+        <input 
+          type="radio" 
+          name="checkout-history"
+          class="visually-hidden" 
+          id="opt-out" 
+          value="opt-out" 
+          <%# if patron.checkout_history == "opt-out" %><%# checked %><%# end%>
+        >
+        <label for="opt-out">
+          <m-icon name="radio-button-checked"></m-icon>
+          <m-icon name="radio-button-unchecked"></m-icon>
+          <span>No, do not record my checkout history.</span>
+        </label>
       </div>
-    </fieldset>
+    </div>
     
     <button>Update history preferences</button>
   </form>
