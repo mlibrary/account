@@ -22,8 +22,11 @@
 
     <p>Add a phone number to receive text notifications on the status of your request and loans. Special collections requests are not included. Message and data rates may apply.</p>
 
-    <input type="checkbox" id="text-notifications" name="text-notifications" <% if patron.sms_number? %>checked<% end%>>
-    <label for="text-notifications">You wish to receive text notifications</label>
+    <input type="checkbox" class="toggle-switch visually-hidden" id="text-notifications" name="text-notifications" <% if patron.sms_number? %>checked<% end%>>
+    <label class="toggle-switch-label" for="text-notifications">
+      <div class="toggle"></div>
+      <span>You wish to receive text notifications</span>
+    </label>
 
     <div class="sms-number-container">
       <label class="text-notifications-label" for="sms-number">
