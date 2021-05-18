@@ -2,4 +2,16 @@ form[method="post"] {
   #text-notifications:not(:checked) ~ .sms-number-container {
     display: none;
   }
+
+  #sms-number-description {
+    m-icon {
+      position: relative;
+      margin-right: var(--space-xx-small);
+      top: var(--space-xxx-small);
+    }
+  }
+
+  #sms-number:invalid + #sms-number-description {
+    color: var(--color-pink-500);
+  }
 }

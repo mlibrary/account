@@ -3,11 +3,16 @@ input[type="tel"] {
   font-size: 1rem;
   font-family: var(--font-base-family);
   border: solid 1px rgba(0, 0, 0, 0.3);
-  box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.1);
   border-radius: 4px;
   padding: var(--space-small);
   margin: 0;
   width: 100%;
+  &:invalid {
+    border-color: var(--color-pink-500);
+  }
+  &:not(:focus) {
+    box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.1);
+  }
 }
 
 select {
@@ -49,4 +54,8 @@ option {
 
 select::-ms-expand {
   display: none;
+}
+
+.input-description {
+  font-size: var(--space-medium);
 }

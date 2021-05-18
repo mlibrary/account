@@ -4,4 +4,9 @@
   * {
     color: var(--color-neutral-400);
   }
+  m-icon {
+    position: relative;
+    margin-right: var(--space-xx-small);
+    top: var(--space-xxx-small);
+  }
 }
