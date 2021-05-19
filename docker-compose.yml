@@ -21,11 +21,26 @@ services:
       - .env/development/web
 
   circ-history-test:
-    build: ./circ_history_test/.
+    image: docker.pkg.github.com/mlibrary/circulation_history/unstable:latest
     ports:
-      - "4433:4567"
+      - "3000:3000"
+    environment:
+      - MYSQL_ROOT_PASSWORD=mysqlrootpassword
+      - DATABASE_HOST=circ-history-test-db
+    env_file:
+      - .env/development/web
+
+
+  circ-history-test-db:
+    image: mariadb
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=mysqlrootpassword
+      - DATABASE_HOST=circ-history-test-db
     volumes:
-      - ./circ_history_test/.:/app
+      - circ_history_db:/var/lib/mysql
+
 
   sass:
     build: .
@@ -47,3 +62,4 @@ services:
 
 volumes:
   gem_cache:
+  circ_history_db:
