@@ -81,7 +81,6 @@ class Patron
 
     if !history
       updated_patron["loans"] = nil
-      updated_patron["requests"] = nil
     end
 
     updated_patron
