@@ -9,13 +9,13 @@ services:
       - .:/app
       - gem_cache:/gems
     environment:
+      - WEBLOGIN_ON=false
       - NELNET_SECRET_KEY=nelnet_secret_key
       - NELNET_PAYMENT_URL=http://localhost:4444
       - JWT_SECRET=jwt_secret
       - PATRON_ACCOUNT_BASE_URL=http://localhost:4567
       - CIRCULATION_HISTORY_URL=http://circulation-history:3000
       - CIRCULATION_HISTORY_API_KEY=circulation_history_api_key
-      - WEBLOGIN_ON=false
     env_file:
       - .env
         
@@ -33,11 +33,12 @@ services:
     ports:
       - "3000:3000"
     environment:
+      - RAILS_ENV=production
       - MYSQL_ROOT_PASSWORD=pass
       - CIRCULATION_HISTORY_DATABASE_PASSWORD=circulation_history_db_password
       - DATABASE_HOST=circulation-history-db
-      - RAILS_ENV=production
       - SECRET_KEY_BASE=secret_key_base
+      - RACK_COOKIE_SECRET=cookie_secret
     env_file:
       - .env
 

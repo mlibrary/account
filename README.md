@@ -25,6 +25,7 @@ ALMA_API_KEY='YOURAPIKEY'
 ALMA_API_HOST='https://api-na.hosted.exlibrisgroup.com'
 ILLIAD_API_KEY='YOURAPIKEY'
 ILLIAD_API_HOST='https://yourilliadhost.com'
+WEBLOGIN_SECRET = 'YOURWEBLOGINSECRET'
 ```
 
 build web container
@@ -57,6 +58,12 @@ docker-compose up -d
 ```
 
 In a browser, go to http://localhost:4567 to see the website.
+
+## Turning Weblogin on or off
+In `docker-compose.yml` in the 'web' service there's an environment variable "WEBLOGIN_ON". If it is "true" weblogin will be turned on in development mode. 
+If it is "false" weblogin will be turned off. Having weblogin off will turn on the developer tools form on each page, and you will be able to toggle 
+through the mlibrary.acct.testing friend accounts. These will have circulation data in the Alma sandbox. 
+
 
 ## Adding a javascript file for a specific page
 In `webpack.common.js` add a key value pair to entry where the value is the path to the js file, and the key is the path for the page with inner '/' changed to '-'. 
