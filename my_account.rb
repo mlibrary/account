@@ -80,9 +80,24 @@ get '/auth/failure' do
 end
 
 before  do
-  pass if ['auth', 'stream', 'updater'].include? request.path_info.split('/')[1]
+  pass if ['auth', 'stream', 'updater', 'session_switcher'].include? request.path_info.split('/')[1]
+  if dev_login?
+    if !session[:uniqname]
+      redirect '/session_switcher?uniqname=tutor'
+    end
+    pass
+  end
   if !session[:authenticated] || Time.now > session[:expires_at]
     redirect '/auth/openid_connect'
+  end
+end
+
+helpers do
+  def weblogin?
+    ENV['WEBLOGIN_ON'] == "true" && settings.environment == :development
+  end
+  def dev_login?
+    !weblogin?
   end
 end
 
@@ -107,15 +122,14 @@ post '/updater/' do
   204 # response without entity body
 end
 post '/table-controls' do
-  byebug
   urlGenerator = TableControls::URLGenerator.for(show: params["show"], sort: params["sort"], referrer: request.referrer)
   redirect urlGenerator.to_s
 end
 # :nocov:
-post '/session_switcher' do
+get '/session_switcher' do
   patron = SessionPatron.new(params[:uniqname])
   patron.to_h.each{|k,v| session[k] = v}
-  redirect '/'
+  redirect back
 end
 get '/receipt_test' do
   items = [{ "id"=>"1384289260006381", "balance"=>"5.00", "title"=>"Short history of Georgia.", "barcode"=>"95677", "library"=>"Main Library", "type"=>"Overdue fine", "creation_time"=>"2020-12-09T17:13:29.959Z" }]
@@ -133,26 +147,7 @@ end
 # :nocov:
 
 get '/' do
-  if !session[:uniqname]
-    patron = SessionPatron.new('mlibrary.acct.testing1@gmail.com')
-    patron.to_h.each{|k,v| session[k] = v}
-  end
-  test_users = [
-    {
-      label: 'Graduate student (few)',
-      value: 'mlibrary.acct.testing2@gmail.com'
-    },
-    {
-      label: "Faculty (many)",
-      value: 'mlibrary.act.testing1@gmail.com'
-    },
-    {
-      label: "New student (none)",
-      value: 'mlibrary.acct.testing3@gmail.com'
-    }
-  ]
-
-  erb :home, :locals => { test_users: test_users, navigation: Navigation.new}
+  erb :home, :locals => { navigation: Navigation.new}
 end
 
 namespace '/current-checkouts' do
@@ -165,7 +160,6 @@ namespace '/current-checkouts' do
   end
 
   get '/u-m-library' do
-    session[:uniqname] = 'tutor' if !session[:uniqname] 
     loan_controls = TableControls::LoansForm.new(limit: params["limit"], order_by: params["order_by"], direction: params["direction"])
     loans = Loans.for(uniqname: session[:uniqname], offset: params["offset"], limit: params["limit"], order_by: params["order_by"], direction: params["direction"])
     message = session.delete(:message)
@@ -204,7 +198,6 @@ namespace '/pending-requests' do
   end
 
   get '/u-m-library' do
-    session[:uniqname] = 'tutor' if !session[:uniqname] 
     requests = Requests.for(uniqname: session[:uniqname])
 
     erb :requests, :locals => { holds: requests.holds, bookings: requests.bookings }
@@ -244,7 +237,6 @@ namespace '/past-activity' do
 
   namespace '/u-m-library' do
     get '' do
-      session[:uniqname] = 'tutor' if !session[:uniqname] 
       table_controls = TableControls::PastLoansForm.new(limit: params["limit"], order_by: params["order_by"], direction: params["direction"])
       past_loans = CirculationHistoryItems.for(uniqname: session[:uniqname], offset: params["offset"], limit: params["limit"], order_by: params["order_by"], direction: params["direction"])
       erb :past_loans, :locals => {past_loans: past_loans, table_controls: table_controls}
