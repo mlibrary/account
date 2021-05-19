@@ -275,6 +275,17 @@ post '/sms' do
   redirect "/settings"
 end
 
+post '/checkout-history' do
+  patron = Patron.for(uniqname: session[:uniqname])
+  response = patron.update_history(params["checkout-history"])
+  if response.code == 200
+    flash[:success] = "<strong>Success:</strong> Checkout History Successfully Updated"
+  else
+    flash[:error] = "<strong>Error:</strong> #{response.message}"
+  end
+  redirect "/settings"
+end
+
 namespace '/fines-and-fees' do
   get '' do
     fines = Fines.for(uniqname: session[:uniqname])
