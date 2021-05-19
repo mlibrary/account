@@ -3,6 +3,8 @@ require 'sinatra/namespace'
 require "sinatra/reloader"
 require "sinatra/flash"
 require 'redcarpet'
+require 'omniauth'
+require 'omniauth_openid_connect'
 require "alma_rest_client"
 require 'jwt'
 require 'byebug' 
@@ -48,8 +50,41 @@ require_relative "./models/items/interlibrary_loan/past_interlibrary_loans"
 helpers StyledFlash
 
 enable :sessions
+set :session_secret, ENV['RACK_COOKIE_SECRET'] 
 set server: 'thin', connections: []
 
+use OmniAuth::Builder do
+  provider :openid_connect, {
+    issuer: 'https://weblogin.lib.umich.edu',
+    discovery: true,
+    client_auth_method: 'jwks',
+    scope: [:openid, :profile, :email],
+    client_options: {
+      identifier: 'patron-account-testing',
+      secret: ENV['WEBLOGIN_SECRET'],
+      redirect_uri: "#{ENV['PATRON_ACCOUNT_BASE_URL']}/auth/openid_connect/callback"
+    }
+  }
+end
+
+get '/auth/openid_connect/callback' do
+  auth = request.env['omniauth.auth']
+  info = auth[:info]
+  session[:authenticated] = true
+  session[:uniqname] = info[:nickname]
+  session[:expires_at] = Time.now + auth.credentials.expires_in
+  redirect back
+end
+
+get '/auth/failure' do
+end
+
+before  do
+  pass if ['auth', 'stream', 'updater'].include? request.path_info.split('/')[1]
+  if !session[:authenticated] || Time.now > session[:expires_at]
+    redirect '/auth/openid_connect'
+  end
+end
 
 get '/stream', provides: 'text/event-stream' do
   stream :keep_open do |out|
@@ -72,6 +107,7 @@ post '/updater/' do
   204 # response without entity body
 end
 post '/table-controls' do
+  byebug
   urlGenerator = TableControls::URLGenerator.for(show: params["show"], sort: params["sort"], referrer: request.referrer)
   redirect urlGenerator.to_s
 end

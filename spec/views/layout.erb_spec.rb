@@ -7,7 +7,7 @@ describe "flash messages" do
   end
   it "displays appropriate flash message" do
     #post "/session_switcher", {flash: {success: "it was successful"}}
-    env 'rack.session', {flash: {success: "it was successful"}}
+    env 'rack.session', {flash: {success: "it was successful"}, authenticated: true, expires_at: Time.now + 1.day}
     get "/"
     expect(last_response.body).to include('it was successful')
 
