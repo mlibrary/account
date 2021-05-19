@@ -45,7 +45,7 @@ class Patron
     @parsed_response.dig("contact_info","address")&.map{|x| Address.new(x)}
   end
   def checkout_history?
-    !!@parsed_response["loans"] || !!@parsed_response["requests"]
+    !!@parsed_response["loans"]
   end
   def keep_history
     @parsed_response["keep_history"]
