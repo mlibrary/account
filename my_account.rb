@@ -83,7 +83,7 @@ before  do
   pass if ['auth', 'stream', 'updater', 'session_switcher'].include? request.path_info.split('/')[1]
   if dev_login?
     if !session[:uniqname]
-      redirect '/session_switcher?uniqname=tutor'
+      redirect "/session_switcher?uniqname=#{URI.escape('mlibrary.acct.testing1@gmail.com')}"
     end
     pass
   end
