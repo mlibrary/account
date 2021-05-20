@@ -10,6 +10,24 @@ describe "requests" do
     }
     env 'rack.session', @session
   end
+
+  context "get '/auth/openid_connect/callback'" do
+    let(:omniauth_auth) {
+      { 
+        info: { nickname: 'nottutor'}, 
+        credentials: { expires_in: 86399} 
+      }
+    }
+    it "sets session to appropriate values" do
+      OmniAuth.config.add_mock(:openid_connect, omniauth_auth)
+      get '/auth/openid_connect/callback'
+      session = last_request.env["rack.session"]
+      expect(session[:authenticated]).to eq(true)
+      expect(session[:uniqname]).to eq('nottutor')
+      expect(session[:expires_at]).to be <= (Time.now.utc + 1.day )
+    end
+  end
+  
   context "post /updater/" do
     it "returns 403 if message doesn't authenticate" do
       post "/updater/", {msg: "one", uniqname: "tutor", hash: "notcorrect"}

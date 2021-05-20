@@ -72,11 +72,12 @@ get '/auth/openid_connect/callback' do
   info = auth[:info]
   session[:authenticated] = true
   session[:uniqname] = info[:nickname]
-  session[:expires_at] = Time.now + auth.credentials.expires_in
-  redirect back
+  session[:expires_at] = Time.now.utc + auth.credentials.expires_in
+  redirect '/'
 end
 
 get '/auth/failure' do
+  "You are not authorized"
 end
 
 before  do
@@ -87,7 +88,7 @@ before  do
     end
     pass
   end
-  if !session[:authenticated] || Time.now > session[:expires_at]
+  if !session[:authenticated] || Time.now.utc > session[:expires_at]
     redirect '/auth/openid_connect'
   end
 end
