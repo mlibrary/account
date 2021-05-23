@@ -95,22 +95,22 @@ end
 # :nocov:
 
 get '/' do
-  session[:uniqname] = 'tutor' if !session[:uniqname]
-  session[:full_name] = 'Julian Tutor' if session[:uniqname] == 'tutor'
-  session[:can_book] = true if session[:uniqname] == 'tutor'
+  session[:uniqname] = 'mlibrary.acct.testing1@gmail.com' if !session[:uniqname]
+  session[:full_name] = 'Julian Tutor' if session[:uniqname] == 'mlibrary.acct.testing1@gmail.com'
+  session[:can_book] = true if session[:uniqname] == 'mlibrary.acct.testing1@gmail.com'
 
   test_users = [
     {
       label: 'Graduate student (few)',
-      value: 'scholar'
+      value: 'mlibrary.acct.testing2@gmail.com'
     },
     {
       label: "Faculty (many)",
-      value: 'tutor'
+      value: 'mlibrary.act.testing1@gmail.com'
     },
     {
       label: "New student (none)",
-      value: 'etude'
+      value: 'mlibrary.acct.testing3@gmail.com'
     }
   ]
 
