@@ -218,6 +218,19 @@ describe "requests" do
       expect(last_response.body).to include("Settings")
     end
   end
+  context "post /settings/history" do
+    before(:each) do
+      @patron_json = File.read("./spec/fixtures/mrio_user_alma.json")
+      stub_alma_get_request(url: "users/tutor?expand=none&user_id_type=all_unique&view=full", body: @patron_json)
+      stub_circ_history_put_request(url: "users/tutor", query: {retain_history: true})
+    end
+    it "handles retain history" do
+
+      post "/settings/history", {'retain_history' => 'true'}
+      follow_redirect!
+      expect(last_response.body).to include("History Setting Successfully Changed")
+    end
+  end
   #ToDO 
   #context "post /renew-loan" do
     #before(:each) do

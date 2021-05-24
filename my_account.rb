@@ -241,10 +241,23 @@ get '/favorites' do
   redirect 'https://apps.lib.umich.edu/my-account/favorites' 
 end
 
-get '/settings' do 
-  #session[:uniqname] = 'tutor' #need to get this from cosign?
-  patron = Patron.for(uniqname: session[:uniqname])
-  erb :patron, :locals => {patron: patron}
+namespace '/settings' do 
+  get '' do
+    patron = Patron.for(uniqname: session[:uniqname])
+    erb :patron, :locals => {patron: patron}
+  end
+  post '/history' do
+    client = CircHistoryClient.new(session[:uniqname])
+    retain_history = true
+    retain_history = false if params[:retain_history] == "false"
+    response = client.set_retain_history(retain_history)
+    if response.code == 200
+      flash[:success] = "<strong>Success:</strong> History Setting Successfully Changed"
+    else
+      flash[:error] = "<strong>Error:</strong> #{response.message}"
+    end
+    redirect "/settings"
+  end
 end
 #TODO set up renew loan to handle renew in place with top part message???
 post '/renew-loan' do
