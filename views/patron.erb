@@ -52,7 +52,7 @@
   <form class="owl" method="post" action="/checkout-history">
     <h2>Checkout History</h2>
 
-    <% if patron.keep_history == true %>
+    <% if patron.retain_history == true %>
 
       <p>You have chosen to keep a record of your checkout history.</p>
 
@@ -60,7 +60,7 @@
 
       <p>You can change this preference at any time.</p>
 
-    <% elsif patron.keep_history == false %>
+    <% elsif patron.retain_history == false %>
 
       <p>You have chosen not to keep a record of your checkout history.</p>
 
@@ -92,7 +92,7 @@
           class="visually-hidden"
           id="opt-in" 
           value="true" 
-          <% if patron.keep_history == true %>checked<% end%>
+          <% if patron.retain_history == true %>checked<% end%>
         >
         <label for="opt-in">
           <m-icon name="radio-button-checked"></m-icon>
@@ -107,7 +107,7 @@
           class="visually-hidden" 
           id="opt-out" 
           value="false" 
-          <% if patron.keep_history == false %>checked<% end%>
+          <% if patron.retain_history == false %>checked<% end%>
         >
         <label for="opt-out">
           <m-icon name="radio-button-checked"></m-icon>
