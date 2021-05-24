@@ -16,6 +16,7 @@ services:
       - PATRON_ACCOUNT_BASE_URL=http://localhost:4567
       - CIRCULATION_HISTORY_URL=http://circulation-history:3000
       - CIRCULATION_HISTORY_API_KEY=circulation_history_api_key
+      - RACK_COOKIE_SECRET='cookie_secret'
     env_file:
       - .env
         
