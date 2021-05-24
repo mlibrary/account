@@ -47,8 +47,8 @@ class Patron
   def checkout_history?
     !!@parsed_response["loans"]
   end
-  def keep_history
-    @parsed_response["keep_history"]
+  def retain_history
+    @parsed_response["retain_history"]
   end
   def update_history(history, client=AlmaRestClient.client)
     return Error.new(message: "Could not save history as #{history}") unless history == true || history == false
@@ -77,7 +77,7 @@ class Patron
   def patron_with_checkout_history(history)
     updated_patron = JSON.parse(@parsed_response.to_json)
 
-    updated_patron["keep_history"] = history
+    updated_patron["retain_history"] = history
 
     if !history
       updated_patron["loans"] = nil
