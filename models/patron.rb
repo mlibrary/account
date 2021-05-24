@@ -44,9 +44,6 @@ class Patron
   def addresses
     @parsed_response.dig("contact_info","address")&.map{|x| Address.new(x)}
   end
-  def checkout_history?
-    !!@parsed_response["loans"]
-  end
 
   private
   def patron_with_internal_sms(sms_number)
