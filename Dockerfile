@@ -33,11 +33,13 @@ ENV ILLIAD_API_KEY 'YOUR_ILLIAD_API_KEY'
 ENV NELNET_SECRET_KEY 'YOUR_NELNET_SECRET_KEY'
 ENV NELNET_PAYMENT_URL  'https://yournelnetpaymenturl.com'
 ENV JWT_SECRET  'YOUR_JWT_SECRET'
+ENV CIRCULATION_HISTORY_API_KEY 'circulation_history_api_key'
 
 #Not that much of a secret
 ENV ALMA_API_HOST 'https://api-na.hosted.exlibrisgroup.com'
 ENV ILLIAD_API_HOST 'http://yourilliadhost.com'
 ENV PATRON_ACCOUNT_BASE_URL 'http://localhost'
+ENV CIRCULATION_HISTORY_URL 'http://circulation-history:3000'
 
 WORKDIR /app
 RUN bundle install

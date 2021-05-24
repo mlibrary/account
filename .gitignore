@@ -1,5 +1,5 @@
 # no environment variables
-.env/
+.env
 drupal_models
 drupal_models_specs
 spec/fixtures/fixtures_drupal
