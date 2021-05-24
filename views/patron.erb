@@ -52,11 +52,37 @@
   <form class="owl" method="post" action="/checkout-history">
     <h2>Checkout History</h2>
 
-    <p>We've been preserving your checkout history since April 2016. If you’d like to continue to keep a record of your checkout history, you can select that option now.</p>
+    <% if patron.keep_history == true %>
 
-    <p>If you prefer to have your checkout history deleted and no longer record future checkouts, you can opt-out.</p>
+      <p>You have chosen to keep a record of your checkout history.</p>
 
-    <p>You can change this preference at any time.</p>
+      <p>If you would like us to delete your checkout history and stop adding items to it, please update your preferences.</p>
+
+      <p>You can change this preference at any time.</p>
+
+    <% elsif patron.keep_history == false %>
+
+      <p>You have chosen not to keep a record of your checkout history.</p>
+
+      <p>If you would like us to start adding items to your checkout history, please update your preferences.</p>
+
+      <p>You can change this preference at any time.</p>
+
+    <% elsif patron.checkout_history? %>
+
+      <p>We've been preserving your checkout history since April 2016. If you’d like to continue to keep a record of your checkout history, you can select that option now.</p>
+
+      <p>If you prefer to have your checkout history deleted and no longer record future checkouts, you can opt-out.</p>
+
+      <p>You can change this preference at any time.</p>
+
+    <% else %>
+
+      <p>You can choose to either keep a record of your checkout history, or opt out of having one.</p>
+      
+      <p>You can change this preference at any time.</p>
+
+    <% end %>
 
     <div class="checkout-history-options owl">
       <div class="checkout-history-option">
@@ -65,8 +91,8 @@
           name="checkout-history" 
           class="visually-hidden"
           id="opt-in" 
-          value="opt-in" 
-          <%# if patron.checkout_history == "opt-in" %><%# checked %><%# end%>
+          value="true" 
+          <% if patron.keep_history == true %>checked<% end%>
         >
         <label for="opt-in">
           <m-icon name="radio-button-checked"></m-icon>
@@ -80,8 +106,8 @@
           name="checkout-history"
           class="visually-hidden" 
           id="opt-out" 
-          value="opt-out" 
-          <%# if patron.checkout_history == "opt-out" %><%# checked %><%# end%>
+          value="false" 
+          <% if patron.keep_history == false %>checked<% end%>
         >
         <label for="opt-out">
           <m-icon name="radio-button-checked"></m-icon>

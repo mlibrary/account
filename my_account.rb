@@ -95,22 +95,22 @@ end
 # :nocov:
 
 get '/' do
-  session[:uniqname] = 'tutor' if !session[:uniqname]
-  session[:full_name] = 'Julian Tutor' if session[:uniqname] == 'tutor'
-  session[:can_book] = true if session[:uniqname] == 'tutor'
+  session[:uniqname] = 'mlibrary.acct.testing1@gmail.com' if !session[:uniqname]
+  session[:full_name] = 'Julian Tutor' if session[:uniqname] == 'mlibrary.acct.testing1@gmail.com'
+  session[:can_book] = true if session[:uniqname] == 'mlibrary.acct.testing1@gmail.com'
 
   test_users = [
     {
       label: 'Graduate student (few)',
-      value: 'scholar'
+      value: 'mlibrary.acct.testing2@gmail.com'
     },
     {
       label: "Faculty (many)",
-      value: 'tutor'
+      value: 'mlibrary.act.testing1@gmail.com'
     },
     {
       label: "New student (none)",
-      value: 'etude'
+      value: 'mlibrary.acct.testing3@gmail.com'
     }
   ]
 
@@ -269,6 +269,17 @@ post '/sms' do
     else
       flash[:success] = "<strong>Success:</strong> SMS Successfully Removed"
     end
+  else
+    flash[:error] = "<strong>Error:</strong> #{response.message}"
+  end
+  redirect "/settings"
+end
+
+post '/checkout-history' do
+  patron = Patron.for(uniqname: session[:uniqname])
+  response = patron.update_history(params["checkout-history"])
+  if response.code == 200
+    flash[:success] = "<strong>Success:</strong> Checkout History Successfully Updated"
   else
     flash[:error] = "<strong>Error:</strong> #{response.message}"
   end

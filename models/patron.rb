@@ -44,6 +44,18 @@ class Patron
   def addresses
     @parsed_response.dig("contact_info","address")&.map{|x| Address.new(x)}
   end
+  def checkout_history?
+    !!@parsed_response["loans"]
+  end
+  def keep_history
+    @parsed_response["keep_history"]
+  end
+  def update_history(history, client=AlmaRestClient.client)
+    return Error.new(message: "Could not save history as #{history}") unless history == true || history == false
+    url = "/users/#{uniqname}"
+    response = client.put(url, patron_with_checkout_history(history).to_json) 
+    response.code == 200 ? response : AlmaError.new(response)
+  end
 
   private
   def patron_with_internal_sms(sms_number)
@@ -58,6 +70,19 @@ class Patron
 
     updated_patron["contact_info"]["phone"] = my_phones.map{|x| x.to_h}
     
+    updated_patron
+  end
+
+  private
+  def patron_with_checkout_history(history)
+    updated_patron = JSON.parse(@parsed_response.to_json)
+
+    updated_patron["keep_history"] = history
+
+    if !history
+      updated_patron["loans"] = nil
+    end
+
     updated_patron
   end
 
