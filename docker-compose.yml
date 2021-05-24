@@ -29,6 +29,9 @@ services:
 
   circulation-history:
     image: docker.pkg.github.com/mlibrary/circulation_history/unstable:latest
+    ports:
+      - "3000:3000"
+    environment:
       - MYSQL_ROOT_PASSWORD=pass
       - CIRCULATION_HISTORY_DATABASE_PASSWORD=circulation_history_db_password
       - DATABASE_HOST=circulation-history-db
