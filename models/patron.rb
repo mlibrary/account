@@ -47,9 +47,6 @@ class Patron
   def checkout_history?
     !!@parsed_response["loans"]
   end
-  def retain_history
-    @parsed_response["retain_history"]
-  end
 
   private
   def patron_with_internal_sms(sms_number)
