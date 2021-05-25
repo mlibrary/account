@@ -1,6 +1,4 @@
 class SessionPatron
-  extend Forwardable
-  def_delegators :@patron, :uniqname, :full_name, :can_book?, :retain_history
 
   def initialize(uniqname)
     @patron = Patron.for(uniqname: uniqname)
