@@ -214,6 +214,7 @@ describe "requests" do
   context "get /settings" do
     it "contains 'Settings'" do
       stub_alma_get_request(url: "users/tutor?expand=none&user_id_type=all_unique&view=full")
+      stub_circ_history_get_request(url: "users/tutor")
       get "/settings"
       expect(last_response.body).to include("Settings")
     end
@@ -222,6 +223,7 @@ describe "requests" do
     before(:each) do
       @patron_json = File.read("./spec/fixtures/mrio_user_alma.json")
       stub_alma_get_request(url: "users/tutor?expand=none&user_id_type=all_unique&view=full", body: @patron_json)
+      stub_circ_history_get_request(url: "users/tutor")
       stub_circ_history_put_request(url: "users/tutor", query: {retain_history: true})
     end
     it "handles retain history" do
@@ -265,6 +267,7 @@ describe "requests" do
     before(:each) do
       @patron_json = File.read("./spec/fixtures/mrio_user_alma.json")
       stub_alma_get_request(url: "users/tutor?expand=none&user_id_type=all_unique&view=full", body: @patron_json)
+      stub_circ_history_get_request(url: 'users/tutor')
     end
     it "handles good phone number update" do
       sms_number = '(734) 555-5555'

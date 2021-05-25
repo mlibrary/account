@@ -1,19 +1,30 @@
 require 'telephone_number'
 class Patron
-  def initialize(uniqname:, parsed_response:)
+  def initialize(uniqname:, alma_data:, circ_history_data: nil)
     @uniqname = uniqname
-    @parsed_response = parsed_response
+    @alma_data = alma_data
+    @circ_history_data = circ_history_data
   end
 
-  def self.for(uniqname:, client: AlmaRestClient.client)
+  def self.for(uniqname:, alma_client: AlmaRestClient.client, circ_history_client: CircHistoryClient.new(uniqname))
     url = "/users/#{uniqname}?user_id_type=all_unique&view=full&expand=none" 
-    response = client.get(url)
-    if response.code == 200
-      Patron.new(uniqname: uniqname, parsed_response: response.parsed_response)
+    alma_response = alma_client.get(url)
+    circ_history_response = circ_history_client.user_info
+    if alma_response.code == 200 && circ_history_response.code == 200
+      Patron.new(uniqname: uniqname, alma_data: alma_response.parsed_response, circ_history_data: circ_history_response.parsed_response)
     else
       #should be something else
-      AlmaError.new(response)
+      AlmaError.new(alma_response)
     end
+  end
+  def self.set_retain_history(uniqname:, retain_history:, circ_history_client: CircHistoryClient.new(uniqname))
+    circ_history_client.set_retain_history(retain_history)
+  end
+  def confirmed_history_setting?
+    @circ_history_data["confirmed"]
+  end
+  def retain_history?
+    @circ_history_data["retain_history"]
   end
 
   def update_sms(sms, client=AlmaRestClient.client, phone=TelephoneNumber.parse(sms, :US))
@@ -24,30 +35,30 @@ class Patron
   end
 
   def uniqname
-    @parsed_response["primary_id"]&.downcase
+    @alma_data["primary_id"]&.downcase
   end
   def sms_number
-    @parsed_response.dig("contact_info","phone")&.find(-> {{}}){|x| x["preferred_sms"]}&.dig("phone_number")
+    @alma_data.dig("contact_info","phone")&.find(-> {{}}){|x| x["preferred_sms"]}&.dig("phone_number")
   end
   def sms_number?
     !!sms_number
   end
   def full_name
-    @parsed_response["full_name"]
+    @alma_data["full_name"]
   end
   def user_group
-    @parsed_response.dig("user_group","desc")
+    @alma_data.dig("user_group","desc")
   end
   def can_book?
     ['Faculty','Graduate','Staff'].any?{|x| user_group.match(x)}
   end
   def addresses
-    @parsed_response.dig("contact_info","address")&.map{|x| Address.new(x)}
+    @alma_data.dig("contact_info","address")&.map{|x| Address.new(x)}
   end
 
   private
   def patron_with_internal_sms(sms_number)
-    updated_patron = JSON.parse(@parsed_response.to_json)
+    updated_patron = JSON.parse(@alma_data.to_json)
     
     phones = updated_patron["contact_info"].delete("phone")
     my_phones = phones.map{ |x| Phone.new(x)}

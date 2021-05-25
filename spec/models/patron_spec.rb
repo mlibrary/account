@@ -5,12 +5,17 @@ describe Patron do
   context "found uniqname" do
     before(:each) do
       @alma_response = JSON.parse(File.read('./spec/fixtures/mrio_user_alma.json'))
+      @circ_history_response = JSON.parse(File.read('./spec/fixtures/circ_history_user.json'))
       @patron_url = "users/mrio?user_id_type=all_unique&view=full&expand=none"
     end
     subject do
       stub_alma_get_request(
         url: @patron_url, 
         body: @alma_response.to_json
+      )
+      stub_circ_history_get_request(
+        url: 'users/mrio',
+        output: @circ_history_response.to_json
       )
       Patron.for(uniqname: 'mrio')
     end
@@ -96,6 +101,24 @@ describe Patron do
         expect(subject.can_book?).to eq(false)
       end
     end
+    context "#retain_history?" do
+      it "returns correct true boolean" do
+        expect(subject.retain_history?).to eq(true)
+      end
+      it "returns correct false boolean" do
+        @circ_history_response["retain_history"] = false
+        expect(subject.retain_history?).to eq(false)
+      end
+    end
+    context "#confiremd_history_setting?" do
+      it "returns correct true boolean" do
+        expect(subject.confirmed_history_setting?).to eq(true)
+      end
+      it "returns correct false boolean" do
+        @circ_history_response["confirmed"] = false
+        expect(subject.confirmed_history_setting?).to eq(false)
+      end
+    end
     context "#sms_number" do
       it "returns sms number if preferred_sms is set" do
         expect(subject.sms_number).to eq('734-123-4567')
@@ -146,6 +169,9 @@ describe Patron do
         url: @patron_url, 
         body: @alma_response
       )
+      stub_circ_history_get_request(
+        url: 'users/mrioaaa',
+      )
     end
     subject do
       Patron.for(uniqname: 'mrioaaa')
@@ -157,5 +183,11 @@ describe Patron do
       end
     end
   end
-
+end
+describe Patron, ".set_retain_history" do
+  it "updates the circ history setting" do
+    stub = stub_circ_history_put_request(url: 'users/tutor', query: {retain_history: false})
+    Patron.set_retain_history(uniqname: 'tutor', retain_history: 'false')
+    expect(stub).to have_been_requested
+  end
 end

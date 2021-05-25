@@ -248,9 +248,7 @@ namespace '/settings' do
   end
   post '/history' do
     client = CircHistoryClient.new(session[:uniqname])
-    retain_history = true
-    retain_history = false if params[:retain_history] == "false"
-    response = client.set_retain_history(retain_history)
+    response = Patron.set_retain_history(uniqname: session[:uniqname], retain_history: params[:retain_history])
     if response.code == 200
       flash[:success] = "<strong>Success:</strong> History Setting Successfully Changed"
     else
