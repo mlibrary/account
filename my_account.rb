@@ -247,7 +247,6 @@ namespace '/settings' do
     erb :patron, :locals => {patron: patron}
   end
   post '/history' do
-    client = CircHistoryClient.new(session[:uniqname])
     response = Patron.set_retain_history(uniqname: session[:uniqname], retain_history: params[:retain_history])
     if response.code == 200
       flash[:success] = "<strong>Success:</strong> History Setting Successfully Changed"
