@@ -95,10 +95,10 @@ end
 # :nocov:
 
 get '/' do
-  session[:uniqname] = 'mlibrary.acct.testing1@gmail.com' if !session[:uniqname]
-  session[:full_name] = 'Julian Tutor' if session[:uniqname] == 'mlibrary.acct.testing1@gmail.com'
-  session[:can_book] = true if session[:uniqname] == 'mlibrary.acct.testing1@gmail.com'
-
+  if !session[:uniqname]
+    patron = SessionPatron.new('mlibrary.acct.testing1@gmail.com')
+    patron.to_h.each{|k,v| session[k] = v}
+  end
   test_users = [
     {
       label: 'Graduate student (few)',

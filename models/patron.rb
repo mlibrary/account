@@ -1,7 +1,6 @@
 require 'telephone_number'
 class Patron
-  def initialize(uniqname:, alma_data:, circ_history_data: nil)
-    @uniqname = uniqname
+  def initialize(alma_data:, circ_history_data: nil)
     @alma_data = alma_data
     @circ_history_data = circ_history_data
   end
@@ -11,7 +10,7 @@ class Patron
     alma_response = alma_client.get(url)
     circ_history_response = circ_history_client.user_info
     if alma_response.code == 200 && circ_history_response.code == 200
-      Patron.new(uniqname: uniqname, alma_data: alma_response.parsed_response, circ_history_data: circ_history_response.parsed_response)
+      Patron.new(alma_data: alma_response.parsed_response, circ_history_data: circ_history_response.parsed_response)
     else
       #should be something else
       AlmaError.new(alma_response)
