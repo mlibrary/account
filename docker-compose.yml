@@ -43,7 +43,6 @@ services:
 
   circulation-history-db:
     image: niquerio/circulation_history_dev_db:latest
-
   sass:
     build: .
     volumes:
@@ -64,3 +63,4 @@ services:
 
 volumes:
   gem_cache:
+  circ_history_db:

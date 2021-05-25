@@ -43,7 +43,12 @@ npm install
 docker-compose run --rm web npm install
 ```
 
-You may need to log into github to pull the circulation-history image. To do that, get a [Personal Access Token](https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token) with permission to "read:packages". On the command line log in with your github username and then Personal Access Token as the password. 
+You may need to log into github to pull the circulation-history image. To do that, get a [Personal Access Token](https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token) with permission to "read:packages". On the command line:
+```
+docker login docker.pkg.github.com
+```
+
+Log in with your github username and then Personal Access Token as the password. 
 
 start containers
 

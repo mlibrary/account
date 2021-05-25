@@ -1,0 +1,34 @@
+form[method="post"] {
+  m-icon {
+    position: relative;
+    margin-right: var(--space-xx-small);
+    top: var(--space-xxx-small);
+  }
+
+  #text-notifications:not(:checked) ~ .sms-number-container {
+    display: none;
+  }
+
+  #sms-number:invalid + #sms-number-description {
+    color: var(--color-pink-500);
+  }
+
+  .retain-history-option {
+    input[type="radio"] {
+      &:checked + label m-icon[name="radio-button-unchecked"] {
+        display: none;
+      }
+      &:not(:checked) + label m-icon[name="radio-button-checked"] {
+        display: none;
+      }
+      &:focus + label m-icon {
+        outline: 0;
+        box-shadow: 0 0 0 2px var(--color-maize-400),0 0 0 3px var(--color-neutral-400);
+        border-radius: 2px;
+      }
+    }
+    m-icon {
+      color: var(--color-teal-500);
+    }
+  }
+}

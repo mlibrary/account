@@ -214,8 +214,23 @@ describe "requests" do
   context "get /settings" do
     it "contains 'Settings'" do
       stub_alma_get_request(url: "users/tutor?expand=none&user_id_type=all_unique&view=full")
+      stub_circ_history_get_request(url: "users/tutor")
       get "/settings"
       expect(last_response.body).to include("Settings")
+    end
+  end
+  context "post /settings/history" do
+    before(:each) do
+      @patron_json = File.read("./spec/fixtures/mrio_user_alma.json")
+      stub_alma_get_request(url: "users/tutor?expand=none&user_id_type=all_unique&view=full", body: @patron_json)
+      stub_circ_history_get_request(url: "users/tutor")
+      stub_circ_history_put_request(url: "users/tutor", query: {retain_history: true})
+    end
+    it "handles retain history" do
+
+      post "/settings/history", {'retain_history' => 'true'}
+      follow_redirect!
+      expect(last_response.body).to include("History Setting Successfully Changed")
     end
   end
   #ToDO 
@@ -252,21 +267,22 @@ describe "requests" do
     before(:each) do
       @patron_json = File.read("./spec/fixtures/mrio_user_alma.json")
       stub_alma_get_request(url: "users/tutor?expand=none&user_id_type=all_unique&view=full", body: @patron_json)
+      stub_circ_history_get_request(url: 'users/tutor')
     end
     it "handles good phone number update" do
-      phone_number = '(734) 555-5555'
+      sms_number = '(734) 555-5555'
       new_phone_patron = JSON.parse(@patron_json)
-      new_phone_patron["contact_info"]["phone"][1]["phone_number"] = phone_number
+      new_phone_patron["contact_info"]["phone"][1]["phone_number"] = sms_number
 
       stub_alma_put_request(url: "users/mrio", input: new_phone_patron.to_json, output: new_phone_patron.to_json)
 
-      post "/sms", {'phone-number' => phone_number}
+      post "/sms", {'text-notifications' => 'on', 'sms-number' => sms_number}
       follow_redirect!
       expect(last_response.body).to include("SMS Successfully Updated")
     end
     it "handles bad phone number update" do
 
-      post "/sms", {'phone-number' => 'aaa'}
+      post "/sms", {'text-notifications' => 'on', 'sms-number' => 'aaa'}
       follow_redirect!
       expect(last_response.body).to include("is invalid")
     end
@@ -274,7 +290,7 @@ describe "requests" do
       new_phone_patron = JSON.parse(@patron_json)
       new_phone_patron["contact_info"]["phone"].delete_at(1)
       stub_alma_put_request(url: "users/mrio", input: new_phone_patron.to_json, output: new_phone_patron.to_json)
-      post "/sms", {'phone-number' => ''}
+      post "/sms", {'text-notifications' => 'off', 'sms-number' => ''}
       follow_redirect!
       expect(last_response.body).to include("SMS Successfully Removed")
     end

@@ -95,10 +95,10 @@ end
 # :nocov:
 
 get '/' do
-  session[:uniqname] = 'mlibrary.acct.testing1@gmail.com' if !session[:uniqname]
-  session[:full_name] = 'Julian Tutor' if session[:uniqname] == 'mlibrary.acct.testing1@gmail.com'
-  session[:can_book] = true if session[:uniqname] == 'mlibrary.acct.testing1@gmail.com'
-
+  if !session[:uniqname]
+    patron = SessionPatron.new('mlibrary.acct.testing1@gmail.com')
+    patron.to_h.each{|k,v| session[k] = v}
+  end
   test_users = [
     {
       label: 'Graduate student (few)',
@@ -241,10 +241,20 @@ get '/favorites' do
   redirect 'https://apps.lib.umich.edu/my-account/favorites' 
 end
 
-get '/settings' do 
-  #session[:uniqname] = 'tutor' #need to get this from cosign?
-  patron = Patron.for(uniqname: session[:uniqname])
-  erb :patron, :locals => {patron: patron}
+namespace '/settings' do 
+  get '' do
+    patron = Patron.for(uniqname: session[:uniqname])
+    erb :patron, :locals => {patron: patron}
+  end
+  post '/history' do
+    response = Patron.set_retain_history(uniqname: session[:uniqname], retain_history: params[:retain_history])
+    if response.code == 200
+      flash[:success] = "<strong>Success:</strong> History Setting Successfully Changed"
+    else
+      flash[:error] = "<strong>Error:</strong> #{response.message}"
+    end
+    redirect "/settings"
+  end
 end
 #TODO set up renew loan to handle renew in place with top part message???
 post '/renew-loan' do
@@ -262,12 +272,12 @@ end
 
 post '/sms' do
   patron = Patron.for(uniqname: session[:uniqname])
-  response = patron.update_sms(params["phone-number"])
+  response = patron.update_sms(params["text-notifications"] == "on" ? params["sms-number"] : "")
   if response.code == 200
-    if params["phone-number"] == ''
-      flash[:success] = "<strong>Success:</strong> SMS Successfully Removed"
-    else
+    if params["text-notifications"] == "on"
       flash[:success] = "<strong>Success:</strong> SMS Successfully Updated"
+    else
+      flash[:success] = "<strong>Success:</strong> SMS Successfully Removed"
     end
   else
     flash[:error] = "<strong>Error:</strong> #{response.message}"

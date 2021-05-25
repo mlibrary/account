@@ -23,7 +23,7 @@ class CircHistoryClient
   end
 
   def set_retain_history(retain_history)
-    self.class.put("users/#{@uniqname}", query: {retain_history: retain_history})
+    self.class.put("/users/#{@uniqname}", query: {retain_history: retain_history})
   end
   
 end

@@ -116,16 +116,18 @@ RSpec.configure do |config|
   Kernel.srand config.seed
 =end
 end
-def stub_circ_history_get_request(url:, output: "{}",status: 200, query: {})
-  stub_request(:get, "#{ENV["CIRCULATION_HISTORY_URL"]}/v1/#{url}").with( 
-    headers: {   
-        accept: 'application/json', 
-        #ApiKey: ENV['ILLIAD_API_KEY'],
-        'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
-        'User-Agent'=>'Ruby'
-    },
-    query: query,
-  ).to_return(body: output, status: status, headers: {content_type: 'application/json'})   
+[:get, :put].each do |name|
+  define_method("stub_circ_history_#{name}_request") do |url:, output: "{}",status: 200, query: {}|
+    stub_request(name, "#{ENV["CIRCULATION_HISTORY_URL"]}/v1/#{url}").with( 
+      headers: {   
+          accept: 'application/json', 
+          #ApiKey: ENV['ILLIAD_API_KEY'],
+          'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+          'User-Agent'=>'Ruby'
+      },
+      query: query,
+    ).to_return(body: output, status: status, headers: {content_type: 'application/json'})   
+  end
 end
 def stub_updater(params)
   query = Authenticator.params_with_signature(params: params)
