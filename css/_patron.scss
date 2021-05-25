@@ -13,7 +13,7 @@ form[method="post"] {
     color: var(--color-pink-500);
   }
 
-  .checkout-history-option {
+  .retain-history-option {
     input[type="radio"] {
       &:checked + label m-icon[name="radio-button-unchecked"] {
         display: none;
