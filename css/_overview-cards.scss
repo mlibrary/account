@@ -55,6 +55,10 @@
   padding: var(--space-medium);
   background: var(--overview-card-icon-background-color);
 
+  m-icon {
+    display: flex;
+  }
+
   svg {
     color: var(--overview-card-icon-color);
     width: var(--space-xx-large);
