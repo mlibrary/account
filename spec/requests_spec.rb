@@ -34,10 +34,10 @@ describe "requests" do
     end
   end
   context "get /" do
-    it "contains 'Welcome'" do
+    it "contains 'Account Overview'" do
       stub_alma_get_request(url: "users/tutor?expand=none&user_id_type=all_unique&view=full")
       get "/"
-      expect(last_response.body).to include("Welcome")
+      expect(last_response.body).to include("Account Overview")
     end
   end
   context "get /current-checkouts" do
