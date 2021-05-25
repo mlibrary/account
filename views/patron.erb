@@ -68,7 +68,7 @@
 
       <p>You can change this preference at any time.</p>
 
-    <% elsif !patron.confirmed_history_setting? %>
+    <% elsif patron.get_record_count > 0 %>
 
       <p>We've been preserving your checkout history since April 2016. If you’d like to continue to keep a record of your checkout history, you can select that option now.</p>
 

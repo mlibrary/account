@@ -25,6 +25,9 @@ class Patron
   def retain_history?
     @circ_history_data["retain_history"]
   end
+  def get_record_count(history=CircHistoryClient.new(uniqname))
+    history.loans["total_record_count"]
+  end
 
   def update_sms(sms, client=AlmaRestClient.client, phone=TelephoneNumber.parse(sms, :US))
     return Error.new(message: "Phone number #{sms} is invalid") unless phone.valid? || sms.empty?
