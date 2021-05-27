@@ -11,6 +11,20 @@ class DateTime
   def self.timestamp
     DateTime.now.strftime('%Q')
   end
+
+end
+
+class LoanDate < Date
+  def due_status
+    diff = (self - Date.today).to_i
+    if diff < 0
+      :overdue
+    elsif diff <= 7
+      :soon
+    else
+      ''
+    end
+  end
 end
 
 class Float

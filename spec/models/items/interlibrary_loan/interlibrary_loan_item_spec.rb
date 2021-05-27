@@ -53,6 +53,25 @@ describe InterlibraryLoanItem do
       expect(subject.expiration_date).to eq('')
     end
   end
+  context "#due_status" do
+    let(:format){"%FT%H:%M:%S.%3N"}
+    it "returns :overdue" do
+      @item["DueDate"] = (Date.today - 1).strftime(format)
+      expect(subject.due_status).to eq(:overdue)
+    end
+    it "returns :due_soon for today" do
+      @item["DueDate"] = (Date.today).strftime(format)
+      expect(subject.due_status).to eq(:soon)
+    end
+    it "returns :due_soon for 7 days" do
+      @item["DueDate"] = (Date.today + 7).strftime(format)
+      expect(subject.due_status).to eq(:soon)
+    end
+    it "returns empty string for far away dates" do
+      @item["DueDate"] = (Date.today + 8).strftime(format)
+      expect(subject.due_status).to eq('')
+    end
+  end
   context "#transaction_date" do
     it "returns transaction date string" do
       expect(subject.transaction_date).to eq("03/09/21")
