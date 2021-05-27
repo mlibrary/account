@@ -95,4 +95,7 @@ class Loan < AlmaItem
   def publication_date
     @parsed_response["publication_year"]
   end
+  def due_status
+    LoanDate.parse(@parsed_response["due_date"]).due_status
+  end
 end

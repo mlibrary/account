@@ -15,7 +15,7 @@
   </caption>
   <thead>
     <tr>
-      <th style="width: 66%;">Title &amp; author</th>
+      <th>Title &amp; author</th>
       <th style="width: 9rem;">Due date</th>
       <th style="width: 5rem;">Actions</th>
     </tr>
@@ -28,6 +28,11 @@
         </td>
         <td>
           <%= interlibrary_loan.expiration_date %>
+          <% if !interlibrary_loan.due_status.empty? %>
+            <span class="tag--<%= interlibrary_loan.due_status == 'Overdue' ? 'fail' : 'warning' %>">
+              <%= interlibrary_loan.due_status %>
+            </span>
+          <% end %>
         </td>
         <td>
           <% if interlibrary_loan.renewable? %>

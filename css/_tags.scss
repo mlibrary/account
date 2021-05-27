@@ -1,14 +1,12 @@
 .tag,
 .tag--fail,
-.tag--success {
-  display: inline-block;
-  padding: var(--space-xx-small) var(--space-x-small);
-  border-radius: 4px;
-}
-
-.tag {
+.tag--success,
+.tag--warning {
+  border-radius: var(--space-xx-small);
   background: var(--color-teal-400);
   color: var(--color-teal-100);
+  display: inline-block;
+  padding: var(--space-xxx-small) var(--space-x-small);
 }
 
 .tag--fail {
@@ -19,4 +17,9 @@
 .tag--success {
   background: var(--color-green-400);
   color: var(--color-green-100);
+}
+
+.tag--warning {
+  background: var(--color-maize-200);
+  color: var(--color-neutral-400);
 }
