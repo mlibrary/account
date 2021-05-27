@@ -191,7 +191,7 @@ namespace '/pending-requests' do
     erb :interlibrary_loan_requests, :locals => { interlibrary_loan_requests: interlibrary_loan_requests }
   end
   get '/special-collections' do
-    erb :past_loans, :locals => { past_loans: {} }
+    erb :special_collections_requests, :locals => { special_collections_requests: {} }
   end
 end
 
