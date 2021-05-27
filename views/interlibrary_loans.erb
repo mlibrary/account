@@ -28,6 +28,11 @@
         </td>
         <td>
           <%= interlibrary_loan.expiration_date %>
+          <% if !interlibrary_loan.due_status.empty? %>
+            <span class="tag--<%= interlibrary_loan.due_status == :overdue ? 'fail' : 'warning' %>">
+              <%= interlibrary_loan.due_status %>
+            </span>
+          <% end %>
         </td>
         <td>
           <% if interlibrary_loan.renewable? %>
