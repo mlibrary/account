@@ -18,9 +18,9 @@ class LoanDate < Date
   def due_status
     diff = (self - Date.today).to_i
     if diff < 0
-      :overdue
+      "Overdue"
     elsif diff <= 7
-      :soon
+      "Due Soon"
     else
       ''
     end
