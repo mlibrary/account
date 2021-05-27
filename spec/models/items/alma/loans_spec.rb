@@ -162,6 +162,25 @@ describe Loan do
       expect(subject.due_date).to eq("07/08/18")
     end
   end
+  context "#due_status" do
+    it "returns :overdue" do
+      @loan_response["due_date"] = (Date.today - 1).strftime("%FT%H:%M:%SZ")
+      expect(subject.due_status).to eq(:overdue)
+    end
+    it "returns :due_soon for today" do
+      @loan_response["due_date"] = (Date.today).strftime("%FT%H:%M:%SZ")
+      expect(subject.due_status).to eq(:soon)
+    end
+    it "returns :due_soon for 7 days" do
+      @loan_response["due_date"] = (Date.today + 7).strftime("%FT%H:%M:%SZ")
+      expect(subject.due_status).to eq(:soon)
+    end
+    it "returns empty string for far away dates" do
+      @loan_response["due_date"] = (Date.today + 8).strftime("%FT%H:%M:%SZ")
+      expect(subject.due_status).to eq('')
+    end
+    
+  end
   context "#loan_id" do
     it "returns loan_id string" do
       expect(subject.loan_id).to eq("1332733700000521")

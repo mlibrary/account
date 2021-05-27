@@ -95,4 +95,14 @@ class Loan < AlmaItem
   def publication_date
     @parsed_response["publication_year"]
   end
+  def due_status
+    diff = (Date.parse(@parsed_response["due_date"]) - Date.today).to_i
+    if diff < 0
+      :overdue
+    elsif diff <= 7
+      :soon
+    else
+      ''
+    end
+  end
 end
