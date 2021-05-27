@@ -59,7 +59,7 @@
         <td data-loan-due-date="<%=loan.loan_id%>">
           <%= loan.due_date %>
           <% if !loan.due_status.empty? %>
-            <span class="tag--<%= loan.due_status == :overdue ? 'fail' : 'warning' %>">
+            <span class="tag--<%= loan.due_status == 'Overdue' ? 'fail' : 'warning' %>">
               <%= loan.due_status %>
             </span>
           <% end %>
