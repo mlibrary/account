@@ -23,7 +23,7 @@ class EmptyState
     if current_parent.empty_state
       empty_state = current_parent.empty_state["#{prop}"] || empty_state
     end
-    if current_parent.children.find{|page| page.active? }.empty_state
+    if !current_parent.children.nil? && current_parent.children.find{|page| page.active? }.empty_state
       empty_state = current_parent.children.find{|page| page.active? }.empty_state["#{prop}"] || empty_state
     end
     empty_state
