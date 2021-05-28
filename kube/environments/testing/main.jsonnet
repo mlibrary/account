@@ -11,7 +11,10 @@
 
   _images+:: {
     patron_account: {
-      web: 'mlibrary/patron-account-unstable',
+      web: 'mlibrary/patron-account-unstable:latest',
     },
   },
-}
+} +
+(import 'ksonnet-util/kausal.libsonnet') +
+(import 'patron-account/testing-config.libsonnet') +
+(import 'patron-account/patron-account.libsonnet')
