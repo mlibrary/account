@@ -1,7 +1,9 @@
 (import 'ksonnet-util/kausal.libsonnet') +
 (import './config.libsonnet') +
 (import './envVar.libsonnet') +
+(import './testing-config.libsonnet') +
 {
+  local configMap = $.core.v1.configMap,
   local deploy = $.apps.v1.deployment,
   local container = $.core.v1.container,
   local port = $.core.v1.containerPort,
@@ -9,6 +11,10 @@
 
   local config = $._config.patron_account,
   local images = $._images.patron_account,
+  
+
+  configMap: configMap.new("testing-config") +
+             configMap.withData($.configMapData),
 
   patron_account: {
     web: {
@@ -19,7 +25,8 @@
           container.new(config.web.name, images.web)
           + container.withPorts(
             [port.new('ui', config.web.port)]
-          ) + container.withEnv( $._envVar,),
+          ) + container.withEnvFrom( {configMapRef: { name: 'testing-config' }} 
+          ) + container.withEnv( $._envVar,), 
         ]
       ),
 
