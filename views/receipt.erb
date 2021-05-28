@@ -1,8 +1,57 @@
-<h1>Receipt</h1>
+<h1>Payment summary</h1>
 
 <% if receipt.valid? %>
-  <%= payment.payer_name %></br>
-  <%= items.first.title %>
-<% else %>
-  Could not validate
+  <p>Please review the details for this transaction.</p>
+  <h2>Your details</h2>
+  <address>
+    <%= payment.payer_name %></br>
+    <%= payment.email %></br>
+    <%= payment.street %></br>
+    <%= payment.city %>, <%= payment.state %> <%= payment.zip %>
+  </address>
+  <h2>Payment details</h2>
+  <ul class="no-list-style">
+    <li><strong>Order description:</strong> <%= payment.description %></li>
+    <li><strong>Confirmation number:</strong> <%= payment.orderNumber %></li>
+    <li><strong>Date:</strong> <%= payment.date %></li>
+    <li><strong>Account type:</strong> <%= payment.type %></li>
+    <li><strong>Amount:</strong> <%= payment.amount %></li>
+  </ul>
+  <div class="table-container">
+    <table>
+      <thead>
+        <tr>
+          <th>Title &amp; author</th>
+          <th style="width: 8rem;">Type</th>
+          <th style="width: 6rem;">Fine</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% items.each do |item| %>
+          <tr>
+            <td>
+              <%= item.title %>
+            </td>
+            <td>
+              <%= item.type %>
+            </td>
+            <td>
+              <%= item.balance %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="2" style="text-align: right;">
+            <span class="h2">Total</span>
+          <td>
+          <td >
+            <span class="h2"><%= payment.amount %></span>
+          <td>
+        </tr>
+      </tfoot>
+    </table>
+    <p>If you have a question about your payment, please contact staff at the <a href="https://www.lib.umich.edu/locations-and-hours/hatcher-library/hatcher-north-information-services-desk">Hatcher North Information Services Desk</a>.</p>
+  </div>
 <% end %>
