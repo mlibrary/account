@@ -51,7 +51,7 @@ class Receipt
       @payer_name = params["accountHolderName"]
       @transaction_message = params["transactionResultMessage"]
       @email = params["email"]
-      @date = DateTime.parse(params["transactionDate"]).strftime("%b %d, %Y %H:%M")
+      @date = DateTime.parse(params["transactionDate"]).strftime("%B %e, %Y")
       @street = [params["streetOne"], params["streetTwo"]].select{|x| !x.empty?}.join('<br/>')
       @city = params["city"]
       @state = params["state"]
