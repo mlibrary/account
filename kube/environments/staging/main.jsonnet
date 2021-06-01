@@ -11,7 +11,7 @@
 
   _images+:: {
     patron_account: {
-      web: 'mlibrary/patron-account-unstable:latest',
+      web: 'docker.pkg.github.com/mlibrary/patron_account/patron_account:latest',
     },
   },
 } +

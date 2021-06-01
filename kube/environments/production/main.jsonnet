@@ -12,7 +12,7 @@
   _images+:: {
     patron_account: {
       /* specific commit hash for deploying */
-      web: 'mlibrary/patron-account-unstable',
+      web: 'docker.pkg.github.com/mlibrary/patron_account/patron_account',
     },
   },
 } +
