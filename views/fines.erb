@@ -7,30 +7,29 @@
 <% elsif %>
   <p>You are charged <a href="https://lib.umich.edu/find-borrow-request/borrow-and-return/reminders-and-overdue-items">overdue fines</a> for high-use materials that are returned late. This includes material from the Askwith Media Library, course reserves, and other items that have been "recalled" or are lost or damaged.</p>
 
-  <form action="/fines-and-fees/pay" method="post">
+  <form action="/fines-and-fees/pay" method="post" class="owl">
     <div class="table-container">
       <table>
         <thead>
           <tr>
-            <th>Select</th>
-            <th>Title & Author</th>
-            <th>Status</th>
-            <th>Fine</th>
+            <th style="width: 6rem;">Select</th>
+            <th>Title &amp; Author</th>
+            <th style="width: 8rem;">Type</th>
+            <th style="width: 6rem;">Fine</th>
           </tr>
         </thead>
         <tbody>
         <% fines.each_with_index do |fine,index| %>
           <tr>
-            <td><input type="checkbox" name="fines[<%=index%>]" value="<%=fine.id%>" id="<%=fine.id%>"></td>
+            <td><input type="checkbox" name="fines[<%=index%>]" value="<%=fine.id%>" id="<%=fine.id%>" aria-label="Select to pay <%=fine.id%>"></td>
             <td><%= fine.title %></td>
             <td><%= fine.type %></td>
-            <td><%= fine.balance %></td>
+            <td><span style="color: var(--color-pink-500);">$<%= fine.balance %></span></td>
           </tr>
         <% end %>
         </tbody>
       </table>
     </div>
-
 
     <p>Your total due is <strong>$<%=fines.total_sum_in_dollars%></strong></p>
 
@@ -39,6 +38,5 @@
     <p><strong>Payments made are non-refundable</strong>.</p>
     
     <p>If you have a question about your account or would like to contest a fine, please contact us at the <a href="https://lib.umich.edu/locations-and-hours/hatcher-library/hatcher-north-information-services-desk">Hatcher North Information Services Desk</a> before making payments.</p>
-
   </form>
 <% end %>
