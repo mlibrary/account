@@ -1,0 +1,22 @@
+name: Build latest from main
+
+on:
+  push:
+    #    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: craftech-io/package-action@v3.1.0
+      name: build patron-account
+      id: url-GPR
+      with:
+        access_token: ${{ secrets.GITHUB_TOKEN }}
+        image_name: patron_account
+        tags: |
+          latest
+          ${{ github.sha }}
+    - name: output
+      run: echo ${{ steps.url-GPR.outputs.imageURL }}  
