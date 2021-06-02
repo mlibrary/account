@@ -22,12 +22,24 @@ describe Navigation do
     end
     it "returns HorizontalNav with correct number of child page and correct section" do
       @current_path = '/current-checkouts/checkouts' 
-      expect(subject.pages.count).to eq(3)
+      expect(subject.children.count).to eq(3)
       expect(subject.section).to eq('Current Checkouts')
     end
     it "doesn't return a horizonal nav for a top level page" do
       @current_path = '/current-checkouts'
       expect(subject).to be_nil
+    end
+  end
+  context "#title" do
+    before(:each) do
+      @current_path = nil
+    end
+    subject do
+      described_class.new(@current_path).title
+    end
+    it "returns the active page's title" do
+      @current_path = '/fines-and-fees'
+      expect(subject).to eq('Fines and Fees')
     end
   end
 end

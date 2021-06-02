@@ -17,6 +17,9 @@ class Navigation
       HorizontalNav.new(top_level_page)
     end
   end
+  def title
+    @pages.detect{|page| page.active? }.title
+  end
 end
 class Page
   attr_reader :title, :description, :icon_name, :color, :children, :empty_state
@@ -66,15 +69,15 @@ class Page
   end
 end
 class HorizontalNav
-  attr_reader :pages
+  attr_reader :children
   def initialize(parent)
     @parent = parent
-    @pages = parent.children
+    @children = parent.children
   end
   def section
     @parent.title
   end
   def title
-    @pages.detect{|page| page.active? }.title
+    @children.detect{|child| child.active? }.title
   end
 end
