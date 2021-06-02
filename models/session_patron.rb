@@ -6,7 +6,6 @@ class SessionPatron
   def to_h
     {
       uniqname: @patron.uniqname,
-      full_name: @patron.full_name,
       can_book: @patron.can_book?,
       confirmed_history_setting: @patron.confirmed_history_setting?
     }
