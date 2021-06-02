@@ -3,6 +3,8 @@ require 'sinatra/namespace'
 require "sinatra/reloader"
 require "sinatra/flash"
 require 'redcarpet'
+require 'omniauth'
+require 'omniauth_openid_connect'
 require "alma_rest_client"
 require 'jwt'
 require 'byebug' 
@@ -48,8 +50,57 @@ require_relative "./models/items/interlibrary_loan/past_interlibrary_loans"
 helpers StyledFlash
 
 enable :sessions
+set :session_secret, ENV['RACK_COOKIE_SECRET'] 
 set server: 'thin', connections: []
 
+use OmniAuth::Builder do
+  provider :openid_connect, {
+    issuer: 'https://weblogin.lib.umich.edu',
+    discovery: true,
+    client_auth_method: 'jwks',
+    scope: [:openid, :profile, :email],
+    client_options: {
+      identifier: 'patron-account-testing',
+      secret: ENV['WEBLOGIN_SECRET'],
+      redirect_uri: "#{ENV['PATRON_ACCOUNT_BASE_URL']}/auth/openid_connect/callback"
+    }
+  }
+end
+
+get '/auth/openid_connect/callback' do
+  auth = request.env['omniauth.auth']
+  info = auth[:info]
+  session[:authenticated] = true
+  session[:uniqname] = info[:nickname]
+  session[:expires_at] = Time.now.utc + auth.credentials.expires_in
+  redirect '/'
+end
+
+get '/auth/failure' do
+  "You are not authorized"
+end
+
+before  do
+  pass if ['auth', 'stream', 'updater', 'session_switcher'].include? request.path_info.split('/')[1]
+  if dev_login?
+    if !session[:uniqname]
+      redirect "/session_switcher?uniqname=#{URI.escape('mlibrary.acct.testing1@gmail.com')}"
+    end
+    pass
+  end
+  if !session[:authenticated] || Time.now.utc > session[:expires_at]
+    redirect '/auth/openid_connect'
+  end
+end
+
+helpers do
+  def weblogin?
+    ENV['WEBLOGIN_ON'] == "true" && settings.environment == :development
+  end
+  def dev_login?
+    !weblogin?
+  end
+end
 
 get '/stream', provides: 'text/event-stream' do
   stream :keep_open do |out|
@@ -76,10 +127,10 @@ post '/table-controls' do
   redirect urlGenerator.to_s
 end
 # :nocov:
-post '/session_switcher' do
+get '/session_switcher' do
   patron = SessionPatron.new(params[:uniqname])
   patron.to_h.each{|k,v| session[k] = v}
-  redirect '/'
+  redirect back
 end
 get '/receipt_test' do
   items = [{ "id"=>"1384289260006381", "balance"=>"5.00", "title"=>"Short history of Georgia.", "barcode"=>"95677", "library"=>"Main Library", "type"=>"Overdue fine", "creation_time"=>"2020-12-09T17:13:29.959Z" }]
@@ -97,26 +148,7 @@ end
 # :nocov:
 
 get '/' do
-  if !session[:uniqname]
-    patron = SessionPatron.new('mlibrary.acct.testing1@gmail.com')
-    patron.to_h.each{|k,v| session[k] = v}
-  end
-  test_users = [
-    {
-      label: 'Graduate student (few)',
-      value: 'mlibrary.acct.testing2@gmail.com'
-    },
-    {
-      label: "Faculty (many)",
-      value: 'mlibrary.act.testing1@gmail.com'
-    },
-    {
-      label: "New student (none)",
-      value: 'mlibrary.acct.testing3@gmail.com'
-    }
-  ]
-
-  erb :home, :locals => { test_users: test_users, navigation: Navigation.new}
+  erb :home, :locals => { navigation: Navigation.new}
 end
 
 namespace '/current-checkouts' do
@@ -129,7 +161,6 @@ namespace '/current-checkouts' do
   end
 
   get '/u-m-library' do
-    session[:uniqname] = 'tutor' if !session[:uniqname] 
     loan_controls = TableControls::LoansForm.new(limit: params["limit"], order_by: params["order_by"], direction: params["direction"])
     loans = Loans.for(uniqname: session[:uniqname], offset: params["offset"], limit: params["limit"], order_by: params["order_by"], direction: params["direction"])
     message = session.delete(:message)
@@ -168,7 +199,6 @@ namespace '/pending-requests' do
   end
 
   get '/u-m-library' do
-    session[:uniqname] = 'tutor' if !session[:uniqname] 
     requests = Requests.for(uniqname: session[:uniqname])
 
     erb :requests, :locals => { holds: requests.holds, bookings: requests.bookings }
@@ -208,7 +238,6 @@ namespace '/past-activity' do
 
   namespace '/u-m-library' do
     get '' do
-      session[:uniqname] = 'tutor' if !session[:uniqname] 
       table_controls = TableControls::PastLoansForm.new(limit: params["limit"], order_by: params["order_by"], direction: params["direction"])
       past_loans = CirculationHistoryItems.for(uniqname: session[:uniqname], offset: params["offset"], limit: params["limit"], order_by: params["order_by"], direction: params["direction"])
       erb :past_loans, :locals => {past_loans: past_loans, table_controls: table_controls}

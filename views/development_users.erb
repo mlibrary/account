@@ -1,0 +1,34 @@
+  <% test_users = [
+    {
+      label: 'Graduate student (few)',
+      value: 'mlibrary.acct.testing2@gmail.com'
+    },
+    {
+      label: "Faculty (many)",
+      value: 'mlibrary.acct.testing1@gmail.com'
+    },
+    {
+      label: "New student (none)",
+      value: 'mlibrary.acct.testing3@gmail.com'
+    }
+  ]
+%>
+  <div class="message-callout">
+    <div class="prose owl">
+      <h2 style="margin-top: 0;">design & development options</h2>
+  
+      <form method="get" action="/session_switcher" class="prose owl">
+        <label for="test-user">
+          <p>Active user account:</p>
+        </label>
+  
+        <select id="test-user" name="uniqname">
+          <% test_users.each do |user| %>
+            <option value="<%=user[:value]%>"><%=user[:label]%></option>
+            <% end %>
+        </select>
+  
+        <button>Save</button>
+      </form>
+    </div>
+  </div>

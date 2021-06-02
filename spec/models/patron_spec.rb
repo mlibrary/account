@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'json' 
 
 describe Patron do
-  context "found uniqname" do
+  context "found uniqname and circ history" do
     before(:each) do
       @alma_response = JSON.parse(File.read('./spec/fixtures/mrio_user_alma.json'))
       @circ_history_response = JSON.parse(File.read('./spec/fixtures/circ_history_user.json'))
@@ -137,6 +137,14 @@ describe Patron do
         expect(subject.sms_number?).to eq(false)
       end
     end
+    context "#email" do
+      it "returns preferred email address" do
+        expect(subject.email_address).to eq("mrio@umich.edu")
+      end
+      it "returns nil if no preferred email address" do
+        @alma_response["contact_info"]["email"][0]["preferred"] = false
+      end
+    end
     context "#addresses" do
       it "returns an array of addresses" do
         expect(subject.addresses.class.name).to eq('Array')
@@ -160,6 +168,34 @@ describe Patron do
       end
     end
   end
+  context "has alma; does not have circ history" do
+    before(:each) do
+      @alma_response = JSON.parse(File.read('./spec/fixtures/mrio_user_alma.json'))
+      @circ_history_response = JSON.parse(File.read('./spec/fixtures/circ_history_user.json'))
+      @patron_url = "users/mrio?user_id_type=all_unique&view=full&expand=none"
+      stub_alma_get_request(
+        url: @patron_url, 
+        body: @alma_response.to_json
+      )
+      stub_circ_history_get_request(
+        status: 400,
+        url: 'users/mrio',
+      )
+    end
+    subject do
+      Patron.for(uniqname: 'mrio')
+    end
+    context "#confirmed_history_setting?" do
+      it "is false" do
+        expect(subject.confirmed_history_setting?).to eq(false)
+      end
+    end
+    context "#retain_history?" do
+      it "is false" do
+        expect(subject.retain_history?).to eq(false)
+      end
+    end
+  end
   context "nonexistent uniqname" do
     before(:each) do
       @alma_response = File.read('./spec/fixtures/alma_error.json')
@@ -176,12 +212,22 @@ describe Patron do
     subject do
       Patron.for(uniqname: 'mrioaaa')
     end
-    context "#code" do
-      it "returns error code" do
-        expect(subject.code).to eq(400)
-        expect(subject.message).to eq('User with identifier mrioaaa was not found.')
+    ['in_alma?', 'can_book?', 'confirmed_history_setting?','retain_history?'].each do |method|
+      context "##{method}" do
+        it "returns false" do
+          expect(subject.send(method)).to eq(false)
+        end
       end
     end
+    ['email_address', 'sms_number','sms_number?', 'full_name', 'user_group',
+      'addresses'].each do |method|
+      context "##{method}" do
+        it "returns nil" do
+          expect(subject.send(method)).to be_nil
+        end
+      end
+    end
+    
   end
 end
 describe Patron, ".set_retain_history" do

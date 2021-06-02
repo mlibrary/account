@@ -30,9 +30,11 @@
       <article class="site-layout__center owl prose">
         <%= patron_styled_flash %>
 
-        
-
         <%= yield %>
+        
+        <% if dev_login? %>
+          <%= erb :development_users %>
+        <% end %>
       </article>
     </main>
     <footer class="site-footer">

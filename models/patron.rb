@@ -9,12 +9,18 @@ class Patron
     url = "/users/#{uniqname}?user_id_type=all_unique&view=full&expand=none" 
     alma_response = alma_client.get(url)
     circ_history_response = circ_history_client.user_info
-    if alma_response.code == 200 && circ_history_response.code == 200
-      Patron.new(alma_data: alma_response.parsed_response, circ_history_data: circ_history_response.parsed_response)
+    if alma_response.code == 200 
+      if circ_history_response.code == 200
+        Patron.new(alma_data: alma_response.parsed_response, circ_history_data: circ_history_response.parsed_response)
+      else
+        Patron.new(alma_data: alma_response.parsed_response, circ_history_data: {"confirmed" => false, "retain_history" => false})
+      end
     else
-      #should be something else
-      AlmaError.new(alma_response)
+      NotInAlma.new(uniqname)
     end
+  end
+  def in_alma?
+    true
   end
   def self.set_retain_history(uniqname:, retain_history:, circ_history_client: CircHistoryClient.new(uniqname))
     circ_history_client.set_retain_history(retain_history)
@@ -28,9 +34,6 @@ class Patron
   def circulation_history_text
     CirculationHistorySettingsText.for(retain_history: retain_history?, confirmed_history_setting: confirmed_history_setting?)
   end
-  def get_record_count(history=CircHistoryClient.new(uniqname))
-    history.loans["total_record_count"]
-  end
 
   def update_sms(sms, client=AlmaRestClient.client, phone=TelephoneNumber.parse(sms, :US))
     return Error.new(message: "Phone number #{sms} is invalid") unless phone.valid? || sms.empty?
@@ -41,6 +44,9 @@ class Patron
 
   def uniqname
     @alma_data["primary_id"]&.downcase
+  end
+  def email_address
+    @alma_data.dig("contact_info","email")&.find(-> {{}}){|x| x["preferred"]}&.dig("email_address")
   end
   def sms_number
     @alma_data.dig("contact_info","phone")&.find(-> {{}}){|x| x["preferred_sms"]}&.dig("phone_number")
@@ -123,4 +129,23 @@ class Patron
       }
     end
   end
+  class NotInAlma < self
+    attr_reader :uniqname
+    def initialize(uniqname)
+      @uniqname = uniqname
+    end
+    ['in_alma?', 'can_book?', 'confirmed_history_setting?','retain_history?'].each do |name|
+      define_method(name) do
+        false
+      end
+    end
+    
+    ['email_address', 'sms_number', 'sms_number?', 'full_name', 'user_group', 'addresses'].each do |name|
+      define_method(name) do
+        nil
+      end
+    end
+    
+  end
 end
+
