@@ -94,11 +94,8 @@ before  do
 end
 
 helpers do
-  def weblogin?
-    ENV['WEBLOGIN_ON'] == "true" && settings.environment == :development
-  end
   def dev_login?
-    !weblogin?
+    ENV['WEBLOGIN_ON'] == "false" && settings.environment == :development
   end
 end
 
