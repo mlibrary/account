@@ -3,7 +3,7 @@
   horizontal_nav = nav.horizontal_nav
 %>
 
-<% if horizontal_nav.nil? %>
+<% if horizontal_nav.nil? || horizontal_nav.section == 'Fines and Fees' %>
 
   <h1><%=nav.title%></h1>
 
