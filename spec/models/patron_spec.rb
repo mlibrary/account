@@ -137,6 +137,14 @@ describe Patron do
         expect(subject.sms_number?).to eq(false)
       end
     end
+    context "#email" do
+      it "returns preferred email address" do
+        expect(subject.email_address).to eq("mrio@umich.edu")
+      end
+      it "returns nil if no preferred email address" do
+        @alma_response["contact_info"]["email"][0]["preferred"] = false
+      end
+    end
     context "#addresses" do
       it "returns an array of addresses" do
         expect(subject.addresses.class.name).to eq('Array')

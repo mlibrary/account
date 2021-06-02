@@ -42,6 +42,9 @@ class Patron
   def uniqname
     @alma_data["primary_id"]&.downcase
   end
+  def email_address
+    @alma_data.dig("contact_info","email")&.find(-> {{}}){|x| x["preferred"]}&.dig("email_address")
+  end
   def sms_number
     @alma_data.dig("contact_info","phone")&.find(-> {{}}){|x| x["preferred_sms"]}&.dig("phone_number")
   end
