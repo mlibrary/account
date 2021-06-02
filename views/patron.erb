@@ -51,38 +51,7 @@
 
   <form class="owl" method="post" action="/settings/history">
     <h2>Checkout History</h2>
-
-    <% if patron.retain_history? %>
-
-      <p>You have chosen to keep a record of your <a href="/past-activity/u-m-library">checkout history</a>.</p>
-
-      <p>If you would like us to delete your checkout history and stop adding items to it, please update your preferences.</p>
-
-      <p>You can change this preference at any time.</p>
-
-    <% elsif !patron.retain_history? %>
-
-      <p>You have chosen not to keep a record of your <a href="/past-activity/u-m-library">checkout history</a>.</p>
-
-      <p>If you would like us to start adding items to your checkout history, please update your preferences.</p>
-
-      <p>You can change this preference at any time.</p>
-
-    <% elsif patron.get_record_count > 0 %>
-
-      <p>We've been preserving your <a href="/past-activity/u-m-library">checkout history</a> since April 2016. If you’d like to continue to keep a record of your checkout history, you can select that option now.</p>
-
-      <p>If you prefer to have your checkout history deleted and no longer record future checkouts, you can opt-out.</p>
-
-      <p>You can change this preference at any time.</p>
-
-    <% else %>
-
-      <p>You can choose to either keep a record of your <a href="/past-activity/u-m-library">checkout history</a>, or opt out of having one.</p>
-      
-      <p>You can change this preference at any time.</p>
-
-    <% end %>
+    <%=patron.circulation_history_text%>
 
     <div class="retain-history-options owl">
       <div class="retain-history-option">

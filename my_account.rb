@@ -2,6 +2,7 @@ require 'sinatra'
 require 'sinatra/namespace'
 require "sinatra/reloader"
 require "sinatra/flash"
+require 'redcarpet'
 require "alma_rest_client"
 require 'jwt'
 require 'byebug' 
@@ -15,6 +16,7 @@ require_relative "./lib/publisher"
 require_relative "./lib/table_controls.rb"
 require_relative "./lib/pagination/pagination"
 require_relative "./lib/pagination/pagination_decorator"
+require_relative "./lib/circulation_history_settings_text"
 
 
 require_relative "./models/patron"

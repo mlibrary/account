@@ -94,6 +94,7 @@ GEM
       rack
     rack-test (1.1.0)
       rack (>= 1.0, < 3)
+    redcarpet (3.5.1)
     rexml (3.2.5)
     rspec (3.10.0)
       rspec-core (~> 3.10.0)
@@ -169,6 +170,7 @@ DEPENDENCIES
   pry
   pry-byebug
   rack-test
+  redcarpet
   rspec
   simplecov
   sinatra

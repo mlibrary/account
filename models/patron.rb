@@ -25,6 +25,9 @@ class Patron
   def retain_history?
     @circ_history_data["retain_history"]
   end
+  def circulation_history_text
+    CirculationHistorySettingsText.for(retain_history: retain_history?, confirmed_history_setting: confirmed_history_setting?)
+  end
   def get_record_count(history=CircHistoryClient.new(uniqname))
     history.loans["total_record_count"]
   end
