@@ -11,11 +11,14 @@ class Navigation
   end
   def horizontal_nav
     path_elements = @current_path&.split('/')[1..-1] || []
-    if path_elements.count == 2
+    if path_elements.count == 2 && !@current_path.match?('/fines-and-fees/receipt')
       top_level_slug = path_elements.first
       top_level_page = @pages.find{|x| x.slug == top_level_slug }
       HorizontalNav.new(top_level_page)
     end
+  end
+  def title
+    @pages.detect{|page| page.active? }.title
   end
 end
 class Page
@@ -66,15 +69,15 @@ class Page
   end
 end
 class HorizontalNav
-  attr_reader :pages
+  attr_reader :children
   def initialize(parent)
     @parent = parent
-    @pages = parent.children
+    @children = parent.children
   end
   def section
     @parent.title
   end
   def title
-    @pages.detect{|page| page.active? }.title
+    @children.detect{|child| child.active? }.title
   end
 end

@@ -1,19 +1,28 @@
 <%
-  nav = Navigation.new(request.path_info).horizontal_nav
+  nav = Navigation.new(request.path_info)
+  horizontal_nav = nav.horizontal_nav
 %>
 
-<h1 aria-hidden="true"><%=nav.section%></h1>
+<% if horizontal_nav.nil?%>
 
-<nav aria-labelledby="main-heading" class="horizontal-navigation-container">
-  <h1 class="h2 horizontal-heading" id="main-heading"><span class="visually-hidden"><%=nav.section%>: </span><%=nav.title%></h1>
+  <h1><%=nav.title%></h1>
 
-  <ul class="horizontal-navigation-list">
-      <% nav.pages.each do |page| %>
-        <li>
-          <a href="<%=page.path%>" class="<%=page.active%>" >
-            <%=page.title%>
-          </a>
-        </li>
-      <% end %>
-  </ul>
-</nav>
+<% else %>
+
+  <h1 aria-hidden="true"><%=horizontal_nav.section%></h1>
+
+  <nav aria-labelledby="main-heading" class="horizontal-navigation-container">
+    <h1 class="h2 horizontal-heading" id="main-heading"><span class="visually-hidden"><%=horizontal_nav.section%>: </span><%=horizontal_nav.title%></h1>
+
+    <ul class="horizontal-navigation-list">
+        <% horizontal_nav.children.each do |child| %>
+          <li>
+            <a href="<%=child.path%>" class="<%=child.active%>" >
+              <%=child.title%>
+            </a>
+          </li>
+        <% end %>
+    </ul>
+  </nav>
+
+<% end %>

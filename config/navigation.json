@@ -95,6 +95,11 @@
     "description": "View and pay fines for overdue, lost, and damaged items.",
     "icon_name": "attach-money",
     "color": "indigo",
+    "children": [
+      {
+        "title": "Receipt"
+      }
+    ],
     "empty_state": {
       "heading": "You don't have any fines.",
       "message": "Fines are charged for overdue, lost, and damaged items."
