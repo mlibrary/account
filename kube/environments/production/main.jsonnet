@@ -4,7 +4,7 @@
       web: {
         name: 'web',
         port: 4567,
-        host: 'accounts.lib.umich.edu',
+        host: 'account.lib.umich.edu',
       },
     },
   },

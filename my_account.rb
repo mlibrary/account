@@ -60,7 +60,7 @@ use OmniAuth::Builder do
     client_auth_method: 'jwks',
     scope: [:openid, :profile, :email],
     client_options: {
-      identifier: 'patron-account-testing',
+      identifier: ENV['WEBLOGIN_ID'],
       secret: ENV['WEBLOGIN_SECRET'],
       redirect_uri: "#{ENV['PATRON_ACCOUNT_BASE_URL']}/auth/openid_connect/callback"
     }
