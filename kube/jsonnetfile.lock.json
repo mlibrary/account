@@ -8,8 +8,18 @@
           "subdir": "ksonnet-util"
         }
       },
-      "version": "cb8787cd974c4291ee6aa2c17f211010429da554",
-      "sum": "TGgjbv8oGfmMNjfvcgxi2cX9RAJKGZnYGLEhzK2wNjM="
+      "version": "188bf1e03f0c7dcaaa53b916459a8afdc24a2c83",
+      "sum": "jelt5QWEerVPLHHZN6Ga0B4OQ/MLBl+OLj3kVzTET+Y="
+    },
+    {
+      "source": {
+        "git": {
+          "remote": "https://github.com/jsonnet-libs/k8s-alpha.git",
+          "subdir": "1.18"
+        }
+      },
+      "version": "50fa5748382fbc0d6fb34105835fd07acaf0195f",
+      "sum": "kcPvBqhHxz+yZXbyBmhTSeIDrd0tJAaiXvRlU7TVFqU="
     },
     {
       "source": {

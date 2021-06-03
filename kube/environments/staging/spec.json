@@ -1,0 +1,13 @@
+{
+  "apiVersion": "tanka.dev/v1alpha1",
+  "kind": "Environment",
+  "metadata": {
+    "name": "default"
+  },
+  "spec": {
+    "apiServer": "https://hatcher.kubernetes.lib.umich.edu",
+    "namespace": "patron-account-staging",
+    "resourceDefaults": {},
+    "expectVersions": {}
+  }
+}

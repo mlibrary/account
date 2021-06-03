@@ -13,8 +13,8 @@
     {
       "source": {
         "git": {
-          "remote": "https://github.com/ksonnet/ksonnet-lib.git",
-          "subdir": "ksonnet.beta.4"
+          "remote": "https://github.com/jsonnet-libs/k8s-alpha.git",
+          "subdir": "1.18"
         }
       },
       "version": "master"
