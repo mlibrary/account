@@ -6,7 +6,7 @@
   },
   "spec": {
     "apiServer": "https://hatcher.kubernetes.lib.umich.edu",
-    "namespace": "patron-account-production",
+    "namespace": "patron-account",
     "resourceDefaults": {},
     "expectVersions": {}
   }
