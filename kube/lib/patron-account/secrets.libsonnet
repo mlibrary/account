@@ -1,4 +1,4 @@
-local arr = std.parseJson(importstr './env.json');
+local arr = std.parseJson(importstr './secrets.json');
 {
   _functions::{
     secret(name, key): {
@@ -11,7 +11,7 @@ local arr = std.parseJson(importstr './env.json');
       }
     },
   },
-  _envVar::[
+  _secrets::[
      $._functions.secret(x.name, x.key),
    for x in arr 
   ],

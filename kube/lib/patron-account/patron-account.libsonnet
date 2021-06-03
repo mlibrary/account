@@ -1,4 +1,4 @@
-(import './envVar.libsonnet') +
+(import './secrets.libsonnet') +
 {
   local configMap = $.core.v1.configMap,
   local deployment = $.apps.v1.deployment,
@@ -26,7 +26,7 @@
           container.withPorts(
             [port.new('ui', config.web.port)]
           ) + container.withEnvFrom( {configMapRef: { name: 'patron-account-config' }} 
-          ) + container.withEnv( $._envVar + 
+          ) + container.withEnv( $._secrets + 
               [ { 
                   name: 'PATRON_ACCOUNT_BASE_URL', 
                   value: 'https://' + config.web.host, 
