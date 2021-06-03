@@ -59,7 +59,7 @@ class Fine
     @parsed_response["title"]
   end
   def barcode
-    @parsed_response["barcode"]["value"]
+    @parsed_response.dig("barcode","value")
   end
   def date
     DateTime.patron_format(@parsed_response["creation_time"])
