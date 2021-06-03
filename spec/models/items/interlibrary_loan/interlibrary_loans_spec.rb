@@ -4,7 +4,7 @@ require 'json'
 describe InterlibraryLoans do
   context "one loan" do
     before(:each) do
-      stub_illiad_get_request(url: 'Transaction/UserRequests/testhelp', body: File.read('./spec/fixtures/illiad_requests.json'), query: {limit: 15})
+      stub_illiad_get_request(url: 'Transaction/UserRequests/testhelp', body: File.read('./spec/fixtures/illiad_requests.json'), query: {top: 15})
     end
     subject do
       InterlibraryLoans.for(uniqname: 'testhelp')
@@ -36,10 +36,10 @@ describe InterlibraryLoans do
   end
   context "pagination" do
     before(:each) do
-      stub_illiad_get_request(url: 'Transaction/UserRequests/testhelp', body: File.read('./spec/fixtures/illiad_requests.json'), query: {"offset" => 1, "limit" => 1} )
+      stub_illiad_get_request(url: 'Transaction/UserRequests/testhelp', body: File.read('./spec/fixtures/illiad_requests.json'), query: {"skip" => 1, "top" => 1} )
     end
     subject do
-      InterlibraryLoans.for(uniqname: 'testhelp', offset: 1, limit: 1)
+      InterlibraryLoans.for(uniqname: 'testhelp', skip: 1, top: 1)
     end
     context "#count" do
       it "returns total count for loans" do
@@ -47,7 +47,7 @@ describe InterlibraryLoans do
       end
     end
     context "#each" do
-      it "iterates over limited number of items" do
+      it "iterates over toped number of items" do
         loans_contents = ''
         subject.each do |loan|
           loans_contents = loans_contents + loan.class.name

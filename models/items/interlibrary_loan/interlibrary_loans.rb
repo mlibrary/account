@@ -6,12 +6,12 @@ class InterlibraryLoans < Items
     @pagination = pagination
   end
 
-  def self.for(uniqname:, offset: nil, limit: 15, client: ILLiadClient.new)
+  def self.for(uniqname:, skip: nil, top: 15, client: ILLiadClient.new)
     url = "/Transaction/UserRequests/#{uniqname}" 
     query = {}
-    query["offset"] = offset unless offset.nil?
+    query["skip"] = skip unless skip.nil?
 
-    limit.nil? ? query["limit"] = 15 : query["limit"] = limit
+    top.nil? ? query["top"] = 15 : query["top"] = top
     
     #TBDeleted 
     fake_data = JSON.parse(File.read('./spec/fixtures/illiad_requests.json'))
@@ -21,8 +21,8 @@ class InterlibraryLoans < Items
     response = client.get(url, query)
     if response.code == 200
       pagination_params = { url: "/current-checkouts/interlibrary-loan", total: fake_data.count }
-      pagination_params[:limit] = limit unless limit.nil?
-      pagination_params[:current_offset] = offset unless offset.nil?
+      pagination_params[:limit] = top unless top.nil?
+      pagination_params[:current_offset] = skip unless skip.nil?
       InterlibraryLoans.new(parsed_response: fake_data, pagination: PaginationDecorator.new(**pagination_params)) #should be response.parsed_response
     else
       #Error!
