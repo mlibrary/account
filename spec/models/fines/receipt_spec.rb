@@ -133,7 +133,7 @@ describe Receipt::Payment do
   end
   context "#date" do
     it "returns string" do
-      expect(subject.date).to eq('Jan 21, 2020 13:41')
+      expect(subject.date).to eq('January 21, 2020')
     end
   end
   context "#street" do

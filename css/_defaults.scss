@@ -21,6 +21,13 @@ a {
 ul {
   list-style: disc;
   margin-left: var(--space-large);
+  &.no-list-style {
+    list-style: none;
+    margin-left: 0;
+    & > li {
+      margin-bottom: 0;
+    }
+  }
 }
 
 ol {

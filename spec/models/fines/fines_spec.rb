@@ -55,6 +55,10 @@ describe Fine do
     it "returns barcode string" do
       expect(subject.barcode).to eq("93727")
     end
+    it "handle nonexistent barcode" do
+      @fine_response.delete("barcode")
+      expect(subject.barcode).to be_nil
+    end
   end
   context "#balance" do
     it "returns plain balance string" do
