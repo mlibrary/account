@@ -4,7 +4,7 @@ require 'json'
 describe InterlibraryLoans do
   context "one loan" do
     before(:each) do
-      stub_illiad_get_request(url: 'Transaction/UserRequests/testhelp', body: File.read('./spec/fixtures/illiad_requests.json'))
+      stub_illiad_get_request(url: 'Transaction/UserRequests/testhelp', body: File.read('./spec/fixtures/illiad_requests.json'), query: {limit: 15})
     end
     subject do
       InterlibraryLoans.for(uniqname: 'testhelp')
@@ -31,6 +31,28 @@ describe InterlibraryLoans do
     context "#item_text" do
       it "returns 'item' if there is only one loan, or 'items' if there is not" do
         expect(subject.item_text).to eq('item')
+      end
+    end
+  end
+  context "pagination" do
+    before(:each) do
+      stub_illiad_get_request(url: 'Transaction/UserRequests/testhelp', body: File.read('./spec/fixtures/illiad_requests.json'), query: {"offset" => 1, "limit" => 1} )
+    end
+    subject do
+      InterlibraryLoans.for(uniqname: 'testhelp', offset: 1, limit: 1)
+    end
+    context "#count" do
+      it "returns total count for loans" do
+        expect(subject.count).to eq(1)
+      end
+    end
+    context "#each" do
+      it "iterates over limited number of items" do
+        loans_contents = ''
+        subject.each do |loan|
+          loans_contents = loans_contents + loan.class.name
+        end
+        expect(loans_contents).to eq('InterlibraryLoan')
       end
     end
   end

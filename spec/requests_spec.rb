@@ -137,7 +137,7 @@ describe "requests" do
   context "get /current-checkouts/interlibrary-loan" do
     it "contains 'Interlibrary Loan'" do
       stub_illiad_get_request(url: "Transaction/UserRequests/testhelp", 
-        body: File.read("spec/fixtures/illiad_requests.json"))
+        body: File.read("spec/fixtures/illiad_requests.json"), query: {limit: 15})
       get "/current-checkouts/interlibrary-loan" 
       expect(last_response.body).to include("Interlibrary Loan")
     end
