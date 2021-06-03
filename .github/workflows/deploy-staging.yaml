@@ -1,4 +1,4 @@
-name: Deploy to Testing
+name: Deploy to Staging
 
 on:
   workflow_dispatch:
@@ -7,7 +7,7 @@ on:
         description: Release
         required: true
   workflow_run:
-    workflows: [ 'Docker Build Main' ]
+    workflows: [ 'Build latest from main' ]
     types: [ completed ]
 
 jobs:
