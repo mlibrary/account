@@ -8,7 +8,7 @@
 <table>
   <caption>
     <div class="loan-caption-inner-layout">
-      <p>Showing <strong><%= interlibrary_loans.count %></strong> <%= interlibrary_loans.item_text %></p>
+      <p>Showing <strong><%=interlibrary_loans.pagination.first%></strong> - <strong><%=interlibrary_loans.pagination.last%></strong> of <strong><%= interlibrary_loans.count %></strong> <%= interlibrary_loans.item_text %></p>
     </div>
   </caption>
   <thead>
@@ -44,5 +44,7 @@
   </tbody>
 </table>
 </div>
+
+<%= erb :pagination, locals: {pagination: interlibrary_loans.pagination, count: interlibrary_loans.count} %>
 
 <% end %>
