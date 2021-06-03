@@ -11,7 +11,7 @@ class Navigation
   end
   def horizontal_nav
     path_elements = @current_path&.split('/')[1..-1] || []
-    if path_elements.count == 2
+    if path_elements.count == 2 && !@current_path.match?('/fines-and-fees/receipt')
       top_level_slug = path_elements.first
       top_level_page = @pages.find{|x| x.slug == top_level_slug }
       HorizontalNav.new(top_level_page)

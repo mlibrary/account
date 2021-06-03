@@ -29,6 +29,10 @@ describe Navigation do
       @current_path = '/current-checkouts'
       expect(subject).to be_nil
     end
+    it "doesn't return a horizontal nav for /fines-and-fess/receipt" do
+      @current_path = '/fines-and-fees/receipt'
+      expect(subject).to be_nil
+    end
   end
   context "#title" do
     before(:each) do
