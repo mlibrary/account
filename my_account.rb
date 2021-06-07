@@ -254,7 +254,8 @@ namespace '/past-activity' do
   end
 
   get '/interlibrary-loan' do
-    past_interlibrary_loans = PastInterlibraryLoans.for(uniqname: 'testhelp')
+    past_interlibrary_loans = PastInterlibraryLoans.for(uniqname: 'testhelp', limit: params["limit"], offset: params["offset"], count: session[:past_interlibrary_loans_count])
+    session[:past_interlibrary_loans_count] = past_interlibrary_loans.count if session[:past_interlibrary_loans_count].nil? 
 
     erb :past_interlibrary_loans, :locals => { past_interlibrary_loans: past_interlibrary_loans }
   end
