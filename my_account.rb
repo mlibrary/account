@@ -41,6 +41,7 @@ require_relative "./models/items/alma/requests"
 
 require_relative "./models/items/circ_history/circ_history_item"
 require_relative "./models/items/interlibrary_loan/interlibrary_loan_item"
+require_relative "./models/items/interlibrary_loan/interlibrary_loan_items"
 require_relative "./models/items/interlibrary_loan/document_delivery"
 require_relative "./models/items/interlibrary_loan/interlibrary_loans"
 require_relative "./models/items/interlibrary_loan/interlibrary_loan_requests"
