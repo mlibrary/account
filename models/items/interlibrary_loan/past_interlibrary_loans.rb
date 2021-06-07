@@ -2,7 +2,7 @@ class PastInterlibraryLoans < Items
   attr_reader :pagination
   def initialize(parsed_response:, pagination:)
     super
-    @items = parsed_response
+    @items = parsed_response.map { |item| PastInterlibraryLoan.new(item) }
     @pagination = pagination
   end
 
