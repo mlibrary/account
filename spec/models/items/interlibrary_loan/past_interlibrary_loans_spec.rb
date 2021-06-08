@@ -2,16 +2,17 @@ require 'spec_helper'
 require 'json'
 
 describe PastInterlibraryLoans do
+  let(:query){{"$filter" => "TransactionStatus eq 'Request Finished' or startswith(TransactionStatus, 'Cancelled')", "$top" => '15'}}
   context "three loans" do
     before(:each) do
-      stub_illiad_get_request(url: 'Transaction/UserRequests/testhelp', body: File.read('./spec/fixtures/illiad_requests.json'))
+      stub_illiad_get_request(url: 'Transaction/UserRequests/testhelp', body: File.read('./spec/fixtures/illiad_requests.json'), query: query)
     end
     subject do
-      PastInterlibraryLoans.for(uniqname: 'testhelp')
+      PastInterlibraryLoans.for(uniqname: 'testhelp', count: 25)
     end
     context "#count" do
       it "returns total request item count" do
-        expect(subject.count).to eq(3)
+        expect(subject.count).to eq(25)
       end
     end
     context "#each" do
@@ -20,7 +21,7 @@ describe PastInterlibraryLoans do
         subject.each do |item|
           items = items + item.class.name
         end
-        expect(items).to eq('PastInterlibraryLoanPastInterlibraryLoanPastInterlibraryLoan')
+        expect(items).to eq("PastInterlibraryLoan"*5)
       end
     end
     context "#empty?" do
@@ -31,6 +32,28 @@ describe PastInterlibraryLoans do
     context "#item_text" do
       it "returns 'item' if there is only one loan, or 'items' if there is not" do
         expect(subject.item_text).to eq('items')
+      end
+    end
+  end
+  context "no count given" do
+    before(:each) do
+      stub_illiad_get_request(url: 'Transaction/UserRequests/testhelp', body: File.read('./spec/fixtures/illiad_requests.json'), query: {'$filter': query['$filter']})
+    end
+    subject do
+      PastInterlibraryLoans.for(uniqname: 'testhelp', limit: '1', count: nil)
+    end
+    context "#count" do
+      it "returns total number of transactions" do
+        expect(subject.count).to eq(5)
+      end
+    end 
+    context "#each" do
+      it "returns limit number of Loan objects" do
+        items = ''
+        subject.each do |item|
+          items = items + item.class.name
+        end
+        expect(items).to eq("PastInterlibraryLoan"*1)
       end
     end
   end

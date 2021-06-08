@@ -41,6 +41,7 @@ require_relative "./models/items/alma/requests"
 
 require_relative "./models/items/circ_history/circ_history_item"
 require_relative "./models/items/interlibrary_loan/interlibrary_loan_item"
+require_relative "./models/items/interlibrary_loan/interlibrary_loan_items"
 require_relative "./models/items/interlibrary_loan/document_delivery"
 require_relative "./models/items/interlibrary_loan/interlibrary_loans"
 require_relative "./models/items/interlibrary_loan/interlibrary_loan_requests"
@@ -254,7 +255,8 @@ namespace '/past-activity' do
   end
 
   get '/interlibrary-loan' do
-    past_interlibrary_loans = PastInterlibraryLoans.for(uniqname: 'testhelp')
+    past_interlibrary_loans = PastInterlibraryLoans.for(uniqname: 'testhelp', limit: params["limit"], offset: params["offset"], count: session[:past_interlibrary_loans_count])
+    session[:past_interlibrary_loans_count] = past_interlibrary_loans.count if session[:past_interlibrary_loans_count].nil? 
 
     erb :past_interlibrary_loans, :locals => { past_interlibrary_loans: past_interlibrary_loans }
   end

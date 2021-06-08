@@ -1,22 +1,24 @@
-class PastInterlibraryLoans < Items
-  def initialize(parsed_response:)
+class PastInterlibraryLoans < InterlibraryLoanItems
+  attr_reader :pagination, :count
+  def initialize(parsed_response:, pagination:, count: nil)
     super
-    actions = [
-      "Cancelled",
-      "Finished"
-    ]
-    @items = parsed_response.filter_map { |item| PastInterlibraryLoan.new(item) if actions.any?{|action| item["TransactionStatus"].include?(action)}}
+    @items = parsed_response.map { |item| PastInterlibraryLoan.new(item) }
+    @pagination = pagination
+    @count = count
   end
 
-  def self.for(uniqname:, client: ILLiadClient.new)
-    url = "/Transaction/UserRequests/#{uniqname}" 
-    response = client.get(url)
-    if response.code == 200
-      PastInterlibraryLoans.new(parsed_response: response.parsed_response)
-    else
-      #Error!
-    end
+
+  private
+  def self.illiad_url(uniqname)
+    "/Transaction/UserRequests/#{uniqname}" 
   end
+  def self.url
+    "/past-activity/interlibrary-loan"
+  end
+  def self.filter
+    "TransactionStatus eq 'Request Finished' or startswith(TransactionStatus, 'Cancelled')"
+  end
+  
 end
 
 class PastInterlibraryLoan < InterlibraryLoanItem

@@ -208,8 +208,9 @@ describe "requests" do
   end
   context "get /past-activity/interlibrary-loan" do
     it "contains 'Interlibrary Loan'" do
+      query = {"$filter" => "TransactionStatus eq 'Request Finished' or startswith(TransactionStatus, 'Cancelled')"}
       stub_illiad_get_request(url: "Transaction/UserRequests/testhelp", 
-        body: File.read("spec/fixtures/illiad_requests.json"))
+        body: File.read("spec/fixtures/illiad_requests.json"), query: query)
       get "/past-activity/interlibrary-loan" 
       expect(last_response.body).to include("Interlibrary Loan")
     end
