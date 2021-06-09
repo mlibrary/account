@@ -8,7 +8,7 @@
 <table>
   <caption>
     <div class="loan-caption-inner-layout">
-      <p>Showing <strong><%= document_delivery.count %></strong> <%= document_delivery.item_text %></p>
+      <p>Showing <strong><%= document_delivery.pagination.first %></strong> - <strong><%= document_delivery.pagination.last %></strong> of <strong><%= document_delivery.count %></strong> <%= document_delivery.item_text %></p>
     </div>
   </caption>
   <thead>
@@ -40,5 +40,7 @@
   </tbody>
 </table>
 </div>
+
+<%= erb :pagination, locals: {pagination: document_delivery.pagination, count: document_delivery.count} %>
 
 <% end %>
