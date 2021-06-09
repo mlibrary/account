@@ -1,27 +1,24 @@
-class InterlibraryLoanRequests < Items
-  def initialize(parsed_response:)
+class InterlibraryLoanRequests < InterlibraryLoanItems
+  attr_reader :pagination, :count
+  def initialize(parsed_response:, pagination:, count: nil)
     super
-    actions = [
-      "Awaiting",
-      "In Transit",
-      "Pending",
-      "Queue",
-      "Request Sent",
-      "Searching",
-      "Submitted"
-    ]
-    @items = parsed_response.filter_map { |item| InterlibraryLoanRequest.new(item) if actions.any?{|action| item["TransactionStatus"].include?(action)}}
+    @items = parsed_response.map { |item| InterlibraryLoanRequest.new(item) }
+    @pagination = pagination
+    @count = count
   end
 
-  def self.for(uniqname:, client: ILLiadClient.new)
-    url = "/Transaction/UserRequests/#{uniqname}" 
-    response = client.get(url)
-    if response.code == 200
-      InterlibraryLoanRequests.new(parsed_response: response.parsed_response)
-    else
-      #Error!
-    end
+
+  private
+  def self.illiad_url(uniqname)
+    "/Transaction/UserRequests/#{uniqname}" 
   end
+  def self.url
+    "/past-activity/interlibrary-loan"
+  end
+  def self.filter
+    "not startswith(TransactionStatus, 'Cancelled') and TransactionStatus ne 'Request Finished' and TransactionStatus ne 'Delivered to Web' and TransactionStatus ne 'Checked Out to Customer'"
+  end
+  
 end
 
 class InterlibraryLoanRequest < InterlibraryLoanItem

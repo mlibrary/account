@@ -172,9 +172,10 @@ describe "requests" do
     end
   end
   context "get /pending-requests/interlibrary-loan" do
-    it "contains 'From Other Institutions (Interlibrary Loan)'" do
+    it "contains 'Interlibrary Loan'" do
+      query = {"$filter" => "not startswith(TransactionStatus, 'Cancelled') and TransactionStatus ne 'Request Finished' and TransactionStatus ne 'Delivered to Web' and TransactionStatus ne 'Checked Out to Customer'"}
       stub_illiad_get_request(url: "Transaction/UserRequests/testhelp", 
-        body: File.read("spec/fixtures/illiad_requests.json"))
+        body: File.read("spec/fixtures/illiad_requests.json"), query: query)
       get "/pending-requests/interlibrary-loan" 
       expect(last_response.body).to include("Interlibrary Loan")
     end
