@@ -136,8 +136,9 @@ describe "requests" do
   
   context "get /current-checkouts/interlibrary-loan" do
     it "contains 'Interlibrary Loan'" do
+      query = {"$filter" => "RequestType eq 'Loan' and TransactionStatus eq 'Checked Out to Customer'"}
       stub_illiad_get_request(url: "Transaction/UserRequests/testhelp", 
-        body: File.read("spec/fixtures/illiad_requests.json"), query: {top: 15})
+        body: File.read("spec/fixtures/illiad_requests.json"), query: query)
       get "/current-checkouts/interlibrary-loan" 
       expect(last_response.body).to include("Interlibrary Loan")
     end
