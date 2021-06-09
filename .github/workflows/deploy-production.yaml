@@ -1,4 +1,4 @@
-name: Deploy to Testing
+name: Deploy to Production
 
 on:
   workflow_dispatch:
@@ -6,31 +6,27 @@ on:
       tag:
         description: Release
         required: true
-  workflow_run:
-    workflows: [ 'Build latest from main' ]
-    types: [ completed ]
 
 env:
-  IMAGE_ID=ghcr.io/mlibrary/patron_account_unstable
+  IMAGE_ID=ghcr.io/mlibrary/patron_account
 
 jobs:
   deploy:
-    if: ${{ github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     steps:
     - name: Clone latest repository
-      if: ${{ github.event_name == 'workflow_dispatch' }}
       uses: actions/checkout@v2
       with:
         fetch-depth: 0
     - name: Check that the tag exists
-      if: ${{ github.event_name == 'workflow_dispatch' }}
       id: tag_check
       run: |
         if git rev-parse 'refs/tags/${{ github.event.inputs.tag }}' &> /dev/null; then
           echo '::set-output name=tag::${{ github.event.inputs.tag }}'
+        elif echo '${{ github.event.inputs.tag }}' | grep -q '^testing-'; then
+          echo '::set-output name=tag::${{ github.event.inputs.tag }}'
         elif git rev-parse '${{ github.event.inputs.tag }}' &> /dev/null; then
-          echo "::set-output name=tag::`git rev-parse '${{ github.event.inputs.tag }}'`"
+          echo "::set-output name=tag::testing-`git rev-parse '${{ github.event.inputs.tag }}'`"
         else
           echo "Couldn't figure out tag from input: ${{ github.event.inputs.tag }}"
           echo "Aborting deployment."
@@ -42,14 +38,8 @@ jobs:
         mkdir -p ${HOME}/.kube/certs/cluster
         echo ${{ secrets.HATCHER_CLUSTER_CA }} | base64 -d > ${HOME}/.kube/certs/cluster/k8s-ca.crt
         kubectl config set-cluster cluster --certificate-authority=${HOME}/.kube/certs/cluster/k8s-ca.crt --server=https://hatcher.kubernetes.lib.umich.edu
-        kubectl config set-credentials default --token=`echo ${{ secrets.HATCHER_TESTING_TOKEN }} | base64 -d`
-        kubectl config set-context default --cluster=cluster --user=default --namespace=patron-account-testing
+        kubectl config set-credentials default --token=`echo ${{ secrets.HATCHER_STAGING_TOKEN }} | base64 -d`
+        kubectl config set-context default --cluster=cluster --user=default --namespace=patron-account
         kubectl config use-context default
-    - name: Automatic Deploy
-      if: ${{ github.event_name == 'workflow_run' }}
-      run: |
-        kubectl set image deployment web web=$IMAGE_ID:${{ github.sha }}
     - name: Manual Deploy
-      if: ${{ github.event_name == 'workflow_dispatch' }}
-      run: |
-        kubectl set image deployment web web=$IMAGE_ID:${{ steps.tag_check.outputs.tag }}
+      run: kubectl set image deployment web web=$IMAGE_ID:${{ steps.tag_check.outputs.tag }}
