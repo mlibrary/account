@@ -6,8 +6,8 @@ on:
     types: [ released ]
 
 env:
-  PROD_IMAGE_ID=ghcr.io/mlibrary/patron_account
-  UNSTABLE_IMAGE_ID=ghcr.io/mlibrary/patron_account_unstable
+  PROD_IMAGE_ID: ghcr.io/mlibrary/patron_account
+  UNSTABLE_IMAGE_ID: ghcr.io/mlibrary/patron_account_unstable
 jobs:
   build:
     runs-on: ubuntu-latest
