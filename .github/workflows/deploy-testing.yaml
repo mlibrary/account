@@ -11,7 +11,7 @@ on:
     types: [ completed ]
 
 env:
-  IMAGE_ID: ghcr.io/mlibrary/patron_account_unstable
+  IMAGE_ID: ghcr.io/mlibrary/patron_account
 
 jobs:
   deploy:
