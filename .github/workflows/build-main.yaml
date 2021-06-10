@@ -1,8 +1,10 @@
 name: Build latest from main
 
 on:
-  push:
-    branches: [ main ]
+  workflow_run:
+    workflows: [ 'Run Tests' ]
+    branches: [ 'main' ]
+    types: [ completed ]
 
 env:
   IMAGE_NAME: patron_account_unstable
