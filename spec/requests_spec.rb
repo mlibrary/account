@@ -142,13 +142,13 @@ describe "requests" do
       expect(last_response.body).to include("Interlibrary Loan")
     end
   end
-  context "get /current-checkouts/document-delivery-or-scans" do
-    it "contains 'Document Delivery / Scans'" do
+  context "get /current-checkouts/scans-and-electronic-items" do
+    it "contains 'Scans and Electronic Items'" do
       query = {"$filter" => "RequestType eq 'Loan' and TransactionStatus ne 'Request Finished'"}
       stub_illiad_get_request(url: "Transaction/UserRequests/testhelp", 
         body: File.read("spec/fixtures/illiad_requests.json"), query: query)
-      get "/current-checkouts/document-delivery-or-scans" 
-      expect(last_response.body).to include("Document Delivery / Scans")
+      get "/current-checkouts/scans-and-electronic-items" 
+      expect(last_response.body).to include("Scans and Electronic Items")
     end
   end
   context "get /pending-requests" do

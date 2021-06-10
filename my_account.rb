@@ -180,7 +180,7 @@ namespace '/current-checkouts' do
 
     erb :interlibrary_loans, :locals => { interlibrary_loans: interlibrary_loans }
   end
-  get '/document-delivery-or-scans' do
+  get '/scans-and-electronic-items' do
     document_delivery = DocumentDelivery.for(uniqname: 'testhelp')
 
     erb :document_delivery, :locals => { document_delivery: document_delivery }
