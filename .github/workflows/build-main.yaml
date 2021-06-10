@@ -4,19 +4,24 @@ on:
   push:
     branches: [ main ]
 
+env:
+  IMAGE_NAME: patron_account_unstable
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - uses: craftech-io/package-action@v3.1.0
-      name: build patron-account
-      id: url-GPR
-      with:
-        access_token: ${{ secrets.GITHUB_TOKEN }}
-        image_name: patron_account
-        tags: |
-          latest
-          ${{ github.sha }}
-    - name: output
-      run: echo ${{ steps.url-GPR.outputs.imageURL }}  
+    - name: Build image
+      run: docker build . --tag $IMAGE_NAME --label "runnumber=${GITHUB_RUN_ID}"
+    - name: Log into registry
+      run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+    - name: Push image
+      run: |
+        IMAGE_ID=ghcr.io/mlibrary/$IMAGE_NAME
+        # Change all uppercase to lowercase
+          IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
+          docker tag $IMAGE_NAME $IMAGE_ID:latest
+          docker tag $IMAGE_NAME $IMAGE_ID:$GITHUB_SHA
+          docker push $IMAGE_ID --all-tags
+          

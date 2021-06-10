@@ -10,6 +10,9 @@ on:
     workflows: [ 'Build latest from main' ]
     types: [ completed ]
 
+env:
+  IMAGE_ID: ghcr.io/mlibrary/patron_account_unstable
+
 jobs:
   deploy:
     if: ${{ github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success' }}
@@ -45,8 +48,8 @@ jobs:
     - name: Automatic Deploy
       if: ${{ github.event_name == 'workflow_run' }}
       run: |
-        kubectl set image deployment web web=docker.pkg.github.com/mlibrary/patron_account/patron_account:${{ github.sha }}
+        kubectl set image deployment web web=$IMAGE_ID:${{ github.sha }}
     - name: Manual Deploy
       if: ${{ github.event_name == 'workflow_dispatch' }}
       run: |
-        kubectl set image deployment web web=docker.pkg.github.com/mlibrary/patron_account/patron_account:${{ steps.tag_check.outputs.tag }}
+        kubectl set image deployment web web=$IMAGE_ID:${{ steps.tag_check.outputs.tag }}
