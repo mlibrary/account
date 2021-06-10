@@ -23,9 +23,9 @@
         }
       },
       {
-        "title": "Document Delivery / Scans",
+        "title": "Scans and Electronic Items",
         "empty_state": {
-          "heading": "You don't have any scans to view or download.",
+          "heading": "You don't have any material to view or download.",
           "message": "See how you can <a href=\"https://www.lib.umich.edu/find-borrow-request/request-digital-copies-or-duplication/scans\">request a scan</a> for small portions of physical items such as book chapters or articles."
         }
       }
