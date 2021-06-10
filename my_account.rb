@@ -176,8 +176,9 @@ namespace '/current-checkouts' do
   end
   
   get '/interlibrary-loan' do
-    interlibrary_loans = InterlibraryLoans.for(uniqname: 'testhelp')
+    interlibrary_loans = InterlibraryLoans.for(uniqname: 'testhelp', limit: params["limit"], offset: params["offset"], count: session[:current_interlibrary_loans_count])
 
+    session[:current_interlibrary_loans_count] = interlibrary_loans.count if session[:current_interlibrary_loans_count].nil? 
     erb :interlibrary_loans, :locals => { interlibrary_loans: interlibrary_loans }
   end
   get '/document-delivery-or-scans' do
