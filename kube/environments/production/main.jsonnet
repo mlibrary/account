@@ -11,8 +11,7 @@
 
   _images+:: {
     patron_account: {
-      /* specific commit hash for deploying */
-      web: 'docker.pkg.github.com/mlibrary/patron_account/patron_account',
+      web: 'ghcr.io/mlibrary/patron_account:latest',
     },
   },
 } +

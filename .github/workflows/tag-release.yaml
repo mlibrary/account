@@ -18,7 +18,7 @@ jobs:
       run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
     - name: Clone latest repository
       uses: actions/checkout@v2
-    - name: Tag latest release in DockerHub
+    - name: Tag latest release in Github Container Registry
       run: |
         docker pull $UNSTABLE_IMAGE_ID:${{ github.sha }}
         docker tag $UNSTABLE_IMAGE_ID:${{ github.sha }} $PROD_IMAGE_ID:${{ github.event.release.tag_name }}

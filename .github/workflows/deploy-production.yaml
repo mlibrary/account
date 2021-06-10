@@ -8,7 +8,7 @@ on:
         required: true
 
 env:
-  IMAGE_ID=ghcr.io/mlibrary/patron_account
+  IMAGE_ID: ghcr.io/mlibrary/patron_account
 
 jobs:
   deploy:
