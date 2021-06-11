@@ -3,6 +3,13 @@
   horizontal_nav = nav.horizontal_nav
 %>
 
+<% if nav.home != nav.title %>
+  <p class="breadcrumbs">
+    <m-icon name="keyboard-arrow-left"></m-icon>
+    <a href="/">Back to <%=nav.home%></a>
+  </p>
+<% end %>
+
 <% if horizontal_nav.nil?%>
 
   <h1><%=nav.title%></h1>
