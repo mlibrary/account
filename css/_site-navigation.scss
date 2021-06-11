@@ -1,4 +1,10 @@
 .site-navigation {
+  @media screen and (max-width: 1000px) {
+    display: none;
+    & + .site-layout__center {
+      grid-column: 1 / 3;
+    }
+  }
   ul {
     list-style: none;
     padding: 0;
