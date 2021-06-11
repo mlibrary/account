@@ -84,9 +84,11 @@
     const getID = dropdown.getAttribute('data-dropdown');
     const getDropdown = document.getElementById(getID);
     let getAriaExpanded = dropdown.getAttribute('aria-expanded');
+    // Convert value to boolean
+    getAriaExpanded = getAriaExpanded === true;
     dropdown.addEventListener('click', (event) => {
       // Toggle `aria-expanded` as true or false
-      getAriaExpanded = getAriaExpanded !== true;
+      getAriaExpanded = !getAriaExpanded;
       event.target.setAttribute('aria-expanded', getAriaExpanded);
       // Toggle display for dropdown
       getDropdown.style.display = getAriaExpanded ? 'block' : 'none';
@@ -109,8 +111,8 @@
     });
     window.addEventListener('resize', (event) => {
       if (
-        (window.innerWidth <= breakpoint && getAriaExpanded !== true) ||
-        (window.innerWidth > breakpoint && getAriaExpanded === true)
+        (window.innerWidth <= breakpoint && !getAriaExpanded) ||
+        (window.innerWidth > breakpoint && getAriaExpanded)
       ) {
         dropdown.click();
       }
