@@ -208,11 +208,20 @@ describe "requests" do
   end
   context "get /past-activity/interlibrary-loan" do
     it "contains 'Interlibrary Loan'" do
-      query = {"$filter" => "TransactionStatus eq 'Request Finished' or startswith(TransactionStatus, 'Cancelled')"}
+      query = {"$filter" => "RequestType ne 'Loan' and (TransactionStatus eq 'Request Finished' or startswith(TransactionStatus, 'Cancelled'))"}
       stub_illiad_get_request(url: "Transaction/UserRequests/testhelp", 
         body: File.read("spec/fixtures/illiad_requests.json"), query: query)
       get "/past-activity/interlibrary-loan" 
       expect(last_response.body).to include("Interlibrary Loan")
+    end
+  end
+  context "get /past-activity/scans-and-electronic-items" do
+    it "contains 'Scans and Electronic Items'" do
+      query = {"$filter" => "RequestType eq 'Loan' and (TransactionStatus eq 'Request Finished' or startswith(TransactionStatus, 'Cancelled'))"}
+      stub_illiad_get_request(url: "Transaction/UserRequests/testhelp", 
+        body: File.read("spec/fixtures/illiad_requests.json"), query: query)
+      get "/past-activity/scans-and-electronic-items" 
+      expect(last_response.body).to include("Scans and Electronic Items")
     end
   end
   context "get /past-activity/special-collections" do

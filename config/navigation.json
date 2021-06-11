@@ -80,6 +80,12 @@
         }
       },
       {
+        "title": "Scans and Electronic Items",
+        "empty_state": {
+          "message": "Once you've <a href=\"https://www.lib.umich.edu/find-borrow-request/request-digital-copies-or-duplication/scans\">requested a scan</a> for small portions of physical items such as book chapters or articles, you'll be able to see its record here."
+        }
+      },
+      {
         "title": "Special Collections",
         "empty_state": {
           "message": "Once you've viewed an item at the <a href=\"https://www.lib.umich.edu/locations-and-hours/special-collections-research-center/access-our-materials\">Special Collections Research Center</a>, you'll be able to see its record here."

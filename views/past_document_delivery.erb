@@ -1,0 +1,42 @@
+<% if past_document_delivery.count == 0 %>
+
+<%= erb :empty_state %>
+
+<% elsif %>
+
+<div class="table-container">
+<table>
+  <caption>
+    <div class="loan-caption-inner-layout">
+      <p>Showing <strong><%= past_document_delivery.pagination.first %></strong> - <strong><%= past_document_delivery.pagination.last %></strong> of <strong><%= past_document_delivery.count %></strong> <%= past_document_delivery.item_text %></p>
+    </div>
+  </caption>
+  <thead>
+    <tr>
+      <th>Title &amp; author</th>
+      <th style="width: 9rem;">Requested</th>
+      <th style="width: 9rem;">Returned</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% past_document_delivery.each do |past_delivery| %>
+      <tr>
+        <td>
+          
+          <%= erb :title_author, locals: {item: past_delivery} %>
+        </td>
+        <td>
+          <%= past_delivery.creation_date %>
+        </td>
+        <td>
+          <%= past_delivery.transaction_date %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+</div>
+
+<%= erb :pagination, locals: {pagination: past_document_delivery.pagination, count: past_document_delivery.count} %>
+
+<% end %>
