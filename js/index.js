@@ -78,6 +78,7 @@
  * Dropdown Menu
  */
 (function () {
+  const breakpoint = 1000;
   const dropdowns = document.querySelectorAll('[data-dropdown]');
   dropdowns.forEach((dropdown) => {
     const getID = dropdown.getAttribute('data-dropdown');
@@ -106,5 +107,14 @@
         }
       });
     });
+    window.addEventListener('resize', (event) => {
+      if (
+        (window.innerWidth <= breakpoint && getAriaExpanded !== true) ||
+        (window.innerWidth > breakpoint && getAriaExpanded === true)
+      ) {
+        dropdown.click();
+      }
+    });
+    window.dispatchEvent(new Event('resize'));
   });
 })();
