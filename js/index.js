@@ -92,9 +92,16 @@
       // Toggle arrow up or down
       dropdown.children[2].setAttribute('name', getAriaExpanded ? 'keyboard-arrow-up' : 'keyboard-arrow-down');
     });
-    [dropdown, getDropdown].forEach((element) => {
-      element.addEventListener('keyup', (event) => {
-        if (event.key === 'Escape') {
+    // Close dropdown if `Escape` has been pressed or clicked outside of dropdown
+    ['click', 'keyup'].forEach((listener) => {
+      document.addEventListener(listener, (event) => {
+        if (
+          getAriaExpanded === true &&
+          (
+            (listener === 'click' && event.target !== dropdown) ||
+            event.key === 'Escape'
+          )
+        ) {
           dropdown.click();
         }
       });
