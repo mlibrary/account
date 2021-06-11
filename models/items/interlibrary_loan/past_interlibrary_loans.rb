@@ -16,7 +16,7 @@ class PastInterlibraryLoans < InterlibraryLoanItems
     "/past-activity/interlibrary-loan"
   end
   def self.filter
-    "TransactionStatus eq 'Request Finished' or startswith(TransactionStatus, 'Cancelled')"
+    "RequestType ne 'Loan' and (TransactionStatus eq 'Request Finished' or startswith(TransactionStatus, 'Cancelled'))"
   end
   
 end

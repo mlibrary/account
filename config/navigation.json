@@ -23,9 +23,9 @@
         }
       },
       {
-        "title": "Document Delivery / Scans",
+        "title": "Scans and Electronic Items",
         "empty_state": {
-          "heading": "You don't have any scans to view or download.",
+          "heading": "You don't have any material to view or download.",
           "message": "See how you can <a href=\"https://www.lib.umich.edu/find-borrow-request/request-digital-copies-or-duplication/scans\">request a scan</a> for small portions of physical items such as book chapters or articles."
         }
       }
@@ -77,6 +77,12 @@
         "title": "Interlibrary Loan",
         "empty_state": {
           "message": "Once you've used <a href=\"https://www.lib.umich.edu/find-borrow-request/request-items-pick-or-delivery/items-another-institution-using-interlibrary\">interlibrary loan</a>, you'll be able to review what you borrowed here."
+        }
+      },
+      {
+        "title": "Scans and Electronic Items",
+        "empty_state": {
+          "message": "Once you've <a href=\"https://www.lib.umich.edu/find-borrow-request/request-digital-copies-or-duplication/scans\">requested a scan</a> for small portions of physical items such as book chapters or articles, you'll be able to see its record here."
         }
       },
       {
