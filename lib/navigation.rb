@@ -20,6 +20,9 @@ class Navigation
   def title
     @pages.detect{|page| page.active? }.title
   end
+  def home
+    @pages[0].title
+  end
 end
 class Page
   attr_reader :title, :description, :icon_name, :color, :children, :empty_state
