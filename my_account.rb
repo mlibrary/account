@@ -45,6 +45,7 @@ require_relative "./models/items/interlibrary_loan/interlibrary_loan_items"
 require_relative "./models/items/interlibrary_loan/document_delivery"
 require_relative "./models/items/interlibrary_loan/interlibrary_loans"
 require_relative "./models/items/interlibrary_loan/interlibrary_loan_requests"
+require_relative "./models/items/interlibrary_loan/past_document_delivery"
 require_relative "./models/items/interlibrary_loan/past_interlibrary_loans"
 
 
@@ -180,7 +181,7 @@ namespace '/current-checkouts' do
 
     erb :interlibrary_loans, :locals => { interlibrary_loans: interlibrary_loans }
   end
-  get '/document-delivery-or-scans' do
+  get '/scans-and-electronic-items' do
     document_delivery = DocumentDelivery.for(uniqname: 'testhelp')
 
     erb :document_delivery, :locals => { document_delivery: document_delivery }
@@ -255,10 +256,16 @@ namespace '/past-activity' do
   end
 
   get '/interlibrary-loan' do
-    past_interlibrary_loans = PastInterlibraryLoans.for(uniqname: 'testhelp', limit: params["limit"], offset: params["offset"], count: session[:past_interlibrary_loans_count])
-    session[:past_interlibrary_loans_count] = past_interlibrary_loans.count if session[:past_interlibrary_loans_count].nil? 
+    past_interlibrary_loans = PastInterlibraryLoans.for(uniqname: 'testhelp', limit: params["limit"], offset: params["offset"], count: nil)
+    #session[:past_interlibrary_loans_count] = past_interlibrary_loans.count if session[:past_interlibrary_loans_count].nil? 
 
     erb :past_interlibrary_loans, :locals => { past_interlibrary_loans: past_interlibrary_loans }
+  end
+  get '/scans-and-electronic-items' do
+    past_document_delivery = PastDocumentDelivery.for(uniqname: 'testhelp', limit: params["limit"], offset: params["offset"], count: nil)
+    #session[:past_document_delivery_count] = past_document_delivery.count if session[:past_document_delivery_count].nil? 
+
+    erb :past_document_delivery, :locals => { past_document_delivery: past_document_delivery }
   end
   get '/special-collections' do
     erb :past_special_collections, :locals => { past_special_collections: {} }

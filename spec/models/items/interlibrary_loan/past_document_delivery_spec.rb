@@ -1,14 +1,14 @@
 require 'spec_helper'
 require 'json'
 
-describe PastInterlibraryLoans do
-  let(:query){{"$filter" => "RequestType ne 'Loan' and (TransactionStatus eq 'Request Finished' or startswith(TransactionStatus, 'Cancelled'))", "$top" => '15'}}
+describe PastDocumentDelivery do
+  let(:query){{"$filter" => "RequestType eq 'Loan' and (TransactionStatus eq 'Request Finished' or startswith(TransactionStatus, 'Cancelled'))", "$top" => '15'}}
   context "three loans" do
     before(:each) do
       stub_illiad_get_request(url: 'Transaction/UserRequests/testhelp', body: File.read('./spec/fixtures/illiad_requests.json'), query: query)
     end
     subject do
-      PastInterlibraryLoans.for(uniqname: 'testhelp', count: 25)
+      PastDocumentDelivery.for(uniqname: 'testhelp', count: 25)
     end
     context "#count" do
       it "returns total request item count" do
@@ -21,7 +21,7 @@ describe PastInterlibraryLoans do
         subject.each do |item|
           items = items + item.class.name
         end
-        expect(items).to eq("PastInterlibraryLoan"*5)
+        expect(items).to eq("PastDocumentDeliveryItem"*5)
       end
     end
     context "#empty?" do
@@ -40,7 +40,7 @@ describe PastInterlibraryLoans do
       stub_illiad_get_request(url: 'Transaction/UserRequests/testhelp', body: File.read('./spec/fixtures/illiad_requests.json'), query: {'$filter': query['$filter']})
     end
     subject do
-      PastInterlibraryLoans.for(uniqname: 'testhelp', limit: '1', count: nil)
+      PastDocumentDelivery.for(uniqname: 'testhelp', limit: '1', count: nil)
     end
     context "#count" do
       it "returns total number of transactions" do
@@ -53,7 +53,7 @@ describe PastInterlibraryLoans do
         subject.each do |item|
           items = items + item.class.name
         end
-        expect(items).to eq("PastInterlibraryLoan"*1)
+        expect(items).to eq("PastDocumentDeliveryItem"*1)
       end
     end
   end
