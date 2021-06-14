@@ -26,7 +26,11 @@
       nomodule
       src="https://unpkg.com/@umich-lib/components@v1/dist/umich-lib/umich-lib.js"
       ></script>
-    <title>Account | University of Michigan Library</title>
+    <%
+      nav = Navigation.new(request.path_info)
+      horizontal_nav = nav.horizontal_nav
+    %>
+    <title><%= horizontal_nav.nil? ? nav.title : horizontal_nav.section + ": " + horizontal_nav.title %> | University of Michigan Library</title>
   </head>
   <body> 
     <m-universal-header></m-universal-header>
