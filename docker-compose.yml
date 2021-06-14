@@ -24,7 +24,7 @@ services:
       - .env-dev-values
 
   circulation-history:
-    image: docker.pkg.github.com/mlibrary/circulation_history/unstable:latest
+    image: ghcr.io/mlibrary/circulation_history_unstable:latest
     ports:
       - "3000:3000"
     environment:
@@ -38,7 +38,7 @@ services:
 
 
   circulation-history-db:
-    image: niquerio/circulation_history_dev_db:latest
+    image: ghcr.io/mlibrary/dev_db:latest
   sass:
     build: .
     volumes:

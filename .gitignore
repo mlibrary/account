@@ -17,3 +17,4 @@ public/bundles/
 .bash_history
 .irb_history
 .solargraph.yml
+.node-gyp/

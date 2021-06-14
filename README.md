@@ -44,12 +44,17 @@ npm install
 docker-compose run --rm web npm install
 ```
 
-You may need to log into github to pull the circulation-history image. To do that, get a [Personal Access Token](https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token) with permission to "read:packages". On the command line:
+build styles
+
 ```
-docker login docker.pkg.github.com
+docker-compose run --rm web npm run build-css
 ```
 
-Log in with your github username and then Personal Access Token as the password. 
+watch then build styles (optional)
+
+```
+docker-compose run --rm web npm run watch-css
+```
 
 start containers
 
