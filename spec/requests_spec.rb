@@ -2,10 +2,13 @@ require 'spec_helper'
 describe "requests" do
   include Rack::Test::Methods
   before(:each) do
-    @session = { uniqname: 'tutor', 
-                 full_name: "Julian, Tutor", 
-                 authenticated: true,
-                 expires_at: Time.now + 1.day
+    @session = { 
+      uniqname: 'tutor', 
+      in_alma: true,
+      can_book: false,
+      confirmed_history_setting: false,
+      authenticated: true,
+      expires_at: Time.now + 1.day
 
     }
     env 'rack.session', @session
@@ -19,6 +22,8 @@ describe "requests" do
       }
     }
     it "sets session to appropriate values" do
+      stub_alma_get_request(url: "users/nottutor?expand=none&user_id_type=all_unique&view=full", status: 400)
+      stub_circ_history_get_request(url: 'users/nottutor')
       OmniAuth.config.add_mock(:openid_connect, omniauth_auth)
       get '/auth/openid_connect/callback'
       session = last_request.env["rack.session"]
@@ -261,10 +266,12 @@ describe "requests" do
       stub_circ_history_put_request(url: "users/tutor", query: {retain_history: true})
     end
     it "handles retain history" do
-
+      @session[:confirmed_history_setting] = false
+      env 'rack.session', @session
       post "/settings/history", {'retain_history' => 'true'}
       follow_redirect!
       expect(last_response.body).to include("History Setting Successfully Changed")
+      expect(last_request.env['rack.session'][:confirmed_history_setting]).to eq(true)
     end
   end
   #ToDO 

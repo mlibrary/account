@@ -73,8 +73,9 @@ get '/auth/openid_connect/callback' do
   auth = request.env['omniauth.auth']
   info = auth[:info]
   session[:authenticated] = true
-  session[:uniqname] = info[:nickname]
   session[:expires_at] = Time.now.utc + auth.credentials.expires_in
+  patron = SessionPatron.new(info[:nickname])
+  patron.to_h.each{|k,v| session[k] = v}
   redirect '/'
 end
 
@@ -286,6 +287,7 @@ namespace '/settings' do
   post '/history' do
     response = Patron.set_retain_history(uniqname: session[:uniqname], retain_history: params[:retain_history])
     if response.code == 200
+      session[:confirmed_history_setting] = true      
       flash[:success] = "<strong>Success:</strong> History Setting Successfully Changed"
     else
       flash[:error] = "<strong>Error:</strong> #{response.message}"
