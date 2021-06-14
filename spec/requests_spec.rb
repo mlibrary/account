@@ -2,12 +2,19 @@ require 'spec_helper'
 describe "requests" do
   include Rack::Test::Methods
   before(:each) do
-    @session = { uniqname: 'tutor', 
-                 full_name: "Julian, Tutor", 
-                 authenticated: true,
-                 expires_at: Time.now + 1.day
+    @session = { 
+      uniqname: 'tutor', 
+      in_alma: true,
+      can_book: false,
+      confirmed_history_setting: false,
+      authenticated: true,
+      expires_at: Time.now + 1.day
 
     }
+    env 'rack.session', @session
+  end
+  let(:not_in_alma) do
+    @session[:in_alma] = false
     env 'rack.session', @session
   end
 
@@ -19,6 +26,8 @@ describe "requests" do
       }
     }
     it "sets session to appropriate values" do
+      stub_alma_get_request(url: "users/nottutor?expand=none&user_id_type=all_unique&view=full", status: 400)
+      stub_circ_history_get_request(url: 'users/nottutor')
       OmniAuth.config.add_mock(:openid_connect, omniauth_auth)
       get '/auth/openid_connect/callback'
       session = last_request.env["rack.session"]
@@ -79,16 +88,25 @@ describe "requests" do
     end
   end
   context "get /current-checkouts/u-m-library" do
-    before(:each) do
-      stub_alma_get_request(url: "users/tutor/loans", query: {expand: 'renewable', limit: 15, order_by: "due_date"})
+    context "in alma user" do
+      before(:each) do
+        stub_alma_get_request(url: "users/tutor/loans", query: {expand: 'renewable', limit: 15, order_by: "due_date"})
+      end
+      it "contains 'U-M Library'" do
+        get "/current-checkouts/u-m-library"
+        expect(last_response.body).to include("U-M Library")
+      end
+      it "has checkouts js" do
+        get "/current-checkouts/u-m-library"
+        expect(last_response.body).to include("current-checkouts-u-m-library.bundle.js")
+      end
     end
-    it "contains 'U-M Library'" do
-      get "/current-checkouts/u-m-library"
-      expect(last_response.body).to include("U-M Library")
-    end
-    it "has checkouts js" do
-      get "/current-checkouts/u-m-library"
-      expect(last_response.body).to include("current-checkouts-u-m-library.bundle.js")
+    context "not in alma user" do
+      it "has empty checkouts" do
+        not_in_alma
+        get "/current-checkouts/u-m-library"
+        expect(last_response.body).to include("You don't have")
+      end
     end
   end
   context "post /current-checkouts/u-m-library" do
@@ -165,10 +183,19 @@ describe "requests" do
     end
   end
   context "get /pending-requests/u-m-library" do
-    it "contains 'U-M Library'" do
-      stub_alma_get_request(url: "users/tutor/requests", body: File.read("./spec/fixtures/requests.json"), query: {limit: 100, offset: 0}  )
-      get "/pending-requests/u-m-library"
-      expect(last_response.body).to include("U-M Library")
+    context "in alma" do
+      it "contains 'U-M Library'" do
+        stub_alma_get_request(url: "users/tutor/requests", body: File.read("./spec/fixtures/requests.json"), query: {limit: 100, offset: 0}  )
+        get "/pending-requests/u-m-library"
+        expect(last_response.body).to include("U-M Library")
+      end
+    end
+    context "not in alma" do
+      it "shows empty sate pending requests" do
+        not_in_alma
+        get "/pending-requests/u-m-library"
+        expect(last_response.body).to include("You don't have")
+      end
     end
   end
   context "get /pending-requests/interlibrary-loan" do
@@ -200,10 +227,19 @@ describe "requests" do
     end
   end
   context "get /past-activity/u-m-library" do
-    it "exists" do
-      stub_circ_history_get_request(url: "users/tutor/loans")
-      get "/past-activity/u-m-library" 
-      expect(last_response.status).to eq(200)
+    context "in alma user" do
+      it "exists" do
+        stub_circ_history_get_request(url: "users/tutor/loans")
+        get "/past-activity/u-m-library" 
+        expect(last_response.status).to eq(200)
+      end
+    end
+    context "not in alma user" do
+      it "show do not have circ history" do
+        not_in_alma
+        get "/past-activity/u-m-library" 
+        expect(last_response.body).to include("You don't have")
+      end
     end
   end
   context "get /past-activity/interlibrary-loan" do
@@ -231,11 +267,20 @@ describe "requests" do
     end
   end
   context "get /fines-and-fees" do
-    it "contains 'Fines'" do
-      stub_alma_get_request(url: "users/tutor/fees", query: {limit: 100, offset: 0}, 
-        body: File.read("spec/fixtures/jbister_fines.json"))
-      get "/fines-and-fees"
-      expect(last_response.body).to include("Fines")
+    context "in alma user" do
+      it "contains 'Fines'" do
+        stub_alma_get_request(url: "users/tutor/fees", query: {limit: 100, offset: 0}, 
+          body: File.read("spec/fixtures/jbister_fines.json"))
+        get "/fines-and-fees"
+        expect(last_response.body).to include("Fines")
+      end
+    end
+    context "not in alma user" do
+      it "show do not have fines and fees" do
+        not_in_alma
+        get "/fines-and-fees"
+        expect(last_response.body).to include("You don't have")
+      end
     end
   end
   context "get /favorites" do
@@ -261,10 +306,12 @@ describe "requests" do
       stub_circ_history_put_request(url: "users/tutor", query: {retain_history: true})
     end
     it "handles retain history" do
-
+      @session[:confirmed_history_setting] = false
+      env 'rack.session', @session
       post "/settings/history", {'retain_history' => 'true'}
       follow_redirect!
       expect(last_response.body).to include("History Setting Successfully Changed")
+      expect(last_request.env['rack.session'][:confirmed_history_setting]).to eq(true)
     end
   end
   #ToDO 

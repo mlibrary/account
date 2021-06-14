@@ -6,17 +6,20 @@ class Patron
   end
 
   def self.for(uniqname:, alma_client: AlmaRestClient.client, circ_history_client: CircHistoryClient.new(uniqname))
+    
     url = "/users/#{uniqname}?user_id_type=all_unique&view=full&expand=none" 
     alma_response = alma_client.get(url)
     circ_history_response = circ_history_client.user_info
-    if alma_response.code == 200 
-      if circ_history_response.code == 200
-        Patron.new(alma_data: alma_response.parsed_response, circ_history_data: circ_history_response.parsed_response)
-      else
-        Patron.new(alma_data: alma_response.parsed_response, circ_history_data: {"confirmed" => false, "retain_history" => false})
-      end
+    if circ_history_response.code == 200
+      circ_history_data = circ_history_response.parsed_response
     else
-      NotInAlma.new(uniqname)
+      circ_history_data = {"confirmed" => false, "retain_history" => false}
+    end
+    
+    if alma_response.code == 200 
+      Patron.new(alma_data: alma_response.parsed_response, circ_history_data: circ_history_data)
+    else
+      NotInAlma.new(uniqname, circ_history_data)
     end
   end
   def in_alma?
@@ -131,10 +134,12 @@ class Patron
   end
   class NotInAlma < self
     attr_reader :uniqname
-    def initialize(uniqname)
+    def initialize(uniqname, circ_history_data)
       @uniqname = uniqname
+      @circ_history_data = circ_history_data
     end
-    ['in_alma?', 'can_book?', 'confirmed_history_setting?','retain_history?'].each do |name|
+
+    ['in_alma?', 'can_book?'].each do |name|
       define_method(name) do
         false
       end

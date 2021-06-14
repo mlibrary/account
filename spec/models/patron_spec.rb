@@ -196,7 +196,7 @@ describe Patron do
       end
     end
   end
-  context "nonexistent uniqname" do
+  context "nonexistent uniqname and not in circ history" do
     before(:each) do
       @alma_response = File.read('./spec/fixtures/alma_error.json')
       @patron_url = "users/mrioaaa?user_id_type=all_unique&view=full&expand=none"
@@ -207,6 +207,7 @@ describe Patron do
       )
       stub_circ_history_get_request(
         url: 'users/mrioaaa',
+        status: 400
       )
     end
     subject do

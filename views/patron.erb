@@ -1,51 +1,52 @@
 <div class="owl narrow-content">
+  <% if patron.in_alma? %>
+    <p>You can update your name and address at <a href="https://wolverineaccess.umich.edu/task/all/campus-personal-info">Wolverine Access</a>.</p>
 
-  <p>You can update your name and address at <a href="https://wolverineaccess.umich.edu/task/all/campus-personal-info">Wolverine Access</a>.</p>
+    <p>To change document delivery preferences, visit your <a href="https://ill.lib.umich.edu/illiad/ChangeSite/ChangeSite.asp">interlibrary loan account</a>.</p>
 
-  <p>To change document delivery preferences, visit your <a href="https://ill.lib.umich.edu/illiad/ChangeSite/ChangeSite.asp">interlibrary loan account</a>.</p>
+    <table class="patron-table">
+      <tr>
+        <th>Full name</th>
+        <td><%= patron.full_name %></td>
+      </tr>
+      <tr>
+        <th>Email</th>
+        <td><%= patron.email_address %></td>
+      </tr>
+    </table>
 
-  <table class="patron-table">
-    <tr>
-      <th>Full name</th>
-      <td><%= patron.full_name %></td>
-    </tr>
-    <tr>
-      <th>Email</th>
-      <td><%= patron.email_address %></td>
-    </tr>
-  </table>
+    <form class="owl" method="post" action="/sms">
+      <h2>Text Notifications</h2>
 
-  <form class="owl" method="post" action="/sms">
-    <h2>Text Notifications</h2>
+      <p>Add a phone number to receive text notifications on the status of your request and loans. Special collections requests are not included. Message and data rates may apply.</p>
 
-    <p>Add a phone number to receive text notifications on the status of your request and loans. Special collections requests are not included. Message and data rates may apply.</p>
-
-    <input type="checkbox" class="toggle-switch visually-hidden" id="text-notifications" name="text-notifications" <% if patron.sms_number? %>checked<% end%>>
-    <label class="toggle-switch-label" for="text-notifications">
-      <div class="toggle"></div>
-      <span>You wish to receive text notifications</span>
-    </label>
-
-    <div class="sms-number-container">
-      <label class="text-notifications-label" for="sms-number">
-        Phone number
+      <input type="checkbox" class="toggle-switch visually-hidden" id="text-notifications" name="text-notifications" <% if patron.sms_number? %>checked<% end%>>
+      <label class="toggle-switch-label" for="text-notifications">
+        <div class="toggle"></div>
+        <span>You wish to receive text notifications</span>
       </label>
-      <input
-        type="tel"
-        name="sms-number"
-        id="sms-number"
-        value="<%= patron.sms_number %>"
-        pattern="\(\d{3}\) \d{3}-\d{4}"
-        aria-describedby="sms-number-description"
-        autocomplete="on"
-      />
-      <div id="sms-number-description">
-        <m-icon name="info"></m-icon><span class="input-description">Phone number must be 10 digits. Example: (123) 456-7890.</span>
-      </div>
-    </div>
 
-    <button>Update notification preferences</button>
-  </form>
+      <div class="sms-number-container">
+        <label class="text-notifications-label" for="sms-number">
+          Phone number
+        </label>
+        <input
+          type="tel"
+          name="sms-number"
+          id="sms-number"
+          value="<%= patron.sms_number %>"
+          pattern="\(\d{3}\) \d{3}-\d{4}"
+          aria-describedby="sms-number-description"
+          autocomplete="on"
+        />
+        <div id="sms-number-description">
+          <m-icon name="info"></m-icon><span class="input-description">Phone number must be 10 digits. Example: (123) 456-7890.</span>
+        </div>
+      </div>
+
+      <button>Update notification preferences</button>
+    </form>
+  <% end %>
 
   <form class="owl" method="post" action="/settings/history">
     <h2>Checkout History</h2>
