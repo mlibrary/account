@@ -46,3 +46,19 @@ button,
 .button--light {
   @include button--light;
 }
+
+.button--close {
+  background: transparent;
+  color: var(--color-neutral-400);
+  min-height: 0;
+  min-width: 0;
+  padding: var(--space-x-small);
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.button--caution {
+  background: var(--color-pink-500);
+  color: white;
+}
