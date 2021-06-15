@@ -34,8 +34,8 @@
 @mixin button--light {
   @include button;
 
-  background: var(--color-blue-100);
-  color: var(--color-teal-400);
+  background: var(--color-neutral-100);
+  color: var(--color-neutral-400);
 }
 
 button,
