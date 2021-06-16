@@ -86,7 +86,7 @@ end
 
 get '/logout' do
   session.clear
-  redirect "https://weblogin.umich.edu/cgi-bin/logout?https://lib.umich.edu"
+  redirect "https://shibboleth.umich.edu/cgi-bin/logout?https://lib.umich.edu/"
 end
 
 before  do
