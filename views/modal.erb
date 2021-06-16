@@ -4,7 +4,7 @@
   style="display: none;"
   id="<%= modal[:id] %>"
 >
-  <div class="modal-container">
+  <div class="modal-container" role="dialogue"  aria-labelledby="<%= modal[:id] %>-heading" aria-describedby="<%= modal[:id] %>-text">
     <button class="button--light button--close close-message" disabled>
       <m-icon name="close"></m-icon><span class="visually-hidden">Close</span>
     </button>
@@ -14,8 +14,8 @@
       </div>
     <% end %>
     <div class="modal-content owl">
-      <h2><%= modal[:content][:heading] %></h2>
-      <p><%= modal[:content][:text] %></p>
+      <h2 id="<%= modal[:id] %>-heading"><%= modal[:content][:heading] %></h2>
+      <p id="<%= modal[:id] %>-text"><%= modal[:content][:text] %></p>
     </div>
     <% if modal[:button] %>
       <div class="modal-buttons">
