@@ -1,5 +1,5 @@
-<div class="message-callout <% if message.renewed? and !message.not_renewed? %>message-callout--success<% elsif message.not_renewed? %>message-callout--warning<% end %>">
-  <button class="button--light button--close" disabled>
+<div class="message-callout <% if message.renewed? and !message.not_renewed? %>message-callout--success<% elsif message.not_renewed? %>message-callout--warning<% end %> can-close">
+  <button class="button--light button--close close-message" disabled>
     <m-icon name="close"></m-icon><span class="visually-hidden">Close</span>
   </button>
   <div class="message-callout-icon" aria-live="polite">
