@@ -1,16 +1,32 @@
 /**
- * Close message callout
+ * Close message
  */
 (function () {
-  const messageCallouts = document.querySelectorAll('.can-close');
-  messageCallouts.forEach((messageCallout) => {
-    const buttonsClose = messageCallout.querySelectorAll('.close-message');
+  const canClose = document.querySelectorAll('.can-close');
+  canClose.forEach((close) => {
+    const buttonsClose = close.querySelectorAll('.close-message');
     buttonsClose.forEach((buttonClose) => {
       buttonClose.removeAttribute('disabled');
       buttonClose.addEventListener('click', (event) => {
-        messageCallout.style.display = 'none';
+        close.style.display = 'none';
       });
     });
+  });
+})();
+
+/**
+ * Open modal
+ */
+(function () {
+  const attribute = 'data-js-modal';
+  const modalTriggers = document.querySelectorAll(`[${attribute}]`);
+  modalTriggers.forEach((modalTrigger) => {
+    const modal = document.getElementById(modalTrigger.getAttribute(attribute));
+    if (modal) {
+      modalTrigger.addEventListener('click', (event) => {
+        modal.style.display = 'block';
+      });
+    }
   });
 })();
 
