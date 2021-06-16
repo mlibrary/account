@@ -54,6 +54,7 @@ helpers StyledFlash
 enable :sessions
 set :session_secret, ENV['RACK_COOKIE_SECRET'] 
 set server: 'thin', connections: []
+use Rack::Logger
 
 use OmniAuth::Builder do
   provider :openid_connect, {
@@ -73,7 +74,7 @@ get '/auth/openid_connect/callback' do
   auth = request.env['omniauth.auth']
   info = auth[:info]
   session[:authenticated] = true
-  session[:expires_at] = Time.now.utc + auth.credentials.expires_in
+  session[:expires_at] = Time.now.utc + 1.hour
   patron = SessionPatron.new(info[:nickname])
   patron.to_h.each{|k,v| session[k] = v}
   redirect '/'
@@ -83,8 +84,13 @@ get '/auth/failure' do
   "You are not authorized"
 end
 
+get '/logout' do
+  session.clear
+  redirect "https://weblogin.umich.edu/cgi-bin/logout?https://lib.umich.edu"
+end
+
 before  do
-  pass if ['auth', 'stream', 'updater', 'session_switcher'].include? request.path_info.split('/')[1]
+  pass if ['auth', 'stream', 'updater', 'session_switcher', 'logout'].include? request.path_info.split('/')[1]
   if dev_login?
     if !session[:uniqname]
       redirect "/session_switcher?uniqname=#{URI.escape('mlibrary.acct.testing1@gmail.com')}"
@@ -92,6 +98,7 @@ before  do
     pass
   end
   if !session[:authenticated] || Time.now.utc > session[:expires_at]
+
     redirect '/auth/openid_connect'
   end
 end

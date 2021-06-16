@@ -33,7 +33,7 @@ describe "requests" do
       session = last_request.env["rack.session"]
       expect(session[:authenticated]).to eq(true)
       expect(session[:uniqname]).to eq('nottutor')
-      expect(session[:expires_at]).to be <= (Time.now.utc + 1.day )
+      expect(session[:expires_at]).to be <= (Time.now.utc + 1.hour )
     end
   end
   
