@@ -4,7 +4,8 @@ const ESLintPlugin = require('eslint-webpack-plugin');
 module.exports = {
   entry: {
     main: './js/index.js',
-    'current-checkouts-u-m-library': './js/current-checkouts.js'
+    'current-checkouts-u-m-library': './js/current-checkouts.js',
+    settings: './js/settings.js'
   },
   output: {
     filename: '[name].bundle.js',

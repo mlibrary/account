@@ -1,23 +1,31 @@
-<div class="modal-wrapper can-close" aria-live="polite">
+<div
+  class="modal-wrapper can-close"
+  aria-live="polite"
+  style="display: none;"
+  id="<%= modal[:id] %>"
+>
   <div class="modal-container">
     <button class="button--light button--close close-message" disabled>
       <m-icon name="close"></m-icon><span class="visually-hidden">Close</span>
     </button>
-    <div class="modal-icon">
-      <m-icon name="warning"></m-icon>
-    </div>
+    <% if modal[:state] %>
+      <div class="modal-icon state-<%= modal[:state] %>">
+        <m-icon name="warning"></m-icon>
+      </div>
+    <% end %>
     <div class="modal-content owl">
-      <h2>Delete checkout history</h2>
-      <p>Once you opt out, your previous checkout history is deleted 
-      and cannot be recovered, even if you opt back in later.</p>
+      <h2><%= modal[:content][:heading] %></h2>
+      <p><%= modal[:content][:text] %></p>
     </div>
-    <div class="modal-buttons">
-      <button class="button--light close-message" disabled>
-        Cancel
-      </button>
-      <button class="button--caution" disabled>
-        Delete history
-      </button>
-    </div>
+    <% if modal[:button] %>
+      <div class="modal-buttons">
+        <button class="button--light close-message" disabled>
+          Cancel
+        </button>
+        <button class="button<% if modal[:state] %>--<%= modal[:state] %><% end %>" data-js-modal-button="<%= modal[:id] %>" disabled>
+          <%= modal[:button] %>
+        </button>
+      </div>
+    <% end %>
   </div>
 </div>

@@ -294,7 +294,7 @@ end
 namespace '/settings' do 
   get '' do
     patron = Patron.for(uniqname: session[:uniqname])
-    erb :patron, :locals => {patron: patron}
+    erb :patron, :locals => {patron: patron, has_js: true}
   end
   post '/history' do
     response = Patron.set_retain_history(uniqname: session[:uniqname], retain_history: params[:retain_history])
