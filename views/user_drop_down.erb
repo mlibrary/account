@@ -9,7 +9,7 @@
   <div class="navigation-lists dropdown-container" id="user-nav-dropdown" style="display: none;">
     <ul class="site-navigation-list">
       <% dropdown.pages.each do |page| %>
-        <li class="<%= page.active? ? 'active': '' %>">
+        <li class="<%= page.active %>">
           <a href="<%=page.path%>">
             <span><%=page.title%></span>
           </a>
