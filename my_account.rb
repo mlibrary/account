@@ -9,11 +9,20 @@ require "alma_rest_client"
 require 'jwt'
 require 'byebug' 
 
-require_relative "./lib/empty_state"
+
+require_relative "./lib/entities/entities"
+require_relative "./lib/entities/pages"
+require_relative "./lib/entities/empty_state"
+
+require_relative "./lib/navigation/navigation"
+require_relative "./lib/navigation/page"
+require_relative "./lib/navigation/horizontal_nav"
+require_relative "./lib/navigation/user_dropdown"
+require_relative "./lib/navigation/title"
+
 require_relative "./lib/utility"
 require_relative "./lib/illiad_client"
 require_relative "./lib/circ_history_client"
-require_relative "./lib/navigation"
 require_relative "./lib/publisher"
 require_relative "./lib/table_controls.rb"
 require_relative "./lib/pagination/pagination"
@@ -155,7 +164,7 @@ end
 # :nocov:
 
 get '/' do
-  erb :home, :locals => { navigation: Navigation.new}
+  erb :home, :locals => { cards: Navigation.cards }
 end
 
 namespace '/current-checkouts' do
