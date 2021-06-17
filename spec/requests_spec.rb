@@ -227,16 +227,16 @@ describe "requests" do
     end
   end
   context "get /past-activity/u-m-library" do
-    context "in alma user" do
+    context "in circ history user" do
       it "exists" do
         stub_circ_history_get_request(url: "users/tutor/loans")
         get "/past-activity/u-m-library" 
         expect(last_response.status).to eq(200)
       end
     end
-    context "not in alma user" do
+    context "not in circ history user" do
       it "show do not have circ history" do
-        not_in_alma
+        stub_circ_history_get_request(url: "users/tutor/loans", status: 400)
         get "/past-activity/u-m-library" 
         expect(last_response.body).to include("You don't have")
       end

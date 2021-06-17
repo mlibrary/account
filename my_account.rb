@@ -253,7 +253,7 @@ namespace '/past-activity' do
 
   namespace '/u-m-library' do
     get '' do
-      if session[:in_alma]
+      if session[:in_circ_history]
         table_controls = TableControls::PastLoansForm.new(limit: params["limit"], order_by: params["order_by"], direction: params["direction"])
         past_loans = CirculationHistoryItems.for(uniqname: session[:uniqname], offset: params["offset"], limit: params["limit"], order_by: params["order_by"], direction: params["direction"])
         erb :past_loans, :locals => {past_loans: past_loans, table_controls: table_controls}
