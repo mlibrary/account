@@ -36,6 +36,18 @@ class Request < AlmaItem
   def request_date
     DateTime.patron_format(@parsed_response["request_time"])
   end
+  def status
+    case @parsed_response["request_status"]
+    when "IN_PROCESS"
+      "In Process"
+    when "ON_HOLD_SHELF"
+      "On Hold Shelf"
+    when "NOT_STARTED"
+      ''
+    else
+      ''
+    end
+  end
 end
 class BookingRequest < Request
   def booking_date
