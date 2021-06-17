@@ -15,11 +15,12 @@ form[method="post"] {
 
   .retain-history-option {
     input[type="radio"] {
-      &:checked + label m-icon[name="radio-button-unchecked"] {
-        display: none;
-      }
+      &:checked + label m-icon[name="radio-button-unchecked"],
       &:not(:checked) + label m-icon[name="radio-button-checked"] {
         display: none;
+      }
+      &:not(:checked) + label m-icon {
+        color: var(--color-neutral-200);
       }
       &:focus + label m-icon {
         outline: 0;
