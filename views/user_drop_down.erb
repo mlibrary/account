@@ -1,4 +1,4 @@
-<% my_pages = OldNavigation.new(request.path_info) %>
+<% dropdown = Navigation::UserDropdown.for(request.path_info) %>
 
 <nav class="user-navigation dropdown">
   <button aria-expanded="false" data-dropdown="user-nav-dropdown" class="button--dropdown">
@@ -8,7 +8,7 @@
   </button>
   <div class="navigation-lists dropdown-container" id="user-nav-dropdown" style="display: none;">
     <ul class="site-navigation-list">
-      <% my_pages.pages.each do |page| %>
+      <% dropdown.pages.each do |page| %>
         <li class="<%= page.active? ? 'active': '' %>">
           <a href="<%=page.path%>">
             <span><%=page.title%></span>

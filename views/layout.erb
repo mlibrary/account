@@ -27,10 +27,9 @@
       src="https://unpkg.com/@umich-lib/components@v1/dist/umich-lib/umich-lib.js"
       ></script>
     <%
-      nav = OldNavigation.new(request.path_info)
-      horizontal_nav = nav.horizontal_nav
+      title = Navigation::Title.for(request.path_info)
     %>
-    <title><%= horizontal_nav.nil? ? nav.title : horizontal_nav.section + ": " + horizontal_nav.title %> | University of Michigan Library</title>
+    <title><%= title %> | University of Michigan Library</title>
   </head>
   <body> 
     <m-universal-header></m-universal-header>

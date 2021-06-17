@@ -4,11 +4,22 @@ class Entities::Pages
     raw.map do |p| 
       Entities::Page.new(p) 
     end
+  end
 
+  def self.page(path)
+    flattened.find{|page| page.path == path} 
   end
   private
   def self.raw
     JSON.parse(File.read('./config/navigation.json'))
+  end
+  def self.flattened
+    array = Array.new
+    all.each do |page|
+      array.push(page)
+      array.push(page.children) unless page.children.nil?
+    end
+    array.flatten
   end
 
 end
@@ -34,6 +45,10 @@ class Entities::Page
     else
       "/#{@parent.slug}/#{slug}"
     end
+  end
+
+  def ==(page)
+    page.path == self.path
   end
  
   def slug
