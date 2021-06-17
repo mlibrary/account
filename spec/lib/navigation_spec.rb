@@ -1,4 +1,4 @@
-describe Navigation do
+describe OldNavigation do
   it "to have pages" do
     expect(described_class.new.pages.count).to be > 0
   end

@@ -159,7 +159,7 @@ end
 # :nocov:
 
 get '/' do
-  erb :home, :locals => { navigation: Navigation.new}
+  erb :home, :locals => { navigation: OldNavigation.new}
 end
 
 namespace '/current-checkouts' do

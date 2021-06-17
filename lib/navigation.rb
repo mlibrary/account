@@ -1,4 +1,4 @@
-class Navigation
+class OldNavigation
   attr_reader :pages
   def initialize(current_path=nil)
     @pages = JSON.parse(File.read('./config/navigation.json')).map do |p|

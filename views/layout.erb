@@ -27,7 +27,7 @@
       src="https://unpkg.com/@umich-lib/components@v1/dist/umich-lib/umich-lib.js"
       ></script>
     <%
-      nav = Navigation.new(request.path_info)
+      nav = OldNavigation.new(request.path_info)
       horizontal_nav = nav.horizontal_nav
     %>
     <title><%= horizontal_nav.nil? ? nav.title : horizontal_nav.section + ": " + horizontal_nav.title %> | University of Michigan Library</title>
