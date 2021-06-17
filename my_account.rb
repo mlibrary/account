@@ -9,6 +9,10 @@ require "alma_rest_client"
 require 'jwt'
 require 'byebug' 
 
+
+require_relative "./lib/entities/entities"
+require_relative "./lib/entities/pages"
+require_relative "./lib/entities/empty_state"
 require_relative "./lib/empty_state"
 require_relative "./lib/utility"
 require_relative "./lib/illiad_client"
