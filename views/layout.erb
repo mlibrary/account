@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-1341620-23"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+    
+      gtag('config', 'UA-1341620-23');
+    </script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
@@ -17,7 +26,10 @@
       nomodule
       src="https://unpkg.com/@umich-lib/components@v1/dist/umich-lib/umich-lib.js"
       ></script>
-    <title>Account | University of Michigan Library</title>
+    <%
+      title = Navigation::Title.for(request.path_info)
+    %>
+    <title><%= title %> | University of Michigan Library</title>
   </head>
   <body> 
     <m-universal-header></m-universal-header>

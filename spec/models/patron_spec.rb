@@ -101,6 +101,11 @@ describe Patron do
         expect(subject.can_book?).to eq(false)
       end
     end
+    context "#in_circ_history?" do
+      it 'returns true' do
+        expect(subject.in_circ_history?).to eq(true)
+      end
+    end
     context "#retain_history?" do
       it "returns correct true boolean" do
         expect(subject.retain_history?).to eq(true)
@@ -195,8 +200,13 @@ describe Patron do
         expect(subject.retain_history?).to eq(false)
       end
     end
+    context "#in_circ_history?" do
+      it "is false" do
+        expect(subject.in_circ_history?).to eq(false)
+      end
+    end
   end
-  context "nonexistent uniqname" do
+  context "nonexistent uniqname and not in circ history" do
     before(:each) do
       @alma_response = File.read('./spec/fixtures/alma_error.json')
       @patron_url = "users/mrioaaa?user_id_type=all_unique&view=full&expand=none"
@@ -207,10 +217,16 @@ describe Patron do
       )
       stub_circ_history_get_request(
         url: 'users/mrioaaa',
+        status: 400
       )
     end
     subject do
       Patron.for(uniqname: 'mrioaaa')
+    end
+    context "#in_circ_history?" do
+      it "is false when no created_at from circ history" do
+        expect(subject.in_circ_history?).to eq(false)
+      end
     end
     ['in_alma?', 'can_book?', 'confirmed_history_setting?','retain_history?'].each do |method|
       context "##{method}" do

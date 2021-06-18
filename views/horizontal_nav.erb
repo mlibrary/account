@@ -1,18 +1,19 @@
 <%
-  nav = Navigation.new(request.path_info)
-  horizontal_nav = nav.horizontal_nav
+  page = Entities::Pages.page(request.path_info)
+  horizontal_nav = Navigation::HorizontalNav.for(page)
+  home = Navigation.home
 %>
 
-<% if nav.home != nav.title %>
+<% if home != page %>
   <p class="breadcrumbs">
     <m-icon name="keyboard-arrow-left"></m-icon>
-    <a href="/">Back to <%=nav.home%></a>
+    <a href=<%=home.path%>>Back to <%=home.title%></a>
   </p>
 <% end %>
 
 <% if horizontal_nav.nil?%>
 
-  <h1><%=nav.title%></h1>
+  <h1><%=page.title%></h1>
 
 <% else %>
 

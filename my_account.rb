@@ -9,11 +9,20 @@ require "alma_rest_client"
 require 'jwt'
 require 'byebug' 
 
-require_relative "./lib/empty_state"
+
+require_relative "./lib/entities/entities"
+require_relative "./lib/entities/pages"
+require_relative "./lib/entities/empty_state"
+
+require_relative "./lib/navigation/navigation"
+require_relative "./lib/navigation/page"
+require_relative "./lib/navigation/horizontal_nav"
+require_relative "./lib/navigation/user_dropdown"
+require_relative "./lib/navigation/title"
+
 require_relative "./lib/utility"
 require_relative "./lib/illiad_client"
 require_relative "./lib/circ_history_client"
-require_relative "./lib/navigation"
 require_relative "./lib/publisher"
 require_relative "./lib/table_controls.rb"
 require_relative "./lib/pagination/pagination"
@@ -54,6 +63,7 @@ helpers StyledFlash
 enable :sessions
 set :session_secret, ENV['RACK_COOKIE_SECRET'] 
 set server: 'thin', connections: []
+use Rack::Logger
 
 use OmniAuth::Builder do
   provider :openid_connect, {
@@ -73,8 +83,9 @@ get '/auth/openid_connect/callback' do
   auth = request.env['omniauth.auth']
   info = auth[:info]
   session[:authenticated] = true
-  session[:uniqname] = info[:nickname]
-  session[:expires_at] = Time.now.utc + auth.credentials.expires_in
+  session[:expires_at] = Time.now.utc + 1.hour
+  patron = SessionPatron.new(info[:nickname])
+  patron.to_h.each{|k,v| session[k] = v}
   redirect '/'
 end
 
@@ -82,8 +93,13 @@ get '/auth/failure' do
   "You are not authorized"
 end
 
+get '/logout' do
+  session.clear
+  redirect "https://shibboleth.umich.edu/cgi-bin/logout?https://lib.umich.edu/"
+end
+
 before  do
-  pass if ['auth', 'stream', 'updater', 'session_switcher'].include? request.path_info.split('/')[1]
+  pass if ['auth', 'stream', 'updater', 'session_switcher', 'logout'].include? request.path_info.split('/')[1]
   if dev_login?
     if !session[:uniqname]
       redirect "/session_switcher?uniqname=#{URI.escape('mlibrary.acct.testing1@gmail.com')}"
@@ -91,6 +107,7 @@ before  do
     pass
   end
   if !session[:authenticated] || Time.now.utc > session[:expires_at]
+
     redirect '/auth/openid_connect'
   end
 end
@@ -147,7 +164,7 @@ end
 # :nocov:
 
 get '/' do
-  erb :home, :locals => { navigation: Navigation.new}
+  erb :home, :locals => { cards: Navigation.cards }
 end
 
 namespace '/current-checkouts' do
@@ -160,10 +177,14 @@ namespace '/current-checkouts' do
   end
 
   get '/u-m-library' do
-    loan_controls = TableControls::LoansForm.new(limit: params["limit"], order_by: params["order_by"], direction: params["direction"])
-    loans = Loans.for(uniqname: session[:uniqname], offset: params["offset"], limit: params["limit"], order_by: params["order_by"], direction: params["direction"])
-    message = session.delete(:message)
-    erb :shelf, :locals => { loans: loans, message: message, loan_controls: loan_controls, has_js: true}
+    if session[:in_alma]
+      loan_controls = TableControls::LoansForm.new(limit: params["limit"], order_by: params["order_by"], direction: params["direction"])
+      loans = Loans.for(uniqname: session[:uniqname], offset: params["offset"], limit: params["limit"], order_by: params["order_by"], direction: params["direction"])
+      message = session.delete(:message)
+      erb :shelf, :locals => { loans: loans, message: message, loan_controls: loan_controls, has_js: true}
+    else
+      erb :empty_state
+    end
   end
   
   post '/u-m-library' do
@@ -198,9 +219,13 @@ namespace '/pending-requests' do
   end
 
   get '/u-m-library' do
-    requests = Requests.for(uniqname: session[:uniqname])
+    if session[:in_alma]
+      requests = Requests.for(uniqname: session[:uniqname])
 
-    erb :requests, :locals => { holds: requests.holds, bookings: requests.bookings }
+      erb :requests, :locals => { holds: requests.holds, bookings: requests.bookings }
+    else
+      erb :empty_state
+    end
   end
   post '/u-m-library/cancel-request' do
     response = Request.cancel(uniqname: session[:uniqname], request_id: params["request_id"])
@@ -237,9 +262,13 @@ namespace '/past-activity' do
 
   namespace '/u-m-library' do
     get '' do
-      table_controls = TableControls::PastLoansForm.new(limit: params["limit"], order_by: params["order_by"], direction: params["direction"])
-      past_loans = CirculationHistoryItems.for(uniqname: session[:uniqname], offset: params["offset"], limit: params["limit"], order_by: params["order_by"], direction: params["direction"])
-      erb :past_loans, :locals => {past_loans: past_loans, table_controls: table_controls}
+      if session[:in_circ_history]
+        table_controls = TableControls::PastLoansForm.new(limit: params["limit"], order_by: params["order_by"], direction: params["direction"])
+        past_loans = CirculationHistoryItems.for(uniqname: session[:uniqname], offset: params["offset"], limit: params["limit"], order_by: params["order_by"], direction: params["direction"])
+        erb :past_loans, :locals => {past_loans: past_loans, table_controls: table_controls}
+      else
+        erb :empty_state
+      end
     end
     get '/download.csv' do
       resp = CircHistoryClient.new(session[:uniqname]).download_csv
@@ -286,6 +315,7 @@ namespace '/settings' do
   post '/history' do
     response = Patron.set_retain_history(uniqname: session[:uniqname], retain_history: params[:retain_history])
     if response.code == 200
+      session[:confirmed_history_setting] = true      
       flash[:success] = "<strong>Success:</strong> History Setting Successfully Changed"
     else
       flash[:error] = "<strong>Error:</strong> #{response.message}"
@@ -324,8 +354,12 @@ end
 
 namespace '/fines-and-fees' do
   get '' do
-    fines = Fines.for(uniqname: session[:uniqname])
-    erb :fines, :locals => { fines: fines }
+    if session[:in_alma]
+      fines = Fines.for(uniqname: session[:uniqname])
+      erb :fines, :locals => { fines: fines }
+    else
+      erb :empty_state
+    end
   end
 
   

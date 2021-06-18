@@ -1,5 +1,5 @@
 <%
-  empty_state = EmptyState.new(request.path_info)
+  empty_state = Entities::Pages.page(request.path_info).empty_state
 %>
 
 <section class="empty-state-container">
