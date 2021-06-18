@@ -28,6 +28,9 @@ class Patron
   def self.set_retain_history(uniqname:, retain_history:, circ_history_client: CircHistoryClient.new(uniqname))
     circ_history_client.set_retain_history(retain_history)
   end
+  def in_circ_history?
+    !!@circ_history_data["created_at"]
+  end
   def confirmed_history_setting?
     @circ_history_data["confirmed"]
   end

@@ -1,5 +1,5 @@
 <%
-  empty_state = EmptyState.new(request.path_info)
+  empty_state = Entities::Pages.page(request.path_info).empty_state
 %>
 
 <section class="empty-state-container">
@@ -8,5 +8,5 @@
     <p><%=empty_state.message%></p>
   </div>
 
-  <img src="/not-found.png" alt="Planes with spotlights." />
+  <img src="/not-found.png" alt="" />
 </section>

@@ -9,11 +9,20 @@ require "alma_rest_client"
 require 'jwt'
 require 'byebug' 
 
-require_relative "./lib/empty_state"
+
+require_relative "./lib/entities/entities"
+require_relative "./lib/entities/pages"
+require_relative "./lib/entities/empty_state"
+
+require_relative "./lib/navigation/navigation"
+require_relative "./lib/navigation/page"
+require_relative "./lib/navigation/horizontal_nav"
+require_relative "./lib/navigation/user_dropdown"
+require_relative "./lib/navigation/title"
+
 require_relative "./lib/utility"
 require_relative "./lib/illiad_client"
 require_relative "./lib/circ_history_client"
-require_relative "./lib/navigation"
 require_relative "./lib/publisher"
 require_relative "./lib/table_controls.rb"
 require_relative "./lib/pagination/pagination"
@@ -54,6 +63,7 @@ helpers StyledFlash
 enable :sessions
 set :session_secret, ENV['RACK_COOKIE_SECRET'] 
 set server: 'thin', connections: []
+use Rack::Logger
 
 use OmniAuth::Builder do
   provider :openid_connect, {
@@ -73,7 +83,7 @@ get '/auth/openid_connect/callback' do
   auth = request.env['omniauth.auth']
   info = auth[:info]
   session[:authenticated] = true
-  session[:expires_at] = Time.now.utc + auth.credentials.expires_in
+  session[:expires_at] = Time.now.utc + 1.hour
   patron = SessionPatron.new(info[:nickname])
   patron.to_h.each{|k,v| session[k] = v}
   redirect '/'
@@ -83,8 +93,13 @@ get '/auth/failure' do
   "You are not authorized"
 end
 
+get '/logout' do
+  session.clear
+  redirect "https://shibboleth.umich.edu/cgi-bin/logout?https://lib.umich.edu/"
+end
+
 before  do
-  pass if ['auth', 'stream', 'updater', 'session_switcher'].include? request.path_info.split('/')[1]
+  pass if ['auth', 'stream', 'updater', 'session_switcher', 'logout'].include? request.path_info.split('/')[1]
   if dev_login?
     if !session[:uniqname]
       redirect "/session_switcher?uniqname=#{URI.escape('mlibrary.acct.testing1@gmail.com')}"
@@ -92,6 +107,7 @@ before  do
     pass
   end
   if !session[:authenticated] || Time.now.utc > session[:expires_at]
+
     redirect '/auth/openid_connect'
   end
 end
@@ -148,7 +164,7 @@ end
 # :nocov:
 
 get '/' do
-  erb :home, :locals => { navigation: Navigation.new}
+  erb :home, :locals => { cards: Navigation.cards }
 end
 
 namespace '/current-checkouts' do
@@ -246,7 +262,7 @@ namespace '/past-activity' do
 
   namespace '/u-m-library' do
     get '' do
-      if session[:in_alma]
+      if session[:in_circ_history]
         table_controls = TableControls::PastLoansForm.new(limit: params["limit"], order_by: params["order_by"], direction: params["direction"])
         past_loans = CirculationHistoryItems.for(uniqname: session[:uniqname], offset: params["offset"], limit: params["limit"], order_by: params["order_by"], direction: params["direction"])
         erb :past_loans, :locals => {past_loans: past_loans, table_controls: table_controls}
