@@ -2,17 +2,20 @@
   display: flex;
   align-items: center;
 
-  padding-top: var(--space-medium);
+  margin-top: var(--space-medium);
+  background: var(--color-blue-100);
+  padding: var(--space-x-large);
+  border-radius: 4px; 
 
   h2 {
     padding-bottom: var(--space-x-small);
   }
 
   div {
-    padding-right: var(--space-x-large);
+    padding-right: var(--space-xx-large);
   }
 
   img {
-    width: 40%;
+    width: 25%;
   }
 }
