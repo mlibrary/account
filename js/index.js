@@ -6,10 +6,10 @@
   canClose.forEach((close) => {
     const buttonsClose = close.querySelectorAll('.close-message');
     buttonsClose.forEach((buttonClose) => {
-      buttonClose.removeAttribute('disabled');
       buttonClose.addEventListener('click', (event) => {
         close.style.display = 'none';
       });
+      buttonClose.removeAttribute('disabled');
     });
   });
 })();
