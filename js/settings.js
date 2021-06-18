@@ -10,7 +10,7 @@ const fetchHistory = (attribute) => {
       method: 'POST'
     }).then((response) => {
       if (response.status === 200) {
-        return response.json();
+        return response.text();
       }
     }).then((data) => {
       location.reload();

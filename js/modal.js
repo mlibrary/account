@@ -5,7 +5,7 @@ const modal = () => {
     const modal = document.getElementById(modalTrigger.getAttribute(attribute));
     if (modal) {
       modalTrigger.addEventListener('click', (event) => {
-        modal.style.display = 'block';
+        modal.style.display = 'flex';
       });
     }
   });
