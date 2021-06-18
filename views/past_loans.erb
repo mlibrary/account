@@ -21,6 +21,7 @@
   <thead>
     <tr>
       <th>Title & author</th>
+      <th>Call Number</th>
       <th>Checkout Date</th>
       <th>Return Date</th>
     </tr>
@@ -31,6 +32,9 @@
         <td>
           <a href="#"><%= loan.title %></a>
           <span>&#183; <%= loan.author %></span>
+        </td>
+        <td style="min-width: 25%;">
+          <%= loan.call_number %>
         </td>
         <td style="min-width: 25%;">
           <%= loan.checkout_date %>
