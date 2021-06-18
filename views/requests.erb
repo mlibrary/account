@@ -1,11 +1,7 @@
-<% if holds.count == 0 %>
 
-<%= erb :empty_state %>
-
-<% elsif %>
-
-<h3>Hold Requests</h3>
-
+<% if !session[:in_alma] || holds.count == 0 %>
+  <%= HoldRequest.empty_state %>
+<% else %>
 <div class="table-container">
 <table>
   <thead>
@@ -41,44 +37,48 @@
   </tbody>
 </table>
 </div>
-
 <% end %>
-<% if session[:can_book] && bookings.count > 0%>
-<h3>Media Booking Requests</h3>
 
-<div class="table-container">
-<table>
-  <thead>
-    <tr>
-      <th>Title & author</th>
-      <th style="width: 9rem;">Pickup location</th>
-      <th style="width: 9rem;">Pickup date</th>
-      <th style="width: 6rem;">Action</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% bookings.each do |booking_request| %>
+<% if session[:can_book] %> 
+<h2>Media</h2>
+
+  <% if bookings.count == 0%>
+    <%= BookingRequest.empty_state %>
+  <% else %>
+  <div class="table-container">
+  <table>
+    <thead>
       <tr>
-        <td>
-          <%= erb :title_author, locals: {item: booking_request} %>
-        <td>
-          <%= booking_request.pickup_location %>
-          <% if !booking_request.status.empty? %>
-            <span class="tag<%= booking_request.status_tag %>">
-              <%= booking_request.status %>
-            </span>
-          <% end %>
-        </td>
-        <td>
-          <%= booking_request.booking_date %>
-        </td>
-        <td>
-          <button class="button--light" data-js-cancel="<%=booking_request.request_id%>" disabled>Cancel</button>
-        </td>
+        <th>Title & author</th>
+        <th style="width: 9rem;">Pickup location</th>
+        <th style="width: 9rem;">Pickup date</th>
+        <th style="width: 6rem;">Action</th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
-</div>
-
+    </thead>
+    <tbody>
+      <% bookings.each do |booking_request| %>
+        <tr>
+          <td>
+            <%= erb :title_author, locals: {item: booking_request} %>
+          <td>
+            <%= booking_request.pickup_location %>
+            <% if !booking_request.status.empty? %>
+              <span class="tag<%= booking_request.status_tag %>">
+                <%= booking_request.status %>
+              </span>
+            <% end %>
+          </td>
+          <td>
+            <%= booking_request.booking_date %>
+          </td>
+          <td>
+            <button class="button--light" data-js-cancel="<%=booking_request.request_id%>" disabled>Cancel</button>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  </div>
+  
+  <% end %>
 <% end %>

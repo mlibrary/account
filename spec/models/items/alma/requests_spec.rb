@@ -105,6 +105,9 @@ describe HoldRequest do
   context "#status_tag" do
     it "returns '--warning' when 'In process'" do
       expect(subject.status_tag).to eq('--warning')
+  context ".empty_state" do
+    it "has text" do
+      expect(described_class.empty_state).to include("active requests")
     end
   end
 end
@@ -118,6 +121,11 @@ describe BookingRequest do
   context "#booking_date" do
     it "returns date booking is scheduled for" do
       expect(subject.booking_date).to eq("11/19/20")
+    end
+  end
+  context ".empty_state" do
+    it "has text" do
+      expect(described_class.empty_state).to include("active media")
     end
   end
 end
