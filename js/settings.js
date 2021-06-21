@@ -37,6 +37,7 @@ retainHistoryOptions.forEach((retainHistoryOption) => {
  * Set history preference
  */
 updateHistoryButton.addEventListener('click', (event) => {
+  event.target.innerHTML = 'Processing...';
   if (retainHistory) {
     updateHistory();
   } else {
@@ -49,5 +50,6 @@ updateHistoryButton.addEventListener('click', (event) => {
  */
 const modalButton = document.querySelector('[data-js-modal-button]');
 modalButton.addEventListener('click', (event) => {
-  return updateHistory();
+  event.target.innerHTML = 'Processing...';
+  updateHistory();
 });
