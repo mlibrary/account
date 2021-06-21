@@ -1,37 +1,53 @@
 import modal from './modal';
 
 /**
- * Fetch History
+ * Update history
  */
-const fetchHistory = (attribute) => {
-  const button = document.querySelector(attribute);
-  button.addEventListener('click', (event) => {
-    fetch('/settings/history', {
-      method: 'POST'
-    }).then((response) => {
-      if (response.status === 200) {
-        return response.text();
-      }
-    }).then((data) => {
-      location.reload();
-    });
+const updateHistory = () => {
+  fetch('/settings/history', {
+    method: 'POST'
+  }).then((response) => {
+    if (response.status === 200) {
+      return response.text();
+    }
+  }).then((data) => {
+    location.reload();
   });
-  button.removeAttribute('disabled');
 };
 
 /**
- * Delete history
+ * Get history preference
  */
-(function () {
-  const retainHistoryOptions = document.querySelectorAll('input[name="retain_history"]');
-  retainHistoryOptions.forEach((retainHistoryOption) => {
-    retainHistoryOption.addEventListener('change', (event) => {
-      if (event.target.value === 'false') {
-        modal();
-        fetchHistory('[data-js-modal-button="delete-history"]');
-      } else {
-        fetchHistory('[data-js-modal="delete-history"]');
-      }
-    });
+let retainHistory;
+const updateHistoryButton = document.getElementById('update-history');
+const retainHistoryOptions = document.querySelectorAll('input[name="retain_history"]');
+retainHistoryOptions.forEach((retainHistoryOption) => {
+  retainHistoryOption.addEventListener('change', (event) => {
+    updateHistoryButton.removeAttribute('disabled');
+    retainHistory = event.target.value === 'true';
+    if (retainHistory) {
+      updateHistoryButton.removeAttribute('data-js-modal');
+    } else {
+      updateHistoryButton.setAttribute('data-js-modal', 'delete-history');
+    }
   });
-})();
+});
+
+/**
+ * Set history preference
+ */
+updateHistoryButton.addEventListener('click', (event) => {
+  if (retainHistory) {
+    updateHistory();
+  } else {
+    modal(event.target.getAttribute('data-js-modal'));
+  }
+});
+
+/**
+ * Modal button
+ */
+const modalButton = document.querySelector('[data-js-modal-button]');
+modalButton.addEventListener('click', (event) => {
+  return updateHistory();
+});
