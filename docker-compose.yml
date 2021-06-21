@@ -9,7 +9,7 @@ services:
       - .:/app
       - gem_cache:/gems
     environment:
-      - WEBLOGIN_ON=true
+      - WEBLOGIN_ON=false
     env_file:
       - .env
       - .env-dev-values
@@ -38,7 +38,7 @@ services:
 
 
   circulation-history-db:
-    image: ghcr.io/mlibrary/dev_db:latest
+    image: ghcr.io/mlibrary/circulation_history_dev_db:latest
   sass:
     build: .
     volumes:
