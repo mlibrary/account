@@ -2,7 +2,7 @@ class PastDocumentDelivery < InterlibraryLoanItems
   attr_reader :pagination, :count
   def initialize(parsed_response:, pagination:, count: nil)
     super
-    @items = parsed_response.map { |item| PastDocumentDeliveryItem.new(item) }
+    @items = parsed_response.filter_map { |item| PastDocumentDeliveryItem.new(item) if item["RequestType"] == "Article" && item["TransactionStatus"] == "Request Finished" }
     @pagination = pagination
     @count = count
   end
@@ -16,7 +16,7 @@ class PastDocumentDelivery < InterlibraryLoanItems
     "/past-activity/scans-and-electronic-items"
   end
   def self.filter
-    "RequestType eq 'Loan' and (TransactionStatus eq 'Request Finished' or startswith(TransactionStatus, 'Cancelled'))"
+    "RequestType eq 'Article' and TransactionStatus eq 'Request Finished'"
   end
   
 end
