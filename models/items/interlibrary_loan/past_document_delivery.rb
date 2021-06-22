@@ -2,7 +2,7 @@ class PastDocumentDelivery < InterlibraryLoanItems
   attr_reader :pagination, :count
   def initialize(parsed_response:, pagination:, count: nil)
     super
-    @items = parsed_response.filter_map { |item| PastDocumentDeliveryItem.new(item) if item["RequestType"] == "Article" && item["TransactionStatus"] == "Request Finished" }
+    @items = parsed_response.map { |item| PastDocumentDeliveryItem.new(item) }
     @pagination = pagination
     @count = count
   end
