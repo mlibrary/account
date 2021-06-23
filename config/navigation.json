@@ -1,7 +1,8 @@
 [
   { 
     "title": "Account Overview",
-    "icon_name": "home"
+    "icon_name": "home",
+    "dropdown": "true"
   },
   {
     "title": "Current Checkouts",
@@ -125,6 +126,7 @@
     "title": "Settings",
     "description": "Review your contact information and update your account preferences.",
     "icon_name": "settings",
-    "color": "green"
+    "color": "green",
+    "dropdown": "true"
   }
 ]

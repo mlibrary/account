@@ -11,6 +11,7 @@ describe Entities::Page do
       'icon_name' => 'icon_name',
       'color' => 'color',
       'empty_state' => nil,
+      'dropdown' => 'dropdown'
     }
     @parent = nil
   end
@@ -19,7 +20,7 @@ describe Entities::Page do
     described_class.new(@page, @parent)
   end
 
-  ['title','description','icon_name','color'].each do |method|
+  ['title','description','icon_name','color','dropdown'].each do |method|
     context "##{method}" do
       it "returns a string" do
         expect(subject.public_send(method)).to eq(method)
