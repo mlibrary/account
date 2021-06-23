@@ -1,11 +1,4 @@
-<!--
-  Could this data come from back-end?
-
-  Maybe some configured data related to side navigation
-  and homepage cards could be grouped? Flag navigation
-  elements that should be these overview cards and filter
-  them to this view, or something.
--->
+<p>Showing details for <%=session[:uniqname]%>.</p>
 <ul class="overview-cards">
 <% cards.each do |card| %>
   <li>

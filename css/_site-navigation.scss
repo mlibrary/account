@@ -66,3 +66,14 @@
     }
   }
 }
+
+a.logout {
+  display: block;
+  text-decoration: none;
+  color: var(--color-neutral-400);
+
+  &:hover,
+  &:focus {
+    text-decoration: underline;
+  }
+}

@@ -34,7 +34,9 @@
   <body> 
     <m-universal-header></m-universal-header>
     <m-website-header name="Account">
-      <%= erb :user_drop_down %>
+      <a class="logout" href="/logout">
+        <span>Log out</span>
+      </a>
     </m-website-header>
     <%= erb :banner %>
     <main class="layout site-layout">
