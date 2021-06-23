@@ -4,6 +4,8 @@
 
 <% elsif %>
 
+<div class="table-container">
+
 <table>
   <caption>
     <div class="caption-flex">
@@ -44,6 +46,8 @@
     <% end %>
   </tbody>
 </table>
+
+</div>
 
 <%= erb :pagination, locals: {pagination: past_loans.pagination, count: past_loans.count} %>
 <% end %>
