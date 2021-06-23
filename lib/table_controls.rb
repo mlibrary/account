@@ -94,10 +94,10 @@ module TableControls
         {value: 'author-desc', text: 'Author: Z-A'},
         {value: 'call-asc', text: 'Call Number: A-Z'},
         {value: 'call-desc', text: 'Call Number: Z-A'},
-        {value: 'checkout-asc', text: 'Checkout Date: Soonest - Furthest'},
-        {value: 'checkout-desc', text: 'Checkout Date: Furthest - Soonest'},
-        {value: 'return-asc', text: 'Return Date: Soonest - Furthest'},
-        {value: 'return-desc', text: 'Return Date: Furthest - Soonest'},
+        {value: 'checkout-asc', text: 'Checked Out: Soonest - Furthest'},
+        {value: 'checkout-desc', text: 'Checked Out: Furthest - Soonest'},
+        {value: 'return-asc', text: 'Returned: Soonest - Furthest'},
+        {value: 'return-desc', text: 'Returned: Furthest - Soonest'},
       ].map{ |x| Select.new(value: x[:value], text: x[:text], selected: x[:value] == selected_sort)}
     end
   end

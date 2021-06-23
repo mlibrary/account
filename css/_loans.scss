@@ -1,27 +1,14 @@
-.loan-caption-inner-layout {
+.caption-flex {
+  align-items: center;
   display: flex;
+  flex-wrap: wrap;
+  margin: 0 calc(var(--space-x-small) * -1);
   justify-content: space-between;
-  align-items: baseline;
-}
-
-.loan-controls,
-.loan-controls form {
-  display: flex;
-  align-items: baseline;
-  justify-content: flex-end;
-
-  & > *:not(:last-child) {
-    margin-right: var(--space-medium);
+  & > * {
+    padding: var(--space-x-small);
   }
-}
-
-.loan-controls {
-  padding: var(--space-x-small);
-  padding-bottom: 0;
-}
-
-.loan-control {
-  & > *:not(:last-child) {
-    margin-right: var(--space-medium);
+  & > & {
+    margin: 0;
+    padding: 0;
   }
 }

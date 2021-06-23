@@ -6,16 +6,14 @@
 
 <table>
   <caption>
-    <div class="loan-caption-inner-layout">
+    <div class="caption-flex">
       <p>Showing <strong><%=past_loans.pagination.first%></strong> - <strong><%=past_loans.pagination.last%></strong> of <strong><%= past_loans.count %></strong> items</p>
-
-      <div class="loan-controls">
-    <%= erb :table_controls, locals: { table_controls: table_controls} %>
-    <form method="get" action="/past-activity/u-m-library/download.csv">
-   <button class = "button" type="submit">Download CSV</button>
-</form>
-
-    </div>
+      <div class="caption-flex loan-controls">
+        <%= erb :table_controls, locals: { table_controls: table_controls } %>
+        <form method="get" action="/past-activity/u-m-library/download.csv">
+          <button type="submit">Download CSV</button>
+        </form>
+      </div>
     </div>
   </caption>
   <thead>
