@@ -29,7 +29,7 @@ services:
       - "3000:3000"
     environment:
       - RAILS_ENV=production
-      - MYSQL_ROOT_PASSWORD=pass
+      - MARIADB_ROOT_PASSWORD=pass
       - CIRCULATION_HISTORY_DATABASE_PASSWORD=circulation_history_db_password
       - DATABASE_HOST=circulation-history-db
       - SECRET_KEY_BASE=secret_key_base
