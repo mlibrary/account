@@ -20,10 +20,4 @@ class DocumentDelivery < InterlibraryLoanItems
 end
 
 class DocumentDeliveryItem < InterlibraryLoanItem
-  def initialize(parsed_response)
-    super
-    @title = "#{@parsed_response["PhotoJournalTitle"] || ""} #{@parsed_response["PhotoArticleTitle"] || ""}"
-    @author = @parsed_response["PhotoArticleAuthor"] || ""
-    @description = @parsed_response["PhotoJournalVolume"] || ""
-  end
 end
