@@ -16,10 +16,10 @@ class PastDocumentDelivery < InterlibraryLoanItems
     "/past-activity/scans-and-electronic-items"
   end
   def self.filter
-    "RequestType eq 'Article' and TransactionStatus eq 'Request Finished'"
+    "RequestType eq 'Article' and (TransactionStatus eq 'Request Finished' or startswith(TransactionStatus, 'Cancelled'))"
   end
   
 end
 
-class PastDocumentDeliveryItem < InterlibraryLoanItem
+class PastDocumentDeliveryItem < DocumentDeliveryItem
 end
