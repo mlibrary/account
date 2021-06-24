@@ -17,6 +17,7 @@ require_relative "./lib/entities/empty_state"
 require_relative "./lib/navigation/navigation"
 require_relative "./lib/navigation/page"
 require_relative "./lib/navigation/horizontal_nav"
+require_relative "./lib/navigation/sidebar"
 require_relative "./lib/navigation/user_dropdown"
 require_relative "./lib/navigation/title"
 
