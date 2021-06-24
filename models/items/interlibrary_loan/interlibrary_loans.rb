@@ -16,7 +16,7 @@ class InterlibraryLoans < InterlibraryLoanItems
     "/current-checkouts/interlibrary-loan"
   end
   def self.filter
-    "RequestType eq 'Loan' and TransactionStatus eq 'Checked Out to Customer'"
+    "RequestType eq 'Loan' and TransactionStatus eq 'Checked Out to Customer' and ProcessType eq 'Borrowing'"
   end
   
 end
