@@ -29,14 +29,15 @@
 
 <table>
   <caption>
-    <div class="loan-caption-inner-layout">
+    <div class="caption-flex">
       <p>Showing <strong><%=loans.pagination.first%></strong> - <strong><%=loans.pagination.last%></strong> of <strong><%= loans.count %></strong> <%= loans.item_text %></p>
-
-      <div class="loan-controls">
+      <div class="caption-flex loan-controls">
         <%= erb :table_controls, locals: { table_controls: loan_controls} %>
-        <button class="button" data-js-renew-all="<%= loans.count %>" disabled>
-          <m-icon name="autorenew"></m-icon><span style="padding-left: var(--space-xx-small);">Renew all</span>
-        </button>
+        <div class="renew-all">
+          <button class="button" data-js-renew-all="<%= loans.count %>" disabled>
+            <m-icon name="autorenew"></m-icon><span style="padding-left: var(--space-xx-small);">Renew all</span>
+          </button>
+        </div>
       </div>
     </div>
   </caption>

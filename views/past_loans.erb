@@ -4,25 +4,28 @@
 
 <% elsif %>
 
+<div class="table-container">
+
 <table>
   <caption>
-    <div class="loan-caption-inner-layout">
+    <div class="caption-flex">
       <p>Showing <strong><%=past_loans.pagination.first%></strong> - <strong><%=past_loans.pagination.last%></strong> of <strong><%= past_loans.count %></strong> items</p>
-
-      <div class="loan-controls">
-    <%= erb :table_controls, locals: { table_controls: table_controls} %>
-    <form method="get" action="/past-activity/u-m-library/download.csv">
-   <button class = "button" type="submit">Download CSV</button>
-</form>
-
-    </div>
+      <div class="caption-flex loan-controls">
+        <%= erb :table_controls, locals: { table_controls: table_controls } %>
+        <div class="download-csv">
+          <a class="button" href="/past-activity/u-m-library/download.csv">
+            Download CSV
+          </a>
+        </div>
+      </div>
     </div>
   </caption>
   <thead>
     <tr>
       <th>Title & author</th>
-      <th>Checkout Date</th>
-      <th>Return Date</th>
+      <th style="width: 12rem;">Call Number</th>
+      <th style="width: 10rem;">Checked Out</th>
+      <th style="width: 9rem;">Returned</th>
     </tr>
   </thead>
   <tbody>
@@ -32,16 +35,21 @@
           <a href="#"><%= loan.title %></a>
           <span>&#183; <%= loan.author %></span>
         </td>
-        <td style="min-width: 25%;">
+        <td>
+          <%= loan.call_number %>
+        </td>
+        <td>
           <%= loan.checkout_date %>
         </td>
-        <td style="min-width: 25%;">
+        <td>
           <%= loan.return_date %>
         </td>
       </tr>
     <% end %>
   </tbody>
 </table>
+
+</div>
 
 <%= erb :pagination, locals: {pagination: past_loans.pagination, count: past_loans.count} %>
 <% end %>
