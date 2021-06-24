@@ -1,9 +1,15 @@
 class InterlibraryLoanItem < Item
   def initialize(parsed_response)
     super
-    @title = @parsed_response["LoanTitle"] || ""
-    @author = @parsed_response["LoanAuthor"] || ""
-    @description = ""
+    if @parsed_response["RequestType"] == "Article"
+      @title = "#{@parsed_response["PhotoJournalTitle"] || ""} #{@parsed_response["PhotoArticleTitle"] || ""}"
+      @author = @parsed_response["PhotoArticleAuthor"] || ""
+      @description = @parsed_response["PhotoJournalVolume"] || ""
+    else
+      @title = @parsed_response["LoanTitle"] || ""
+      @author = @parsed_response["LoanAuthor"] || ""
+      @description = ""
+    end
   end
   def illiad_id
     @parsed_response["TransactionNumber"]
