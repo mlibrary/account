@@ -98,8 +98,13 @@ describe HoldRequest do
     end
   end
   context "#status" do
-    it "returns 'In Process' when not IN_PROCESS" do
-      expect(subject.status).to eq('In Process')
+    it "returns 'In process' when IN_PROCESS" do
+      expect(subject.status).to eq('In process')
+    end
+  end
+  context "#status_tag" do
+    it "returns '--warning' when 'In process'" do
+      expect(subject.status_tag).to eq('--warning')
     end
   end
 end
