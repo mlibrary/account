@@ -15,7 +15,7 @@ class InterlibraryLoanRequests < InterlibraryLoanItems
     "/pending-requests/interlibrary-loan"
   end
   def self.filter
-    "TransactionStatus ne 'Request Finished' and TransactionStatus ne 'Cancelled by ILL Staff' and TransactionStatus ne 'Cancelled by Customer' and TransactionStatus ne 'Delivered to Web' and TransactionStatus ne 'Checked Out to Customer'"
+    "TransactionStatus ne 'Request Finished' and TransactionStatus ne 'Cancelled by ILL Staff' and TransactionStatus ne 'Cancelled by Customer' and TransactionStatus ne 'Delivered to Web' and TransactionStatus ne 'Checked Out to Customer' and ProcessType eq 'Borrowing'"
   end
 end
 
