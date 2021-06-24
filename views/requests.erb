@@ -24,6 +24,11 @@
         </td>
         <td>
           <%= hold_request.pickup_location %>
+          <% if !hold_request.status.empty? %>
+            <span class="tag<%= hold_request.status_tag %>">
+              <%= hold_request.status %>
+            </span>
+          <% end %>
         </td>
         <td>
           <%= hold_request.request_date %>
@@ -58,6 +63,11 @@
           <%= erb :title_author, locals: {item: booking_request} %>
         <td>
           <%= booking_request.pickup_location %>
+          <% if !booking_request.status.empty? %>
+            <span class="tag<%= booking_request.status_tag %>">
+              <%= booking_request.status %>
+            </span>
+          <% end %>
         </td>
         <td>
           <%= booking_request.booking_date %>
