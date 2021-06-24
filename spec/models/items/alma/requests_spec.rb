@@ -97,6 +97,16 @@ describe HoldRequest do
       expect(subject.pickup_location).to eq("Main Library")
     end
   end
+  context "#status" do
+    it "returns 'In process' when IN_PROCESS" do
+      expect(subject.status).to eq('In process')
+    end
+  end
+  context "#status_tag" do
+    it "returns '--warning' when 'In process'" do
+      expect(subject.status_tag).to eq('--warning')
+    end
+  end
 end
 describe BookingRequest do
   before(:each) do

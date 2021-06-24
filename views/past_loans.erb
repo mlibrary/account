@@ -12,9 +12,11 @@
       <p>Showing <strong><%=past_loans.pagination.first%></strong> - <strong><%=past_loans.pagination.last%></strong> of <strong><%= past_loans.count %></strong> items</p>
       <div class="caption-flex loan-controls">
         <%= erb :table_controls, locals: { table_controls: table_controls } %>
-        <form method="get" action="/past-activity/u-m-library/download.csv">
-          <button type="submit">Download CSV</button>
-        </form>
+        <div class="download-csv">
+          <a class="button" href="/past-activity/u-m-library/download.csv">
+            Download CSV
+          </a>
+        </div>
       </div>
     </div>
   </caption>
