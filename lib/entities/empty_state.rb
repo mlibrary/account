@@ -1,6 +1,6 @@
 class Entities::Page::EmptyState
   attr_reader :heading, :message
-  def initialize(empty_state, parent_empty_state)
+  def initialize(empty_state, parent_empty_state=nil)
     @heading = "You have no items."
     @message = "See <a href=\"https://www.lib.umich.edu/find-borrow-request\">what you can borrow from the library<\/a>."
     
