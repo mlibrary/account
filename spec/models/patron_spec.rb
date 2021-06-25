@@ -6,7 +6,9 @@ describe Patron do
     before(:each) do
       @alma_response = JSON.parse(File.read('./spec/fixtures/mrio_user_alma.json'))
       @circ_history_response = JSON.parse(File.read('./spec/fixtures/circ_history_user.json'))
+      @illiad_response = JSON.parse(File.read('./spec/fixtures/illiad_user.json'))
       @patron_url = "users/mrio?user_id_type=all_unique&view=full&expand=none"
+      
     end
     subject do
       stub_alma_get_request(
@@ -17,6 +19,7 @@ describe Patron do
         url: 'users/mrio',
         output: @circ_history_response.to_json
       )
+      stub_illiad_get_request(url: 'Users/mrio', body: @illiad_response.to_json) 
       Patron.for(uniqname: 'mrio')
     end
     context "#update_sms(sms_number)" do
@@ -182,6 +185,7 @@ describe Patron do
         url: @patron_url, 
         body: @alma_response.to_json
       )
+      stub_illiad_get_request(url: 'Users/mrio', status: 404)
       stub_circ_history_get_request(
         status: 400,
         url: 'users/mrio',
@@ -219,6 +223,7 @@ describe Patron do
         url: 'users/mrioaaa',
         status: 400
       )
+      stub_illiad_get_request(url: 'Users/mrioaaa', status: 404)
     end
     subject do
       Patron.for(uniqname: 'mrioaaa')

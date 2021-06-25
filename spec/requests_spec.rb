@@ -28,11 +28,13 @@ describe "requests" do
     it "sets session to appropriate values" do
       stub_alma_get_request(url: "users/nottutor?expand=none&user_id_type=all_unique&view=full", status: 400)
       stub_circ_history_get_request(url: 'users/nottutor')
+      stub_illiad_get_request(url: 'Users/nottutor', status: 404)
       OmniAuth.config.add_mock(:openid_connect, omniauth_auth)
       get '/auth/openid_connect/callback'
       session = last_request.env["rack.session"]
       expect(session[:authenticated]).to eq(true)
       expect(session[:uniqname]).to eq('nottutor')
+      expect(session[:in_illiad]).to eq(false)
       expect(session[:expires_at]).to be <= (Time.now.utc + 1.hour )
     end
   end
@@ -295,6 +297,7 @@ describe "requests" do
     it "contains 'Settings'" do
       stub_alma_get_request(url: "users/tutor?expand=none&user_id_type=all_unique&view=full")
       stub_circ_history_get_request(url: "users/tutor")
+      stub_illiad_get_request(url: 'Users/tutor', status: 404)
       get "/settings"
       expect(last_response.body).to include("Settings")
     end
@@ -305,6 +308,7 @@ describe "requests" do
       stub_alma_get_request(url: "users/tutor?expand=none&user_id_type=all_unique&view=full", body: @patron_json)
       stub_circ_history_get_request(url: "users/tutor")
       stub_circ_history_put_request(url: "users/tutor", query: {retain_history: true})
+      stub_illiad_get_request(url: 'Users/tutor', status: 404)
     end
     it "handles retain history" do
       @session[:confirmed_history_setting] = false
@@ -350,6 +354,7 @@ describe "requests" do
       @patron_json = File.read("./spec/fixtures/mrio_user_alma.json")
       stub_alma_get_request(url: "users/tutor?expand=none&user_id_type=all_unique&view=full", body: @patron_json)
       stub_circ_history_get_request(url: 'users/tutor')
+      stub_illiad_get_request(url: 'Users/tutor', status: 404)
     end
     it "handles good phone number update" do
       sms_number = '(734) 555-5555'

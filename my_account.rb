@@ -30,7 +30,7 @@ require_relative "./lib/pagination/pagination"
 require_relative "./lib/pagination/pagination_decorator"
 require_relative "./lib/circulation_history_settings_text"
 
-
+require_relative "./models/illiad_patron.rb"
 require_relative "./models/patron"
 require_relative "./models/session_patron"
 
