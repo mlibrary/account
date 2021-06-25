@@ -36,7 +36,7 @@ class InterlibraryLoanItem < Item
     @parsed_response["DueDate"] ? DateTime.patron_format(@parsed_response["DueDate"]) : ''
   end
   def due_status
-    LoanDate.parse(@parsed_response["DueDate"]).due_status
+    LoanDate.parse(@parsed_response["DueDate"]).due_status if @parsed_response["DueDate"]
   end
   def transaction_date
     @parsed_response["TransactionDate"] ? DateTime.patron_format(@parsed_response["TransactionDate"]) : ''

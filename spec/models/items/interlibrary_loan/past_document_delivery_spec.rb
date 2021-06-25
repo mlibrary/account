@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'json'
 
 describe PastDocumentDelivery do
-  let(:query){{"$filter" => "RequestType eq 'Loan' and (TransactionStatus eq 'Request Finished' or startswith(TransactionStatus, 'Cancelled'))", "$top" => '15'}}
+  let(:query){{"$filter" => "RequestType eq 'Article' and (TransactionStatus eq 'Request Finished' or startswith(TransactionStatus, 'Cancelled'))", "$top" => '15'}}
   context "three loans" do
     before(:each) do
       stub_illiad_get_request(url: 'Transaction/UserRequests/testhelp', body: File.read('./spec/fixtures/illiad_requests.json'), query: query)

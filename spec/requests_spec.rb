@@ -155,7 +155,7 @@ describe "requests" do
   context "get /current-checkouts/interlibrary-loan" do
     it "contains 'Interlibrary Loan'" do
       stub_illiad_get_request(url: "Transaction/UserRequests/testhelp", 
-        body: File.read("spec/fixtures/illiad_requests.json"))
+        body: File.read("spec/fixtures/illiad_requests.json"), query: hash_excluding({just_pass: 'for_real'}))
       get "/current-checkouts/interlibrary-loan" 
       expect(last_response.body).to include("Interlibrary Loan")
     end
@@ -163,7 +163,7 @@ describe "requests" do
   context "get /current-checkouts/scans-and-electronic-items" do
     it "contains 'Scans and Electronic Items'" do
       stub_illiad_get_request(url: "Transaction/UserRequests/testhelp", 
-        body: File.read("spec/fixtures/illiad_requests.json"))
+        body: File.read("spec/fixtures/illiad_requests.json"),query: hash_excluding({just_pass: 'for_real'}))
       get "/current-checkouts/scans-and-electronic-items" 
       expect(last_response.body).to include("Scans and Electronic Items")
     end
@@ -201,7 +201,7 @@ describe "requests" do
   context "get /pending-requests/interlibrary-loan" do
     it "contains 'From Other Institutions (Interlibrary Loan)'" do
       stub_illiad_get_request(url: "Transaction/UserRequests/testhelp", 
-        body: File.read("spec/fixtures/illiad_requests.json"))
+        body: File.read("spec/fixtures/illiad_requests.json"), query: hash_excluding({just_pass: 'for_real'}))
       get "/pending-requests/interlibrary-loan" 
       expect(last_response.body).to include("Interlibrary Loan")
     end
@@ -244,9 +244,8 @@ describe "requests" do
   end
   context "get /past-activity/interlibrary-loan" do
     it "contains 'Interlibrary Loan'" do
-      query = {"$filter" => "RequestType ne 'Loan' and (TransactionStatus eq 'Request Finished' or startswith(TransactionStatus, 'Cancelled'))"}
       stub_illiad_get_request(url: "Transaction/UserRequests/testhelp", 
-        body: File.read("spec/fixtures/illiad_requests.json"), query: query)
+        body: File.read("spec/fixtures/illiad_requests.json"), query: hash_excluding({just_pass: 'for_real'}))
       get "/past-activity/interlibrary-loan" 
       expect(last_response.body).to include("Interlibrary Loan")
     end
@@ -255,7 +254,7 @@ describe "requests" do
     it "contains 'Scans and Electronic Items'" do
       query = {"$filter" => "RequestType eq 'Loan' and (TransactionStatus eq 'Request Finished' or startswith(TransactionStatus, 'Cancelled'))"}
       stub_illiad_get_request(url: "Transaction/UserRequests/testhelp", 
-        body: File.read("spec/fixtures/illiad_requests.json"), query: query)
+        body: File.read("spec/fixtures/illiad_requests.json"), query: hash_excluding({just_pass: 'for_real'}))
       get "/past-activity/scans-and-electronic-items" 
       expect(last_response.body).to include("Scans and Electronic Items")
     end
