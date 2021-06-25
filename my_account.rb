@@ -223,8 +223,8 @@ namespace '/pending-requests' do
   get '/u-m-library' do
     if session[:in_alma]
       requests = Requests.for(uniqname: session[:uniqname])
-
-      erb :requests, :locals => { holds: requests.holds, bookings: requests.bookings }
+      local_document_delivery = PendingLocalDocumentDelivery.for(uniqname: session[:uniqname]) 
+      erb :requests, :locals => { holds: requests.holds, bookings: requests.bookings, local_document_delivery: local_document_delivery }
     else
       erb :empty_state
     end
