@@ -105,6 +105,8 @@ describe HoldRequest do
   context "#status_tag" do
     it "returns '--warning' when 'In process'" do
       expect(subject.status_tag).to eq('--warning')
+    end
+  end
   context ".empty_state" do
     it "has text" do
       expect(described_class.empty_state).to include("active requests")
