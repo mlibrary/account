@@ -26,4 +26,24 @@ class PendingLocalDocumentDelivery < InterlibraryLoanItems
 end
 
 class PendingDocumentDeliveryItem < InterlibraryLoanItem
+  def status
+    tstatus = @parsed_response["TransactionStatus"]
+    if ['In Delivery Transit','Out for Delivery'].include?(tstatus)
+      'Being Delivered'
+    elsif ['Customer Notified via E-Mail'].include(tstatus)
+      'Ready'
+    else
+      'In process'
+    end
+  end
+  def status_tag
+    case self.status
+    when "Ready"
+      "--success"
+    when "Being Delivered"
+      "--warning"
+    else
+      ''
+    end
+  end
 end
