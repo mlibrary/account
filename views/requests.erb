@@ -10,7 +10,7 @@
   <thead>
     <tr>
       <th>Title & author</th>
-      <th style="width: 9rem;">Pickup location</th>
+      <th style="width: 12rem;">Pickup location</th>
       <th style="width: 8rem;">Requested</th>
       <th style="width: 7rem;">Expires</th>
       <th style="width: 6rem;">Action</th>
@@ -47,7 +47,7 @@
 <% end %>
 
 <% if illiad_patron.in_illiad? %>
-  <h2>Local Document Delivery</h2>
+  <h2>Scans and Departmental Delivery</h2>
   <p>Your Local Document Delivery pickup location is:</p>
   <address><%= illiad_patron.delivery_location %></address>
   <p>To change document delivery preferences, visit your <a href="https://ill.lib.umich.edu/illiad/ChangeSite/ChangeSite.asp">interlibrary loan account</a>.</p>
@@ -106,7 +106,7 @@
     <thead>
       <tr>
         <th>Title & author</th>
-        <th style="width: 9rem;">Pickup location</th>
+        <th style="width: 12rem;">Pickup location</th>
         <th style="width: 9rem;">Pickup date</th>
         <th style="width: 7rem;">Expires</th>
         <th style="width: 6rem;">Action</th>

@@ -8,7 +8,7 @@ class PendingLocalDocumentDelivery < InterlibraryLoanItems
   end
 
   def self.empty_state(markdown=Redcarpet::Markdown.new(Redcarpet::Render::HTML))
-    markdown.render("You don’t have any active departmental delivery requests.\n\nLearn more [about this service](https://lib.umich.edu/find-borrow-request/request-items-pick-or-delivery/delivery-your-department).")
+    markdown.render("You don’t have any active requests.\n\nLearn about [requesting scans](https://lib.umich.edu/find-borrow-request/request-digital-copies-or-duplication/scans) and [item delivery](https://lib.umich.edu/find-borrow-request/request-items-pick-or-delivery/delivery-your-department).")
   end
 
 
