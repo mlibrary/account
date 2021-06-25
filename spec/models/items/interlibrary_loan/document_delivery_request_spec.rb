@@ -12,11 +12,11 @@ describe PendingDocumentDeliveryItem do
     context "#status" do
       it "returns Being delivered for In Delivery Transit" do
         @request["TransactionStatus"] = "In Delivery Transit"
-        expect(subject.status).to eq('Being Delivered')
+        expect(subject.status).to eq('Being delivered')
       end
       it "returns Being delivered for Out for Delivery" do
         @request["TransactionStatus"] = "Out for Delivery"
-        expect(subject.status).to eq('Being Delivered')
+        expect(subject.status).to eq('Being delivered')
       end
       it "returns Ready for 'Customer Notified via E-Mail'" do
         @request["TransactionStatus"] = "Customer Notified via E-Mail"
