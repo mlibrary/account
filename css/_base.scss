@@ -46,8 +46,10 @@ body {
 
 main.layout {
   align-content: baseline;
+  margin-top: var(--space-medium);
+  width: 100%;
 
-  @media screen and (min-width: 920px) {
+  @media screen and (min-width: 1001px) {
     margin-top: var(--space-xx-large);
   }
 }
@@ -88,14 +90,13 @@ table {
   max-width: 1280px;
   margin: 0 auto;
 
-  @media screen and (min-width: 721px) {
+  @media screen and (min-width: 1001px) {
     padding: 0 var(--space-xx-large);
   }
 }
 
 .site-layout {
-  @media screen and (min-width: 920px) {
-    width: 100%;
+  @media screen and (min-width: 1001px) {
     display: grid;
     grid-template-columns: 14rem auto;
     grid-gap: var(--space-xxx-large);
