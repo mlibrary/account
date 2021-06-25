@@ -57,6 +57,7 @@ require_relative "./models/items/interlibrary_loan/interlibrary_loans"
 require_relative "./models/items/interlibrary_loan/interlibrary_loan_requests"
 require_relative "./models/items/interlibrary_loan/past_document_delivery"
 require_relative "./models/items/interlibrary_loan/past_interlibrary_loans"
+require_relative "./models/items/interlibrary_loan/pending_document_delivery"
 
 
 helpers StyledFlash
