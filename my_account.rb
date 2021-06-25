@@ -224,7 +224,8 @@ namespace '/pending-requests' do
     if session[:in_alma]
       requests = Requests.for(uniqname: session[:uniqname])
       local_document_delivery = PendingLocalDocumentDelivery.for(uniqname: session[:uniqname]) 
-      erb :requests, :locals => { holds: requests.holds, bookings: requests.bookings, local_document_delivery: local_document_delivery }
+      illiad_patron = ILLiadPatron.for(uniqname: session[:uniqname])
+      erb :requests, :locals => { holds: requests.holds, bookings: requests.bookings, local_document_delivery: local_document_delivery, illiad_patron: illiad_patron }
     else
       erb :empty_state
     end

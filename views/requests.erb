@@ -1,4 +1,3 @@
-
 <% if !session[:in_alma] || holds.count == 0 %>
   <%= HoldRequest.empty_state %>
 <% else %>
@@ -43,9 +42,12 @@
 </div>
 <% end %>
 
-<% if session[:can_book] %> 
-<h2>Local Document Delivery</h2>
-
+<% if illiad_patron.in_illiad? %>
+  <h2>Local Document Delivery</h2>
+  <p>
+  Your Local Document Delivery pickup location is:<br/><%= illiad_patron.delivery_location %>
+  </p>
+  <p>To change document delivery preferences, visit your <a href="https://ill.lib.umich.edu/illiad/ChangeSite/ChangeSite.asp">interlibrary loan account</a>.</p>
   <% if local_document_delivery.count == 0%>
     <%= PendingLocalDocumentDelivery.empty_state %>
   <% else %>
@@ -54,22 +56,25 @@
     <thead>
       <tr>
         <th>Title & author</th>
-        <th style="width: 9rem;">Pickup location</th>
-        <th style="width: 9rem;">Status</th>
+        <th style="width: 8rem;">Requested</th>
+        <th style="width: 7rem;">Expires</th>
         <th style="width: 6rem;">Action</th>
       </tr>
     </thead>
     <tbody>
-      <% local_document_delivery.each do |doc_del| %>
+      <% local_document_delivery.each do |delivery_request| %>
         <tr>
           <td>
-            <%= erb :title_author, locals: {item: doc_del} %>
-          <td>
-              <span class="tag<%= doc_del&.status_tag %>">
-              </span>
+            <%= erb :title_author, locals: {item: delivery_request} %>
           </td>
           <td>
-            Action?
+            <%= delivery_request.creation_date %>
+          </td>
+          <td>
+            <%= delivery_request.expiration_date %>
+          </td>
+          <td>
+            <a class="button--light" href="<%= delivery_request.url_cancel_request %>">Cancel</a>
           </td>
         </tr>
       <% end %>
@@ -79,6 +84,7 @@
   
   <% end %>
 <% end %>
+
 <% if session[:can_book] %> 
 <h2>Media</h2>
 
@@ -126,45 +132,3 @@
   
   <% end %>
 <% end %>
-<%# if patron.in_ill? %>
-  <h2>Departmental Delivery</h2>
-  <p>To change document delivery preferences, visit your <a href="https://ill.lib.umich.edu/illiad/ChangeSite/ChangeSite.asp">interlibrary loan account</a>.</p>
-  <p>
-    <%#= delivery_request.pickup_location %>
-  </p>
-  <% if local_document_delivery.count == 0%>
-    <%= PendingLocalDocumentDelivery.empty_state %>
-  <% else %>
-  <div class="table-container">
-  <table>
-    <thead>
-      <tr>
-        <th>Title & author</th>
-        <th style="width: 8rem;">Requested</th>
-        <th style="width: 7rem;">Expires</th>
-        <th style="width: 6rem;">Action</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% local_document_delivery.each do |delivery_request| %>
-        <tr>
-          <td>
-            <%= erb :title_author, locals: {item: delivery_request} %>
-          </td>
-          <td>
-            <%= delivery_request.creation_date %>
-          </td>
-          <td>
-            <%= delivery_request.expiration_date %>
-          </td>
-          <td>
-            <a class="button--light" href="<%= delivery_request.url_cancel_request %>">Cancel</a>
-          </td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
-  </div>
-  
-  <% end %>
-<%# end %>

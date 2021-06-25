@@ -188,6 +188,7 @@ describe "requests" do
     context "in alma" do
       it "contains 'U-M Library'" do
         stub_alma_get_request(url: "users/tutor/requests", body: File.read("./spec/fixtures/requests.json"), query: {limit: 100, offset: 0}  )
+      stub_illiad_get_request(url: "Users/tutor", status: 404)
       stub_illiad_get_request(url: "Transaction/UserRequests/tutor", 
         body: '[]', query: hash_excluding({just_pass: 'for_real'}))
         get "/pending-requests/u-m-library"

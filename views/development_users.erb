@@ -14,6 +14,10 @@
     {
       label: 'Not in Alma',
       value: 'definitelynotinalma'
+    },
+    {
+      label: 'mrio',
+      value: 'mrio'
     }
   ]
 %>
@@ -28,7 +32,7 @@
   
         <select id="test-user" name="uniqname">
           <% test_users.each do |user| %>
-            <option value="<%=user[:value]%>"><%=user[:label]%></option>
+            <option value="<%=user[:value]%>"<% if session[:uniqname] == user[:value]%>selected<%end%>><%=user[:label]%></option>
             <% end %>
         </select>
   
