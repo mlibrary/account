@@ -64,7 +64,7 @@
       <tr>
         <th>Title & author</th>
         <th style="width: 8rem;">Requested</th>
-        <th style="width: 7rem;">Expires</th>
+        <th style="width: 7rem;">Status</th>
         <th style="width: 6rem;">Action</th>
       </tr>
     </thead>
@@ -78,7 +78,11 @@
             <%= delivery_request.creation_date %>
           </td>
           <td>
-            <%= delivery_request.expiration_date %>
+            <% if !delivery_request.status.empty? %>
+              <span class="tag<%= delivery_request.status_tag %>">
+                <%= delivery_request.status %>
+              </span>
+            <% end %>
           </td>
           <td>
             <a class="button--light" style="display: inline-block;" href="<%= delivery_request.url_cancel_request %>">Cancel</a>
