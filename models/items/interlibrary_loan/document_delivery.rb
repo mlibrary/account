@@ -1,17 +1,21 @@
-class DocumentDelivery < Items
-  def initialize(parsed_response:)
+class DocumentDelivery < InterlibraryLoanItems
+  attr_reader :pagination, :count
+  def initialize(parsed_response:, pagination:, count: nil)
     super
-    @items = parsed_response.filter_map { |item| DocumentDeliveryItem.new(item) if item["RequestType"] == "Loan" && item["TransactionStatus"] != "Request Finished" }
+    @items = parsed_response.map { |item| DocumentDeliveryItem.new(item) }
+    @pagination = pagination
+    @count = count
   end
 
-  def self.for(uniqname:, client: ILLiadClient.new)
-    url = "/Transaction/UserRequests/#{uniqname}" 
-    response = client.get(url)
-    if response.code == 200
-      DocumentDelivery.new(parsed_response: response.parsed_response)
-    else
-      #Error!
-    end
+  private
+  def self.illiad_url(uniqname)
+    "/Transaction/UserRequests/#{uniqname}" 
+  end
+  def self.url
+    "/current-checkouts/scans-and-electronic-items"
+  end
+  def self.filter
+    "RequestType eq 'Article' and TransactionStatus eq 'Delivered to Web'"
   end
 end
 

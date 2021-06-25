@@ -1,15 +1,15 @@
 class InterlibraryLoanItem < Item
   def initialize(parsed_response)
     super
-    @title = @parsed_response["LoanTitle"] ||
-             @parsed_response["PhotoJournalTitle"] ||
-             @parsed_response["PhotoArticleTitle"] ||
-             @parsed_response["CitedTitle"] || ""
-
-    @author = @parsed_response["LoanAuthor"] ||
-              @parsed_response["PhotoItemAuthor"] || 
-              @parsed_response["PhotoArticleAuthor"] || ""
-    @description = @parsed_response["CitedVolume"] || ""
+    if @parsed_response["RequestType"] == "Article"
+      @title = "#{@parsed_response["PhotoJournalTitle"] || ""} #{@parsed_response["PhotoArticleTitle"] || ""}"
+      @author = @parsed_response["PhotoArticleAuthor"] || ""
+      @description = !@parsed_response["PhotoJournalVolume"].nil? ? "vol #{@parsed_response["PhotoJournalVolume"]}" : ""
+    else
+      @title = @parsed_response["LoanTitle"] || ""
+      @author = @parsed_response["LoanAuthor"] || ""
+      @description = ""
+    end
   end
   def illiad_id
     @parsed_response["TransactionNumber"]
@@ -36,7 +36,7 @@ class InterlibraryLoanItem < Item
     @parsed_response["DueDate"] ? DateTime.patron_format(@parsed_response["DueDate"]) : ''
   end
   def due_status
-    LoanDate.parse(@parsed_response["DueDate"]).due_status
+    LoanDate.parse(@parsed_response["DueDate"]).due_status if @parsed_response["DueDate"]
   end
   def transaction_date
     @parsed_response["TransactionDate"] ? DateTime.patron_format(@parsed_response["TransactionDate"]) : ''

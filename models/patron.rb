@@ -1,12 +1,14 @@
 require 'telephone_number'
 class Patron
-  def initialize(alma_data:, circ_history_data: nil)
+  def initialize(alma_data:, circ_history_data: nil, illiad_data: nil)
     @alma_data = alma_data
     @circ_history_data = circ_history_data
+    @illiad_data = illiad_data
   end
 
-  def self.for(uniqname:, alma_client: AlmaRestClient.client, circ_history_client: CircHistoryClient.new(uniqname))
+  def self.for(uniqname:, alma_client: AlmaRestClient.client, circ_history_client: CircHistoryClient.new(uniqname), illiad_data: ILLiadPatron.for(uniqname: uniqname))
     
+
     url = "/users/#{uniqname}?user_id_type=all_unique&view=full&expand=none" 
     alma_response = alma_client.get(url)
     circ_history_response = circ_history_client.user_info
@@ -17,7 +19,7 @@ class Patron
     end
     
     if alma_response.code == 200 
-      Patron.new(alma_data: alma_response.parsed_response, circ_history_data: circ_history_data)
+      Patron.new(alma_data: alma_response.parsed_response, circ_history_data: circ_history_data, illiad_data: illiad_data)
     else
       NotInAlma.new(uniqname, circ_history_data)
     end
@@ -41,6 +43,13 @@ class Patron
     CirculationHistorySettingsText.for(retain_history: retain_history?, confirmed_history_setting: confirmed_history_setting?)
   end
 
+  def in_illiad?
+    @illiad_data.in_illiad?
+  end
+
+  def local_document_delivery_location
+    @illiad_data.delivery_location
+  end
   def update_sms(sms, client=AlmaRestClient.client, phone=TelephoneNumber.parse(sms, :US))
     return Error.new(message: "Phone number #{sms} is invalid") unless phone.valid? || sms.empty?
     url = "/users/#{uniqname}"
@@ -142,13 +151,13 @@ class Patron
       @circ_history_data = circ_history_data
     end
 
-    ['in_alma?', 'can_book?'].each do |name|
+    ['in_alma?', 'can_book?', 'in_illiad?'].each do |name|
       define_method(name) do
         false
       end
     end
     
-    ['email_address', 'sms_number', 'sms_number?', 'full_name', 'user_group', 'addresses'].each do |name|
+    ['email_address', 'sms_number', 'sms_number?', 'full_name', 'user_group', 'addresses', 'local_document_delivery_location'].each do |name|
       define_method(name) do
         nil
       end

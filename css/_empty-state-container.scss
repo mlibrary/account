@@ -9,15 +9,28 @@
   padding: var(--space-x-large);
   border-radius: 4px;
 
-  h2 {
-    padding-bottom: var(--space-x-small);
+  @media screen and (max-width: 1000px) {
+    flex-direction: column;
+    div + div {
+      margin-top: var(--space-xx-large);
+    }
   }
 
-  div {
-    padding-right: var(--space-xx-large);
+  .empty-state-content {
+    & > *:first-child {
+      margin-top: 0;
+    }
+    @media screen and (max-width: 1000px) {
+      align-self: flex-start;
+    }
   }
 
-  img {
-    width: 25%;
+  @media screen and (min-width: 1001px) {
+    div + div {
+      margin-left: var(--space-xx-large);
+    }
+    .empty-state-image {
+      width: 35%;
+    }
   }
 }
