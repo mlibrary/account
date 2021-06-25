@@ -8,7 +8,8 @@
     <tr>
       <th>Title & author</th>
       <th style="width: 9rem;">Pickup location</th>
-      <th style="width: 9rem;">Request date</th>
+      <th style="width: 8rem;">Requested</th>
+      <th style="width: 7rem;">Expires</th>
       <th style="width: 6rem;">Action</th>
     </tr>
   </thead>
@@ -25,6 +26,9 @@
               <%= hold_request.status %>
             </span>
           <% end %>
+        </td>
+        <td>
+          <%= hold_request.request_date %>
         </td>
         <td>
           <%= hold_request.request_date %>
@@ -88,6 +92,7 @@
         <th>Title & author</th>
         <th style="width: 9rem;">Pickup location</th>
         <th style="width: 9rem;">Pickup date</th>
+        <th style="width: 7rem;">Expires</th>
         <th style="width: 6rem;">Action</th>
       </tr>
     </thead>
@@ -108,6 +113,9 @@
             <%= booking_request.booking_date %>
           </td>
           <td>
+            <%= booking_request.booking_date %>
+          </td>
+          <td>
             <button class="button--light" data-js-cancel="<%=booking_request.request_id%>" disabled>Cancel</button>
           </td>
         </tr>
@@ -118,3 +126,45 @@
   
   <% end %>
 <% end %>
+<%# if patron.in_ill? %>
+  <h2>Departmental Delivery</h2>
+  <p>To change document delivery preferences, visit your <a href="https://ill.lib.umich.edu/illiad/ChangeSite/ChangeSite.asp">interlibrary loan account</a>.</p>
+  <p>
+    <%#= delivery_request.pickup_location %>
+  </p>
+  <% if local_document_delivery.count == 0%>
+    <%= PendingLocalDocumentDelivery.empty_state %>
+  <% else %>
+  <div class="table-container">
+  <table>
+    <thead>
+      <tr>
+        <th>Title & author</th>
+        <th style="width: 8rem;">Requested</th>
+        <th style="width: 7rem;">Expires</th>
+        <th style="width: 6rem;">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% local_document_delivery.each do |delivery_request| %>
+        <tr>
+          <td>
+            <%= erb :title_author, locals: {item: delivery_request} %>
+          </td>
+          <td>
+            <%= delivery_request.creation_date %>
+          </td>
+          <td>
+            <%= delivery_request.expiration_date %>
+          </td>
+          <td>
+            <a class="button--light" href="<%= delivery_request.url_cancel_request %>">Cancel</a>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  </div>
+  
+  <% end %>
+<%# end %>
