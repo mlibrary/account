@@ -107,6 +107,11 @@ describe HoldRequest do
       expect(subject.status_tag).to eq('--warning')
     end
   end
+  context ".empty_state" do
+    it "has text" do
+      expect(described_class.empty_state).to include("active requests")
+    end
+  end
 end
 describe BookingRequest do
   before(:each) do
@@ -118,6 +123,11 @@ describe BookingRequest do
   context "#booking_date" do
     it "returns date booking is scheduled for" do
       expect(subject.booking_date).to eq("11/19/20")
+    end
+  end
+  context ".empty_state" do
+    it "has text" do
+      expect(described_class.empty_state).to include("active media")
     end
   end
 end

@@ -24,6 +24,10 @@ class Request < AlmaItem
   def self.cancel(uniqname:, request_id:, client: AlmaRestClient.client)
     client.delete("/users/#{uniqname}/requests/#{request_id}", {reason: "CancelledAtPatronRequest"})
   end
+  def self.empty_state(markdown=Redcarpet::Markdown.new(Redcarpet::Render::HTML))
+    markdown.render(empty_state_text)
+  end
+
   def publication_date
     @parsed_response["date_of_publication"]
   end
@@ -63,6 +67,14 @@ class BookingRequest < Request
   def booking_date
     DateTime.patron_format(@parsed_response["booking_start_date"])
   end
+  private
+  def self.empty_state_text
+    "You don't have any active media requests."
+  end
 end
 class HoldRequest < Request
+  private
+  def self.empty_state_text
+    "You don't have any active requests.\n\nSee [what you can borrow from the library](https://www.lib.umich.edu/find-borrow-request)."
+  end
 end
