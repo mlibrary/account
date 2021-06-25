@@ -10,7 +10,7 @@
     <ul class="site-navigation-list">
       <% dropdown.pages.each do |page| %>
         <li class="<%= page.active %>">
-          <a href="<%=page.path%>">
+          <a href="<%=page.path%>" <% if page.active? %>aria-current="page"<% end %>>
             <span><%=page.title%></span>
           </a>
         </li>
