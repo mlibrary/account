@@ -1,5 +1,9 @@
 <% if !session[:in_alma] || holds.count == 0 %>
-  <%= HoldRequest.empty_state %>
+  <section class="empty-state-container">
+    <div class="empty-state-content owl">
+      <%= HoldRequest.empty_state %>
+    </div>
+  </section>
 <% else %>
 <div class="table-container">
 <table>
@@ -44,12 +48,15 @@
 
 <% if illiad_patron.in_illiad? %>
   <h2>Local Document Delivery</h2>
-  <p>
-  Your Local Document Delivery pickup location is:<br/><%= illiad_patron.delivery_location %>
-  </p>
+  <p>Your Local Document Delivery pickup location is:</p>
+  <address><%= illiad_patron.delivery_location %></address>
   <p>To change document delivery preferences, visit your <a href="https://ill.lib.umich.edu/illiad/ChangeSite/ChangeSite.asp">interlibrary loan account</a>.</p>
   <% if local_document_delivery.count == 0%>
-    <%= PendingLocalDocumentDelivery.empty_state %>
+    <section class="empty-state-container">
+      <div class="empty-state-content owl">
+        <%= PendingLocalDocumentDelivery.empty_state %>
+      </div>
+    </section>
   <% else %>
   <div class="table-container">
   <table>
@@ -86,10 +93,13 @@
 <% end %>
 
 <% if session[:can_book] %> 
-<h2>Media</h2>
-
+  <h2>Media</h2>
   <% if bookings.count == 0%>
-    <%= BookingRequest.empty_state %>
+  <section class="empty-state-container">
+    <div class="empty-state-content owl">
+      <%= BookingRequest.empty_state %>
+    </div>
+  </section>
   <% else %>
   <div class="table-container">
   <table>
