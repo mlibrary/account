@@ -44,6 +44,42 @@
 <% end %>
 
 <% if session[:can_book] %> 
+<h2>Local Document Delivery</h2>
+
+  <% if local_document_delivery.count == 0%>
+    <%= PendingLocalDocumentDelivery.empty_state %>
+  <% else %>
+  <div class="table-container">
+  <table>
+    <thead>
+      <tr>
+        <th>Title & author</th>
+        <th style="width: 9rem;">Pickup location</th>
+        <th style="width: 9rem;">Status</th>
+        <th style="width: 6rem;">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% local_document_delivery.each do |doc_del| %>
+        <tr>
+          <td>
+            <%= erb :title_author, locals: {item: doc_del} %>
+          <td>
+              <span class="tag<%= doc_del&.status_tag %>">
+              </span>
+          </td>
+          <td>
+            Action?
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  </div>
+  
+  <% end %>
+<% end %>
+<% if session[:can_book] %> 
 <h2>Media</h2>
 
   <% if bookings.count == 0%>
