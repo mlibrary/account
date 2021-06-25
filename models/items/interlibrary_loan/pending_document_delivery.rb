@@ -29,8 +29,8 @@ class PendingDocumentDeliveryItem < InterlibraryLoanItem
   def status
     tstatus = @parsed_response["TransactionStatus"]
     if ['In Delivery Transit','Out for Delivery'].include?(tstatus)
-      'Being Delivered'
-    elsif ['Customer Notified via E-Mail'].include(tstatus)
+      'Being delivered'
+    elsif ['Customer Notified via E-Mail'].include?(tstatus)
       'Ready'
     else
       'In process'
@@ -40,7 +40,7 @@ class PendingDocumentDeliveryItem < InterlibraryLoanItem
     case self.status
     when "Ready"
       "--success"
-    when "Being Delivered"
+    when "Being delivered"
       "--warning"
     else
       ''
