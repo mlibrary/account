@@ -25,7 +25,7 @@
     <ul class="horizontal-navigation-list">
         <% horizontal_nav.children.each do |child| %>
           <li>
-            <a href="<%=child.path%>" <%= child.active? ? 'aria-current="page"' : '' ; %>>
+            <a href="<%=child.path%>"  <% if child.active? %>aria-current="page"<% end %>>
               <%=child.title%>
             </a>
           </li>
