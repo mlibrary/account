@@ -12,9 +12,27 @@
     list-style: none;
     margin: 0;
     border-bottom: solid 1px var(--color-neutral-100);
+
+    @media screen and (max-width: 1000px) {
+      background: var(--color-blue-100);
+      margin: 0 calc(-1 * var(--space-medium));
+    }
   
     li {
-      display: inline-block;
+      @media screen and (min-width: 1001px) {
+        display: inline-block;
+      }
+
+      @media screen and (max-width: 1000px) {
+        &:first-of-type {
+          border-top: solid 1px var(--color-neutral-100);
+        }
+
+        &:not(:last-child) {
+          border-bottom: solid 1px var(--color-neutral-100);
+        }
+      }
+
       margin-bottom: 0;
     }
   
@@ -29,16 +47,32 @@
       text-decoration: none;
       color: var(--color-neutral-400);
       font-weight: 600;
+
+      @media screen and (max-width: 1000px) {
+        padding: var(--space-medium);
+      }
   
-      &:not(.active):hover {
+      &:hover {
         text-decoration: underline;
         text-decoration-thickness: 2px;
       }
     }
   
-    a.active {
+    a.active, a[aria-current="page"] {
       color: var(--color-teal-400);
-      border-bottom: 4px solid var(--color-teal-400);
+      font-weight: 800;
+
+      @media screen and (min-width: 999px) {
+        display: inline-block;
+        border: 0;
+        border-bottom: 4px solid var(--color-teal-400);
+      }
+
+      @media screen and (max-width: 1000px) {
+        border: 0;
+        border-left: 4px solid var(--color-teal-400);
+        padding-left: calc(var(--space-medium) - 4px); // less the width of the border.
+      }
     }
   }
   
