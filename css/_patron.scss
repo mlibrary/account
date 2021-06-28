@@ -1,5 +1,4 @@
-form[method="post"],
-#checkout-history-form {
+form[method="post"] {
   #text-notifications:not(:checked) ~ .sms-number-container {
     display: none;
   }
@@ -29,10 +28,5 @@ form[method="post"],
       margin-right: var(--space-xx-small);
       top: var(--space-xxx-small);
     }
-  }
-
-  #update-history[disabled] {
-    cursor: not-allowed;
-    opacity: 0.5;
   }
 }

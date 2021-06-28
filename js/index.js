@@ -7,6 +7,7 @@
     const buttonsClose = close.querySelectorAll('.close-message');
     buttonsClose.forEach((buttonClose) => {
       buttonClose.addEventListener('click', (event) => {
+        event.preventDefault();
         close.style.display = 'none';
       });
       buttonClose.removeAttribute('disabled');

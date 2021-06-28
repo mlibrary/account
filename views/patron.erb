@@ -54,7 +54,7 @@
     </form>
   <% end %>
 
-  <div class="owl" id="checkout-history-form">
+  <form class="owl" method="post" action="/settings/history">
     <h2>Checkout History</h2>
     <%=patron.circulation_history_text%>
 
@@ -110,5 +110,5 @@
         }
       }
     %>
-  </div>
+  </form>
 </div>

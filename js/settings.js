@@ -1,21 +1,6 @@
 import modal from './modal';
 
 /**
- * Update history
- */
-const updateHistory = () => {
-  fetch('/settings/history', {
-    method: 'POST'
-  }).then((response) => {
-    if (response.status === 200) {
-      return response.text();
-    }
-  }).then((data) => {
-    location.reload();
-  });
-};
-
-/**
  * Get history preference
  */
 let retainHistory;
@@ -37,19 +22,8 @@ retainHistoryOptions.forEach((retainHistoryOption) => {
  * Set history preference
  */
 updateHistoryButton.addEventListener('click', (event) => {
-  event.target.innerHTML = 'Processing...';
-  if (retainHistory) {
-    updateHistory();
-  } else {
+  if (!retainHistory) {
+    event.preventDefault();
     modal(event.target.getAttribute('data-js-modal'));
   }
-});
-
-/**
- * Modal button
- */
-const modalButton = document.querySelector('[data-js-modal-button]');
-modalButton.addEventListener('click', (event) => {
-  event.target.innerHTML = 'Processing...';
-  updateHistory();
 });

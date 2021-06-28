@@ -15,9 +15,14 @@
   min-height: var(--space-xxx-large);
   font-weight: var(--bold);
 
-  &:hover {
+  &:not([disabled]):hover {
     box-shadow: 0 0 0 2px white, 0 0 0 3px var(--color-neutral-400);
     border-radius: 4px !important;
+  }
+
+  &[disabled] {
+    cursor: not-allowed;
+    opacity: 0.5;
   }
 
   * {
