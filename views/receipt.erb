@@ -9,8 +9,9 @@
   </address>
   <h2>Payment details</h2>
   <ul class="no-list-style">
+    <li><strong>Confirmation number:</strong> <%= payment.confirmationNumber %></li>
+    <li><strong>Order number:</strong> <%= payment.orderNumber %></li>
     <li><strong>Order description:</strong> <%= payment.description %></li>
-    <li><strong>Confirmation number:</strong> <%= payment.orderNumber %></li>
     <li><strong>Date:</strong> <%= payment.date %></li>
     <li><strong>Account type:</strong> <%= payment.type %></li>
     <li><strong>Amount:</strong> $<%= payment.amount %></li>
@@ -20,7 +21,7 @@
       <thead>
         <tr>
           <th>Title &amp; author</th>
-          <th style="width: 8rem;">Type</th>
+          <th style="width: 11rem;">Type</th>
           <th style="width: 6rem;">Fine</th>
         </tr>
       </thead>

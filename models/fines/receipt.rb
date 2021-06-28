@@ -42,9 +42,10 @@ class Receipt
   end
   class Payment
     attr_reader :orderNumber, :description, :amount, :payer_name, :type,
-      :email, :date, :street, :city, :state, :zip, :country
+      :email, :date, :street, :city, :state, :zip, :country, :confirmationNumber
     def initialize(params)
       @orderNumber = params["orderNumber"]
+      @confirmationNumber = params["transactionId"]
       @description = params["orderDescription"]
       @amount = (params["transactionTotalAmount"].to_f / 100 ).to_currency
       @type = params["transactionAcountType"]
