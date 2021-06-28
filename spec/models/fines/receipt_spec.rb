@@ -106,6 +106,11 @@ describe Receipt::Payment do
       expect(subject.amount).to eq('22.50')
     end
   end
+  context "#confirmationNumber" do
+    it "returns a string" do
+      expect(subject.confirmationNumber).to eq('382481568')
+    end
+  end
   context "#type" do
     it "returns string" do
       expect(subject.type).to eq('VISA')
