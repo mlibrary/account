@@ -1,0 +1,29 @@
+.badge {
+  background: var(--color-teal-400);
+  border: 0;
+  border-radius: 50%;
+  color: white;
+  display: inline-block;
+  font-size: 1rem;
+  font-weight: normal;
+  height: 1.5em;
+  line-height: 1.25;
+  margin-left: 0.5em;
+  position: relative;
+  top: 0.35em;
+  width: 1.5em;
+}
+
+.badge--light {
+  background: var(--color-neutral-100);
+  color: var(--color-neutral-400);
+}
+
+.badge--warning {
+  background: var(--color-maize-200);
+  color: var(--color-neutral-400);
+}
+
+.badge--caution {
+  background: var(--color-pink-500);
+}

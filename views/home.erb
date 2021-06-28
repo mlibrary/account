@@ -11,7 +11,12 @@
   <li>
     <a href="<%=card.slug%>" class="overview-card">
       <div>
-        <h2 class="overview-card-heading"><%=card.title%></h2>
+        <h2 class="overview-card-heading">
+          <%=card.title%>
+          <% if card.title == 'Fines and Fees' %>
+            <span class="badge badge--caution">3</span>
+          <% end %>
+        </h2>
         <p class="overview-card-description"><%=card.description%></p>
       </div>
       <div class="overview-card-icon-container" style="--overview-card-icon-background-color: var(--color-<%=card.color%>-100); --overview-card-icon-color: var(--color-<%=card.color%>-400);">
