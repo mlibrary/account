@@ -33,17 +33,6 @@
   border-radius: var(--radius-default);
   position: relative;
 
-  .button--close {
-    background: transparent;
-    color: var(--color-neutral-400);
-    min-height: 0;
-    min-width: 0;
-    padding: var(--space-x-small);
-    position: absolute;
-    right: 0;
-    top: 0;
-  }
-
   .message-callout-icon {
     color: var(--color-teal-400);
     m-icon > svg {

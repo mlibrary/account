@@ -90,8 +90,25 @@
         </label>
       </div>
     </div>
-    
-    <button>Update history preferences</button>
-  </form>
 
+    <p>If you’d like to make a copy of your checkout history up to this point, you can download it to your device in a spreadsheet format (CSV file).</p>
+    <a class="button button--light" href="/past-activity/u-m-library/download.csv" style="display: inline-block;">Download your checkout history</a>
+
+    <button id="update-history" data-js-modal="delete-history" disabled>Update history preferences</button>
+
+    <%= 
+      erb :modal,
+      locals: {
+        modal: {
+          id: 'delete-history',
+          state: 'caution',
+          content: {
+            heading: 'Delete checkout history',
+            text: 'Once you opt out, your previous checkout history is deleted and cannot be recovered, even if you opt back in later.'
+          },
+          button: 'Delete history'
+        }
+      }
+    %>
+  </form>
 </div>

@@ -1,16 +1,17 @@
 /**
- * Close message callout
+ * Close message
  */
 (function () {
-  const messageCallouts = document.querySelectorAll('.message-callout');
-  messageCallouts.forEach((messageCallout) => {
-    const buttonClose = messageCallout.querySelector('.button--close');
-    if (buttonClose) {
-      buttonClose.removeAttribute('disabled');
+  const canClose = document.querySelectorAll('.can-close');
+  canClose.forEach((close) => {
+    const buttonsClose = close.querySelectorAll('.close-message');
+    buttonsClose.forEach((buttonClose) => {
       buttonClose.addEventListener('click', (event) => {
-        messageCallout.style.display = 'none';
+        event.preventDefault();
+        close.style.display = 'none';
       });
-    }
+      buttonClose.removeAttribute('disabled');
+    });
   });
 })();
 

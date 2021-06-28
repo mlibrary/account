@@ -1,10 +1,4 @@
 form[method="post"] {
-  m-icon {
-    position: relative;
-    margin-right: var(--space-xx-small);
-    top: var(--space-xxx-small);
-  }
-
   #text-notifications:not(:checked) ~ .sms-number-container {
     display: none;
   }
@@ -15,11 +9,12 @@ form[method="post"] {
 
   .retain-history-option {
     input[type="radio"] {
-      &:checked + label m-icon[name="radio-button-unchecked"] {
-        display: none;
-      }
+      &:checked + label m-icon[name="radio-button-unchecked"],
       &:not(:checked) + label m-icon[name="radio-button-checked"] {
         display: none;
+      }
+      &:not(:checked) + label m-icon {
+        color: var(--color-neutral-200);
       }
       &:focus + label m-icon {
         outline: 0;
@@ -29,6 +24,9 @@ form[method="post"] {
     }
     m-icon {
       color: var(--color-teal-500);
+      position: relative;
+      margin-right: var(--space-xx-small);
+      top: var(--space-xxx-small);
     }
   }
 }
