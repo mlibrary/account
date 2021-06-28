@@ -30,4 +30,9 @@ form[method="post"],
       top: var(--space-xxx-small);
     }
   }
+
+  #update-history[disabled] {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
 }
