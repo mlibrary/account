@@ -4,7 +4,9 @@ require 'json'
 describe InterlibraryLoans do
   context "one loan" do
     before(:each) do
-      stub_illiad_get_request(url: 'Transaction/UserRequests/testhelp', body: File.read('./spec/fixtures/illiad_requests.json'))
+      body = [ JSON.parse(File.read('./spec/fixtures/illiad_requests.json'))[0] ].to_json
+    filter = "RequestType eq 'Loan' and TransactionStatus eq 'Checked Out to Customer' and ProcessType eq 'Borrowing'"
+      stub_illiad_get_request(url: 'Transaction/UserRequests/testhelp', body: body, query: {"$filter" => filter})
     end
     subject do
       InterlibraryLoans.for(uniqname: 'testhelp')

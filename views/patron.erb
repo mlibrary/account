@@ -13,6 +13,12 @@
         <th>Email</th>
         <td><%= patron.email_address %></td>
       </tr>
+      <% if patron.in_illiad? %>
+      <tr>
+        <th>Document Delivery Location</th>
+        <td><%= patron.local_document_delivery_location %></td>
+      <tr>
+      <% end %>
     </table>
 
     <form class="owl" method="post" action="/sms">

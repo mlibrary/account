@@ -30,7 +30,7 @@ require_relative "./lib/pagination/pagination"
 require_relative "./lib/pagination/pagination_decorator"
 require_relative "./lib/circulation_history_settings_text"
 
-
+require_relative "./models/illiad_patron.rb"
 require_relative "./models/patron"
 require_relative "./models/session_patron"
 
@@ -57,6 +57,7 @@ require_relative "./models/items/interlibrary_loan/interlibrary_loans"
 require_relative "./models/items/interlibrary_loan/interlibrary_loan_requests"
 require_relative "./models/items/interlibrary_loan/past_document_delivery"
 require_relative "./models/items/interlibrary_loan/past_interlibrary_loans"
+require_relative "./models/items/interlibrary_loan/pending_document_delivery"
 
 
 helpers StyledFlash
@@ -222,8 +223,9 @@ namespace '/pending-requests' do
   get '/u-m-library' do
     if session[:in_alma]
       requests = Requests.for(uniqname: session[:uniqname])
-
-      erb :requests, :locals => { holds: requests.holds, bookings: requests.bookings }
+      local_document_delivery = PendingLocalDocumentDelivery.for(uniqname: session[:uniqname]) 
+      illiad_patron = ILLiadPatron.for(uniqname: session[:uniqname])
+      erb :requests, :locals => { holds: requests.holds, bookings: requests.bookings, local_document_delivery: local_document_delivery, illiad_patron: illiad_patron }
     else
       erb :empty_state
     end

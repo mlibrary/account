@@ -1,11 +1,11 @@
   <% test_users = [
     {
-      label: 'Graduate student (few)',
-      value: 'mlibrary.acct.testing2@gmail.com'
-    },
-    {
       label: "Faculty (many)",
       value: 'mlibrary.acct.testing1@gmail.com'
+    },
+    {
+      label: 'Graduate student (few)',
+      value: 'mlibrary.acct.testing2@gmail.com'
     },
     {
       label: "New student (none)",
@@ -14,7 +14,7 @@
     {
       label: 'Not in Alma',
       value: 'definitelynotinalma'
-    }
+    },
   ]
 %>
   <div class="message-callout">
@@ -28,7 +28,7 @@
   
         <select id="test-user" name="uniqname">
           <% test_users.each do |user| %>
-            <option value="<%=user[:value]%>"><%=user[:label]%></option>
+            <option value="<%=user[:value]%>"<% if session[:uniqname] == user[:value]%>selected<%end%>><%=user[:label]%></option>
             <% end %>
         </select>
   
