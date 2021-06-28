@@ -1,6 +1,7 @@
 # My Account
 
-My Account for Alma
+My Account for Alma. 
+https://account.lib.umich.edu
 
 ## Setting up My Account for development
 
@@ -77,6 +78,5 @@ Exmaple: the key for a js file to be used at the following path "/current-checko
 
 In `my_account.rb`, for the route, locals should include has_js: true.
 
-
-
-
+## Testing with the actual Nelnet testing site
+To try using the actual Nelnet testing site for testing fines and fees, you need to get the correct environment variables. There's extra documentation with example credit cards and input that will trigger different responses. Check the My Account confluenc page for more info.
