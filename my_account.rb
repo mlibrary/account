@@ -38,7 +38,6 @@ require_relative "./models/response/response"
 require_relative "./models/response/renew_response_presenter"
 
 require_relative "./models/fines/nelnet"
-require_relative "./models/fines/fine_payer"
 require_relative "./models/fines/fines"
 require_relative "./models/fines/receipt"
 
