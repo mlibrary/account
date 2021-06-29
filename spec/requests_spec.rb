@@ -429,21 +429,21 @@ describe "requests" do
         "creation_time"=>"2020-12-09T17:13:29.959Z"
       }
     end
-    it "for valid params, retrieves items from session, updates Alma, sets success flash, prints receipt" do
-      with_modified_env NELNET_SECRET_KEY: 'secret', JWT_SECRET: 'secret' do
-        stub_alma_post_request( url: 'users/tutor/fees/1384289260006381', query: {op: "pay", method: 'ONLINE', amount: '5.00'}  )
-        token = JWT.encode [@item], ENV.fetch('JWT_SECRET'), 'HS256'
+    it "for valid params, updates Alma, sets success flash, prints receipt" do
+      with_modified_env NELNET_SECRET_KEY: 'secret' do
+        stub_alma_post_request(url: "users/tutor/fees/all", query: {op: 'pay', amount: "22.50", method: "ONLINE", external_transaction_id: '382481568'})
 
-        env 'rack.session', {'Afam.1608566536797' => token, **@session}
         get "/fines-and-fees/receipt", @params 
         expect(last_response.body).to include("Fines successfully paid")
       end
     end
     it "for invalid params,  sets fail flash" do
-      with_modified_env NELNET_SECRET_KEY: 'incorect_secret', JWT_SECRET: 'secret' do
+      with_modified_env NELNET_SECRET_KEY: 'incorect_secret' do
+        stub = stub_alma_post_request(url: "users/tutor/fees/all", query: {op: 'pay', amount: "22.50", method: "ONLINE", external_transaction_id: '382481568'})
 
         get "/fines-and-fees/receipt", @params 
-        expect(last_response.body).to include("Could not Validate")
+        expect(last_response.body).to include("Your payment could not be validated")
+        expect(stub).not_to have_been_requested
       end
     end
     def with_modified_env(options, &block)

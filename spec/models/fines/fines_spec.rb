@@ -38,6 +38,12 @@ describe Fines do
   end
 
 end
+describe Fines, "self.pay" do
+  it "posts to Alma with user fine info" do
+    stub_alma_post_request(url: "users/jbister/fees/all", query: {op: 'pay', amount: "5.00", method: "ONLINE", external_transaction_id: '12345'}, body: 'Success')
+    expect(Fines.pay(uniqname: 'jbister', amount: '5.00', confirmation_number: '12345').body).to eq('Success')
+  end
+end
 
 describe Fine do
   before(:each) do

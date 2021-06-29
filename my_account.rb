@@ -366,19 +366,13 @@ namespace '/fines-and-fees' do
   end
 
   get '/receipt' do
-    token = session[params["orderNumber"]]
-    items = []
-    if token 
-      items = JWT.decode(token, ENV.fetch('JWT_SECRET'), true, {algorithm: 'HS256'}).first 
-    end
-
-    receipt = Receipt.for(uniqname: session[:uniqname], items: items, nelnet_params: params)
+    receipt = Receipt.for(uniqname: session[:uniqname], nelnet_params: params)
     if receipt.valid?
       flash.now[:success] = "Fines successfully paid"
     else
       flash.now[:error] = receipt.message 
     end
-    erb :receipt, :locals => {receipt: receipt, items: receipt.items, payment: receipt.payment}
+    erb :receipt, :locals => {receipt: receipt}
   end
 
 end
