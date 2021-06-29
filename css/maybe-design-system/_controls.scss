@@ -120,7 +120,7 @@ select::-ms-expand {
     &:not(:checked) + label m-icon {
       color: var(--color-neutral-200);
     }
-    &:focus + label m-icon {
+    &:focus + label m-icon[name^="radio-button"] {
       outline: 0;
       box-shadow: 0 0 0 2px var(--color-maize-400),0 0 0 3px var(--color-neutral-400);
       border-radius: 2px;

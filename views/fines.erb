@@ -43,13 +43,8 @@
         <label for="pay-all">
           <m-icon name="radio-button-checked"></m-icon>
           <m-icon name="radio-button-unchecked"></m-icon>
-          <span>Amount due: $<%=fines.total_sum_in_dollars%></span>
+          <span>Pay full amount (<strong>$<%=fines.total_sum_in_dollars%></strong>)</span>
         </label>
-        <input
-          type="hidden"
-          name="full_amount"
-          value="<%=fines.total_sum_in_dollars%>"
-        >
       </div>
       <div class="payment-amount-option radio-option">
         <input 
@@ -62,9 +57,10 @@
         <label for="pay-some">
           <m-icon name="radio-button-checked"></m-icon>
           <m-icon name="radio-button-unchecked"></m-icon>
-          <span>Other amount: $</span>
+          <span>Pay partial amount</span>
         </label>
-        <div>
+        <div id="pay-some-amount">
+          <span>$</span>
           <input
             type="number"
             min="0.00"
@@ -74,6 +70,8 @@
             placeholder="0.00"
             value="0.00"
             name="partial_amount"
+            for="pay-some"
+            aria-label="Amount you wish to pay"
             aria-describedby="payment-description"
           >
           <div id="payment-description" class="input-description">
