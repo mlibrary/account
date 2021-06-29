@@ -384,15 +384,21 @@ describe "requests" do
     end
   end
   context "post /fines-and-fees/pay" do
-    it "puts fine information in session and redirects to nelnet with amountDue" do
+    before(:each) do
       stub_alma_get_request( url: 'users/tutor/fees', body: File.read("./spec/fixtures/jbister_fines.json"), query: {limit: 100, offset: 0}  )
-      post "/fines-and-fees/pay", {'fines' => {"0" => '690390050000521'}}
+    end
+    it "puts fine information in session and redirects to nelnet with amountDue" do
+      post "/fines-and-fees/pay", {'amount' => '2.77'}
       query = Addressable::URI.parse(last_response.location).query_values
-      expect(last_request.env['rack.session'].key?(query["orderNumber"])).to eq(true)
       expect(query["amountDue"]).to eq("277")
     end
+    it "redirects back to fines and fees with error if user tries to overpay" do
+      post "/fines-and-fees/pay", {'amount' => '100'}
+      expect(last_response.status).to eq(302)
+      expect(URI(last_response.headers["Location"]).path).to eq("/fines-and-fees")
+    end
   end
-  context "post /fines-and-fees/receipt" do
+  context "get /fines-and-fees/receipt" do
     before(:each) do
       @params = {
         "transactionType"=>"1", 

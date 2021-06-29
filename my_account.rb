@@ -360,9 +360,14 @@ namespace '/fines-and-fees' do
 # :nocov:
 
   post '/pay' do
-    payer = FinePayer.new(uniqname: session[:uniqname], fine_ids: params["fines"].values)
-    session[payer.orderNumber] = payer.token
-    redirect payer.url
+    fines = Fines.for(uniqname: session[:uniqname])
+    if params["amount"].to_f <= fines.total_sum.to_f
+      redirect Nelnet.new(amountDue: params["amount"].to_f.to_s).url
+    else
+      flash[:error] = "You don't need to overpay!!!"
+      redirect '/fines-and-fees'
+    end
+
   end
 
   get '/receipt' do

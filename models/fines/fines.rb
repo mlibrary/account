@@ -35,6 +35,8 @@ class Fines
     end
   end
 
+  def self.total_sum_for(uniqname:, client: AlmaRestClient.client)
+  end
   def self.for(uniqname:, client: AlmaRestClient.client)
     url = "/users/#{uniqname}/fees" 
     response = client.get_all(url: url, record_key: "fee" )
