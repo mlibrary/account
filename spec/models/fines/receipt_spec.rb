@@ -1,76 +1,40 @@
 require 'spec_helper'
 describe Receipt, '.for' do
   before(:each) do
-    @items = [{
-      "id"=>"1384289260006381",
-      "balance"=>"5.00",
-      "title"=>"Short history of Georgia.",
-      "barcode"=>"95677",
-      "library"=>"Main Library",
-      "type"=>"Overdue fine",
-      "creation_time"=>"2020-12-09T17:13:29.959Z"
-    }]
-  end
-  it 'returns an InvalidReceipt with error messages for failed Alma Update' do
-    stub_alma_post_request( url: 'users/tutor/fees/1384289260006381', query: {op: "pay", method: 'ONLINE', amount: '5.00'}, body: File.read('spec/fixtures/alma_error.json'), status: 500  )
-    receipt = Receipt.for(uniqname: 'tutor', items: @items, nelnet_params: {}, is_valid: true)
-    expect(receipt.class.name).to eq('InvalidReceipt')
-    expect(receipt.message).to eq('User with identifier mrioaaa was not found.')
-  end
-end
-describe Receipt::Item do
-  before(:each) do
     @params = {
-      "id"=>"1384289260006381",
-      "balance"=>"5.00",
-      "title"=>"Short history of Georgia.",
-      "barcode"=>"95677",
-      "library"=>"Main Library",
-      "type"=>"Overdue fine",
-      "creation_time"=>"2020-12-09T17:13:29.959Z"
+      "transactionType"=>"1", 
+      "transactionStatus"=>"1", 
+      "transactionId"=>"382481568",
+      "transactionTotalAmount"=>"2250",
+      "transactionDate"=>"202001211341",
+      "transactionAcountType"=>"VISA",
+      "transactionResultCode"=>"267849",
+      "transactionResultMessage"=>"Approved and completed",
+      "orderNumber"=>"Afam.1608566536797",
+      "orderType"=>"UMLibraryCirc",
+      "orderDescription"=>"U-M Library Circulation Fines",
+      "payerFullName"=>"Aardvark Jones",
+      "actualPayerFullName"=>"Aardvark Jones",
+      "accountHolderName"=>"Aardvark Jones",
+      "streetOne"=>"555 S STATE ST",
+      "streetTwo"=>"",
+      "city"=>"Ann Arbor",
+      "state"=>"MI",
+      "zip"=>"48105",
+      "country"=>"UNITED STATES",
+      "email"=>"aardvark@umich.edu",
+      "timestamp"=>"1579628471900",
+      "hash"=>"9baaee6c2a0ee08c63bbbcc0435360b0d5ecef1de876b68d59956c0752fed836"
     }
   end
-  subject do
-    described_class.new(@params)
+  it 'returns an InvalidReceipt with error messages for failed Alma Update' do
+    stub_alma_post_request( url: 'users/tutor/fees/all', query: {op: "pay", method: 'ONLINE', amount: '22.50', external_transaction_id: '382481568'}, body: File.read('spec/fixtures/alma_error.json'), status: 500  )
+    receipt = Receipt.for(uniqname: 'tutor', nelnet_params: @params, is_valid: true)
+    expect(receipt.class.name).to eq('InvalidReceipt')
+    expect(receipt.message).to include('User with identifier mrioaaa was not found.')
   end
-  context "#fine_id" do
-    it "returns string" do
-      expect(subject.fine_id).to eq('1384289260006381')
-    end
-  end
-  context "#balance" do
-    it "returns string" do
-      expect(subject.balance).to eq('5.00')
-    end
-  end
-  context "#title" do
-    it "returns string" do
-      expect(subject.title).to eq('Short history of Georgia.')
-    end
-  end
-  context "#barcode" do
-    it "returns string" do
-      expect(subject.barcode).to eq('95677')
-    end
-  end
-  context "#type" do
-    it "returns string" do
-      expect(subject.type).to eq('Overdue fine')
-    end
-  end
-  context "#creation_time" do
-    it "returns string" do
-      expect(subject.creation_time).to eq('12/09/20')
-    end
-  end
-  context "#library" do
-    it "returns string" do
-      expect(subject.library).to eq('Main Library')
-    end
-  end
-
 end
-describe Receipt::Payment do
+describe Receipt do
   before(:each) do
     @params = {
       "transactionType"=>"1", 

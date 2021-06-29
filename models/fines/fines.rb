@@ -4,6 +4,10 @@ class Fines
     @list = parsed_response["fee"]&.map{|l| Fine.new(l)} || []
   end
 
+  def self.pay(uniqname:, amount:, confirmation_number:, client: AlmaRestClient.client)
+    client.post("/users/#{uniqname}/fees/all", {op: "pay", method: 'ONLINE', amount: amount, external_transaction_id: confirmation_number})
+  end
+
   def count
     @parsed_response["total_record_count"] || 0
   end
