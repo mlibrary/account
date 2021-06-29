@@ -387,13 +387,18 @@ describe "requests" do
     before(:each) do
       stub_alma_get_request( url: 'users/tutor/fees', body: File.read("./spec/fixtures/jbister_fines.json"), query: {limit: 100, offset: 0}  )
     end
-    it "puts fine information in session and redirects to nelnet with amountDue" do
-      post "/fines-and-fees/pay", {'amount' => '2.77'}
+    it "for pay in full redirects to nelnet with total amountDue" do
+      post "/fines-and-fees/pay", { 'pay_in_full' => 'true', 'partial_amount' => '0.00'}
+      query = Addressable::URI.parse(last_response.location).query_values
+      expect(query["amountDue"]).to eq("2500")
+    end
+    it "for pay in part redirects to nelnet with partial amountDue" do
+      post "/fines-and-fees/pay", { 'pay_in_full' => 'false', 'partial_amount' => '2.77'}
       query = Addressable::URI.parse(last_response.location).query_values
       expect(query["amountDue"]).to eq("277")
     end
     it "redirects back to fines and fees with error if user tries to overpay" do
-      post "/fines-and-fees/pay", {'amount' => '100'}
+      post "/fines-and-fees/pay", {'pay_in_full'=> 'false','partial_amount' => '100'}
       expect(last_response.status).to eq(302)
       expect(URI(last_response.headers["Location"]).path).to eq("/fines-and-fees")
     end
