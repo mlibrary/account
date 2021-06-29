@@ -29,6 +29,54 @@
 
     <p>Your total due is <strong>$<%=fines.total_sum_in_dollars%></strong></p>
 
+    <h2>How much would you like to pay today?</h2>
+
+    <div class="payment-amount-options radio-options owl">
+      <div class="payment-amount-option radio-option">
+        <input 
+          type="radio" 
+          name="payment_amount" 
+          class="visually-hidden"
+          id="pay-all" 
+          value="true" 
+        >
+        <label for="pay-all">
+          <m-icon name="radio-button-checked"></m-icon>
+          <m-icon name="radio-button-unchecked"></m-icon>
+          <span>Amount due: $<%=fines.total_sum_in_dollars%></span>
+        </label>
+      </div>
+      <div class="payment-amount-option radio-option">
+        <input 
+          type="radio" 
+          name="payment_amount"
+          class="visually-hidden"  
+          id="pay-some" 
+          value="false"
+        >
+        <label for="pay-some">
+          <m-icon name="radio-button-checked"></m-icon>
+          <m-icon name="radio-button-unchecked"></m-icon>
+          <span>Other amount: $</span>
+        </label>
+        <div>
+          <input
+            type="number"
+            min="0.00"
+            max="<%=fines.total_sum_in_dollars%>"
+            step="0.01"
+            pattern="^\d+\.\d{2}$"
+            placeholder="0.00"
+            value="0.00"
+            aria-describedby="payment-description"
+          >
+          <div id="payment-description" class="input-description">
+            <m-icon name="info"></m-icon><span>Phone number must be 10 digits. Example: (123) 456-7890.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <button type="submit">Pay fines</button>
 
     <p><strong>Payments made are non-refundable</strong>.</p>
