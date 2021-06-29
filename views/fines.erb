@@ -34,25 +34,30 @@
     <div class="payment-amount-options radio-options owl">
       <div class="payment-amount-option radio-option">
         <input 
-          type="radio" 
-          name="payment_amount" 
+          type="radio"
+          name="pay_in_full"
           class="visually-hidden"
-          id="pay-all" 
-          value="true" 
+          id="pay-all"
+          value="true"
         >
         <label for="pay-all">
           <m-icon name="radio-button-checked"></m-icon>
           <m-icon name="radio-button-unchecked"></m-icon>
           <span>Amount due: $<%=fines.total_sum_in_dollars%></span>
         </label>
+        <input
+          type="hidden"
+          name="full_amount"
+          value="<%=fines.total_sum_in_dollars%>"
+        >
       </div>
       <div class="payment-amount-option radio-option">
         <input 
-          type="radio" 
-          name="payment_amount"
-          class="visually-hidden"  
-          id="pay-some" 
-          value="false"
+          type="radio"
+          name="pay_in_full"
+          class="visually-hidden"
+          id="pay-some"
+          value="false" 
         >
         <label for="pay-some">
           <m-icon name="radio-button-checked"></m-icon>
@@ -68,10 +73,11 @@
             pattern="^\d+\.\d{2}$"
             placeholder="0.00"
             value="0.00"
+            name="partial_amount"
             aria-describedby="payment-description"
           >
           <div id="payment-description" class="input-description">
-            <m-icon name="info"></m-icon><span>Phone number must be 10 digits. Example: (123) 456-7890.</span>
+            <m-icon name="info"></m-icon><span>Payment amount must include cents. Example: 25.00</span>
           </div>
         </div>
       </div>
