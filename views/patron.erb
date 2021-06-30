@@ -45,8 +45,8 @@
           aria-describedby="sms-number-description"
           autocomplete="on"
         />
-        <div id="sms-number-description">
-          <m-icon name="info"></m-icon><span class="input-description">Phone number must be 10 digits. Example: (123) 456-7890.</span>
+        <div id="sms-number-description" class="input-description">
+          <m-icon name="info"></m-icon><span>Phone number must be 10 digits. Example: (123) 456-7890.</span>
         </div>
       </div>
 
@@ -58,8 +58,8 @@
     <h2>Checkout History</h2>
     <%=patron.circulation_history_text%>
 
-    <div class="retain-history-options owl">
-      <div class="retain-history-option">
+    <div class="retain-history-options  radio-option owl">
+      <div class="retain-history-option radio-option">
         <input 
           type="radio" 
           name="retain_history" 
@@ -74,7 +74,7 @@
           <span>Yes, record my checkout history.</span>
         </label>
       </div>
-      <div class="retain-history-option">
+      <div class="retain-history-option radio-option">
         <input 
           type="radio" 
           name="retain_history"

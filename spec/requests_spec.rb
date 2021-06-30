@@ -384,15 +384,26 @@ describe "requests" do
     end
   end
   context "post /fines-and-fees/pay" do
-    it "puts fine information in session and redirects to nelnet with amountDue" do
+    before(:each) do
       stub_alma_get_request( url: 'users/tutor/fees', body: File.read("./spec/fixtures/jbister_fines.json"), query: {limit: 100, offset: 0}  )
-      post "/fines-and-fees/pay", {'fines' => {"0" => '690390050000521'}}
+    end
+    it "for pay in full redirects to nelnet with total amountDue" do
+      post "/fines-and-fees/pay", { 'pay_in_full' => 'true', 'partial_amount' => '0.00'}
       query = Addressable::URI.parse(last_response.location).query_values
-      expect(last_request.env['rack.session'].key?(query["orderNumber"])).to eq(true)
+      expect(query["amountDue"]).to eq("2500")
+    end
+    it "for pay in part redirects to nelnet with partial amountDue" do
+      post "/fines-and-fees/pay", { 'pay_in_full' => 'false', 'partial_amount' => '2.77'}
+      query = Addressable::URI.parse(last_response.location).query_values
       expect(query["amountDue"]).to eq("277")
     end
+    it "redirects back to fines and fees with error if user tries to overpay" do
+      post "/fines-and-fees/pay", {'pay_in_full'=> 'false','partial_amount' => '100'}
+      expect(last_response.status).to eq(302)
+      expect(URI(last_response.headers["Location"]).path).to eq("/fines-and-fees")
+    end
   end
-  context "post /fines-and-fees/receipt" do
+  context "get /fines-and-fees/receipt" do
     before(:each) do
       @params = {
         "transactionType"=>"1", 
@@ -429,21 +440,25 @@ describe "requests" do
         "creation_time"=>"2020-12-09T17:13:29.959Z"
       }
     end
-    it "for valid params, retrieves items from session, updates Alma, sets success flash, prints receipt" do
-      with_modified_env NELNET_SECRET_KEY: 'secret', JWT_SECRET: 'secret' do
-        stub_alma_post_request( url: 'users/tutor/fees/1384289260006381', query: {op: "pay", method: 'ONLINE', amount: '5.00'}  )
-        token = JWT.encode [@item], ENV.fetch('JWT_SECRET'), 'HS256'
+    it "for valid params, updates Alma, sets success flash, prints receipt" do
+      with_modified_env NELNET_SECRET_KEY: 'secret' do
+        stub_alma_get_request(url: "users/tutor/fees", query: {limit: 100, offset: 0}, 
+          body: File.read("spec/fixtures/jbister_fines.json"))
+        @session[:order_number] = '382481568'
+        env 'rack.session', @session
+        stub_alma_post_request(url: "users/tutor/fees/all", query: {op: 'pay', amount: "22.50", method: "ONLINE", external_transaction_id: '382481568'}, body: File.read('spec/fixtures/fines_pay_amount.json'))
 
-        env 'rack.session', {'Afam.1608566536797' => token, **@session}
         get "/fines-and-fees/receipt", @params 
         expect(last_response.body).to include("Fines successfully paid")
       end
     end
     it "for invalid params,  sets fail flash" do
-      with_modified_env NELNET_SECRET_KEY: 'incorect_secret', JWT_SECRET: 'secret' do
+      with_modified_env NELNET_SECRET_KEY: 'incorect_secret' do
+        stub = stub_alma_post_request(url: "users/tutor/fees/all", query: {op: 'pay', amount: "22.50", method: "ONLINE", external_transaction_id: '382481568'})
 
         get "/fines-and-fees/receipt", @params 
-        expect(last_response.body).to include("Could not Validate")
+        expect(last_response.body).to include("Your payment could not be validated")
+        expect(stub).not_to have_been_requested
       end
     end
     def with_modified_env(options, &block)
