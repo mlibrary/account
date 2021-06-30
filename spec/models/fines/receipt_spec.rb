@@ -33,8 +33,14 @@ describe Receipt, '.for' do
     expect(receipt.class.name).to eq('InvalidReceipt')
     expect(receipt.message).to include('User with identifier mrioaaa was not found.')
   end
+  it "returns full receipt if alma update goes through" do
+    stub_alma_post_request( url: 'users/tutor/fees/all', query: {op: "pay", method: 'ONLINE', amount: '22.50', external_transaction_id: '382481568'}, body: File.read('spec/fixtures/fines_pay_amount.json') )
+    receipt = Receipt.for(uniqname: 'tutor', nelnet_params: @params, is_valid: true)
+    expect(receipt.balance).to eq('15.00')
+    expect(receipt.confirmationNumber).to eq('382481568')
+  end
 end
-describe Receipt do
+describe Payment do
   before(:each) do
     @params = {
       "transactionType"=>"1", 

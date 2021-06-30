@@ -442,7 +442,7 @@ describe "requests" do
     end
     it "for valid params, updates Alma, sets success flash, prints receipt" do
       with_modified_env NELNET_SECRET_KEY: 'secret' do
-        stub_alma_post_request(url: "users/tutor/fees/all", query: {op: 'pay', amount: "22.50", method: "ONLINE", external_transaction_id: '382481568'})
+        stub_alma_post_request(url: "users/tutor/fees/all", query: {op: 'pay', amount: "22.50", method: "ONLINE", external_transaction_id: '382481568'}, body: File.read('spec/fixtures/fines_pay_amount.json'))
 
         get "/fines-and-fees/receipt", @params 
         expect(last_response.body).to include("Fines successfully paid")
