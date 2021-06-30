@@ -4,7 +4,7 @@
 
 <% elsif %>
 
-<div class="table-container">
+<div class="responsive-table">
 <table>
   <caption>
     <div class="caption-flex">
@@ -14,8 +14,8 @@
   <thead>
     <tr>
       <th>Title & author</th>
-      <th style="width: 8rem;">Requested</th>
-      <th style="width: 6rem;">Action</th>
+      <th>Requested</th>
+      <th>Action</th>
     </tr>
   </thead>
   <tbody>
@@ -25,6 +25,7 @@
           <%= erb :title_author, locals: {item: interlibrary_loan_request} %>
         </td>
         <td>
+          <span aria-hidden="true">Requested</span>
           <%= interlibrary_loan_request.creation_date %>
         </td>
         <td>

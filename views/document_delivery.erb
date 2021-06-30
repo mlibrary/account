@@ -4,7 +4,7 @@
 
 <% elsif %>
 
-<div class="table-container">
+<div class="responsive-table">
 <table>
   <caption>
     <div class="caption-flex">
@@ -14,8 +14,8 @@
   <thead>
     <tr>
       <th>Title & author</th>
-      <th style="width: 9rem;">Expires</th>
-      <th style="width: 6rem;">Action</th>
+      <th>Expires</th>
+      <th>Action</th>
     </tr>
   </thead>
   <tbody>
@@ -26,6 +26,7 @@
           <span>&#183; <%= delivery.author %></span>
         </td>
         <td>
+          <span aria-hidden="true">Expires</span>
           <%= delivery.expiration_date %>
         </td>
         <td>

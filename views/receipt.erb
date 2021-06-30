@@ -16,13 +16,13 @@
     <li><strong>Account type:</strong> <%= payment.type %></li>
     <li><strong>Amount:</strong> $<%= payment.amount %></li>
   </ul>
-  <div class="table-container">
+  <div class="responsive-table">
     <table>
       <thead>
         <tr>
           <th>Title &amp; author</th>
-          <th style="width: 11rem;">Type</th>
-          <th style="width: 6rem;">Fine</th>
+          <th>Type</th>
+          <th>Fine</th>
         </tr>
       </thead>
       <tbody>
@@ -32,9 +32,11 @@
               <%= item.title %>
             </td>
             <td>
+              <span aria-hidden="true">Type</span>
               <%= item.type %>
             </td>
             <td>
+              <span aria-hidden="true">Fine</span>
               $<%= item.balance %>
             </td>
           </tr>
