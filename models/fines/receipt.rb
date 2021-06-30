@@ -1,37 +1,45 @@
 class Receipt
   attr_reader :balance
   extend Forwardable
-  def_delegators :@payment, :orderNumber, :description, :amount, :payer_name, :type,
+  def_delegators :@payment, :order_number, :description, :amount, :payer_name, :type,
     :email, :date, :street, :city, :state, :zip, :country, :confirmationNumber
 
   def initialize(payment:, balance:)
     @payment = payment
     @balance = balance.to_currency
   end
-  def self.for(uniqname:, nelnet_params:, is_valid: Nelnet.verify(nelnet_params))
+  def self.for(uniqname:, nelnet_params:, order_number:, is_valid: Nelnet.verify(nelnet_params))
     payment = Payment.new(nelnet_params)
-    if is_valid
-        resp = Fines.pay(uniqname: uniqname, amount: payment.amount, confirmation_number: payment.confirmationNumber)
-
-      if resp.code != 200
-        error = AlmaError.new(resp)
-        InvalidReceipt.new("#{error.message} Your payment confirmation number is: #{payment.confirmationNumber}" )
-      else
-        return Receipt.new(payment: payment, balance: resp.parsed_response["total_sum"])
+    if is_valid 
+      payment_verification = Fines.verify_payment(uniqname: uniqname, order_number: order_number)
+      if payment_verification.class.name == 'AlmaError'
+        return ErrorReceipt.new("There was an error in processing your payment.<br>Your payment order number is: #{payment.order_number}<br>Server error: #{payment_verification.message}</br>")
+      elsif payment_verification[:has_order_number]
+        ErrorReceipt.new("Your payment order number, #{order_number}, is already in the fines database.")
+      elsif payment_verification[:total_sum].to_f == 0.0
+        ErrorReceipt.new("You do not have a balance. Your payment order number is: #{order_number}.")
+      else #has not already paid
+        resp = Fines.pay(uniqname: uniqname, amount: payment.amount, order_number: order_number)
+        if resp.code != 200
+          error = AlmaError.new(resp)
+          ErrorReceipt.new("#{error.message}<br>Your payment order number is: #{order_number}" )
+        else
+          return Receipt.new(payment: payment, balance: resp.parsed_response["total_sum"])
+        end
       end
-    else
-      return InvalidReceipt.new("Your payment could not be validated. Your payment confirmation number is: #{payment.confirmationNumber}")
+    else #not valid
+      return ErrorReceipt.new("Your payment could not be validated. Your payment order number is: #{payment.order_number}")
     end
   end
-  def valid?
+  def successful?
     true
   end
 end
 class Payment
-  attr_reader :orderNumber, :description, :amount, :payer_name, :type,
+  attr_reader :order_number, :description, :amount, :payer_name, :type,
     :email, :date, :street, :city, :state, :zip, :country, :confirmationNumber
   def initialize(params)
-    @orderNumber = params["orderNumber"]
+    @order_number = params["orderNumber"]
     @confirmationNumber = params["transactionId"]
     @description = params["orderDescription"]
     @amount = (params["transactionTotalAmount"].to_f / 100 ).to_currency
@@ -47,12 +55,12 @@ class Payment
     @country = params["country"] == 'UNITED STATES' ? '' : params["country"]
   end
 end
-class InvalidReceipt < Receipt
+class ErrorReceipt < Receipt
   attr_reader :message
   def initialize(message)
     @message = message
   end
-  def valid?
+  def successful?
     false
   end
 end

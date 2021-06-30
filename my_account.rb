@@ -363,7 +363,9 @@ namespace '/fines-and-fees' do
     total_sum = fines.total_sum.to_f
     amount = params["pay_in_full"] == "true" ? total_sum : params["partial_amount"].to_f
     if amount <= total_sum
-      redirect Nelnet.new(amountDue: amount.to_currency).url
+      nelnet =  Nelnet.new(amountDue: amount.to_currency)
+      session["order_number"] = nelnet.orderNumber
+      redirect nelnet.url
     else
       flash[:error] = "You don't need to overpay!!!"
       redirect '/fines-and-fees'
@@ -372,8 +374,8 @@ namespace '/fines-and-fees' do
   end
 
   get '/receipt' do
-    receipt = Receipt.for(uniqname: session[:uniqname], nelnet_params: params)
-    if receipt.valid?
+    receipt = Receipt.for(uniqname: session[:uniqname], nelnet_params: params, order_number: session[:order_number])
+    if receipt.successful?
       flash.now[:success] = "Fines successfully paid"
     else
       flash.now[:error] = receipt.message 

@@ -1,4 +1,4 @@
-<% if receipt.valid? %>
+<% if receipt.successful? %>
   <p>Please review the details for this transaction.</p>
   <h2>Your details</h2>
   <address>
@@ -10,7 +10,7 @@
   <h2>Payment details</h2>
   <ul class="no-list-style">
     <li><strong>Confirmation number:</strong> <%= receipt.confirmationNumber %></li>
-    <li><strong>Order number:</strong> <%= receipt.orderNumber %></li>
+    <li><strong>Order number:</strong> <%= receipt.order_number %></li>
     <li><strong>Order description:</strong> <%= receipt.description %></li>
     <li><strong>Date:</strong> <%= receipt.date %></li>
     <li><strong>Account type:</strong> <%= receipt.type %></li>

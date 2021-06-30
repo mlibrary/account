@@ -1,6 +1,7 @@
 require 'spec_helper'
 describe Receipt, '.for' do
   before(:each) do
+    @order_number = "not_in_alma_response"
     @params = {
       "transactionType"=>"1", 
       "transactionStatus"=>"1", 
@@ -10,7 +11,7 @@ describe Receipt, '.for' do
       "transactionAcountType"=>"VISA",
       "transactionResultCode"=>"267849",
       "transactionResultMessage"=>"Approved and completed",
-      "orderNumber"=>"Afam.1608566536797",
+      "orderNumber"=>@order_number,
       "orderType"=>"UMLibraryCirc",
       "orderDescription"=>"U-M Library Circulation Fines",
       "payerFullName"=>"Aardvark Jones",
@@ -26,19 +27,49 @@ describe Receipt, '.for' do
       "timestamp"=>"1579628471900",
       "hash"=>"9baaee6c2a0ee08c63bbbcc0435360b0d5ecef1de876b68d59956c0752fed836"
     }
+    @fine_payment_response = JSON.parse(File.read('spec/fixtures/fines_pay_amount.json'))
+    @fine_response = JSON.parse(File.read('spec/fixtures/jbister_fines.json'))
+    @is_valid = true
+    stub_alma_get_request( url: 'users/tutor/fees', body: @fine_response.to_json, query: {limit: 100, offset: 0}  )
   end
-  it 'returns an InvalidReceipt with error messages for failed Alma Update' do
-    stub_alma_post_request( url: 'users/tutor/fees/all', query: {op: "pay", method: 'ONLINE', amount: '22.50', external_transaction_id: '382481568'}, body: File.read('spec/fixtures/alma_error.json'), status: 500  )
-    receipt = Receipt.for(uniqname: 'tutor', nelnet_params: @params, is_valid: true)
-    expect(receipt.class.name).to eq('InvalidReceipt')
-    expect(receipt.message).to include('User with identifier mrioaaa was not found.')
+  let(:alma_error){File.read('spec/fixtures/alma_error.json')}
+  subject do
+    described_class.for(uniqname: 'tutor', nelnet_params: @params, order_number: @order_number, is_valid: @is_valid)
   end
   it "returns full receipt if alma update goes through" do
-    stub_alma_post_request( url: 'users/tutor/fees/all', query: {op: "pay", method: 'ONLINE', amount: '22.50', external_transaction_id: '382481568'}, body: File.read('spec/fixtures/fines_pay_amount.json') )
-    receipt = Receipt.for(uniqname: 'tutor', nelnet_params: @params, is_valid: true)
-    expect(receipt.balance).to eq('15.00')
-    expect(receipt.confirmationNumber).to eq('382481568')
+    stub_alma_post_request( url: 'users/tutor/fees/all', query: {op: "pay", method: 'ONLINE', amount: '22.50', external_transaction_id: @order_number}, body: @fine_payment_response.to_json  )
+    expect(subject.balance).to eq('15.00')
+    expect(subject.order_number).to eq(@order_number)
+    expect(subject.successful?).to eq(true)
   end
+  it 'returns an ErrorReceipt with error messages for failed Alma Update' do
+    stub_alma_post_request( url: 'users/tutor/fees/all', query: {op: "pay", method: 'ONLINE', amount: '22.50', external_transaction_id: @order_number}, body: alma_error, status: 500  )
+    expect(subject.class.name).to eq('ErrorReceipt')
+    expect(subject.message).to include('User with identifier mrioaaa was not found.')
+    expect(subject.successful?).to eq(false)
+  end
+  it "returns ErrorReceipt for invalid payment" do
+    @is_valid = false
+    expect(subject.class.name).to eq('ErrorReceipt')
+    expect(subject.message).to include('could not be validated')
+  end
+  it "returns ErrorReceipt for problem in getting alma verification" do
+    stub = stub_alma_get_request( url: 'users/tutor/fees', body: alma_error, query: {limit: 100, offset: 0}, status: 500  )
+    expect(subject.class.name).to eq('ErrorReceipt')
+    expect(subject.message).to include('There was an error')
+  end
+  it "returns ErrorReceipt if confirmation number is already in Alma" do
+    @order_number = "43010000521"
+    expect(subject.class.name).to eq('ErrorReceipt')
+    expect(subject.message).to include('database')
+  end
+  it "returns ErrorReceipt if balance in Alma is 0" do
+    @fine_response["total_sum"] = "0"
+    stub_alma_get_request( url: 'users/tutor/fees', body: @fine_response.to_json, query: {limit: 100, offset: 0}  )
+    expect(subject.class.name).to eq('ErrorReceipt')
+    expect(subject.message).to include('balance')
+  end
+
 end
 describe Payment do
   before(:each) do
@@ -86,9 +117,9 @@ describe Payment do
       expect(subject.type).to eq('VISA')
     end
   end
-  context "#orderNumber" do
+  context "#order_number" do
     it "returns string" do
-      expect(subject.orderNumber).to eq('Afam.1608566536797')
+      expect(subject.order_number).to eq('Afam.1608566536797')
     end
   end
   context "#description" do
