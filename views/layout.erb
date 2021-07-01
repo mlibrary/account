@@ -31,13 +31,21 @@
     %>
     <title><%= title %> | University of Michigan Library</title>
   </head>
-  <body> 
+  <body>
+    <section aria-label="Skip links" class="site-skip-links">
+      <div class="site-skip-links_content layout prose">
+        <ul>
+          <li><a href="#maincontent">Skip to main content</a></li>
+          <li><a href="#chat">Skip to Ask a Librarian chat</a></li>
+        </ul>
+      </div>
+    </section>
     <m-universal-header></m-universal-header>
     <m-website-header name="Account">
       <%= erb :user_drop_down %>
     </m-website-header>
     <%= erb :banner %>
-    <main class="layout site-layout">
+    <main class="layout site-layout" id="maincontent">
       <%= erb :navigation %>
       <article class="site-layout__center owl prose">
         <%= erb :horizontal_nav %>
@@ -55,7 +63,8 @@
         <div class="layout">
           <section class="owl">
             <h2 class="m-details-xxx-small">University of Michigan Library</h2>
-            <p>913 S. University Avenue<br>Ann Arbor, MI 48109-1190</p>
+            <p style="white-space: pre-line;">913 S. University Avenue
+            Ann Arbor, MI 48109-1190</p>
           </section>
         </div>
       </div>
@@ -67,7 +76,7 @@
       </div>
     </footer>
 
-    <m-chat></m-chat>
+    <m-chat id="chat"></m-chat>
     <script src="/bundles/main.bundle.js"></script>
     <% if defined?(has_js)  %>
       <script src="/bundles/<%=request.js_filename%>.bundle.js"></script>
