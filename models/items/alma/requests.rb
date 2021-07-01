@@ -28,6 +28,10 @@ class Request < AlmaItem
     markdown.render(empty_state_text)
   end
 
+  def expiry_date
+    @parsed_response["expiry_date"] ? DateTime.patron_format(@parsed_response["expiry_date"]) : ''
+  end
+
   def publication_date
     @parsed_response["date_of_publication"]
   end

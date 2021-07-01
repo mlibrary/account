@@ -1,0 +1,105 @@
+.responsive-table {
+  overflow-x: auto;
+  table {
+    width: 100%;
+    * {
+      text-align: left;
+    }
+    caption {
+      overflow: hidden;
+      .caption-flex {
+        align-items: center;
+        display: flex;
+        flex-wrap: wrap;
+        margin: 0 calc(var(--space-x-small) * -1);
+        justify-content: space-between;
+        & > * {
+          padding: var(--space-x-small);
+        }
+        & > & {
+          margin: 0;
+          padding: 0;
+        }
+      }
+    }
+    thead {
+      border-bottom: solid 2px var(--color-maize-400);
+      @media screen and (max-width: 1000px) {
+        border: none;
+        clip: rect(0 0 0 0);
+        height: 1px;
+        margin: -1px;
+        overflow: hidden;
+        padding: 0;
+        position: absolute;
+        width: 1px;
+      }
+    }
+    th,
+    td {
+      vertical-align: top;
+      @media screen and (min-width: 1001px) {
+        padding: var(--space-medium) 0;
+        &:not(:last-of-type) {
+          padding-right: var(--space-x-large);
+        }
+      }
+    }
+    th {
+      font-size: 0.875rem;
+      font-weight: 800;
+      letter-spacing: 1.25px;
+      text-transform: uppercase;
+      @media screen and (min-width: 1280px) {
+        white-space: nowrap;
+      }
+      &[scope="row"] {
+        line-height: 2;
+        @media screen and (max-width: 1000px) {
+          border: none;
+          clip: rect(0 0 0 0);
+          height: 1px;
+          margin: -1px;
+          overflow: hidden;
+          padding: 0;
+          position: absolute;
+          width: 1px;
+        }
+      }
+    }
+    tbody {
+      tr {
+        border-bottom: solid 1px var(--color-neutral-100);
+        @media screen and (max-width: 1000px) {
+          display: grid;
+          grid-template-columns: 1fr auto;
+          padding: var(--space-medium) 0;
+          td {
+            display: block;
+            grid-column: 1 / 2;
+            &:first-of-type:not(:only-of-type) {
+              padding-bottom: var(--space-small);
+            }
+            &.table-cell-action {
+              grid-column: 2 / 3;
+              grid-row: 1 / -1;
+              padding-left: var(--space-medium);
+            }
+            a:not(.button) {
+              display: block;
+            }
+            .bullet-point:first-of-type {
+              display: none;
+            }
+          }
+        }
+        span[aria-hidden="true"] {
+          font-weight: 600;
+          @media screen and (min-width: 1001px) {
+            display: none;
+          }
+        }
+      }
+    }
+  }
+}
