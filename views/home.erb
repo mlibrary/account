@@ -1,3 +1,4 @@
+<% fines = Fines.for(uniqname: session[:uniqname]) %>
 <!--
   Could this data come from back-end?
 
@@ -13,8 +14,8 @@
       <div>
         <h2 class="overview-card-heading">
           <%=card.title%>
-          <% if card.title == 'Fines and Fees' %>
-            <span class="badge badge--caution">3</span>
+          <% if card.title == 'Fines and Fees' and fines.count > 0 %>
+            <span class="badge badge--caution"><%= fines.count %></span>
           <% end %>
         </h2>
         <p class="overview-card-description"><%=card.description%></p>

@@ -1,4 +1,5 @@
 <% my_pages = Navigation::Sidebar.for(request.path_info) %>
+<% fines = Fines.for(uniqname: session[:uniqname]) %>
 
 <nav class="site-navigation site-layout__left">
   <div class="sticky-top">
@@ -8,8 +9,8 @@
           <a href="<%=page.path%>" <% if page.active? %>aria-current="page"<% end %>>
             <m-icon name="<%=page.icon_name%>"></m-icon>
             <span><%=page.title%></span>
-            <% if page.title == 'Fines and Fees' %>
-              <span class="badge badge--caution">3</span>
+            <% if page.title == 'Fines and Fees' and fines.count > 0 %>
+              <span class="badge badge--caution"><%= fines.count %></span>
             <% end %>
           </a>
         </li>
