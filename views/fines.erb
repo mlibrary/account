@@ -10,7 +10,6 @@
       <table>
         <thead>
           <tr>
-            <th>Select</th>
             <th>Title &amp; Author</th>
             <th>Type</th>
             <th>Fine</th>
@@ -19,7 +18,6 @@
         <tbody>
         <% fines.each_with_index do |fine,index| %>
           <tr>
-            <td><input type="checkbox" name="fines[<%=index%>]" value="<%=fine.id%>" id="<%=fine.id%>" aria-label="Select to pay <%=fine.id%>"></td>
             <td><%= fine.title %></td>
             <td>
               <span aria-hidden="true">Type:</span>
@@ -36,6 +34,58 @@
     </div>
 
     <p>Your total due is <strong>$<%=fines.total_sum_in_dollars%></strong></p>
+
+    <h2>How much would you like to pay today?</h2>
+
+    <div class="payment-amount-options radio-options owl">
+      <div class="payment-amount-option radio-option">
+        <input 
+          type="radio"
+          name="pay_in_full"
+          class="visually-hidden"
+          id="pay-all"
+          value="true"
+        >
+        <label for="pay-all">
+          <m-icon name="radio-button-checked"></m-icon>
+          <m-icon name="radio-button-unchecked"></m-icon>
+          <span>Pay full amount (<strong>$<%=fines.total_sum_in_dollars%></strong>)</span>
+        </label>
+      </div>
+      <div class="payment-amount-option radio-option">
+        <input 
+          type="radio"
+          name="pay_in_full"
+          class="visually-hidden"
+          id="pay-some"
+          value="false" 
+        >
+        <label for="pay-some">
+          <m-icon name="radio-button-checked"></m-icon>
+          <m-icon name="radio-button-unchecked"></m-icon>
+          <span>Pay partial amount</span>
+        </label>
+        <div id="pay-some-amount">
+          <span>$</span>
+          <input
+            type="number"
+            min="0.00"
+            max="<%=fines.total_sum_in_dollars%>"
+            step="0.01"
+            pattern="^\d+\.\d{2}$"
+            placeholder="0.00"
+            value="0.00"
+            name="partial_amount"
+            for="pay-some"
+            aria-label="Amount you wish to pay"
+            aria-describedby="payment-description"
+          >
+          <div id="payment-description" class="input-description">
+            <m-icon name="info"></m-icon><span>Payment amount must include cents. Example: 25.00</span>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <button type="submit">Pay fines</button>
 

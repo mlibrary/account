@@ -1,58 +1,21 @@
-<% if receipt.valid? %>
+<% if receipt.successful? %>
   <p>Please review the details for this transaction.</p>
   <h2>Your details</h2>
   <address>
-    <%= payment.payer_name %></br>
-    <%= payment.email %></br>
-    <%= payment.street %></br>
-    <%= payment.city %>, <%= payment.state %> <%= payment.zip %>
+    <%= receipt.payer_name %></br>
+    <%= receipt.email %></br>
+    <%= receipt.street %></br>
+    <%= receipt.city %>, <%= receipt.state %> <%= receipt.zip %>
   </address>
   <h2>Payment details</h2>
   <ul class="no-list-style">
-    <li><strong>Confirmation number:</strong> <%= payment.confirmationNumber %></li>
-    <li><strong>Order number:</strong> <%= payment.orderNumber %></li>
-    <li><strong>Order description:</strong> <%= payment.description %></li>
-    <li><strong>Date:</strong> <%= payment.date %></li>
-    <li><strong>Account type:</strong> <%= payment.type %></li>
-    <li><strong>Amount:</strong> $<%= payment.amount %></li>
+    <li><strong>Confirmation number:</strong> <%= receipt.confirmationNumber %></li>
+    <li><strong>Order number:</strong> <%= receipt.order_number %></li>
+    <li><strong>Order description:</strong> <%= receipt.description %></li>
+    <li><strong>Date:</strong> <%= receipt.date %></li>
+    <li><strong>Account type:</strong> <%= receipt.type %></li>
+    <li><strong>Amount paid:</strong> $<%= receipt.amount %></li>
+    <li><strong>Remaining balance:</strong> $<%= receipt.balance %></li>
   </ul>
-  <div class="responsive-table">
-    <table>
-      <thead>
-        <tr>
-          <th>Title &amp; author</th>
-          <th>Type</th>
-          <th>Fine</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% items.each do |item| %>
-          <tr>
-            <td>
-              <%= item.title %>
-            </td>
-            <td>
-              <span aria-hidden="true">Type:</span>
-              <%= item.type %>
-            </td>
-            <td>
-              <span aria-hidden="true">Fine:</span>
-              $<%= item.balance %>
-            </td>
-          </tr>
-        <% end %>
-      </tbody>
-      <tfoot>
-        <tr>
-          <td colspan="2" style="text-align: right;">
-            <span class="h2">Total</span>
-          </td>
-          <td>
-            <span class="h2">$<%= payment.amount %></span>
-          </td>
-        </tr>
-      </tfoot>
-    </table>
-  </div>
-  <p>If you have a question about your payment, please contact staff at the <a href="https://www.lib.umich.edu/locations-and-hours/hatcher-library/hatcher-north-information-services-desk">Hatcher North Information Services Desk</a>.</p>
 <% end %>
+<p>If you have a question about your payment, please contact staff at the <a href="https://www.lib.umich.edu/locations-and-hours/hatcher-library/hatcher-north-information-services-desk">Hatcher North Information Services Desk</a> at <a href="mailto:glcirc@umich.edu">glcirc@umich.edu</a> or 734-764-0401.</p>

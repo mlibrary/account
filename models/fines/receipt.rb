@@ -1,74 +1,66 @@
 class Receipt
-  attr_reader :payment, :items
-  def initialize(items:, nelnet_params:)
-    @payment = Payment.new(nelnet_params)
-    @items = items.map{|x| Item.new(x)}
-  end
-  def self.for(uniqname:, items:, nelnet_params:, 
-               is_valid: Nelnet.verify(nelnet_params), 
-               error_factory: lambda{|resp| AlmaError.new(resp)}
-              )
-    if is_valid
-      errors = []
-      items.each do |item|
-        resp = Fine.pay(uniqname: uniqname, fine_id: item["id"], balance: item["balance"])
-        errors.push(error_factory.call(resp)) if resp.code != 200  
-      end
+  attr_reader :balance
+  extend Forwardable
+  def_delegators :@payment, :order_number, :description, :amount, :payer_name, :type,
+    :email, :date, :street, :city, :state, :zip, :country, :confirmationNumber
 
-      if errors.empty?
-        return Receipt.new(items: items, nelnet_params: nelnet_params)
-      else
-        message = errors.filter_map{|e| e.message unless e.message.empty? }.join(' ')
-        InvalidReceipt.new(message)
+  def initialize(payment:, balance:)
+    @payment = payment
+    @balance = balance.to_currency
+  end
+  def self.for(uniqname:, nelnet_params:, order_number:, is_valid: Nelnet.verify(nelnet_params))
+    payment = Payment.new(nelnet_params)
+    if is_valid 
+      payment_verification = Fines.verify_payment(uniqname: uniqname, order_number: order_number)
+      if payment_verification.class.name == 'AlmaError'
+        return ErrorReceipt.new("There was an error in processing your payment.<br>Your payment order number is: #{payment.order_number}<br>Server error: #{payment_verification.message}</br>")
+      elsif payment_verification[:has_order_number]
+        ErrorReceipt.new("Your payment order number, #{order_number}, is already in the fines database.")
+      elsif payment_verification[:total_sum].to_f == 0.0
+        ErrorReceipt.new("You do not have a balance. Your payment order number is: #{order_number}.")
+      else #has not already paid
+        resp = Fines.pay(uniqname: uniqname, amount: payment.amount, order_number: order_number)
+        if resp.code != 200
+          error = AlmaError.new(resp)
+          ErrorReceipt.new("#{error.message}<br>Your payment order number is: #{order_number}" )
+        else
+          return Receipt.new(payment: payment, balance: resp.parsed_response["total_sum"])
+        end
       end
-    else
-      return InvalidReceipt.new('Could not Validate')
+    else #not valid
+      return ErrorReceipt.new("Your payment could not be validated. Your payment order number is: #{payment.order_number}")
     end
   end
-  def valid?
+  def successful?
     true
   end
-  class Item
-    attr_reader :fine_id, :balance, :title, :library, :barcode, :type, :creation_time
-    def initialize(item)
-      @fine_id = item["id"]
-      @balance = item["balance"]
-      @title = item["title"]
-      @library = item["library"]
-      @barcode = item["barcode"]
-      @type = item["type"]
-      @creation_time = DateTime.patron_format(item["creation_time"])
-    end
-  end
-  class Payment
-    attr_reader :orderNumber, :description, :amount, :payer_name, :type,
-      :email, :date, :street, :city, :state, :zip, :country, :confirmationNumber
-    def initialize(params)
-      @orderNumber = params["orderNumber"]
-      @confirmationNumber = params["transactionId"]
-      @description = params["orderDescription"]
-      @amount = (params["transactionTotalAmount"].to_f / 100 ).to_currency
-      @type = params["transactionAcountType"]
-      @payer_name = params["accountHolderName"]
-      @transaction_message = params["transactionResultMessage"]
-      @email = params["email"]
-      @date = DateTime.parse(params["transactionDate"]).strftime("%B %e, %Y")
-      @street = [params["streetOne"], params["streetTwo"]].select{|x| !x.empty?}.join('<br/>')
-      @city = params["city"]
-      @state = params["state"]
-      @zip = params["zip"]
-      @country = params["country"] == 'UNITED STATES' ? '' : params["country"]
-    end
-
-  end
-
 end
-class InvalidReceipt < Receipt
+class Payment
+  attr_reader :order_number, :description, :amount, :payer_name, :type,
+    :email, :date, :street, :city, :state, :zip, :country, :confirmationNumber
+  def initialize(params)
+    @order_number = params["orderNumber"]
+    @confirmationNumber = params["transactionId"]
+    @description = params["orderDescription"]
+    @amount = (params["transactionTotalAmount"].to_f / 100 ).to_currency
+    @type = params["transactionAcountType"]
+    @payer_name = params["accountHolderName"]
+    @transaction_message = params["transactionResultMessage"]
+    @email = params["email"]
+    @date = DateTime.parse(params["transactionDate"]).strftime("%B %e, %Y")
+    @street = [params["streetOne"], params["streetTwo"]].select{|x| !x.empty?}.join('<br/>')
+    @city = params["city"]
+    @state = params["state"]
+    @zip = params["zip"]
+    @country = params["country"] == 'UNITED STATES' ? '' : params["country"]
+  end
+end
+class ErrorReceipt < Receipt
   attr_reader :message
   def initialize(message)
     @message = message
   end
-  def valid?
+  def successful?
     false
   end
 end

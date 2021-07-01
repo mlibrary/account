@@ -38,7 +38,6 @@ require_relative "./models/response/response"
 require_relative "./models/response/renew_response_presenter"
 
 require_relative "./models/fines/nelnet"
-require_relative "./models/fines/fine_payer"
 require_relative "./models/fines/fines"
 require_relative "./models/fines/receipt"
 
@@ -360,25 +359,28 @@ namespace '/fines-and-fees' do
 # :nocov:
 
   post '/pay' do
-    payer = FinePayer.new(uniqname: session[:uniqname], fine_ids: params["fines"].values)
-    session[payer.orderNumber] = payer.token
-    redirect payer.url
+    fines = Fines.for(uniqname: session[:uniqname])
+    total_sum = fines.total_sum.to_f
+    amount = params["pay_in_full"] == "true" ? total_sum : params["partial_amount"].to_f
+    if amount <= total_sum
+      nelnet =  Nelnet.new(amountDue: amount.to_currency)
+      session["order_number"] = nelnet.orderNumber
+      redirect nelnet.url
+    else
+      flash[:error] = "You don't need to overpay!!!"
+      redirect '/fines-and-fees'
+    end
+
   end
 
   get '/receipt' do
-    token = session[params["orderNumber"]]
-    items = []
-    if token 
-      items = JWT.decode(token, ENV.fetch('JWT_SECRET'), true, {algorithm: 'HS256'}).first 
-    end
-
-    receipt = Receipt.for(uniqname: session[:uniqname], items: items, nelnet_params: params)
-    if receipt.valid?
+    receipt = Receipt.for(uniqname: session[:uniqname], nelnet_params: params, order_number: session[:order_number])
+    if receipt.successful?
       flash.now[:success] = "Fines successfully paid"
     else
       flash.now[:error] = receipt.message 
     end
-    erb :receipt, :locals => {receipt: receipt, items: receipt.items, payment: receipt.payment}
+    erb :receipt, :locals => {receipt: receipt}
   end
 
 end
