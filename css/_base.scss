@@ -120,18 +120,21 @@ table {
 
 .table-container {
   overflow-x: auto;
-  .caption-flex {
-    align-items: center;
-    display: flex;
-    flex-wrap: wrap;
-    margin: 0 calc(var(--space-x-small) * -1);
-    justify-content: space-between;
-    & > * {
-      padding: var(--space-x-small);
-    }
-    & > & {
-      margin: 0;
-      padding: 0;
+  caption {
+    overflow: hidden;
+    .caption-flex {
+      align-items: center;
+      display: flex;
+      flex-wrap: wrap;
+      margin: 0 calc(var(--space-x-small) * -1);
+      justify-content: space-between;
+      & > * {
+        padding: var(--space-x-small);
+      }
+      & > & {
+        margin: 0;
+        padding: 0;
+      }
     }
   }
 }
@@ -141,5 +144,5 @@ table {
 }
 
 address {
-  font-weight: bold;
+  font-weight: normal;
 }

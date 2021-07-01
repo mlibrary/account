@@ -1,0 +1,92 @@
+{
+  "fee": [
+    {
+      "id": "1389888910006381",
+      "type": {
+        "value": "OVERDUEFINE",
+        "desc": "Overdue fine"
+      },
+      "status": {
+        "value": "ACTIVE",
+        "desc": "Active"
+      },
+      "user_primary_id": {
+        "value": "mlibrary.acct.testing1@gmail.com",
+        "link": "https://api-na.hosted.exlibrisgroup.com/almaws/v1/users/mlibrary.acct.testing1@gmail.com"
+      },
+      "balance": 10,
+      "remaining_vat_amount": 0,
+      "original_amount": 10,
+      "original_vat_amount": 0,
+      "creation_time": "2021-06-28T17:44:16.104Z",
+      "status_time": "2021-06-28T17:44:16.104Z",
+      "comment": "Date generated: 06/28/2021, Due: 06/25/2021, Fine Policy/ies:  Overdue fine policy: 2.50 Open Days Overdue Fine , Action: Renewed",
+      "owner": {
+        "value": "MAIN",
+        "desc": "Main Library"
+      },
+      "title": "Creative design in wall hangings; weaving patterns based on primitive and medieval art.",
+      "barcode": {
+        "value": "93653",
+        "link": "https://api-na.hosted.exlibrisgroup.com/almaws/v1/items?item_barcode=93653"
+      },
+      "link": "https://api-na.hosted.exlibrisgroup.com/almaws/v1/users/mlibrary.acct.testing1@gmail.com/fees/1389888910006381"
+    },
+    {
+      "id": "1389888970006381",
+      "type": {
+        "value": "OVERDUEFINE",
+        "desc": "Overdue fine"
+      },
+      "status": {
+        "value": "ACTIVE",
+        "desc": "Active"
+      },
+      "user_primary_id": {
+        "value": "mlibrary.acct.testing1@gmail.com",
+        "link": "https://api-na.hosted.exlibrisgroup.com/almaws/v1/users/mlibrary.acct.testing1@gmail.com"
+      },
+      "balance": 5,
+      "remaining_vat_amount": 0,
+      "original_amount": 10,
+      "original_vat_amount": 0,
+      "creation_time": "2021-06-28T17:44:16.916Z",
+      "status_time": "2021-06-29T13:35:50.555Z",
+      "comment": "Date generated: 06/28/2021, Due: 06/25/2021, Fine Policy/ies:  Overdue fine policy: 2.50 Open Days Overdue Fine , Action: Renewed",
+      "owner": {
+        "value": "MAIN",
+        "desc": "Main Library"
+      },
+      "title": "Re-reading Harry Potter / Suman Gupta.",
+      "barcode": {
+        "value": "13073772",
+        "link": "https://api-na.hosted.exlibrisgroup.com/almaws/v1/items?item_barcode=13073772"
+      },
+      "transaction": [
+        {
+          "type": {
+            "value": "PAYMENT",
+            "desc": "Payment"
+          },
+          "amount": 5,
+          "vat_amount": 0,
+          "created_by": "Ex Libris",
+          "external_transaction_id": "confirmation_id_from_nelnet",
+          "transaction_time": "2021-06-29T13:35:50.555Z",
+          "received_by": {
+            "value": "Not At Desk",
+            "desc": "Main Library"
+          },
+          "payment_method": {
+            "value": "ONLINE",
+            "desc": "Online"
+          }
+        }
+      ],
+      "link": "https://api-na.hosted.exlibrisgroup.com/almaws/v1/users/mlibrary.acct.testing1@gmail.com/fees/1389888970006381"
+    }
+  ],
+  "total_record_count": 2,
+  "total_sum": 15,
+  "currency": "USD"
+}

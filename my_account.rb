@@ -38,7 +38,6 @@ require_relative "./models/response/response"
 require_relative "./models/response/renew_response_presenter"
 
 require_relative "./models/fines/nelnet"
-require_relative "./models/fines/fine_payer"
 require_relative "./models/fines/fines"
 require_relative "./models/fines/receipt"
 
@@ -149,19 +148,6 @@ get '/session_switcher' do
   patron = SessionPatron.new(params[:uniqname])
   patron.to_h.each{|k,v| session[k] = v}
   redirect back
-end
-get '/receipt_test' do
-  items = [{ "id"=>"1384289260006381", "balance"=>"5.00", "title"=>"Short history of Georgia.", "barcode"=>"95677", "library"=>"Main Library", "type"=>"Overdue fine", "creation_time"=>"2020-12-09T17:13:29.959Z" }]
-  nelnet_params =  { "transactionType"=>"1", "transactionStatus"=>"1", "transactionId"=>"382481568", "transactionTotalAmount"=>"2250", "transactionDate"=>"202001211341", "transactionAcountType"=>"VISA", "transactionResultCode"=>"267849", "transactionResultMessage"=>"Approved and completed", "orderNumber"=>"Afam.1608566536797", "orderType"=>"UMLibraryCirc", "orderDescription"=>"U-M Library Circulation Fines", "payerFullName"=>"Aardvark Jones", "actualPayerFullName"=>"Aardvark Jones", "accountHolderName"=>"Aardvark Jones", "streetOne"=>"555 S STATE ST", "streetTwo"=>"", "city"=>"Ann Arbor", "state"=>"MI", "zip"=>"48105", "country"=>"UNITED STATES", "email"=>"aardvark@umich.edu", "timestamp"=>"1579628471900", "hash"=>"33c52c83a5edd6755a5981368028b55238a01a918570b0552836db3250b2ed6c" }
-
-  if params["invalid"] == 'true'
-    receipt = InvalidReceipt.new('Could not Validate Transaction')
-    flash.now[:error] = receipt.message
-  else
-    receipt = Receipt.new( items: items, nelnet_params: nelnet_params)
-    flash.now[:success] = "Fines successfully paid"
-  end
-  erb :receipt, :locals => {receipt: receipt, items: receipt.items, payment: receipt.payment}
 end
 # :nocov:
 
@@ -373,25 +359,28 @@ namespace '/fines-and-fees' do
 # :nocov:
 
   post '/pay' do
-    payer = FinePayer.new(uniqname: session[:uniqname], fine_ids: params["fines"].values)
-    session[payer.orderNumber] = payer.token
-    redirect payer.url
+    fines = Fines.for(uniqname: session[:uniqname])
+    total_sum = fines.total_sum.to_f
+    amount = params["pay_in_full"] == "true" ? total_sum : params["partial_amount"].to_f
+    if amount <= total_sum
+      nelnet =  Nelnet.new(amountDue: amount.to_currency)
+      session["order_number"] = nelnet.orderNumber
+      redirect nelnet.url
+    else
+      flash[:error] = "You don't need to overpay!!!"
+      redirect '/fines-and-fees'
+    end
+
   end
 
   get '/receipt' do
-    token = session[params["orderNumber"]]
-    items = []
-    if token 
-      items = JWT.decode(token, ENV.fetch('JWT_SECRET'), true, {algorithm: 'HS256'}).first 
-    end
-
-    receipt = Receipt.for(uniqname: session[:uniqname], items: items, nelnet_params: params)
-    if receipt.valid?
+    receipt = Receipt.for(uniqname: session[:uniqname], nelnet_params: params, order_number: session[:order_number])
+    if receipt.successful?
       flash.now[:success] = "Fines successfully paid"
     else
       flash.now[:error] = receipt.message 
     end
-    erb :receipt, :locals => {receipt: receipt, items: receipt.items, payment: receipt.payment}
+    erb :receipt, :locals => {receipt: receipt}
   end
 
 end
