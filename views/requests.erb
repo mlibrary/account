@@ -39,7 +39,7 @@
           <span aria-hidden="true">Expires:</span>
           <%= hold_request.request_date %>
         </td>
-        <td>
+        <td class="table-cell-action">
           <button class="button--light" data-js-cancel="<%=hold_request.request_id%>" disabled>Cancel</button>
         </td>
       </tr>
@@ -89,8 +89,8 @@
               </span>
             <% end %>
           </td>
-          <td>
-            <a class="button--light" style="display: inline-block;" href="<%= delivery_request.url_cancel_request %>">Cancel</a>
+          <td class="table-cell-action">
+            <a class="button button--light" style="display: inline-block;" href="<%= delivery_request.url_cancel_request %>">Cancel</a>
           </td>
         </tr>
       <% end %>
@@ -143,7 +143,7 @@
             <span aria-hidden="true">Expires:</span>
             <%= booking_request.booking_date %>
           </td>
-          <td>
+          <td class="table-cell-action">
             <button class="button--light" data-js-cancel="<%=booking_request.request_id%>" disabled>Cancel</button>
           </td>
         </tr>

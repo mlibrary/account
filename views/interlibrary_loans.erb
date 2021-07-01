@@ -33,7 +33,7 @@
             </span>
           <% end %>
         </td>
-        <td>
+        <td class="table-cell-action">
           <% if interlibrary_loan.renewable? %>
             <a href="<%= interlibrary_loan.url_request_renewal %>">Request Renewal</a>
           <% else %>

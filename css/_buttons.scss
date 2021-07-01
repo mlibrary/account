@@ -14,6 +14,8 @@
   min-width: var(--space-xxx-large);
   min-height: var(--space-xxx-large);
   font-weight: var(--bold);
+  // Prevent hover/focus cutoff
+  margin-right: 3px;
 
   &:not([disabled]):hover {
     box-shadow: 0 0 0 2px white, 0 0 0 3px var(--color-neutral-400);

@@ -29,7 +29,7 @@
           <span aria-hidden="true">Expires:</span>
           <%= delivery.expiration_date %>
         </td>
-        <td>
+        <td class="table-cell-action">
           <% if delivery.renewable? %>
             <a href="<%= delivery.url_request_renewal %>">Request Renewal</a>
           <% else %>

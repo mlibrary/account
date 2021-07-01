@@ -53,13 +53,20 @@
       tr {
         border-bottom: solid 1px var(--color-neutral-100);
         @media screen and (max-width: 1000px) {
+          display: grid;
+          grid-template-columns: 1fr auto;
           padding: var(--space-medium) 0;
-          &,
           td {
             display: block;
-          }
-          td:first-of-type {
-            padding-bottom: var(--space-small);
+            grid-column: 1 / 2;
+            &:first-of-type {
+              padding-bottom: var(--space-small);
+            }
+            &.table-cell-action {
+              grid-column: 2 / 3;
+              grid-row: 1 / -1;
+              padding-left: var(--space-medium);
+            }
           }
         }
         span[aria-hidden="true"] {
