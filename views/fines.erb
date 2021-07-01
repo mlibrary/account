@@ -22,11 +22,11 @@
             <td><input type="checkbox" name="fines[<%=index%>]" value="<%=fine.id%>" id="<%=fine.id%>" aria-label="Select to pay <%=fine.id%>"></td>
             <td><%= fine.title %></td>
             <td>
-              <span aria-hidden="true">Type</span>
+              <span aria-hidden="true">Type:</span>
               <%= fine.type %>
             </td>
             <td>
-              <span aria-hidden="true">Fine</span>
+              <span aria-hidden="true">Fine:</span>
               <span style="color: var(--color-pink-500);">$<%= fine.balance %></span>
             </td>
           </tr>

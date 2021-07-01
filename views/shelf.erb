@@ -56,7 +56,7 @@
           <%= erb :title_author, locals: {item: loan} %>
         </td>
         <td data-loan-due-date="<%=loan.loan_id%>">
-          <span aria-hidden="true">Due date</span>
+          <span aria-hidden="true">Due date:</span>
           <%= loan.due_date %>
           <% if !loan.due_status.empty? %>
             <span class="tag--<%= loan.due_status == 'Overdue' ? 'fail' : 'warning' %>">

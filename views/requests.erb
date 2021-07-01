@@ -23,7 +23,7 @@
           <%= erb :title_author, locals: {item: hold_request} %>
         </td>
         <td>
-          <span aria-hidden="true">Pickup location</span>
+          <span aria-hidden="true">Pickup location:</span>
           <%= hold_request.pickup_location %>
           <% if !hold_request.status.empty? %>
             <span class="tag<%= hold_request.status_tag %>">
@@ -32,11 +32,11 @@
           <% end %>
         </td>
         <td>
-          <span aria-hidden="true">Requested</span>
+          <span aria-hidden="true">Requested:</span>
           <%= hold_request.request_date %>
         </td>
         <td>
-          <span aria-hidden="true">Expires</span>
+          <span aria-hidden="true">Expires:</span>
           <%= hold_request.request_date %>
         </td>
         <td>
@@ -78,11 +78,11 @@
             <%= erb :title_author, locals: {item: delivery_request} %>
           </td>
           <td>
-            <span aria-hidden="true">Requested</span>
+            <span aria-hidden="true">Requested:</span>
             <%= delivery_request.creation_date %>
           </td>
           <td>
-            <span aria-hidden="true">Status</span>
+            <span aria-hidden="true">Status:</span>
             <% if !delivery_request.status.empty? %>
               <span class="tag<%= delivery_request.status_tag %>">
                 <%= delivery_request.status %>
@@ -127,7 +127,7 @@
           <td>
             <%= erb :title_author, locals: {item: booking_request} %>
           <td>
-            <span aria-hidden="true">Pickup location</span>
+            <span aria-hidden="true">Pickup location:</span>
             <%= booking_request.pickup_location %>
             <% if !booking_request.status.empty? %>
               <span class="tag<%= booking_request.status_tag %>">
@@ -136,11 +136,11 @@
             <% end %>
           </td>
           <td>
-            <span aria-hidden="true">Pickup date</span>
+            <span aria-hidden="true">Pickup date:</span>
             <%= booking_request.booking_date %>
           </td>
           <td>
-            <span aria-hidden="true">Expires</span>
+            <span aria-hidden="true">Expires:</span>
             <%= booking_request.booking_date %>
           </td>
           <td>

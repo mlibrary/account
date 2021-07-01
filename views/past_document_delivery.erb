@@ -25,11 +25,11 @@
           <%= erb :title_author, locals: {item: past_delivery} %>
         </td>
         <td>
-          <span aria-hidden="true">Requested</span>
+          <span aria-hidden="true">Requested:</span>
           <%= past_delivery.creation_date %>
         </td>
         <td>
-          <span aria-hidden="true">Returned</span>
+          <span aria-hidden="true">Returned:</span>
           <%= past_delivery.transaction_date %>
         </td>
       </tr>
