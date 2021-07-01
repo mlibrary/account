@@ -1,0 +1,22 @@
+.site-skip-links {
+  background: var(--color-blue-400);
+  &:not(:focus-within) {
+    position: absolute;
+    left: -10000px;
+    top: auto;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+  a {
+    color: white;
+    padding: var(--space-x-small);
+  }
+  ul {
+    margin: var(--space-medium) 0;
+    text-align: center;
+    li + li {
+      margin-top: var(--space-medium);
+    }
+  }
+}
