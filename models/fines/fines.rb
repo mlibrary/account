@@ -4,6 +4,10 @@ class Fines
     @list = parsed_response["fee"]&.map{|l| Fine.new(l)} || []
   end
 
+  def self.pay(uniqname:, amount:, order_number:, client: AlmaRestClient.client)
+    client.post("/users/#{uniqname}/fees/all", {op: "pay", method: 'ONLINE', amount: amount, external_transaction_id: order_number})
+  end
+
   def count
     @parsed_response["total_record_count"] || 0
   end
@@ -31,6 +35,24 @@ class Fines
     end
   end
 
+  def self.verify_payment(uniqname:, order_number:, client: AlmaRestClient.client)
+    url = "/users/#{uniqname}/fees" 
+    response = client.get_all(url: url, record_key: "fee" )
+    if response.code == 200
+      parsed_response = response.parsed_response
+      transactions = parsed_response["fee"].filter_map do |fee| 
+        fee["transaction"] if fee["transaction"]
+      end.flatten
+      has_order_number = transactions.any?{|transaction| transaction["external_transaction_id"] == order_number }
+      { 
+        has_order_number: has_order_number,
+        total_sum: parsed_response["total_sum"]
+      }
+    else
+      #if this errors out return alma error
+      AlmaError.new(response)
+    end
+  end
   def self.for(uniqname:, client: AlmaRestClient.client)
     url = "/users/#{uniqname}/fees" 
     response = client.get_all(url: url, record_key: "fee" )

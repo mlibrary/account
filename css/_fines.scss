@@ -1,0 +1,17 @@
+#pay-some-amount {
+  max-width: 30rem;
+  padding-left: 2.5rem;
+  position: relative;
+  & > span {
+    left: 1.5rem;
+    position: absolute;
+    top: 0.5em;
+  }
+  m-icon {
+    color: inherit;
+  }
+}
+
+#pay-some:not(:checked) ~ #pay-some-amount {
+  display: none;
+}
