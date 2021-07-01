@@ -107,6 +107,11 @@ describe HoldRequest do
       expect(subject.status_tag).to eq('--warning')
     end
   end
+  context "#expiry_date" do
+    it "returns date of the request" do
+      expect(subject.expiry_date).to eq("11/10/20")
+    end
+  end
   context ".empty_state" do
     it "has text" do
       expect(described_class.empty_state).to include("active requests")
@@ -123,6 +128,11 @@ describe BookingRequest do
   context "#booking_date" do
     it "returns date booking is scheduled for" do
       expect(subject.booking_date).to eq("11/19/20")
+    end
+  end
+  context "#expiry_date" do
+    it "returns empty string if nil" do
+      expect(subject.expiry_date).to eq('')
     end
   end
   context ".empty_state" do

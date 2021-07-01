@@ -4,7 +4,7 @@
 
 <% elsif %>
 
-<div class="table-container">
+<div class="responsive-table">
 
 <table>
   <caption>
@@ -23,9 +23,9 @@
   <thead>
     <tr>
       <th>Title & author</th>
-      <th style="width: 12rem;">Call Number</th>
-      <th style="width: 10rem;">Checked Out</th>
-      <th style="width: 6rem;">Returned</th>
+      <th>Call Number</th>
+      <th>Checked Out</th>
+      <th>Returned</th>
     </tr>
   </thead>
   <tbody>
@@ -36,12 +36,15 @@
           <span>&#183; <%= loan.author %></span>
         </td>
         <td>
+          <span aria-hidden="true">Call Number:</span>
           <%= loan.call_number %>
         </td>
         <td>
+          <span aria-hidden="true">Checked Out:</span>
           <%= loan.checkout_date %>
         </td>
         <td>
+          <span aria-hidden="true">Returned:</span>
           <%= loan.return_date %>
         </td>
       </tr>

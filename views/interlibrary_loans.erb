@@ -4,7 +4,7 @@
 
 <% elsif %>
 
-<div class="table-container">
+<div class="responsive-table">
 <table>
   <caption>
     <div class="caption-flex">
@@ -14,8 +14,8 @@
   <thead>
     <tr>
       <th>Title &amp; author</th>
-      <th style="width: 9rem;">Due date</th>
-      <th style="width: 6rem;">Action</th>
+      <th>Due date</th>
+      <th>Action</th>
     </tr>
   </thead>
   <tbody>
@@ -25,6 +25,7 @@
           <%= erb :title_author, locals: {item: interlibrary_loan} %>
         </td>
         <td>
+          <span aria-hidden="true">Due date:</span>
           <%= interlibrary_loan.expiration_date %>
           <% if !interlibrary_loan.due_status&.empty? %>
             <span class="tag--<%= interlibrary_loan.due_status == 'Overdue' ? 'fail' : 'warning' %>">
@@ -32,7 +33,7 @@
             </span>
           <% end %>
         </td>
-        <td>
+        <td class="table-cell-action">
           <% if interlibrary_loan.renewable? %>
             <a href="<%= interlibrary_loan.url_request_renewal %>">Request Renewal</a>
           <% else %>

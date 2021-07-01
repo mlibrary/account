@@ -6,21 +6,27 @@
   <p>You are charged <a href="https://lib.umich.edu/find-borrow-request/borrow-and-return/reminders-and-overdue-items">overdue fines</a> for high-use materials that are returned late. This includes material from the Askwith Media Library, course reserves, and other items that have been "recalled" or are lost or damaged.</p>
 
   <form action="/fines-and-fees/pay" method="post" class="owl">
-    <div class="table-container">
+    <div class="responsive-table">
       <table>
         <thead>
           <tr>
             <th>Title &amp; Author</th>
-            <th style="width: 11rem;">Type</th>
-            <th style="width: 6rem;">Fine</th>
+            <th>Type</th>
+            <th>Fine</th>
           </tr>
         </thead>
         <tbody>
         <% fines.each_with_index do |fine,index| %>
           <tr>
             <td><%= fine.title %></td>
-            <td><%= fine.type %></td>
-            <td><span style="color: var(--color-pink-500);">$<%= fine.balance %></span></td>
+            <td>
+              <span aria-hidden="true">Type:</span>
+              <%= fine.type %>
+            </td>
+            <td>
+              <span aria-hidden="true">Fine:</span>
+              <span style="color: var(--color-pink-500);">$<%= fine.balance %></span>
+            </td>
           </tr>
         <% end %>
         </tbody>

@@ -5,15 +5,15 @@
     </div>
   </section>
 <% else %>
-<div class="table-container">
+<div class="responsive-table">
 <table>
   <thead>
     <tr>
       <th>Title & author</th>
-      <th style="width: 12rem;">Pickup location</th>
-      <th style="width: 8rem;">Requested</th>
-      <th style="width: 7rem;">Expires</th>
-      <th style="width: 6rem;">Action</th>
+      <th>Pickup location</th>
+      <th>Requested</th>
+      <th>Expires</th>
+      <th>Action</th>
     </tr>
   </thead>
   <tbody>
@@ -23,6 +23,7 @@
           <%= erb :title_author, locals: {item: hold_request} %>
         </td>
         <td>
+          <span aria-hidden="true">Pickup location:</span>
           <%= hold_request.pickup_location %>
           <% if !hold_request.status.empty? %>
             <span class="tag<%= hold_request.status_tag %>">
@@ -31,12 +32,14 @@
           <% end %>
         </td>
         <td>
+          <span aria-hidden="true">Requested:</span>
           <%= hold_request.request_date %>
         </td>
         <td>
-          <%= hold_request.request_date %>
+          <span aria-hidden="true">Expires:</span>
+          <%= hold_request.expiry_date %>
         </td>
-        <td>
+        <td class="table-cell-action">
           <button class="button--light" data-js-cancel="<%=hold_request.request_id%>" disabled>Cancel</button>
         </td>
       </tr>
@@ -58,14 +61,14 @@
       </div>
     </section>
   <% else %>
-  <div class="table-container">
+  <div class="responsive-table">
   <table>
     <thead>
       <tr>
         <th>Title & author</th>
-        <th style="width: 8rem;">Requested</th>
-        <th style="width: 11rem;">Status</th>
-        <th style="width: 6rem;">Action</th>
+        <th>Requested</th>
+        <th>Status</th>
+        <th>Action</th>
       </tr>
     </thead>
     <tbody>
@@ -75,17 +78,19 @@
             <%= erb :title_author, locals: {item: delivery_request} %>
           </td>
           <td>
+            <span aria-hidden="true">Requested:</span>
             <%= delivery_request.creation_date %>
           </td>
           <td>
+            <span aria-hidden="true">Status:</span>
             <% if !delivery_request.status.empty? %>
               <span class="tag<%= delivery_request.status_tag %>">
                 <%= delivery_request.status %>
               </span>
             <% end %>
           </td>
-          <td>
-            <a class="button--light" style="display: inline-block;" href="<%= delivery_request.url_cancel_request %>">Cancel</a>
+          <td class="table-cell-action">
+            <a class="button button--light" style="display: inline-block;" href="<%= delivery_request.url_cancel_request %>">Cancel</a>
           </td>
         </tr>
       <% end %>
@@ -105,15 +110,15 @@
     </div>
   </section>
   <% else %>
-  <div class="table-container">
+  <div class="responsive-table">
   <table>
     <thead>
       <tr>
         <th>Title & author</th>
-        <th style="width: 12rem;">Pickup location</th>
-        <th style="width: 9rem;">Pickup date</th>
-        <th style="width: 7rem;">Expires</th>
-        <th style="width: 6rem;">Action</th>
+        <th>Pickup location</th>
+        <th>Pickup date</th>
+        <th>Expires</th>
+        <th>Action</th>
       </tr>
     </thead>
     <tbody>
@@ -122,6 +127,7 @@
           <td>
             <%= erb :title_author, locals: {item: booking_request} %>
           <td>
+            <span aria-hidden="true">Pickup location:</span>
             <%= booking_request.pickup_location %>
             <% if !booking_request.status.empty? %>
               <span class="tag<%= booking_request.status_tag %>">
@@ -130,12 +136,14 @@
             <% end %>
           </td>
           <td>
+            <span aria-hidden="true">Pickup date:</span>
             <%= booking_request.booking_date %>
           </td>
           <td>
-            <%= booking_request.booking_date %>
+            <span aria-hidden="true">Expires:</span>
+            <%= booking_request.expiry_date %>
           </td>
-          <td>
+          <td class="table-cell-action">
             <button class="button--light" data-js-cancel="<%=booking_request.request_id%>" disabled>Cancel</button>
           </td>
         </tr>

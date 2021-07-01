@@ -4,22 +4,39 @@
 
     <p>To change document delivery preferences, visit your <a href="https://ill.lib.umich.edu/illiad/ChangeSite/ChangeSite.asp">interlibrary loan account</a>.</p>
 
-    <table class="patron-table">
-      <tr>
-        <th>Full name</th>
-        <td><%= patron.full_name %></td>
-      </tr>
-      <tr>
-        <th>Email</th>
-        <td><%= patron.email_address %></td>
-      </tr>
-      <% if patron.in_illiad? %>
-      <tr>
-        <th>Document Delivery Location</th>
-        <td><%= patron.local_document_delivery_location %></td>
-      <tr>
-      <% end %>
-    </table>
+    <div class="responsive-table">
+      <table>
+        <tr>
+          <th scope="row">
+            Full name
+          </th>
+          <td>
+            <span aria-hidden="true">Full name:</span>
+            <%= patron.full_name %>
+          </td>
+        </tr>
+        <tr>
+          <th scope="row">
+            Email
+          </th>
+          <td>
+            <span aria-hidden="true">Email:</span>
+            <%= patron.email_address %>
+          </td>
+        </tr>
+        <% if patron.in_illiad? %>
+        <tr>
+          <th scope="row">
+            Document Delivery Location
+          </th>
+          <td>
+            <span aria-hidden="true">Document Delivery Location:</span>
+            <%= patron.local_document_delivery_location %>
+          </td>
+        <tr>
+        <% end %>
+      </table>
+    </div>
 
     <form class="owl" method="post" action="/sms">
       <h2>Text Notifications</h2>
