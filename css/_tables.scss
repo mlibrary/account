@@ -83,6 +83,12 @@
               grid-row: 1 / -1;
               padding-left: var(--space-medium);
             }
+            a:not(.button) {
+              display: block;
+            }
+            .bullet-point:first-of-type {
+              display: none;
+            }
           }
         }
         span[aria-hidden="true"] {

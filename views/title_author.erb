@@ -1,7 +1,9 @@
 <a href="<%=item.url%>"><%= item.title %></a>
 <% if item.author? %>
-  <span> &#183; <%= item.author %> </span>
+  <span class="bullet-point">&#183;</span>
+  <span><%= item.author %></span>
 <% end %>
 <% if item.description? %>
-  <span> &#183; <%= item.description %> </span>
+  <span class="bullet-point">&#183;</span>
+  <span><%= item.description %></span>
 <% end %>
