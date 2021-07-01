@@ -37,7 +37,7 @@
         </td>
         <td>
           <span aria-hidden="true">Expires:</span>
-          <%= hold_request.request_date %>
+          <%= hold_request.expiry_date %>
         </td>
         <td class="table-cell-action">
           <button class="button--light" data-js-cancel="<%=hold_request.request_id%>" disabled>Cancel</button>
@@ -141,7 +141,7 @@
           </td>
           <td>
             <span aria-hidden="true">Expires:</span>
-            <%= booking_request.booking_date %>
+            <%= booking_request.expiry_date %>
           </td>
           <td class="table-cell-action">
             <button class="button--light" data-js-cancel="<%=booking_request.request_id%>" disabled>Cancel</button>
