@@ -22,7 +22,7 @@
     <% past_document_delivery.each do |past_delivery| %>
       <tr>
         <td>
-          <%= erb :title_author, locals: {item: past_delivery} %>
+          <%= erb :'components/title_author', locals: {item: past_delivery} %>
         </td>
         <td>
           <span aria-hidden="true">Requested:</span>
@@ -38,6 +38,6 @@
 </table>
 </div>
 
-<%= erb :pagination, locals: {pagination: past_document_delivery.pagination, count: past_document_delivery.count} %>
+<%= erb :'components/pagination', locals: {pagination: past_document_delivery.pagination, count: past_document_delivery.count} %>
 
 <% end %>
