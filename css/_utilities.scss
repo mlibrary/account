@@ -1,5 +1,5 @@
 .prose {
-  @media screen and (min-width: 820px) {
+  @media screen and ($breakpoint-medium) {
     font-size: var(--text-x-small);
   }
 

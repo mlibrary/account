@@ -5,7 +5,7 @@
 
 .dropdown {
   position: relative;
-  @media screen and (max-width: 1000px) {
+  @media screen and ($breakpoint-small) {
     & > .button--dropdown,
     & .site-navigation-list  {
       display: none;
@@ -30,7 +30,7 @@
 }
 
 .dropdown-container {
-  @media screen and (min-width: 1001px) {
+  @media screen and ($breakpoint-medium) {
     background: white;
     border-radius: 	var(--space-xx-small);
     box-shadow: var(--z-space-medium);
@@ -47,7 +47,7 @@
   }
   ul {
     list-style: none;
-    @media screen and (min-width: 1001px) {
+    @media screen and ($breakpoint-medium) {
       & + ul {
         border-top: solid 1px var(--color-neutral-100);
         margin-top: var(--space-xx-small);

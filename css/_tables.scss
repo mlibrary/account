@@ -24,7 +24,7 @@
     }
     thead {
       border-bottom: solid 2px var(--color-maize-400);
-      @media screen and (max-width: 1000px) {
+      @media screen and ($breakpoint-small) {
         border: none;
         clip: rect(0 0 0 0);
         height: 1px;
@@ -38,7 +38,7 @@
     th,
     td {
       vertical-align: top;
-      @media screen and (min-width: 1001px) {
+      @media screen and ($breakpoint-medium) {
         padding: var(--space-medium) 0;
         &:not(:last-of-type) {
           padding-right: var(--space-x-large);
@@ -50,12 +50,12 @@
       font-weight: 800;
       letter-spacing: 1.25px;
       text-transform: uppercase;
-      @media screen and (min-width: 1280px) {
+      @media screen and ($breakpoint-large) {
         white-space: nowrap;
       }
       &[scope="row"] {
         line-height: 2;
-        @media screen and (max-width: 1000px) {
+        @media screen and ($breakpoint-small) {
           border: none;
           clip: rect(0 0 0 0);
           height: 1px;
@@ -70,7 +70,7 @@
     tbody {
       tr {
         border-bottom: solid 1px var(--color-neutral-100);
-        @media screen and (max-width: 1000px) {
+        @media screen and ($breakpoint-small) {
           display: grid;
           grid-template-columns: 1fr auto;
           padding: var(--space-medium) 0;
@@ -95,7 +95,7 @@
         }
         span[aria-hidden="true"] {
           font-weight: 600;
-          @media screen and (min-width: 1001px) {
+          @media screen and ($breakpoint-medium) {
             display: none;
           }
         }

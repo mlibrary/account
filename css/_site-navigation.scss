@@ -1,5 +1,5 @@
 .site-navigation {
-  @media screen and (max-width: 1000px) {
+  @media screen and ($breakpoint-small) {
     display: none;
     & + .site-layout__center {
       grid-column: 1 / 3;
