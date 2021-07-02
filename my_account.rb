@@ -292,8 +292,6 @@ namespace '/past-activity' do
 end
 
 get '/favorites' do 
-  #when there is a new favorites
-  #erb :favorites, :locals => { favorites: {} }
   redirect 'https://apps.lib.umich.edu/my-account/favorites' 
 end
 
