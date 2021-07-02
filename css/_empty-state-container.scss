@@ -9,7 +9,7 @@
   padding: var(--space-x-large);
   border-radius: 4px;
 
-  @media screen and (max-width: $breakpoint-mobile) {
+  @media screen and ($breakpoint-small) {
     flex-direction: column;
     div + div {
       margin-top: var(--space-xx-large);
@@ -20,12 +20,12 @@
     & > *:first-child {
       margin-top: 0;
     }
-    @media screen and (max-width: $breakpoint-mobile) {
+    @media screen and ($breakpoint-small) {
       align-self: flex-start;
     }
   }
 
-  @media screen and (min-width: $breakpoint-desktop) {
+  @media screen and ($breakpoint-medium) {
     div + div {
       margin-left: var(--space-xx-large);
     }
