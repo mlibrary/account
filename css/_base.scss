@@ -83,7 +83,7 @@ h4 {
 
 .layout {
   padding: 0 var(--space-medium);
-  max-width: 1280px;
+  max-width: $desktop;
   margin: 0 auto;
 
   @media screen and ($breakpoint-medium) {
