@@ -28,7 +28,7 @@
     color: var(--color-blue-200);
   }
 
-  @media screen and (min-width: 820px) {
+  @media screen and (min-width: $breakpoint-desktop) {
     p {
       display: inline-block;
     }
