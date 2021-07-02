@@ -45,7 +45,7 @@
       <%= erb :user_drop_down %>
     </m-website-header>
     <%= erb :banner %>
-    <main class="layout site-layout" id="maincontent">
+    <main class="layout site-layout" id="maincontent" tabindex="-1">
       <%= erb :navigation %>
       <article class="site-layout__center owl prose">
         <%= erb :horizontal_nav %>
@@ -76,7 +76,7 @@
       </div>
     </footer>
 
-    <m-chat id="chat"></m-chat>
+    <m-chat id="chat" tabindex="-1"></m-chat>
     <script src="/bundles/main.bundle.js"></script>
     <% if defined?(has_js)  %>
       <script src="/bundles/<%=request.js_filename%>.bundle.js"></script>
