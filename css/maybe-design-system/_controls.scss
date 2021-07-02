@@ -33,7 +33,9 @@ select {
   padding: var(--space-x-small);
   cursor: pointer;
   background-color: #fff;
-  box-shadow: inset 0px -1rem 1rem -0.5em var(--color-neutral-100);
+  &:not(:hover) {
+    box-shadow: inset 0px -1rem 1rem -0.5em var(--color-neutral-100);
+  }
 }
 
 select::-ms-expand {
