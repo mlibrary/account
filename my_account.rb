@@ -152,7 +152,7 @@ end
 # :nocov:
 
 get '/' do
-  erb :home, :locals => { cards: Navigation.cards }
+  erb :'account-overview/index', :locals => { cards: Navigation.cards }
 end
 
 namespace '/current-checkouts' do
@@ -169,7 +169,7 @@ namespace '/current-checkouts' do
       loan_controls = TableControls::LoansForm.new(limit: params["limit"], order_by: params["order_by"], direction: params["direction"])
       loans = Loans.for(uniqname: session[:uniqname], offset: params["offset"], limit: params["limit"], order_by: params["order_by"], direction: params["direction"])
       message = session.delete(:message)
-      erb :shelf, :locals => { loans: loans, message: message, loan_controls: loan_controls, has_js: true}
+      erb :'current-checkouts/u-m-library', :locals => { loans: loans, message: message, loan_controls: loan_controls, has_js: true}
     else
       erb :empty_state
     end
@@ -188,12 +188,12 @@ namespace '/current-checkouts' do
   get '/interlibrary-loan' do
     interlibrary_loans = InterlibraryLoans.for(uniqname: 'testhelp')
 
-    erb :interlibrary_loans, :locals => { interlibrary_loans: interlibrary_loans }
+    erb :'current-checkouts/interlibrary-loan', :locals => { interlibrary_loans: interlibrary_loans }
   end
   get '/scans-and-electronic-items' do
     document_delivery = DocumentDelivery.for(uniqname: 'testhelp')
 
-    erb :document_delivery, :locals => { document_delivery: document_delivery }
+    erb :'current-checkouts/scans-and-electronic-items', :locals => { document_delivery: document_delivery }
   end
 end
 
@@ -211,7 +211,7 @@ namespace '/pending-requests' do
       requests = Requests.for(uniqname: session[:uniqname])
       local_document_delivery = PendingLocalDocumentDelivery.for(uniqname: session[:uniqname]) 
       illiad_patron = ILLiadPatron.for(uniqname: session[:uniqname])
-      erb :requests, :locals => { holds: requests.holds, bookings: requests.bookings, local_document_delivery: local_document_delivery, illiad_patron: illiad_patron }
+      erb :'pending-requests/u-m-library', :locals => { holds: requests.holds, bookings: requests.bookings, local_document_delivery: local_document_delivery, illiad_patron: illiad_patron }
     else
       erb :empty_state
     end
@@ -233,10 +233,11 @@ namespace '/pending-requests' do
   get '/interlibrary-loan' do
     interlibrary_loan_requests = InterlibraryLoanRequests.for(uniqname: 'testhelp')
 
-    erb :interlibrary_loan_requests, :locals => { interlibrary_loan_requests: interlibrary_loan_requests }
+    erb :'pending-requests/interlibrary-loan', :locals => { interlibrary_loan_requests: interlibrary_loan_requests }
   end
+
   get '/special-collections' do
-    erb :special_collections_requests, :locals => { special_collections_requests: {} }
+    erb :'pending-requests/special-collections', :locals => { special_collections_requests: {} }
   end
 end
 
@@ -254,7 +255,7 @@ namespace '/past-activity' do
       if session[:in_circ_history]
         table_controls = TableControls::PastLoansForm.new(limit: params["limit"], order_by: params["order_by"], direction: params["direction"])
         past_loans = CirculationHistoryItems.for(uniqname: session[:uniqname], offset: params["offset"], limit: params["limit"], order_by: params["order_by"], direction: params["direction"])
-        erb :past_loans, :locals => {past_loans: past_loans, table_controls: table_controls}
+        erb :'past-activity/u-m-library', :locals => {past_loans: past_loans, table_controls: table_controls}
       else
         erb :empty_state
       end
@@ -277,16 +278,16 @@ namespace '/past-activity' do
     past_interlibrary_loans = PastInterlibraryLoans.for(uniqname: 'testhelp', limit: params["limit"], offset: params["offset"], count: nil)
     #session[:past_interlibrary_loans_count] = past_interlibrary_loans.count if session[:past_interlibrary_loans_count].nil? 
 
-    erb :past_interlibrary_loans, :locals => { past_interlibrary_loans: past_interlibrary_loans }
+    erb :'past-activity/interlibrary-loan', :locals => { past_interlibrary_loans: past_interlibrary_loans }
   end
   get '/scans-and-electronic-items' do
     past_document_delivery = PastDocumentDelivery.for(uniqname: 'testhelp', limit: params["limit"], offset: params["offset"], count: nil)
     #session[:past_document_delivery_count] = past_document_delivery.count if session[:past_document_delivery_count].nil? 
 
-    erb :past_document_delivery, :locals => { past_document_delivery: past_document_delivery }
+    erb :'past-activity/scans-and-electronic-items', :locals => { past_document_delivery: past_document_delivery }
   end
   get '/special-collections' do
-    erb :past_special_collections, :locals => { past_special_collections: {} }
+    erb :'past-activity/special-collections', :locals => { past_special_collections: {} }
   end
 end
 
@@ -299,7 +300,7 @@ end
 namespace '/settings' do 
   get '' do
     patron = Patron.for(uniqname: session[:uniqname])
-    erb :patron, :locals => {patron: patron, has_js: true}
+    erb :'settings/index', :locals => {patron: patron, has_js: true}
   end
   post '/history' do
     response = Patron.set_retain_history(uniqname: session[:uniqname], retain_history: params[:retain_history])
@@ -345,7 +346,7 @@ namespace '/fines-and-fees' do
   get '' do
     if session[:in_alma]
       fines = Fines.for(uniqname: session[:uniqname])
-      erb :fines, :locals => { fines: fines }
+      erb :'fines-and-fees/index', :locals => { fines: fines }
     else
       erb :empty_state
     end
@@ -380,7 +381,7 @@ namespace '/fines-and-fees' do
     else
       flash.now[:error] = receipt.message 
     end
-    erb :receipt, :locals => {receipt: receipt}
+    erb :'fines-and-fees/receipt', :locals => {receipt: receipt}
   end
 
 end
