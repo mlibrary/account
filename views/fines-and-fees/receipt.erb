@@ -1,12 +1,10 @@
 <% if receipt.successful? %>
   <p>Please review the details for this transaction.</p>
   <h2>Your details</h2>
-  <address>
-    <%= receipt.payer_name %></br>
-    <%= receipt.email %></br>
-    <%= receipt.street %></br>
-    <%= receipt.city %>, <%= receipt.state %> <%= receipt.zip %>
-  </address>
+  <address><%= receipt.payer_name %>
+    <%= receipt.email %>
+    <%= receipt.street %>
+    <%= receipt.city %>, <%= receipt.state %> <%= receipt.zip %></address>
   <h2>Payment details</h2>
   <ul class="no-list-style">
     <li><span class="strong">Confirmation number:</span> <%= receipt.confirmationNumber %></li>
