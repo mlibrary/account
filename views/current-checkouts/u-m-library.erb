@@ -30,7 +30,7 @@
 <table>
   <caption>
     <div class="caption-flex">
-      <p>Showing <strong><%=loans.pagination.first%></strong> - <strong><%=loans.pagination.last%></strong> of <strong><%= loans.count %></strong> <%= loans.item_text %></p>
+      <p>Showing <span class="strong"><%=loans.pagination.first%></span> - <span class="strong"><%=loans.pagination.last%></span> of <span class="strong"><%= loans.count %></span> <%= loans.item_text %></p>
       <div class="caption-flex loan-controls">
         <%= erb :'components/table_controls', locals: { table_controls: loan_controls} %>
         <div class="renew-all">

@@ -9,13 +9,13 @@
   </address>
   <h2>Payment details</h2>
   <ul class="no-list-style">
-    <li><strong>Confirmation number:</strong> <%= receipt.confirmationNumber %></li>
-    <li><strong>Order number:</strong> <%= receipt.order_number %></li>
-    <li><strong>Order description:</strong> <%= receipt.description %></li>
-    <li><strong>Date:</strong> <%= receipt.date %></li>
-    <li><strong>Account type:</strong> <%= receipt.type %></li>
-    <li><strong>Amount paid:</strong> $<%= receipt.amount %></li>
-    <li><strong>Remaining balance:</strong> $<%= receipt.balance %></li>
+    <li><span class="strong">Confirmation number:</span> <%= receipt.confirmationNumber %></li>
+    <li><span class="strong">Order number:</span> <%= receipt.order_number %></li>
+    <li><span class="strong">Order description:</span> <%= receipt.description %></li>
+    <li><span class="strong">Date:</span> <%= receipt.date %></li>
+    <li><span class="strong">Account type:</span> <%= receipt.type %></li>
+    <li><span class="strong">Amount paid:</span> $<%= receipt.amount %></li>
+    <li><span class="strong">Remaining balance:</span> $<%= receipt.balance %></li>
   </ul>
 <% end %>
 <p>If you have a question about your payment, please contact staff at the <a href="https://www.lib.umich.edu/locations-and-hours/hatcher-library/hatcher-north-information-services-desk">Hatcher North Information Services Desk</a> at <a href="mailto:glcirc@umich.edu">glcirc@umich.edu</a> or 734-764-0401.</p>
