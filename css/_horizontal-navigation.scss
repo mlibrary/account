@@ -50,15 +50,24 @@
       }
 
       &[aria-current="page"] {
-        border-left: var(--space-xx-small) solid var(--color-teal-400);
         color: var(--color-teal-400);
         font-weight: 800;
-        padding-left: calc(var(--space-medium) - var(--space-xx-small)); // less the width of the border.
-        
-        @media screen and ($breakpoint-large) {
-          border: 0;
-          border-bottom: var(--space-xx-small) solid var(--color-teal-400);
-          padding-left: 0;
+        position: relative;
+
+        &::before {
+          background-color: var(--color-teal-400);
+          content: '';
+          height: 100%;
+          left: 0;
+          position: absolute;
+          top: 0;
+          width: var(--space-xx-small);
+          @media screen and ($breakpoint-large) {
+            bottom: 0;
+            height: var(--space-xx-small);
+            top: auto;
+            width: 100%;
+          }
         }
       }
     }
