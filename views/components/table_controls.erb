@@ -1,7 +1,7 @@
 <form class="caption-flex" method="post" action="/table-controls">
   <label>
     <span>Sort by</span>
-    <select name="sort" data-js-submit>
+    <select name="sort" data-js-submit autocomplete="on">
       <% table_controls.sort.each do |sort| %>
         <option value="<%=sort.value%>" <%=sort.selected%>><%=sort.text%></option>
       <% end %>
@@ -10,7 +10,7 @@
 
   <label>
     <span>Show</span>
-    <select name="show" data-js-submit>
+    <select name="show" data-js-submit autocomplete="on">
       <% table_controls.show.each do |show| %>
         <option value="<%=show.value%>" <%=show.selected%>><%=show.text%></option>
       <% end %>
