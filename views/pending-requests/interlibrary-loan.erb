@@ -22,7 +22,7 @@
     <% interlibrary_loan_requests.each do |interlibrary_loan_request| %>
       <tr>
         <td>
-          <%= erb :title_author, locals: {item: interlibrary_loan_request} %>
+          <%= erb :'components/title_author', locals: {item: interlibrary_loan_request} %>
         </td>
         <td>
           <span aria-hidden="true">Requested:</span>

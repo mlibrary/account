@@ -11,7 +11,7 @@
     <div class="caption-flex">
       <p>Showing <strong><%=past_loans.pagination.first%></strong> - <strong><%=past_loans.pagination.last%></strong> of <strong><%= past_loans.count %></strong> items</p>
       <div class="caption-flex loan-controls">
-        <%= erb :table_controls, locals: { table_controls: table_controls } %>
+        <%= erb :'components/table_controls', locals: { table_controls: table_controls } %>
         <div class="download-csv">
           <a class="button" href="/past-activity/u-m-library/download.csv">
             Download CSV
@@ -54,5 +54,5 @@
 
 </div>
 
-<%= erb :pagination, locals: {pagination: past_loans.pagination, count: past_loans.count} %>
+<%= erb :'components/pagination', locals: {pagination: past_loans.pagination, count: past_loans.count} %>
 <% end %>

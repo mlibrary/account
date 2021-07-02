@@ -22,7 +22,7 @@
     <% past_interlibrary_loans.each do |past_interlibrary_loan| %>
       <tr>
         <td>
-          <%= erb :title_author, locals: {item: past_interlibrary_loan} %>
+          <%= erb :'components/title_author', locals: {item: past_interlibrary_loan} %>
         </td>
         <td>
           <span aria-hidden="true">Requested:</span>
@@ -38,6 +38,6 @@
 </table>
 </div>
 
-<%= erb :pagination, locals: {pagination: past_interlibrary_loans.pagination, count: past_interlibrary_loans.count} %>
+<%= erb :'components/pagination', locals: {pagination: past_interlibrary_loans.pagination, count: past_interlibrary_loans.count} %>
 
 <% end %>

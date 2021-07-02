@@ -5,6 +5,8 @@ describe "requests" do
     @session = { 
       uniqname: 'tutor', 
       in_alma: true,
+      in_circ_history: true,
+      in_illiad: true,
       can_book: false,
       confirmed_history_setting: false,
       authenticated: true,
@@ -234,14 +236,15 @@ describe "requests" do
   context "get /past-activity/u-m-library" do
     context "in circ history user" do
       it "exists" do
-        stub_circ_history_get_request(url: "users/tutor/loans")
+        stub_circ_history_get_request(url: "users/tutor/loans", output: File.read('spec/fixtures/circ_history_loans.json') )
         get "/past-activity/u-m-library" 
         expect(last_response.status).to eq(200)
       end
     end
     context "not in circ history user" do
       it "show do not have circ history" do
-        stub_circ_history_get_request(url: "users/tutor/loans", status: 400)
+        @session[:in_circ_history] = false
+        env 'rack.session', @session
         get "/past-activity/u-m-library" 
         expect(last_response.body).to include("You don't have")
       end
