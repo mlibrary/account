@@ -26,7 +26,7 @@
           <p>Active user account:</p>
         </label>
   
-        <select id="test-user" name="uniqname">
+        <select id="test-user" name="uniqname" autocomplete="on">
           <% test_users.each do |user| %>
             <option value="<%=user[:value]%>"<% if session[:uniqname] == user[:value]%>selected<%end%>><%=user[:label]%></option>
             <% end %>
