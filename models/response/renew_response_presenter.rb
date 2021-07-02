@@ -25,7 +25,7 @@ class RenewResponsePresenter
   end
   def not_renewed_continued_text
     [
-      "Review the <strong>Actions</strong> column of your checkouts to see which items did not renew.",
+      "Review the <span class='strong'>Actions</span> column of your checkouts to see which items did not renew.",
       "If you do not see any changes after attempting to renew items, there may have been an unexpected network error. Please refresh the page and try again.",
       "If you have questions or need help, please contact the <a href=\"https://lib.umich.edu/locations-and-hours/hatcher-library/hatcher-north-information-services-desk\">Hatcher North Information Services Desk</a>.",
     ]
