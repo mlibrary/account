@@ -5,7 +5,7 @@
 <% elsif %>
 
 <% unless message.nil? %>
-  <%= erb :message_callout, locals: {message: message} %>
+  <%= erb :'current-checkouts/_message-callout', locals: {message: message} %>
 <% end %>
 
 <div class="progress-container" aria-live="polite" style="display: none;">
@@ -32,7 +32,7 @@
     <div class="caption-flex">
       <p>Showing <strong><%=loans.pagination.first%></strong> - <strong><%=loans.pagination.last%></strong> of <strong><%= loans.count %></strong> <%= loans.item_text %></p>
       <div class="caption-flex loan-controls">
-        <%= erb :table_controls, locals: { table_controls: loan_controls} %>
+        <%= erb :'components/table_controls', locals: { table_controls: loan_controls} %>
         <div class="renew-all">
           <button class="button" data-js-renew-all="<%= loans.count %>" disabled>
             <m-icon name="autorenew"></m-icon><span style="padding-left: var(--space-xx-small);">Renew all</span>
@@ -53,7 +53,7 @@
     <% loans.each do |loan| %>
       <tr>
         <td>
-          <%= erb :title_author, locals: {item: loan} %>
+          <%= erb :'components/title_author', locals: {item: loan} %>
         </td>
         <td data-loan-due-date="<%=loan.loan_id%>">
           <span aria-hidden="true">Due date:</span>
@@ -77,6 +77,6 @@
 </table>
 </div>
 
-<%= erb :pagination, locals: {pagination: loans.pagination, count: loans.count} %>
+<%= erb :'components/pagination', locals: {pagination: loans.pagination, count: loans.count} %>
 
 <% end %>

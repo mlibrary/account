@@ -42,13 +42,13 @@
     </section>
     <m-universal-header></m-universal-header>
     <m-website-header name="Account">
-      <%= erb :user_drop_down %>
+      <%= erb :'layout/user_drop_down' %>
     </m-website-header>
-    <%= erb :banner %>
+    <%= erb :'layout/banner' %>
     <main class="layout site-layout" id="maincontent" tabindex="-1">
-      <%= erb :navigation %>
+      <%= erb :'layout/navigation' %>
       <article class="site-layout__center owl prose">
-        <%= erb :horizontal_nav %>
+        <%= erb :'layout/horizontal_nav' %>
         <%= patron_styled_flash %>
 
         <%= yield %>

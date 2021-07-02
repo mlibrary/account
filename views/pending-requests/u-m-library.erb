@@ -20,7 +20,7 @@
     <% holds.each do |hold_request| %>
       <tr>
         <td>
-          <%= erb :title_author, locals: {item: hold_request} %>
+          <%= erb :'components/title_author', locals: {item: hold_request} %>
         </td>
         <td>
           <span aria-hidden="true">Pickup location:</span>
@@ -75,7 +75,7 @@
       <% local_document_delivery.each do |delivery_request| %>
         <tr>
           <td>
-            <%= erb :title_author, locals: {item: delivery_request} %>
+            <%= erb :'components/title_author', locals: {item: delivery_request} %>
           </td>
           <td>
             <span aria-hidden="true">Requested:</span>
@@ -125,7 +125,7 @@
       <% bookings.each do |booking_request| %>
         <tr>
           <td>
-            <%= erb :title_author, locals: {item: booking_request} %>
+            <%= erb :'components/title_author', locals: {item: booking_request} %>
           <td>
             <span aria-hidden="true">Pickup location:</span>
             <%= booking_request.pickup_location %>
