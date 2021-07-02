@@ -24,8 +24,10 @@
   span {
     margin: 0 var(--space-xx-small);
   }
-  &[aria-expanded="true"] > span {
-    text-decoration: underline;
+  @media screen and ($breakpoint-medium) {
+    &[aria-expanded="true"] > span {
+      text-decoration: underline;
+    }
   }
 }
 
