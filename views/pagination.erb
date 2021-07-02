@@ -1,3 +1,4 @@
+<% if pagination.pages.length > 1 %>
 <nav aria-label="pagination" class="pagination">
   <ol class="pagination-pages">
     <% unless pagination.previous.current_page? %>
@@ -27,3 +28,4 @@
     <% end %>
   </ol>
 </nav>
+<% end %>
