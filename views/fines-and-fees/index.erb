@@ -37,8 +37,9 @@
 
     <h2>How much would you like to pay today?</h2>
 
-    <div class="payment-amount-options radio-options owl">
-      <div class="payment-amount-option radio-option">
+    <fieldset class="owl">
+      <legend class="visually-hidden">Pick a payment amount option</legend>
+      <div class="radio-option">
         <input 
           type="radio"
           name="pay_in_full"
@@ -52,7 +53,7 @@
           <span>Pay full amount (<span class="strong">$<%=fines.total_sum_in_dollars%></span>)</span>
         </label>
       </div>
-      <div class="payment-amount-option radio-option">
+      <div class="radio-option">
         <input 
           type="radio"
           name="pay_in_full"
@@ -85,7 +86,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </fieldset>
 
     <button type="submit">Pay fines</button>
 
