@@ -73,12 +73,12 @@
             max="<%=fines.total_sum_in_dollars%>"
             step="0.01"
             pattern="^\d+\.\d{2}$"
-            placeholder="0.00"
             value="0.00"
             name="partial_amount"
             for="pay-some"
             aria-label="Amount you wish to pay"
             aria-describedby="payment-description"
+            autocomplete="off"
           >
           <div id="payment-description" class="input-description">
             <m-icon name="info"></m-icon><span>Payment amount must include cents. Example: 25.00</span>
