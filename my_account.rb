@@ -178,7 +178,7 @@ namespace '/current-checkouts' do
   post '/u-m-library' do
     response = Loans.renew_all(uniqname: session[:uniqname])
     if response.code != 200 
-      flash[:error] = "<strong>Error:</strong> #{response.message}"
+      flash[:error] = "<span class='strong'>Error:</span> #{response.message}"
     else
       session[:message] = RenewResponsePresenter.new(renewed: response.renewed_count, not_renewed: response.not_renewed_count)
       204
@@ -304,9 +304,9 @@ namespace '/settings' do
     response = Patron.set_retain_history(uniqname: session[:uniqname], retain_history: params[:retain_history])
     if response.code == 200
       session[:confirmed_history_setting] = true      
-      flash[:success] = "<strong>Success:</strong> History Setting Successfully Changed"
+      flash[:success] = "<span class='strong'>Success:</span> History Setting Successfully Changed"
     else
-      flash[:error] = "<strong>Error:</strong> #{response.message}"
+      flash[:error] = "<span class='strong'>Error:</span> #{response.message}"
     end
     redirect "/settings"
   end
@@ -330,12 +330,12 @@ post '/sms' do
   response = patron.update_sms(params["text-notifications"] == "on" ? params["sms-number"] : "")
   if response.code == 200
     if params["text-notifications"] == "on"
-      flash[:success] = "<strong>Success:</strong> SMS Successfully Updated"
+      flash[:success] = "<span class='strong'>Success:</span> SMS Successfully Updated"
     else
-      flash[:success] = "<strong>Success:</strong> SMS Successfully Removed"
+      flash[:success] = "<span class='strong'>Success:</span> SMS Successfully Removed"
     end
   else
-    flash[:error] = "<strong>Error:</strong> #{response.message}"
+    flash[:error] = "<span class='strong'>Error:</span> #{response.message}"
   end
   redirect "/settings"
 end

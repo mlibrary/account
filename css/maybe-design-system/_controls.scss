@@ -17,6 +17,7 @@ input:not([type="checkbox"]):not([type="radio"]) {
 select {
   // A reset of styles, including removing the default dropdown arrow
   appearance: none;
+  -webkit-appearance: none;
   // Additional resets for further consistency
   background-color: transparent;
   border: none;
@@ -32,9 +33,9 @@ select {
   padding: var(--space-x-small);
   cursor: pointer;
   background-color: #fff;
-  background-image: linear-gradient(to top, var(--color-neutral-100), #fff 33%);
-  // Safari styling
-  -webkit-appearance: none;
+  &:not(:hover) {
+    box-shadow: inset 0px -1rem 1rem -0.5em var(--color-neutral-100);
+  }
 }
 
 select::-ms-expand {

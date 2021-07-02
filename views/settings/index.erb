@@ -75,8 +75,9 @@
     <h2>Checkout History</h2>
     <%=patron.circulation_history_text%>
 
-    <div class="retain-history-options  radio-option owl">
-      <div class="retain-history-option radio-option">
+    <fieldset class="owl">
+      <legend class="visually-hidden">Do you wish to record your checkout history?</legend>
+      <div class="radio-option">
         <input 
           type="radio" 
           name="retain_history" 
@@ -91,7 +92,7 @@
           <span>Yes, record my checkout history.</span>
         </label>
       </div>
-      <div class="retain-history-option radio-option">
+      <div class="radio-option">
         <input 
           type="radio" 
           name="retain_history"
@@ -106,7 +107,7 @@
           <span>No, do not record my checkout history.</span>
         </label>
       </div>
-    </div>
+    </fieldset>
 
     <p>If you’d like to make a copy of your checkout history up to this point, you can download it to your device in a spreadsheet format (CSV file).</p>
     <a class="button button--light" href="/past-activity/u-m-library/download.csv" style="display: inline-block;">Download your checkout history</a>

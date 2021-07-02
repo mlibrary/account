@@ -81,6 +81,10 @@ h4 {
   font-weight: var(--bold);
 }
 
+.strong {
+  font-weight: var(--bold);
+}
+
 .layout {
   padding: 0 var(--space-medium);
   max-width: $desktop;
@@ -109,4 +113,8 @@ h4 {
 
 .content-max-width {
   max-width: 38rem;
+}
+
+address {
+  white-space: pre-line;
 }

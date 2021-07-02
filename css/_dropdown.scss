@@ -24,8 +24,10 @@
   span {
     margin: 0 var(--space-xx-small);
   }
-  &[aria-expanded="true"] > span {
-    text-decoration: underline;
+  @media screen and ($breakpoint-medium) {
+    &[aria-expanded="true"] > span {
+      text-decoration: underline;
+    }
   }
 }
 
@@ -48,10 +50,10 @@
   ul {
     list-style: none;
     @media screen and ($breakpoint-medium) {
-      & + ul {
+      & + a {
         border-top: solid 1px var(--color-neutral-100);
-        margin-top: var(--space-xx-small);
-        padding-top: var(--space-xx-small);
+        margin-top: var(--space-x-small);
+        padding-top: var(--space-x-small);
       }
     }
   }

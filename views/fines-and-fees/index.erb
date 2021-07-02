@@ -33,12 +33,13 @@
       </table>
     </div>
 
-    <p>Your total due is <strong>$<%=fines.total_sum_in_dollars%></strong></p>
+    <p>Your total due is <span class="strong">$<%=fines.total_sum_in_dollars%></span></p>
 
     <h2>How much would you like to pay today?</h2>
 
-    <div class="payment-amount-options radio-options owl">
-      <div class="payment-amount-option radio-option">
+    <fieldset class="owl">
+      <legend class="visually-hidden">Pick a payment amount option</legend>
+      <div class="radio-option">
         <input 
           type="radio"
           name="pay_in_full"
@@ -49,10 +50,10 @@
         <label for="pay-all">
           <m-icon name="radio-button-checked"></m-icon>
           <m-icon name="radio-button-unchecked"></m-icon>
-          <span>Pay full amount (<strong>$<%=fines.total_sum_in_dollars%></strong>)</span>
+          <span>Pay full amount (<span class="strong">$<%=fines.total_sum_in_dollars%></span>)</span>
         </label>
       </div>
-      <div class="payment-amount-option radio-option">
+      <div class="radio-option">
         <input 
           type="radio"
           name="pay_in_full"
@@ -73,23 +74,23 @@
             max="<%=fines.total_sum_in_dollars%>"
             step="0.01"
             pattern="^\d+\.\d{2}$"
-            placeholder="0.00"
             value="0.00"
             name="partial_amount"
             for="pay-some"
             aria-label="Amount you wish to pay"
             aria-describedby="payment-description"
+            autocomplete="off"
           >
           <div id="payment-description" class="input-description">
             <m-icon name="info"></m-icon><span>Payment amount must include cents. Example: 25.00</span>
           </div>
         </div>
       </div>
-    </div>
+    </fieldset>
 
     <button type="submit">Pay fines</button>
 
-    <p><strong>Payments made are non-refundable</strong>.</p>
+    <p><span class="strong">Payments made are non-refundable</span>.</p>
     
     <p>If you have a question about your account or would like to contest a fine, please contact us at the <a href="https://lib.umich.edu/locations-and-hours/hatcher-library/hatcher-north-information-services-desk">Hatcher North Information Services Desk</a> before making payments.</p>
   </form>
