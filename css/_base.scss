@@ -46,6 +46,7 @@ body {
 
 main.layout {
   align-content: baseline;
+  flex-grow: 1;
   margin-top: var(--space-medium);
   width: 100%;
 
