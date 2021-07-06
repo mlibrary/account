@@ -1,0 +1,13 @@
+{
+  "name": "University of Michigan Library - My Account",
+  "short_name": "My Account",
+  "start_url": "/",
+  "background_color": "#00274C",
+  "theme_color": "#FFCB05",
+  "display": "minimal-ui",
+  "icons": [
+    { "src": "/icon-192x192.png", "type": "image/png", "sizes": "192x192" },
+    { "src": "/icon-512x512.png", "type": "image/png", "sizes": "512x512" }
+  ]
+}
+  
