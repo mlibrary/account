@@ -8,7 +8,7 @@ const updateHistoryButton = document.getElementById('update-history');
 const retainHistoryOptions = document.querySelectorAll('input[name="retain_history"]');
 retainHistoryOptions.forEach((retainHistoryOption) => {
   retainHistoryOption.addEventListener('change', (event) => {
-    updateHistoryButton.removeAttribute('disabled');
+    updateHistoryButton.disabled = false;
     retainHistory = event.target.value === 'true';
     if (retainHistory) {
       updateHistoryButton.removeAttribute('data-js-modal');

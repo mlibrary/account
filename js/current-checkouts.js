@@ -44,13 +44,14 @@
         if (data.due_date) {
           document.querySelector(`[data-loan-due-date="${loanID}"]`).innerHTML = data.due_date;
           event.target.innerHTML = 'Renewed!';
+          event.target.disabled = true;
         }
         return data;
       }).catch((error) => {
         console.error(error);
       });
     });
-    renewItem.removeAttribute('disabled');
+    renewItem.disabled = false;
   });
 })();
 
@@ -73,6 +74,6 @@
         location.reload();
       });
     });
-    renewItem.removeAttribute('disabled');
+    renewItem.disabled = false;
   });
 })();

@@ -7,7 +7,6 @@
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-    
       gtag('config', 'UA-1341620-23');
     </script>
     <meta charset="UTF-8" />
@@ -30,6 +29,10 @@
       title = Navigation::Title.for(request.path_info)
     %>
     <title><%= title %> | University of Michigan Library</title>
+    <link rel="icon" href="/favicon.ico">
+    <link rel="icon" href="/icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/icon-180x180.png">
+    <link rel="manifest" href="/manifest.webmanifest">
   </head>
   <body>
     <section aria-label="Skip links" class="site-skip-links">
@@ -50,9 +53,7 @@
       <article class="site-layout__center owl prose">
         <%= erb :'layout/horizontal_nav' %>
         <%= patron_styled_flash %>
-
         <%= yield %>
-        
         <% if dev_login? %>
           <%= erb :development_users %>
         <% end %>
@@ -75,7 +76,6 @@
         </section>
       </div>
     </footer>
-
     <m-chat id="chat" tabindex="-1"></m-chat>
     <script src="/bundles/main.bundle.js"></script>
     <% if defined?(has_js)  %>

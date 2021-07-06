@@ -10,7 +10,7 @@
         event.preventDefault();
         close.style.display = 'none';
       });
-      buttonClose.removeAttribute('disabled');
+      buttonClose.disabled = false;
     });
   });
 })();
@@ -34,12 +34,12 @@
         throw new Error(`Could not cancel request id ${requestID}.`);
       }).then((data) => {
         event.target.innerHTML = 'Canceled!';
-        event.target.addAttribute('disabled');
+        event.target.disabled = true;
       }).catch((error) => {
         console.error(error);
       });
     });
-    cancelItem.removeAttribute('disabled');
+    cancelItem.disabled = false;
   });
 })();
 
