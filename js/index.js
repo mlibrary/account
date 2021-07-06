@@ -10,7 +10,7 @@
         event.preventDefault();
         close.style.display = 'none';
       });
-      buttonClose.removeAttribute('disabled');
+      buttonClose.disabled = false;
     });
   });
 })();
