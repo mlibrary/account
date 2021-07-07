@@ -1,6 +1,7 @@
 [
   { 
     "title": "Account Overview",
+    "description": "Providing access to all of your current account information, including your checkouts and all of your requests for materials (including interlibrary loan and special collection requests).",
     "icon_name": "home",
     "dropdown": "true"
   },
