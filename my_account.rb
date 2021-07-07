@@ -20,6 +20,7 @@ require_relative "./lib/navigation/horizontal_nav"
 require_relative "./lib/navigation/sidebar"
 require_relative "./lib/navigation/user_dropdown"
 require_relative "./lib/navigation/title"
+require_relative "./lib/navigation/description"
 
 require_relative "./lib/utility"
 require_relative "./lib/illiad_client"

@@ -1,7 +1,7 @@
 class Navigation
   class Page
     extend Forwardable
-    def_delegators :@page, :title, :path, :icon_name
+    def_delegators :@page, :title, :description, :path, :icon_name
     def initialize(page)
       @page = page
     end
