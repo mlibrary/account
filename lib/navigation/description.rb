@@ -2,13 +2,16 @@ class Navigation::Description < Navigation
   def initialize(page)
     @page = page
   end
-  def to_s
+  def text
     if @page.description
-      description = @page.description
+      @page.description
     elsif @page.parent&.description
-      description = @page.parent.description
+      @page.parent.description
     else
-      description = Entities::Pages.all[0].description
+      Entities::Pages.all[0].description
     end
+  end
+  def to_s
+    self.text
   end
 end
