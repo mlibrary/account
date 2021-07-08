@@ -4,7 +4,7 @@ class Navigation::Title < Navigation
   end
   def to_s
     title = ''
-    title = "#{@page.parent.title} : " if @page.parent
+    title = "#{@page.parent.title}: " if @page.parent
     title = title + @page.title
   end
 end
