@@ -13,13 +13,13 @@
 
 <% if horizontal_nav.nil?%>
 
-  <h1><%=page.title%></h1>
+  <h1 id="maincontent" tabindex="-1"><%=page.title%></h1>
 
 <% else %>
 
-  <h1 id="main-heading"><%=horizontal_nav.section%><span class="visually-hidden">: <%=horizontal_nav.title%></span></h1>
+  <h1 id="maincontent" tabindex="-1"><%=horizontal_nav.section%><span class="visually-hidden">: <%=horizontal_nav.title%></span></h1>
 
-  <nav aria-labelledby="main-heading" class="horizontal-navigation-container">
+  <nav aria-labelledby="maincontent" class="horizontal-navigation-container">
     <ul class="horizontal-navigation-list">
         <% horizontal_nav.children.each do |child| %>
           <li>
