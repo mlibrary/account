@@ -58,50 +58,6 @@ select::-ms-expand {
   display: none;
 }
 
-.toggle-switch {
-  & + .toggle-switch-label {
-    .toggle {
-      background-color: var(--color-neutral-200);
-      border: 1px solid var(--color-neutral-200);
-      border-radius: var(--space-medium);
-      display: inline-block;
-      height: 1.5em;
-      margin-right: var(--space-x-small);
-      position: relative;
-      top: var(--space-x-small);
-      transition: none 0.2s ease-in-out;
-      transition-property: background-color, border-color;
-      width: 3em;
-      &:before {
-        content: '';
-        background-color: white;
-        border-radius: var(--space-medium);
-        display: block;
-        height: 100%;
-        left: 0;
-        position: absolute;
-        transition: left 0.2s ease-in-out;
-        width: 50%;
-      }
-    }
-  }
-  &:checked + .toggle-switch-label {
-    .toggle {
-      background-color: var(--color-teal-400);
-      border-color: var(--color-teal-400);
-      &:before {
-        left: 50%;
-      }
-    }
-  }
-  &:focus + .toggle-switch-label {
-    .toggle {
-      outline: 0;
-      box-shadow: 0 0 0 2px var(--color-maize-400),0 0 0 3px var(--color-neutral-400);
-    }
-  }
-}
-
 .input-description {
   color: inherit;
   span {
@@ -115,7 +71,8 @@ select::-ms-expand {
 .radio-option {
   input[type="radio"] {
     &:checked + label m-icon[name="radio-button-unchecked"],
-    &:not(:checked) + label m-icon[name="radio-button-checked"] {
+    &:not(:checked) + label m-icon[name="radio-button-checked"],
+    &:not(:checked) ~ .radio-option-extra {
       display: none;
     }
     &:not(:checked) + label m-icon {
@@ -132,5 +89,13 @@ select::-ms-expand {
     position: relative;
     margin-right: var(--space-xx-small);
     top: var(--space-xxx-small);
+  }
+  .radio-option-extra {
+    margin-top: var(--space-medium);
+    padding-left: 1.5rem;
+    position: relative;
+    m-icon {
+      color: inherit;
+    }
   }
 }
