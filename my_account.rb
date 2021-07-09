@@ -187,12 +187,12 @@ namespace '/current-checkouts' do
   end
   
   get '/interlibrary-loan' do
-    interlibrary_loans = InterlibraryLoans.for(uniqname: 'testhelp')
+    interlibrary_loans = InterlibraryLoans.for(uniqname: session[:uniqname])
 
     erb :'current-checkouts/interlibrary-loan', :locals => { interlibrary_loans: interlibrary_loans }
   end
   get '/scans-and-electronic-items' do
-    document_delivery = DocumentDelivery.for(uniqname: 'testhelp')
+    document_delivery = DocumentDelivery.for(uniqname: session[:uniqname])
 
     erb :'current-checkouts/scans-and-electronic-items', :locals => { document_delivery: document_delivery }
   end
@@ -232,7 +232,7 @@ namespace '/pending-requests' do
 
 
   get '/interlibrary-loan' do
-    interlibrary_loan_requests = InterlibraryLoanRequests.for(uniqname: 'testhelp')
+    interlibrary_loan_requests = InterlibraryLoanRequests.for(uniqname: session[:uniqname])
 
     erb :'pending-requests/interlibrary-loan', :locals => { interlibrary_loan_requests: interlibrary_loan_requests }
   end
@@ -276,13 +276,13 @@ namespace '/past-activity' do
   end
 
   get '/interlibrary-loan' do
-    past_interlibrary_loans = PastInterlibraryLoans.for(uniqname: 'testhelp', limit: params["limit"], offset: params["offset"], count: nil)
+    past_interlibrary_loans = PastInterlibraryLoans.for(uniqname: session[:uniqname], limit: params["limit"], offset: params["offset"], count: nil)
     #session[:past_interlibrary_loans_count] = past_interlibrary_loans.count if session[:past_interlibrary_loans_count].nil? 
 
     erb :'past-activity/interlibrary-loan', :locals => { past_interlibrary_loans: past_interlibrary_loans }
   end
   get '/scans-and-electronic-items' do
-    past_document_delivery = PastDocumentDelivery.for(uniqname: 'testhelp', limit: params["limit"], offset: params["offset"], count: nil)
+    past_document_delivery = PastDocumentDelivery.for(uniqname: session[:uniqname], limit: params["limit"], offset: params["offset"], count: nil)
     #session[:past_document_delivery_count] = past_document_delivery.count if session[:past_document_delivery_count].nil? 
 
     erb :'past-activity/scans-and-electronic-items', :locals => { past_document_delivery: past_document_delivery }
