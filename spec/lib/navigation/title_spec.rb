@@ -6,7 +6,7 @@ describe Navigation::Title do
   end
   context "dropdown for child page" do
     it "has correct title string" do
-      expect(described_class.for('/current-checkouts/u-m-library').to_s).to eq('Current Checkouts : U-M Library')
+      expect(described_class.for('/current-checkouts/u-m-library').to_s).to eq('Current Checkouts: U-M Library')
     end
   end
 end
