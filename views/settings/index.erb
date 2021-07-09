@@ -43,7 +43,58 @@
 
       <p>Add a phone number to receive text notifications on the status of your request and loans. Special collections requests are not included. Message and data rates may apply.</p>
 
-      <input type="checkbox" class="toggle-switch visually-hidden" id="text-notifications" name="text-notifications" <% if patron.sms_number? %>checked<% end%>>
+      <fieldset class="owl">
+        <legend class="visually-hidden">Do you wish to receive text notifications?</legend>
+        <div class="radio-option">
+          <input 
+            type="radio"
+            name="text-notifications"
+            class="visually-hidden"
+            id="confirm-sms"
+            value="on"
+            <% if patron.sms_number? %>checked<% end%>
+          >
+          <label for="confirm-sms">
+            <m-icon name="radio-button-checked"></m-icon>
+            <m-icon name="radio-button-unchecked"></m-icon>
+            <span>Yes, please send me text notifications</span>
+          </label>
+          <div class="radio-option-extra">
+            <label class="text-notifications-label" for="sms-number">
+              Phone number
+            </label>
+            <input
+              type="tel"
+              name="sms-number"
+              id="sms-number"
+              value="<%= patron.sms_number %>"
+              pattern="\(\d{3}\) \d{3}-\d{4}"
+              aria-describedby="sms-number-description"
+              autocomplete="on"
+            />
+            <div id="sms-number-description" class="input-description">
+              <m-icon name="info"></m-icon><span>Phone number must be 10 digits. Example:&nbsp;(123)&nbsp;456-7890.</span>
+            </div>
+          </div>
+        </div>
+        <div class="radio-option">
+          <input 
+            type="radio"
+            name="text-notifications"
+            class="visually-hidden"
+            id="deny-sms"
+            value="off"
+            <% if !patron.sms_number? %>checked<% end%>
+          >
+          <label for="deny-sms">
+            <m-icon name="radio-button-checked"></m-icon>
+            <m-icon name="radio-button-unchecked"></m-icon>
+            <span>No, do not send me text notifications</span>
+          </label>
+        </div>
+      </fieldset>
+
+      <!--<input type="checkbox" class="toggle-switch visually-hidden" id="text-notifications" name="text-notifications" <% if patron.sms_number? %>checked<% end%>>
       <label class="toggle-switch-label" for="text-notifications">
         <div class="toggle"></div>
         <span>You wish to receive text notifications</span>
@@ -65,7 +116,7 @@
         <div id="sms-number-description" class="input-description">
           <m-icon name="info"></m-icon><span>Phone number must be 10 digits. Example: (123) 456-7890.</span>
         </div>
-      </div>
+      </div>-->
 
       <button>Update notification preferences</button>
     </form>

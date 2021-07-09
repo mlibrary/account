@@ -49,7 +49,7 @@
   color: var(--color-orange-500);
 }
 
-.narrow-content {
+.narrow-content > *:not(.responsive-table) {
   max-width: 36rem;
 }
 
