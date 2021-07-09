@@ -63,21 +63,19 @@ h1 {
   line-height: var(--line-height-page-heading);
   margin-bottom: var(--space-large);
   &#maincontent {
+    outline: 0;
     position: relative;
     &::before {
-      background-color: transparent;
+      background-color: var(--color-teal-400);
       content: '';
       height: 100%;
       left: calc(var(--space-medium) * -1);
       position: absolute;
       width: var(--space-xx-small);
     }
-    &:focus-visible,
-    &:focus-within,
-    &:focus {
-      outline: 0;
+    &:not(:focus):not(:focus-within) {
       &::before {
-        background-color: var(--color-teal-400);
+        background-color: transparent;
       }
     }
   }
