@@ -94,30 +94,6 @@
         </div>
       </fieldset>
 
-      <!--<input type="checkbox" class="toggle-switch visually-hidden" id="text-notifications" name="text-notifications" <% if patron.sms_number? %>checked<% end%>>
-      <label class="toggle-switch-label" for="text-notifications">
-        <div class="toggle"></div>
-        <span>You wish to receive text notifications</span>
-      </label>
-
-      <div class="sms-number-container">
-        <label class="text-notifications-label" for="sms-number">
-          Phone number
-        </label>
-        <input
-          type="tel"
-          name="sms-number"
-          id="sms-number"
-          value="<%= patron.sms_number %>"
-          pattern="\(\d{3}\) \d{3}-\d{4}"
-          aria-describedby="sms-number-description"
-          autocomplete="on"
-        />
-        <div id="sms-number-description" class="input-description">
-          <m-icon name="info"></m-icon><span>Phone number must be 10 digits. Example: (123) 456-7890.</span>
-        </div>
-      </div>-->
-
       <button>Update notification preferences</button>
     </form>
   <% end %>
