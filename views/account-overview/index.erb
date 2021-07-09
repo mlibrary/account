@@ -1,23 +1,15 @@
-<!--
-  Could this data come from back-end?
-
-  Maybe some configured data related to side navigation
-  and homepage cards could be grouped? Flag navigation
-  elements that should be these overview cards and filter
-  them to this view, or something.
--->
 <ul class="overview-cards">
-<% cards.each do |card| %>
-  <li>
-    <a href="<%=card.slug%>" class="overview-card">
-      <div>
-        <h2 class="overview-card-heading"><%=card.title%></h2>
-        <p class="overview-card-description"><%=card.description%></p>
-      </div>
-      <div class="overview-card-icon-container" style="--overview-card-icon-background-color: var(--color-<%=card.color%>-100); --overview-card-icon-color: var(--color-<%=card.color%>-400);">
-        <m-icon name="<%=card.icon_name%>"></m-icon>
-      </div>
-    </a>
-  </li>
-<% end %>
+  <% cards.each do |card| %>
+    <li>
+      <a href="<%=card.slug%>" class="overview-card">
+        <div>
+          <h2 class="overview-card-heading"><%=card.title%></h2>
+          <p class="overview-card-description"><%=card.description%></p>
+        </div>
+        <div class="overview-card-icon-container" style="--overview-card-icon-background-color: var(--color-<%=card.color%>-100); --overview-card-icon-color: var(--color-<%=card.color%>-400);">
+          <m-icon name="<%=card.icon_name%>"></m-icon>
+        </div>
+      </a>
+    </li>
+  <% end %>
 </ul>

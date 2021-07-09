@@ -62,6 +62,23 @@ h1 {
   font-size: var(--text-xxx-large);
   line-height: var(--line-height-page-heading);
   margin-bottom: var(--space-large);
+  &#maincontent {
+    outline: 0;
+    position: relative;
+    &::before {
+      background-color: var(--color-teal-400);
+      content: '';
+      height: 100%;
+      left: calc(var(--space-medium) * -1);
+      position: absolute;
+      width: var(--space-xx-small);
+    }
+    &:not(:focus):not(:focus-within) {
+      &::before {
+        background-color: transparent;
+      }
+    }
+  }
 }
 
 h2,
