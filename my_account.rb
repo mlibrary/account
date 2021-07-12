@@ -88,7 +88,7 @@ get '/auth/openid_connect/callback' do
   session[:expires_at] = Time.now.utc + 1.hour
   patron = SessionPatron.new(info[:nickname])
   patron.to_h.each{|k,v| session[k] = v}
-  redirect '/'
+  redirect session.delete(:path_before_login) || '/' 
 end
 
 get '/auth/failure' do
@@ -109,7 +109,7 @@ before  do
     pass
   end
   if !session[:authenticated] || Time.now.utc > session[:expires_at]
-
+    session[:path_before_login] = request.path_info
     redirect '/auth/openid_connect'
   end
 end
