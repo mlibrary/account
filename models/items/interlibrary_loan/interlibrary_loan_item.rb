@@ -3,7 +3,7 @@ class InterlibraryLoanItem < Item
     super
     if @parsed_response["RequestType"] == "Article"
       @title = "#{@parsed_response["PhotoJournalTitle"] || ""} #{@parsed_response["PhotoArticleTitle"] || ""}"
-      @author = @parsed_response["PhotoArticleAuthor"] || ""
+      @author = @parsed_response["PhotoArticleAuthor"] || @parsed_response["PhotoItemAuthor"] || ""
       @description = !@parsed_response["PhotoJournalVolume"].nil? ? "vol #{@parsed_response["PhotoJournalVolume"]}" : ""
     else
       @title = @parsed_response["LoanTitle"] || ""
