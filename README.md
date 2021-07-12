@@ -82,4 +82,4 @@ In `my_account.rb`, for the route, locals should include has_js: true.
 To try using the actual Nelnet testing site for testing fines and fees, you need to get the correct environment variables. There's extra documentation with example credit cards and input that will trigger different responses. Check the My Account confluenc page for more info.
 
 ## Kubernetes configuration
-The Kubernetes configuration lives in (patron-account-kube)[https://github.com/mlibrary/patron-account-kube]
+The Kubernetes configuration lives in [patron-account-kube](https://github.com/mlibrary/patron-account-kube)
