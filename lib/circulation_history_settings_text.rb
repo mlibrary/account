@@ -46,13 +46,13 @@ class CirculationHistorySettingsText
     private
     def text 
       "We've been preserving your #{checkout_history} since April 2016. If you’d like to continue to keep a record of your checkout history, you can select that option now.\n\n" +
-
       "If you prefer to have your checkout history deleted and no longer record future checkouts, you can opt-out."
     end
   end
 
   private
   def post_script
+    "To learn about your checkout history options, read the [Library Privacy Statement](https://www.lib.umich.edu/about-us/policies/library-privacy-statement).\n\n" +
     "You can change this preference at any time."
   end
   def checkout_history
