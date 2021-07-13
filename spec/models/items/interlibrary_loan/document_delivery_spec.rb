@@ -6,8 +6,7 @@ describe DocumentDelivery do
     before(:each) do
       requests = JSON.parse(File.read('./spec/fixtures/illiad_requests.json'))
       body = [requests[3]].to_json
-      stub_illiad_get_request(url: "Transaction/UserRequests/testhelp", body: body, query: {"$filter" =>"RequestType eq 'Article' and TransactionStatus eq 'Delivered to Web'"}
- )
+      stub_illiad_get_request(url: "Transaction/UserRequests/testhelp", body: body, query: {"$filter" =>"RequestType eq 'Article' and TransactionStatus eq 'Delivered to Web'"})
     end
     subject do
       DocumentDelivery.for(uniqname: 'testhelp')
@@ -41,19 +40,21 @@ end
 
 describe DocumentDeliveryItem do
   before(:each) do
-    @delivery = JSON.parse(File.read("./spec/fixtures/illiad_requests.json"))[3]
+    item = JSON.parse(File.read("./spec/fixtures/illiad_requests.json"))[3]
+    item["PhotoItemAuthor"] = "B. Authorwoman"
+    @delivery = item
   end
   subject do
     DocumentDeliveryItem.new(@delivery) 
   end
   context "#title" do
     it "returns title string" do
-      expect(subject.title).to eq("A Book About Things Chapter One")
+      expect(subject.title).to eq("A Book About Things: Chapter One")
     end
   end
   context "#author" do
     it "returns author string" do
-      expect(subject.author).to eq("A. Authorman")
+      expect(subject.author).to eq("A. Authorman; B. Authorwoman")
     end
   end
   context "#illiad_id" do
