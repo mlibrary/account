@@ -52,8 +52,8 @@ class CirculationHistorySettingsText
 
   private
   def post_script
-    "To learn about your checkout history options, read the [Library Privacy Statement](https://www.lib.umich.edu/about-us/policies/library-privacy-statement).\n\n" +
-    "You can change this preference at any time."
+    "You can change this preference at any time.\n\n" +
+    "Learn more about [Checkout History Options](https://lib.umich.edu/about-us/policies/library-privacy-statement/checkout-history-options)."
   end
   def checkout_history
     "[checkout history](/past-activity/u-m-library)"
