@@ -2,8 +2,8 @@ class InterlibraryLoanItem < Item
   def initialize(parsed_response)
     super
     if @parsed_response["RequestType"] == "Article"
-      @title = "#{@parsed_response["PhotoJournalTitle"] || ""} #{@parsed_response["PhotoArticleTitle"] || ""}"
-      @author = @parsed_response["PhotoArticleAuthor"] || @parsed_response["PhotoItemAuthor"] || ""
+      @title = [@parsed_response['PhotoJournalTitle'], @parsed_response['PhotoArticleTitle']].reject { |e| e.to_s.empty? }.join(': ')
+      @author = [@parsed_response['PhotoArticleAuthor'], @parsed_response['PhotoItemAuthor']].reject { |e| e.to_s.empty? }.join('; ')
       @description = !@parsed_response["PhotoJournalVolume"].nil? ? "vol #{@parsed_response["PhotoJournalVolume"]}" : ""
     else
       @title = @parsed_response["LoanTitle"] || ""

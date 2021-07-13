@@ -10,7 +10,7 @@ describe InterlibraryLoanItem do
   end
   context "#title" do
     it "returns title string" do
-      expect(subject.title).to eq("Journal of Stuff and Things What I Think")
+      expect(subject.title).to eq("Journal of Stuff and Things: What I Think")
     end
   end
   context "#author" do
