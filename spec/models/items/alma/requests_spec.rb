@@ -79,7 +79,8 @@ describe HoldRequest do
   end
   context "#url" do
     it "returns url to search with mms_id" do
-      expect(subject.url).to eq("https://search.lib.umich.edu/catalog/record/991549170000541")
+      expect(subject.url).to eq("https://search.lib.umich.edu/catalog/record/154917000")
+      #expect(subject.url).to eq("https://search.lib.umich.edu/catalog/record/991549170000541")
     end
   end
   context "#request_id" do
