@@ -60,11 +60,19 @@ select::-ms-expand {
 
 .input-description {
   color: inherit;
+  position: relative;
   span {
     font-size: var(--space-medium);
   }
   input:invalid + & {
     color: var(--color-pink-500);
+  }
+  m-icon:first-child {
+    position: absolute;
+    & ~ span {
+      display: inline-block;
+      padding-left: var(--space-large);
+    }
   }
 }
 

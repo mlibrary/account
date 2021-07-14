@@ -68,12 +68,13 @@
               name="sms-number"
               id="sms-number"
               value="<%= patron.sms_number %>"
-              pattern="\(\d{3}\) \d{3}-\d{4}"
+              pattern="\d{10}|\(\d{3}\) \d{3}-\d{4}|\d{3}-\d{3}-\d{4}"
               aria-describedby="sms-number-description"
               autocomplete="on"
             />
             <div id="sms-number-description" class="input-description">
-              <m-icon name="info"></m-icon><span>Phone number must be 10 digits. Example:&nbsp;(123)&nbsp;456-7890.</span>
+              <m-icon name="info"></m-icon>
+              <span>Phone number must be 10 digits. Acceptable formats are: (123)&nbsp;456&#8209;7890, 123&#8209;456&#8209;7890, and 1234567890.</span>
             </div>
           </div>
         </div>
