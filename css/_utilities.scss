@@ -21,7 +21,7 @@
   }
 }
 
-.owl > * + * {
+.owl > *:not(.visually-hidden:first-child) + * {
   margin-top: var(--space-medium);
 }
 
