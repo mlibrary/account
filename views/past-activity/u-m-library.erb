@@ -32,8 +32,7 @@
     <% past_loans.each do |loan| %>
       <tr>
         <td>
-          <a href="<%=loan.url%>"><%= loan.title %></a>
-          <span>&#183; <%= loan.author %></span>
+          <%= erb :'components/title_author', locals: {item: loan} %>
         </td>
         <td>
           <span aria-hidden="true">Call Number:</span>
