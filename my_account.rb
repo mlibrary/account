@@ -266,7 +266,8 @@ namespace '/past-activity' do
       unless resp.code == 200
         #Error
       else
-        filename = resp.headers["content-disposition"]&.split('=')&.at(1)&.gsub('"','')
+        #mrio: I'm sorry getting the filename from content-disposition is like this. :(
+        filename = resp.headers["content-disposition"]&.split('; ')&.at(1)&.split('"')&.at(1)
         filename = 'my_filename.csv' if filename.nil?
         content_type 'application/csv'
         attachment filename
