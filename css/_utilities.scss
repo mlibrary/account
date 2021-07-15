@@ -21,8 +21,16 @@
   }
 }
 
-.owl > * + * {
-  margin-top: var(--space-medium);
+.owl {
+  & > * + * {
+    margin-top: var(--space-medium);
+  }
+  & > .visually-hidden {
+    &,
+    &:first-child + * {
+      margin-top: 0;
+    }
+  }
 }
 
 .sticky-top {
