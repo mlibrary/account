@@ -34,6 +34,10 @@ class CirculationHistoryItems < Items
   end
 end
 class CirculationHistoryItem < Item
+  def url
+    doc_id = mms_id.slice(2,9)
+    "https://search.lib.umich.edu/catalog/record/#{doc_id}"
+  end
   def call_number
     @parsed_response["call_number"]
   end

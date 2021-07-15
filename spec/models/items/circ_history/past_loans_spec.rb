@@ -64,3 +64,12 @@ describe CirculationHistoryItems do
     end
   end
 end
+describe CirculationHistoryItem do
+  subject do
+   loans = JSON.parse(File.read("./spec/fixtures/circ_history_loans.json"))
+   described_class.new(loans['loans'][0])
+  end
+  it "has expected url" do
+    expect(subject.url).to eq("https://search.lib.umich.edu/catalog/record/000546765")
+  end
+end

@@ -32,7 +32,7 @@
     <% past_loans.each do |loan| %>
       <tr>
         <td>
-          <a href="#"><%= loan.title %></a>
+          <a href="<%=loan.url%>"><%= loan.title %></a>
           <span>&#183; <%= loan.author %></span>
         </td>
         <td>
