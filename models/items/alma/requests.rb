@@ -22,7 +22,7 @@ end
 
 class Request < AlmaItem
   def self.cancel(uniqname:, request_id:, client: AlmaRestClient.client)
-    client.delete("/users/#{uniqname}/requests/#{request_id}", {reason: "CancelledAtPatronRequest"})
+    client.delete("/users/#{uniqname}/requests/#{request_id}", query: {reason: "CancelledAtPatronRequest"})
   end
   def self.empty_state(markdown=Redcarpet::Markdown.new(Redcarpet::Render::HTML))
     markdown.render(empty_state_text)

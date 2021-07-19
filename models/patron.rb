@@ -53,7 +53,7 @@ class Patron
   def update_sms(sms, client=AlmaRestClient.client, phone=TelephoneNumber.parse(sms, :US))
     return Error.new(message: "Phone number #{sms} is invalid") unless phone.valid? || sms.empty?
     url = "/users/#{uniqname}"
-    response = client.put(url, patron_with_internal_sms(phone.national_number).to_json) 
+    response = client.put(url, body: patron_with_internal_sms(phone.national_number).to_json) 
     response.code == 200 ? response : AlmaError.new(response)
   end
 

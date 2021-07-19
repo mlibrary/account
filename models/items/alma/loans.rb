@@ -59,7 +59,7 @@ class Loans < Items
     order_by.nil? ? query["order_by"] = "due_date" : query["order_by"] = order_by
     limit.nil? ? query["limit"] = 15 : query["limit"] = limit
 
-    response = client.get(url, query)
+    response = client.get(url, query: query)
     if response.code == 200
       pr = response.parsed_response 
       pagination_params = { url: "/current-checkouts/u-m-library", total: pr["total_record_count"] }
@@ -78,7 +78,7 @@ end
 
 class Loan < AlmaItem
   def self.renew(uniqname:, loan_id:, client: AlmaRestClient.client)
-    client.post("/users/#{uniqname}/loans/#{loan_id}", {op: 'renew'})
+    client.post("/users/#{uniqname}/loans/#{loan_id}", query: {op: 'renew'})
   end
   def due_date
     DateTime.patron_format(@parsed_response["due_date"])

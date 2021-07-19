@@ -15,7 +15,7 @@ gem 'omniauth_openid_connect'
 gem 'redcarpet'
 gem 'alma_rest_client',
   git: 'https://github.com/mlibrary/alma_rest_client', 
-  branch: 'main'
+  branch: 'post-with-body'
 
 group :development, :test do
   gem 'pry'

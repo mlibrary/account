@@ -1,9 +1,9 @@
 GIT
   remote: https://github.com/mlibrary/alma_rest_client
-  revision: c73016c8466525c4cde647765cdc97eac01dd714
-  branch: main
+  revision: 7d0e2e510e16f4dc472393ea204bd35d252cc813
+  branch: post-with-body
   specs:
-    alma_rest_client (0.2.1)
+    alma_rest_client (1.0.0)
       httparty
       ox
 
@@ -75,7 +75,7 @@ GEM
       validate_email
       validate_url
       webfinger (>= 1.0.1)
-    ox (2.14.4)
+    ox (2.14.5)
     pry (0.14.1)
       coderay (~> 1.1)
       method_source (~> 1.0)
