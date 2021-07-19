@@ -1,7 +1,7 @@
 GIT
   remote: https://github.com/mlibrary/alma_rest_client
-  revision: 7d0e2e510e16f4dc472393ea204bd35d252cc813
-  branch: post-with-body
+  revision: 01122b94e0350e8af2b5dddde42e3f10a0158c17
+  tag: 1.0.0
   specs:
     alma_rest_client (1.0.0)
       httparty
@@ -10,28 +10,28 @@ GIT
 GEM
   remote: https://rubygems.org/
   specs:
-    activemodel (6.1.3.1)
-      activesupport (= 6.1.3.1)
-    activesupport (6.1.3.1)
+    activemodel (6.1.4)
+      activesupport (= 6.1.4)
+    activesupport (6.1.4)
       concurrent-ruby (~> 1.0, >= 1.0.2)
       i18n (>= 1.6, < 2)
       minitest (>= 5.1)
       tzinfo (~> 2.0)
       zeitwerk (~> 2.3)
-    addressable (2.7.0)
+    addressable (2.8.0)
       public_suffix (>= 2.0.2, < 5.0)
     aes_key_wrap (1.1.0)
     attr_required (1.0.1)
-    bindata (2.4.9)
+    bindata (2.4.10)
     byebug (11.1.3)
-    climate_control (1.0.0)
+    climate_control (1.0.1)
     coderay (1.1.3)
-    concurrent-ruby (1.1.8)
+    concurrent-ruby (1.1.9)
     crack (0.4.5)
       rexml
-    daemons (1.3.1)
+    daemons (1.4.0)
     diff-lcs (1.4.4)
-    docile (1.3.5)
+    docile (1.4.0)
     eventmachine (1.2.7)
     hashdiff (1.0.1)
     hashie (4.1.0)
@@ -51,7 +51,7 @@ GEM
     method_source (1.0.0)
     mime-types (3.3.1)
       mime-types-data (~> 3.2015)
-    mime-types-data (3.2021.0225)
+    mime-types-data (3.2021.0704)
     mini_mime (1.1.0)
     minitest (5.14.4)
     multi_json (1.15.0)
@@ -84,7 +84,7 @@ GEM
       pry (~> 0.10)
     public_suffix (4.0.6)
     rack (2.2.3)
-    rack-oauth2 (1.16.0)
+    rack-oauth2 (1.17.0)
       activesupport
       attr_required
       httpclient
@@ -109,13 +109,13 @@ GEM
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.10.0)
     rspec-support (3.10.2)
-    ruby2_keywords (0.0.4)
+    ruby2_keywords (0.0.5)
     simplecov (0.21.2)
       docile (~> 1.1)
       simplecov-html (~> 0.11)
       simplecov_json_formatter (~> 0.1)
     simplecov-html (0.12.3)
-    simplecov_json_formatter (0.1.2)
+    simplecov_json_formatter (0.1.3)
     sinatra (2.1.0)
       mustermann (~> 1.0)
       rack (~> 2.2)
@@ -133,8 +133,8 @@ GEM
       activesupport (>= 3)
       attr_required (>= 0.0.5)
       httpclient (>= 2.4)
-    telephone_number (1.4.10)
-    thin (1.8.0)
+    telephone_number (1.4.12)
+    thin (1.8.1)
       daemons (~> 1.0, >= 1.0.9)
       eventmachine (~> 1.0, >= 1.0.4)
       rack (>= 1, < 3)
@@ -150,7 +150,7 @@ GEM
     webfinger (1.1.0)
       activesupport
       httpclient (>= 2.4)
-    webmock (3.12.2)
+    webmock (3.13.0)
       addressable (>= 2.3.6)
       crack (>= 0.3.2)
       hashdiff (>= 0.4.0, < 2.0.0)
