@@ -58,7 +58,7 @@ describe Patron do
          @alma_response["contact_info"]["phone"].delete_at(1)
          response_dbl = double('response', code: 200)
          client_dbl = instance_double(AlmaRestClient::Client, put: response_dbl)
-         expect(client_dbl).to receive(:put).with(anything, @updated_patron)
+         expect(client_dbl).to receive(:put).with(anything, body: @updated_patron)
          subject.update_sms(@new_phone, client_dbl)
        end
        it "submits removed phone number when sent an empty number" do
@@ -68,7 +68,7 @@ describe Patron do
          expected_sent_data = JSON.parse(@alma_response.to_json)
          expected_sent_data["contact_info"]["phone"].delete_at(1)
 
-         expect(client_dbl).to receive(:put).with(anything, expected_sent_data.to_json)
+         expect(client_dbl).to receive(:put).with(anything, body: expected_sent_data.to_json)
          subject.update_sms('', client_dbl)
        end
     end

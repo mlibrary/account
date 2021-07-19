@@ -5,7 +5,7 @@ class Fines
   end
 
   def self.pay(uniqname:, amount:, order_number:, client: AlmaRestClient.client)
-    client.post("/users/#{uniqname}/fees/all", {op: "pay", method: 'ONLINE', amount: amount, external_transaction_id: order_number})
+    client.post("/users/#{uniqname}/fees/all", query: {op: "pay", method: 'ONLINE', amount: amount, external_transaction_id: order_number})
   end
 
   def count
@@ -72,7 +72,7 @@ class Fine
   end
   def self.pay(uniqname:, fine_id:, balance:, client: AlmaRestClient.client)
     client.post("/users/#{uniqname}/fees/#{fine_id}", 
-          {op: "pay", method: 'ONLINE', amount: balance})
+          query: {op: "pay", method: 'ONLINE', amount: balance})
   end
   def id
     @parsed_response["id"]
