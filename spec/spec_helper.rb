@@ -161,7 +161,9 @@ def stub_alma_put_request(url:, input:, output:, status: 200)
           accept: 'application/json', 
           Authorization: "apikey #{ENV['ALMA_API_KEY']}",
           'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
-          'User-Agent'=>'Ruby'
+          'User-Agent'=>'Ruby',
+          'Content-Type'=>'application/json'
+
       }).to_return(body: output, status: status, headers: {content_type: 'application/json'})   
 end
 

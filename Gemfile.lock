@@ -1,9 +1,9 @@
 GIT
   remote: https://github.com/mlibrary/alma_rest_client
-  revision: 01122b94e0350e8af2b5dddde42e3f10a0158c17
-  tag: 1.0.0
+  revision: 39968fed3be48fa64812e59e6592ce43f704daad
+  tag: 1.0.1
   specs:
-    alma_rest_client (1.0.0)
+    alma_rest_client (1.0.1)
       httparty
       ox
 
