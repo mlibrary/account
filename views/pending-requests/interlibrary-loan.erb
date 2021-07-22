@@ -8,7 +8,7 @@
 <table>
   <caption>
     <div class="caption-flex">
-      <p>Showing <span class="strong"><%= interlibrary_loan_requests.count %></span> <%= interlibrary_loan_requests.item_text %></p>
+      <p>Showing <span class="strong"><%= interlibrary_loan_requests.pagination.first %></span> - <span class="strong"><%= interlibrary_loan_requests.pagination.last %></span> of <span class="strong"><%= interlibrary_loan_requests.count %></span> <%= interlibrary_loan_requests.item_text %></p>
     </div>
   </caption>
   <thead>
@@ -36,5 +36,7 @@
   </tbody>
 </table>
 </div>
+
+<%= erb :'components/pagination', locals: {pagination: interlibrary_loan_requests.pagination, count: interlibrary_loan_requests.count} %>
 
 <% end %>

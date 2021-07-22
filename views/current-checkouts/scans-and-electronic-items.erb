@@ -8,7 +8,7 @@
 <table>
   <caption>
     <div class="caption-flex">
-      <p>Showing <span class="strong"><%= document_delivery.count %></span> <%= document_delivery.item_text %></p>
+      <p>Showing <span class="strong"><%= document_delivery.pagination.first %></span> - <span class="strong"><%= document_delivery.pagination.last %></span> of <span class="strong"><%= document_delivery.count %></span> <%= document_delivery.item_text %></p>
     </div>
   </caption>
   <thead>
@@ -41,5 +41,7 @@
   </tbody>
 </table>
 </div>
+
+<%= erb :'components/pagination', locals: {pagination: document_delivery.pagination, count: document_delivery.count} %>
 
 <% end %>

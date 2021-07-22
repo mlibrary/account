@@ -187,12 +187,12 @@ namespace '/current-checkouts' do
   end
   
   get '/interlibrary-loan' do
-    interlibrary_loans = InterlibraryLoans.for(uniqname: session[:uniqname])
+    interlibrary_loans = InterlibraryLoans.for(uniqname: session[:uniqname], limit: params["limit"], offset: params["offset"], count: nil)
 
     erb :'current-checkouts/interlibrary-loan', :locals => { interlibrary_loans: interlibrary_loans }
   end
   get '/scans-and-electronic-items' do
-    document_delivery = DocumentDelivery.for(uniqname: session[:uniqname])
+    document_delivery = DocumentDelivery.for(uniqname: session[:uniqname], limit: params["limit"], offset: params["offset"], count: nil)
 
     erb :'current-checkouts/scans-and-electronic-items', :locals => { document_delivery: document_delivery }
   end
@@ -232,7 +232,7 @@ namespace '/pending-requests' do
 
 
   get '/interlibrary-loan' do
-    interlibrary_loan_requests = InterlibraryLoanRequests.for(uniqname: session[:uniqname])
+    interlibrary_loan_requests = InterlibraryLoanRequests.for(uniqname: session[:uniqname], limit: params["limit"], offset: params["offset"], count: nil)
 
     erb :'pending-requests/interlibrary-loan', :locals => { interlibrary_loan_requests: interlibrary_loan_requests }
   end
