@@ -4,6 +4,7 @@
 (function () {
   const canClose = document.querySelectorAll('.can-close');
   canClose.forEach((close) => {
+    // Closing button
     const buttonsClose = close.querySelectorAll('.close-message');
     buttonsClose.forEach((buttonClose) => {
       buttonClose.addEventListener('click', (event) => {
@@ -11,6 +12,12 @@
         close.style.display = 'none';
       });
       buttonClose.disabled = false;
+    });
+    // Escape out of message
+    close.addEventListener('keyup', (event) => {
+      if (event.key === 'Escape') {
+        close.style.display = 'none';
+      }
     });
   });
 })();

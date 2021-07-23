@@ -4,6 +4,9 @@ const modal = (attributeValue) => {
   const buttons = modal.querySelectorAll('button');
   buttons.forEach((button) => {
     button.disabled = false;
+    if (button.classList.contains('button--close')) {
+      button.focus();
+    }
   });
 };
 
