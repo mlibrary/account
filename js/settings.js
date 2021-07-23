@@ -27,3 +27,13 @@ updateHistoryButton.addEventListener('click', (event) => {
     modal(event.target.getAttribute('data-js-modal'));
   }
 });
+
+/**
+ * Force keyboard focus in modal
+ */
+const getModal = document.getElementById(updateHistoryButton.getAttribute('data-js-modal'));
+document.addEventListener('focusin', (event) => {
+  if (getModal.style.display === 'flex' && getModal.querySelectorAll(':focus').length === 0) {
+    getModal.querySelector('.button--close').focus();
+  }
+});
