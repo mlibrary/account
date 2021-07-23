@@ -30,7 +30,8 @@
       margin-left: var(--space-xx-large);
     }
     .empty-state-image {
-      width: 35%;
+      max-width: 35%;
+      width: 100%;
     }
   }
 }
