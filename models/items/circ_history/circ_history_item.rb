@@ -28,8 +28,8 @@ class CirculationHistoryItems < Items
       pagination_params[:limit] = limit unless limit.nil?
       pagination_params[:current_offset] = offset unless offset.nil?
       pagination_params[:order_by] = order_by unless order_by.nil?
-      pagination_params[:direction] = direction unless direction.nil?
-      CirculationHistoryItems.new(parsed_response: pr, pagination: PaginationDecorator.new(**pagination_params) )
+      direction.nil? ? pagination_params[:direction] = 'DESC' : pagination_params[:direction] = direction
+      CirculationHistoryItems.new(parsed_response: pr, pagination: CirculationHistoryPaginationDecorator.new(**pagination_params) )
     else
     end
   end

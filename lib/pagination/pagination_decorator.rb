@@ -44,6 +44,9 @@ class PaginationDecorator
 
   private_constant :Page
   private
+  def default_direction
+    'ASC'
+  end
   def page(page)
     url = path(page.offset)
     Page.new(page: page, url: url)
@@ -52,7 +55,7 @@ class PaginationDecorator
     query = []
     query.push("offset=#{offset}") if offset > 0
     query.push("limit=#{@limit}") if @limit != 15
-    query.push("direction=#{@direction}") if @direction != 'ASC' 
+    query.push("direction=#{@direction}") if @direction != default_direction
     query.push("order_by=#{@order_by}") if @order_by != 'due_date' 
     query_string = query.join('&')
     query_string = nil if query_string == ''
@@ -61,4 +64,11 @@ class PaginationDecorator
   end
 
 
+end
+
+class CirculationHistoryPaginationDecorator < PaginationDecorator
+  private
+  def default_direction
+    'DESC'
+  end
 end
