@@ -4,7 +4,7 @@ describe CirculationHistoryItems do
   let(:history_json){File.read("./spec/fixtures/circ_history_loans.json")}
   context "two loans" do
     before(:each) do
-      stub_circ_history_get_request(url: 'users/emcard/loans', output: history_json)
+      stub_circ_history_get_request(url: 'users/emcard/loans', output: history_json, query: {direction: 'DESC'})
     end
     subject do
       described_class.for(uniqname: 'emcard')
@@ -35,7 +35,7 @@ describe CirculationHistoryItems do
       empty_circ_history["total_record_count"] = 0
       empty_circ_history["loans"] = []
 
-      stub_circ_history_get_request(url: 'users/emcard/loans', output: empty_circ_history.to_json)
+      stub_circ_history_get_request(url: 'users/emcard/loans', output: empty_circ_history.to_json, query: {direction: 'DESC'})
     end
     subject do
       described_class.for(uniqname: 'emcard')

@@ -257,7 +257,7 @@ describe "requests" do
   context "get /past-activity/u-m-library" do
     context "in circ history user" do
       it "exists" do
-        stub_circ_history_get_request(url: "users/tutor/loans", output: File.read('spec/fixtures/circ_history_loans.json') )
+        stub_circ_history_get_request(url: "users/tutor/loans", output: File.read('spec/fixtures/circ_history_loans.json'), query: {direction: 'DESC'} )
         get "/past-activity/u-m-library" 
         expect(last_response.status).to eq(200)
       end

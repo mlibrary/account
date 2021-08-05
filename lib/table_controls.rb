@@ -83,8 +83,9 @@ module TableControls
   end
   class PastLoansForm < Form
     def initialize(limit:,order_by:,direction:)
-      @order_by = order_by || 'checkout_date'
       super
+      @order_by = order_by || 'checkout_date'
+      @direction = direction || 'DESC'
     end
     def sort
       [
@@ -94,10 +95,10 @@ module TableControls
         {value: 'author-desc', text: 'Author: Z-A'},
         {value: 'call-asc', text: 'Call Number: A-Z'},
         {value: 'call-desc', text: 'Call Number: Z-A'},
-        {value: 'checkout-asc', text: 'Checked Out: Soonest - Furthest'},
-        {value: 'checkout-desc', text: 'Checked Out: Furthest - Soonest'},
-        {value: 'return-asc', text: 'Returned: Soonest - Furthest'},
-        {value: 'return-desc', text: 'Returned: Furthest - Soonest'},
+        {value: 'checkout-desc', text: 'Checked Out: Soonest - Furthest'},
+        {value: 'checkout-asc', text: 'Checked Out: Furthest - Soonest'},
+        {value: 'return-desc', text: 'Returned: Soonest - Furthest'},
+        {value: 'return-asc', text: 'Returned: Furthest - Soonest'},
       ].map{ |x| Select.new(value: x[:value], text: x[:text], selected: x[:value] == selected_sort)}
     end
   end

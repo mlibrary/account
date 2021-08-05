@@ -17,6 +17,7 @@ class CirculationHistoryItems < Items
     query["offset"] = offset unless offset.nil?
     query["limit"] = limit unless limit.nil?
     query["order_by"] = order_by unless order_by.nil?
+    direction.nil? ? query["direction"] = 'DESC' : query["direction"] = direction
     query["direction"] = direction unless direction.nil?
 
     response = client.loans(query)
