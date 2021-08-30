@@ -14,11 +14,7 @@ class ILLiadPatron
     true
   end
   def delivery_location
-    if @parsed_response["Site"] == 'Departmental Delivery'
-      [@parsed_response["SAddress"], @parsed_response["SAddress2"]].join(' / ')
-    else
-      "Contactless Pickup at Shapiro Undergraduate Library Atrium"
-    end
+    [@parsed_response["SAddress"], @parsed_response["SAddress2"]].reject{|x|x.nil?}.join(' / ')
   end
 end
 class NotInILLiad

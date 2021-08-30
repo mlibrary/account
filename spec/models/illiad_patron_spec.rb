@@ -17,14 +17,17 @@ describe ILLiadPatron do
     end
   end
   context "#delivery_location" do
-    it "returns campus delivery location" do
-      expect(subject.delivery_location).to include('Contactless Pickup')
-    end
-    it "returns a departemental delivery location" do
+    it "returns a campus delivery location" do
       @illiad_patron["Site"] = "Departmental Delivery"
       @illiad_patron["SAddress"] = 'Mailroom'
       @illiad_patron["SAddress2"] = '3rd Floor'
       expect(subject.delivery_location).to eq('Mailroom / 3rd Floor')
+    end
+    it "concatenates properly" do
+      @illiad_patron["Site"] = "Departmental Delivery"
+      @illiad_patron["SAddress"] = 'Mailroom'
+      @illiad_patron["SAddress2"] = nil
+      expect(subject.delivery_location).to eq('Mailroom')
     end
     it "is empty for not in illiad" do
       @code = 404
