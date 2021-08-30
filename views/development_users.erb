@@ -26,11 +26,12 @@
           <p>Active user account:</p>
         </label>
   
-        <select id="test-user" name="uniqname" autocomplete="on">
+        <input type="text" list="users" id="test-user" name="uniqname" autocomplete="on" value="<%=session[:uniqname] || "" %>">
+        <datalist id="users">
           <% test_users.each do |user| %>
-            <option value="<%=user[:value]%>"<% if session[:uniqname] == user[:value]%>selected<%end%>><%=user[:label]%></option>
+            <option value="<%=user[:value]%>"><%=user[:label]%></option>
             <% end %>
-        </select>
+        </datalist>
   
         <button>Save</button>
       </form>
