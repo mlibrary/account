@@ -7,7 +7,7 @@
   },
   {
     "title": "Current Checkouts",
-    "description": "View items you've checked out and see when they're due.",
+    "description": "View and renew items you've checked out and see when they're due.",
     "icon_name": "book",
     "color": "teal",
     "children": [
