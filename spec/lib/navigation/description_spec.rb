@@ -6,7 +6,7 @@ describe Navigation::Description do
   end
   context "description from parent page" do
     it "pulls in the parent page's description if current page does not have a description" do
-      expect(described_class.for('/current-checkouts/u-m-library').to_s).to eq("View items you've checked out and see when they're due.")
+      expect(described_class.for('/current-checkouts/u-m-library').to_s).to eq("View and renew items you've checked out and see when they're due.")
     end
   end
 end
