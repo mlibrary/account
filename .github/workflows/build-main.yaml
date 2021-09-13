@@ -1,4 +1,4 @@
-name: Build latest from main
+name: Build latest from main and Auto-Deploy to Testing and Staging
 
 on:
   workflow_run:
@@ -6,24 +6,59 @@ on:
     branches: [ 'main' ]
     types: [ completed ]
 
-env:
-  IMAGE_NAME: patron_account_unstable
-
 jobs:
   build:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
+    environment: testing
     steps:
     - uses: actions/checkout@v2
-    - name: Build image
-      run: docker build . --tag $IMAGE_NAME --label "runnumber=${GITHUB_RUN_ID}"
-    - name: Log into registry
-      run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
-    - name: Push image
-      run: |
-        IMAGE_ID=ghcr.io/mlibrary/$IMAGE_NAME
-        # Change all uppercase to lowercase
-          IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
-          docker tag $IMAGE_NAME $IMAGE_ID:latest
-          docker tag $IMAGE_NAME $IMAGE_ID:$GITHUB_SHA
-          docker push $IMAGE_ID --all-tags
-          
+      with:
+        fetch-depth: 0
+    - name: Log into Github Container Registry
+      uses: docker/login-action@v1
+      with:
+        registry: ghcr.io
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+    - name: Build and Push
+      uses: docker/build-push-action@v2
+      with:
+        context: .
+        file: Dockerfile.prod
+        push: true
+        tags: | 
+           ghcr.io/mlibrary/${{ secrets.IMAGE_NAME }}:latest
+           ghcr.io/mlibrary/${{ secrets.IMAGE_NAME }}:${{ github.sha }}
+
+  deploy-testing:
+    needs: build
+    runs-on: ubuntu-latest
+    environment: testing
+    steps:
+    - name: Deploy to Testing
+      uses: mlibrary/deploy-to-kubernetes@v1
+      with:
+        github_username: ${{ github.actor }}
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        image: mlibrary/${{ secrets.IMAGE_NAME }}:${{ github.sha }}
+        cluster_ca: ${{ secrets.HATCHER_CLUSTER_CA }}
+        cluster_server: https://hatcher.kubernetes.lib.umich.edu
+        namespace_token: ${{ secrets.HATCHER_TOKEN }}
+        namespace: ${{ secrets.NAMESPACE }}
+
+  deploy-staging:
+    needs: build
+    runs-on: ubuntu-latest
+    environment: staging
+    steps:
+    - name: Deploy to Staging
+      uses: mlibrary/deploy-to-kubernetes@v1
+      with:
+        github_username: ${{ github.actor }}
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        image: mlibrary/${{ secrets.IMAGE_NAME }}:${{ github.sha }}
+        cluster_ca: ${{ secrets.HATCHER_CLUSTER_CA }}
+        cluster_server: https://hatcher.kubernetes.lib.umich.edu
+        namespace_token: ${{ secrets.HATCHER_TOKEN }}
+        namespace: ${{ secrets.NAMESPACE }}
