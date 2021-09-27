@@ -150,8 +150,7 @@ describe Loan do
   end
   context "#url" do
     it "returns url to search with mms_id" do
-      #expect(subject.url).to eq("https://search.lib.umich.edu/catalog/record/991246960000541")
-      expect(subject.url).to eq("https://search.lib.umich.edu/catalog/record/124696000")
+      expect(subject.url).to eq("https://search.lib.umich.edu/catalog/record/991246960000541")
     end
   end
   context "#due_date" do
