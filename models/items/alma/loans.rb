@@ -26,17 +26,13 @@ class Loans < Items
     count = 0
     renewed = 0
     renew_statuses = []
-    loans.each do |loan|
-      if loan.renewable? == false
+    loans.filter{|x|x.renewable?}.each do |loan|
+      response = Loan.renew(uniqname: uniqname, loan_id: loan.loan_id)
+      if response.code != 200
         renew_statuses.push(:fail)
       else
-        response = Loan.renew(uniqname: uniqname, loan_id: loan.loan_id)
-        if response.code != 200
-          renew_statuses.push(:fail)
-        else
-          renewed = renewed + 1
-          renew_statuses.push(:success)
-        end
+        renewed = renewed + 1
+        renew_statuses.push(:success)
       end
       count = count + 1
       publisher.publish({step: 2, count: count, renewed: renewed, uniqname: uniqname})
