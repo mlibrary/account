@@ -44,6 +44,8 @@
 
 .message-callout--success {
   border-left-color: var(--color-green-400);
+  color: var(--color-green-500);
+
   .message-callout-icon {
     color: var(--color-green-500);
   }

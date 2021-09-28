@@ -1,29 +1,6 @@
-<div class="message-callout <% if message.renewed? and !message.not_renewed? %>message-callout--success<% elsif message.not_renewed? %>message-callout--warning<% end %> can-close" role="status">
-  <button class="button--light button--close close-message" disabled>
-    <m-icon name="close"></m-icon><span class="visually-hidden">Close</span>
-  </button>
-  <div class="message-callout-icon">
-    <% if message.renewed? and !message.not_renewed? %>
-      <m-icon name="check"></m-icon>
-    <% elsif message.not_renewed? %>
-      <m-icon name="info"></m-icon>
-    <% end %>
+<div class="message-callout message-callout--success can-close">
+  <div class="message-callout-icon" aria-live="polite" style="height: 0;">
+    <m-icon name="check"></m-icon>
   </div>
-  <div class="message-callout-content">
-    <% if message.renewed? %>
-      <p><span class="strong"><%= message.renewed_text %></span></p>
-    <% end %>
-    
-    <% if message.not_renewed? %>
-      <p><span class="strong"><%=message.not_renewed_text%></span></p>
-      <ul>
-        <% message.unrenewable_reasons.each do |reason| %>
-          <li><%=reason%></li>
-        <% end %>
-      </ul>
-      <% message.not_renewed_continued_text.each do |continued| %>
-        <p><%=continued%></p>
-      <% end %>
-    <% end %>
-  </div>
+  <strong><%= message.renewed_text %></strong>
 </div>
