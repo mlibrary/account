@@ -89,16 +89,16 @@ module TableControls
     end
     def sort
       [
+        {value: 'checkout-desc', text: 'Checked Out (Most Recent to Oldest)'},
+        {value: 'checkout-asc', text: 'Checked Out (Oldest to Most Recent)'},
+        {value: 'return-desc', text: 'Returned (Most Recent to Oldest)'},
+        {value: 'return-asc', text: 'Returned (Oldest to Most Recent)'},
         {value: 'title-asc', text: 'Title (A-Z)'},
         {value: 'title-desc', text: 'Title (Z-A)'},
         {value: 'author-asc', text: 'Author (A-Z)'},
         {value: 'author-desc', text: 'Author (Z-A)'},
         {value: 'call-asc', text: 'Call Number (A-Z)'},
         {value: 'call-desc', text: 'Call Number (Z-A)'},
-        {value: 'checkout-desc', text: 'Checked Out (Most Recent to Oldest)'},
-        {value: 'checkout-asc', text: 'Checked Out (Oldest to Most Recent)'},
-        {value: 'return-desc', text: 'Returned (Most Recent to Oldest)'},
-        {value: 'return-asc', text: 'Returned (Oldest to Most Recent)'},
       ].map{ |x| Select.new(value: x[:value], text: x[:text], selected: x[:value] == selected_sort)}
     end
   end
@@ -109,8 +109,8 @@ module TableControls
     end
     def sort
       [
-        {value: 'due-asc', text: 'Due (Soonest - Furthest)'},
-        {value: 'due-desc', text: 'Due (Furthest - Soonest)'},
+        {value: 'due-asc', text: 'Due (Sooner - Later)'},
+        {value: 'due-desc', text: 'Due (Later - Sooner)'},
         {value: 'title-asc', text: 'Title (A-Z)'},
         {value: 'title-desc', text: 'Title (A-Z)'},
       ].map{ |x| Select.new(value: x[:value], text: x[:text], selected: x[:value] == selected_sort)}
