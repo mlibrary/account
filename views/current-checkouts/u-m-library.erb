@@ -57,6 +57,7 @@
           <%= erb :'components/title_author', locals: {item: loan} %>
         </td>
         <td>
+          <span aria-hidden="true">Barcode:</span>
           <%= loan.barcode %>
         </td>
         <td data-loan-due-date="<%=loan.loan_id%>">
