@@ -44,6 +44,7 @@
   <thead>
     <tr>
       <th>Title & author</th>
+      <th>Barcode</th>
       <th>Due date</th>
       <th>Action</th>
     </tr>
@@ -54,6 +55,9 @@
       <tr>
         <td>
           <%= erb :'components/title_author', locals: {item: loan} %>
+        </td>
+        <td>
+          <%= loan.barcode %>
         </td>
         <td data-loan-due-date="<%=loan.loan_id%>">
           <span aria-hidden="true">Due date:</span>

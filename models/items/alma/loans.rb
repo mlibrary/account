@@ -92,6 +92,9 @@ class Loan < AlmaItem
   def call_number
     @parsed_response["call_number"]
   end
+  def barcode
+    @parsed_response["item_barcode"]
+  end
   def publication_date
     @parsed_response["publication_year"]
   end
