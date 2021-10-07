@@ -187,6 +187,11 @@ describe Loan do
       expect(subject.call_number).to eq("MT825 .B27 1984")
     end
   end
+  context "#barcode" do
+    it "returns barcode string" do
+      expect(subject.barcode).to eq("67576")
+    end
+  end
   context "#renewable?" do
     it "returns boolean" do
       expect(subject.renewable?).to eq(true)

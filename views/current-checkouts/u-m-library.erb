@@ -4,6 +4,15 @@
 
 <% elsif %>
 
+<div class="message-callout">
+  <div class="message-callout-icon"">
+    <m-icon name="info"></m-icon>
+  </div>
+  <div class="message-callout-content"">
+    <p>Items checked out prior to <time datetime="2021-07-15">July 15, 2021</time> might not display details such as volume or edition. If you have a question or need help with renewals, please contact the <a href="https://lib.umich.edu/locations-and-hours/hatcher-library/hatcher-north-information-services-desk">Hatcher North Information Services Desk</a>.</p>
+  </div>
+</div>
+
 <% unless message.nil? %>
   <%= erb :'current-checkouts/_message-callout', locals: {message: message} %>
 <% end %>
@@ -44,6 +53,7 @@
   <thead>
     <tr>
       <th>Title & author</th>
+      <th>Barcode</th>
       <th>Due date</th>
       <th>Action</th>
     </tr>
@@ -54,6 +64,10 @@
       <tr>
         <td>
           <%= erb :'components/title_author', locals: {item: loan} %>
+        </td>
+        <td>
+          <span aria-hidden="true">Barcode:</span>
+          <%= loan.barcode %>
         </td>
         <td data-loan-due-date="<%=loan.loan_id%>">
           <span aria-hidden="true">Due date:</span>
