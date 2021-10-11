@@ -27,3 +27,19 @@ updateHistoryButton.addEventListener('click', (event) => {
     modal(event.target.getAttribute('data-js-modal'));
   }
 });
+
+/**
+ * Force keyboard focus in modal
+ */
+const getModal = document.getElementById(updateHistoryButton.getAttribute('data-js-modal'));
+const closeButton = getModal.querySelector('.button--close');
+const deleteHistoryButton = getModal.querySelector('[data-js-modal-button]');
+let previousFocus = false;
+document.addEventListener('keydown', (event) => {
+  previousFocus = event.shiftKey && event.key === 'Tab';
+});
+document.addEventListener('focusin', (event) => {
+  if (getModal.style.display !== 'none' && !getModal.querySelectorAll(':focus').length) {
+    previousFocus ? deleteHistoryButton.focus() : closeButton.focus();
+  }
+});
