@@ -45,7 +45,7 @@
     &:hover,
     &:focus {
       text-decoration: underline;
-      text-decoration-thickness: 2px;
+      text-decoration-thickness: var(--space-xxx-small);
     }
 
     m-icon {

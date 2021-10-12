@@ -27,7 +27,7 @@
   @media screen and ($breakpoint-medium) {
     &[aria-expanded="true"] > span {
       text-decoration: underline;
-      text-decoration-thickness: 2px;
+      text-decoration-thickness: var(--space-xxx-small);
     }
   }
 }
@@ -68,12 +68,7 @@
     &:hover,
     &:focus {
       text-decoration: underline;
-      text-decoration-thickness: 2px;
-    }
-
-    &.active {
-      color: var(--color-teal-400);
-      font-weight: 800;
+      text-decoration-thickness: var(--space-xxx-small);
     }
 
     m-icon {
@@ -84,6 +79,6 @@
   }
   li.active a {
     color: var(--color-teal-400);
-    font-weight: bold;
+    font-weight: 800;
   }
 }
