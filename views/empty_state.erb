@@ -1,10 +1,15 @@
 <%
-  empty_state = Entities::Pages.page(request.path_info).empty_state
+  page = Entities::Pages.page(request.path_info)
+  empty_state = page.empty_state
 %>
 
 <section class="empty-state-container">
   <div class="empty-state-content owl">
-    <h3><%=empty_state.heading%></h3>
+    <% if page.parent.nil? %>
+      <h2 class="h3"><%=empty_state.heading%></h2>
+    <% else %>
+      <h3><%=empty_state.heading%></h3>
+    <% end %>
     <p><%=empty_state.message%></p>
   </div>
 
