@@ -1,6 +1,6 @@
 <% my_pages = Navigation::Sidebar.for(request.path_info) %>
 
-<nav class="site-navigation site-layout__left">
+<nav class="site-navigation site-layout__left" aria-label="Site Navigation">
   <div class="sticky-top">
     <ul class="site-navigation-list">
       <% my_pages.pages.each do |page| %>
