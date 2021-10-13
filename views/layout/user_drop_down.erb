@@ -1,6 +1,6 @@
 <% dropdown = Navigation::UserDropdown.for(request.path_info) %>
 
-<nav class="user-navigation dropdown">
+<nav class="user-navigation dropdown" aria-label="User Dropdown Navigation">
   <button aria-expanded="false" data-dropdown="user-nav-dropdown" class="button--dropdown">
     <m-icon name="person-outline"></m-icon>
     <span><%=session[:uniqname]%></span>

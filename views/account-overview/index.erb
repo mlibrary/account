@@ -3,7 +3,10 @@
     <li>
       <a href="<%=card.slug%>" class="overview-card">
         <div>
-          <h2 class="overview-card-heading"><%=card.title%></h2>
+          <h2 class="overview-card-heading">
+            <%=card.title%>
+            <%= erb :'components/open_in_new', locals: { title: card.title } %>
+          </h2>
           <p class="overview-card-description"><%=card.description%></p>
         </div>
         <div class="overview-card-icon-container" style="--overview-card-icon-background-color: var(--color-<%=card.color%>-100); --overview-card-icon-color: var(--color-<%=card.color%>-400);">

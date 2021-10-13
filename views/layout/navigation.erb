@@ -1,12 +1,13 @@
 <% my_pages = Navigation::Sidebar.for(request.path_info) %>
 
-<nav class="site-navigation site-layout__left">
+<nav class="site-navigation site-layout__left" aria-label="Site Navigation">
   <div class="sticky-top">
     <ul class="site-navigation-list">
       <% my_pages.pages.each do |page| %>
         <li class="<%= page.active %>">
           <a href="<%=page.path%>" <% if page.active? %>aria-current="page"<% end %>>
             <m-icon name="<%=page.icon_name%>"></m-icon><span><%=page.title%></span>
+            <%= erb :'components/open_in_new', locals: { title: page.title } %>
           </a>
         </li>
       <% end %>
