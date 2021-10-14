@@ -38,6 +38,10 @@
   padding: 0;
   margin: 0 !important;
   color: var(--color-neutral-400);
+
+  m-icon {
+    margin-left: var(--space-x-small);
+  }
 }
 
 .overview-card-description {

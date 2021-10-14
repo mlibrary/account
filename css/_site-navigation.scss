@@ -48,8 +48,11 @@
       text-decoration-thickness: var(--space-xxx-small);
     }
 
+    > * + * {
+      margin-left: var(--space-xx-small);
+    }
+
     m-icon {
-      margin-right: var(--space-xx-small);
       position: relative;
       top: var(--space-xxx-small);
     }
