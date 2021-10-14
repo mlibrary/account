@@ -23,7 +23,7 @@ describe Entities::Page::EmptyState do
     expect(subject.heading_tag).to eq(parentless_heading_tag)
   end
   it "if nil, uses parent if available" do
-    @parent_empty_state = described_class.new({"heading" => "Parent Heading", "message" => "Parent Message", "heading_tag" => "h3"}, nil)
+    @parent_empty_state = described_class.new({"heading" => "Parent Heading", "message" => "Parent Message"}, nil)
     @empty_state = nil
     expect(subject.heading).to eq("Parent Heading")
     expect(subject.message).to eq("Parent Message")
