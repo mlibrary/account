@@ -89,7 +89,8 @@ h2,
   line-height: auto;
 }
 
-h3 {
+h3,
+.h3 {
   font-size: var(--text-medium);
   font-weight: var(--semibold);
 }

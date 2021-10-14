@@ -4,7 +4,9 @@
 
 <section class="empty-state-container">
   <div class="empty-state-content owl">
-    <h3><%=empty_state.heading%></h3>
+    <<%=empty_state.heading_tag%> class="h3">
+      <%=empty_state.heading%>
+    </<%=empty_state.heading_tag%>>
     <p><%=empty_state.message%></p>
   </div>
 
