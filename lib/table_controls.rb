@@ -109,10 +109,10 @@ module TableControls
     end
     def sort
       [
-        {value: 'due-asc', text: 'Due (Sooner - Later)'},
-        {value: 'due-desc', text: 'Due (Later - Sooner)'},
-        {value: 'title-asc', text: 'Title (A-Z)'},
-        {value: 'title-desc', text: 'Title (A-Z)'},
+        {value: 'due-asc', text: 'Due (Sooner to Later)'},
+        {value: 'due-desc', text: 'Due (Later to Sooner)'},
+        {value: 'title-asc', text: 'Title (A to Z)'},
+        {value: 'title-desc', text: 'Title (Z to A)'},
       ].map{ |x| Select.new(value: x[:value], text: x[:text], selected: x[:value] == selected_sort)}
     end
   end
