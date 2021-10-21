@@ -1,6 +1,9 @@
-<div class="message-callout message-callout--success can-close">
-  <div class="message-callout-icon" aria-live="polite" style="height: 0;">
+<div class="message-callout message-callout--success can-close" role="status">
+  <button class="button--light button--close close-message" disabled>
+    <m-icon name="close"></m-icon><span class="visually-hidden">Close</span>
+  </button>
+  <div class="message-callout-icon">
     <m-icon name="check"></m-icon>
   </div>
-  <p style="font-weight: bold;"><%= message.renewed_text %></p>
+  <p class="strong"><%= message.renewed_text %></p>
 </div>

@@ -27,6 +27,12 @@
         border-top: 0;
         display: inline-block;
         & + li {
+          padding-left: var(--space-medium);
+        }
+      }
+
+      @media screen and ($breakpoint-large) {
+        & + li {
           padding-left: var(--space-large);
         }
       }
