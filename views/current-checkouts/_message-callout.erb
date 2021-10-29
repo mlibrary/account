@@ -1,9 +1,9 @@
-<div class="message-callout message-callout--success can-close" role="status">
+<div class="message-callout message-callout--<%=message.status%> can-close" role="status">
   <button class="button--light button--close close-message" disabled>
     <m-icon name="close"></m-icon><span class="visually-hidden">Close</span>
   </button>
   <div class="message-callout-icon">
-    <m-icon name="check"></m-icon>
+    <m-icon name="<%=message.icon%>"></m-icon>
   </div>
-  <p class="strong"><%= message.renewed_text %></p>
+  <p><%= message.renewed_text %></p>
 </div>

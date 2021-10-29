@@ -3,20 +3,34 @@ describe RenewResponsePresenter do
     @renewed = 0
   end
   subject do
-    described_class.new(renewed: @renewed)
+    described_class.for(@renewed)
   end
   context "#renewed_text" do
     it "handles zero items" do
-      expect(subject.renewed_text).to eq("Eligible items have been renewed.")
+      expect(subject.renewed_text).to include("None of your items are eligible for renewal")
     end
-    it "handles one item" do
+    it "handles more than 0 items" do
       @renewed = 1
-      expect(subject.renewed_text).to eq("1 item was successfully renewed.")
-    end
-    it "handles two items" do
-      @renewed = 2
-      expect(subject.renewed_text).to eq("2 items were successfully renewed.")
+      expect(subject.renewed_text).to include("You've successfully renewed")
     end
 
+  end
+  context "#status" do
+    it "handles zero items" do
+      expect(subject.status).to eq("warning")
+    end
+    it "handles greater than one item" do
+      @renewed = 1
+      expect(subject.status).to eq("success")
+    end
+  end
+  context "#icon" do
+    it "handles zero items" do
+      expect(subject.icon).to eq("warning")
+    end
+    it "handles greater than one item" do
+      @renewed = 1
+      expect(subject.icon).to eq("check")
+    end
   end
 end
