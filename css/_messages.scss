@@ -35,6 +35,7 @@
 
   .message-callout-icon {
     color: var(--color-teal-400);
+    height: 0;
     m-icon > svg {
       height: auto;
       width: var(--space-large);
@@ -44,6 +45,8 @@
 
 .message-callout--success {
   border-left-color: var(--color-green-400);
+  color: var(--color-green-500);
+
   .message-callout-icon {
     color: var(--color-green-500);
   }

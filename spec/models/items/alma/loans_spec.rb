@@ -257,11 +257,10 @@ describe Loans do
       loan_id = loans["item_loan"][0]["loan_id"]
       loans["item_loan"][0]["renewable"] = false
       loans["item_loan"][1]["renewable"] = false
-      stub_updater({step: '2', count: '1', renewed: '0', uniqname: 'jbister'})
-      stub_updater({step: '2', count: '2', renewed: '0', uniqname: 'jbister'})
-      stub_updater({step: '3', count: '2', renewed: '0', uniqname: 'jbister'})
+      stub_updater({step: '2', count: '0', renewed: '0', uniqname: 'jbister'})
+      stub_updater({step: '3', count: '0', renewed: '0', uniqname: 'jbister'})
       stub_alma_get_request( url: 'users/jbister/loans', body: loans.to_json, query: {expand: 'renewable', limit: 100, offset: 0} )
-      expect(subject.not_renewed_count).to eq(2)
+      expect(subject.not_renewed_count).to eq(0)
     end
   end
 end

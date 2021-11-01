@@ -149,25 +149,21 @@ describe "requests" do
     end
     it "shows appropriate " do
       stub_updater({step: '2', count: '1', renewed: '0', uniqname: 'tutor'})
-      stub_updater({step: '2', count: '2', renewed: '1', uniqname: 'tutor'})
-      stub_updater({step: '3', count: '2', renewed: '1', uniqname: 'tutor'})
+      stub_updater({step: '3', count: '1', renewed: '1', uniqname: 'tutor'})
       post "/current-checkouts/u-m-library" 
       session = last_request.env["rack.session"]
       expect(session["message"].renewed).to eq(1)
-      expect(session["message"].not_renewed).to eq(1)
     end
     it "has correct counts for none renewable" do
       @alma_loans["item_loan"][1]["renewable"] = false
       stub_alma_get_request( url: 'users/tutor/loans', body: @alma_loans.to_json, query: {expand: 'renewable', limit: 100, offset: 0} )
       stub_alma_get_request( url: 'users/tutor/loans', body: @alma_loans.to_json, query: {expand: 'renewable'} )
 
-      stub_updater({step: '2', count: '1', renewed: '0', uniqname: 'tutor'})
-      stub_updater({step: '2', count: '2', renewed: '0', uniqname: 'tutor'})
-      stub_updater({step: '3', count: '2', renewed: '0', uniqname: 'tutor'})
+      stub_updater({step: '2', count: '0', renewed: '0', uniqname: 'tutor'})
+      stub_updater({step: '3', count: '0', renewed: '0', uniqname: 'tutor'})
       post "/current-checkouts/u-m-library" 
       session = last_request.env["rack.session"]
       expect(session["message"].renewed).to eq(0)
-      expect(session["message"].not_renewed).to eq(2)
     end
     it "shows error flash for major Alma Error" do
       stub_alma_get_request( url: 'users/tutor/loans', body: File.read('./spec/fixtures/alma_error.json'), query: {expand: 'renewable', limit: 100, offset: 0}, status: 400 )

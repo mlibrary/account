@@ -13,25 +13,31 @@
     border-bottom: solid 1px var(--color-neutral-100);
     list-style: none;
     margin: 0 calc(-1 * var(--space-medium));
-    
-    @media screen and ($breakpoint-large) {
+
+    @media screen and ($breakpoint-medium) {
       background-color: transparent;
       margin: 0;
     }
-  
+
     li {
       border-top: solid 1px var(--color-neutral-100);
       margin-bottom: 0;
 
-      @media screen and ($breakpoint-large) {
+      @media screen and ($breakpoint-medium) {
         border-top: 0;
         display: inline-block;
+        & + li {
+          padding-left: var(--space-medium);
+        }
+      }
+
+      @media screen and ($breakpoint-large) {
         & + li {
           padding-left: var(--space-large);
         }
       }
     }
-  
+
     a {
       color: var(--color-neutral-400);
       display: block;
@@ -40,16 +46,16 @@
       padding: var(--space-medium);
       text-decoration: none;
 
-      @media screen and ($breakpoint-large) {
+      @media screen and ($breakpoint-medium) {
         padding: var(--space-medium) 0;
       }
-  
+
       &:hover {
         text-decoration: underline;
         text-decoration-thickness: var(--space-xxx-small);
       }
 
-      &[aria-current="page"] {
+      &[aria-current='page'] {
         color: var(--color-teal-400);
         font-weight: 800;
         position: relative;
@@ -62,7 +68,7 @@
           position: absolute;
           top: 0;
           width: var(--space-xx-small);
-          @media screen and ($breakpoint-large) {
+          @media screen and ($breakpoint-medium) {
             bottom: 0;
             height: var(--space-xx-small);
             top: auto;

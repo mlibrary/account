@@ -1,40 +1,36 @@
 class RenewResponsePresenter
-  attr_reader :renewed, :not_renewed
-  def initialize(renewed:, not_renewed:)
+  attr_reader :renewed
+  def self.for(renewed)
+    if renewed == 0
+      NoElligibleItems.new(renewed)
+    else
+      self.new(renewed) 
+    end
+  end
+  def initialize(renewed)
     @renewed = renewed
-    @not_renewed = not_renewed
-  end
-  def renewed?
-    @renewed > 0
-  end
-  def not_renewed?
-    @not_renewed > 0
   end
   def renewed_text
-    "#{@renewed} #{item(@renewed)} #{verb(@renewed)} successfully renewed."
+    "You've successfully renewed <span class=\"strong\">all eligible items</span>. " +
+    "Your new return dates are shown, starting with items due first.</br></br>" +
+    "If you have questions or need help, please contact the <a href=\"https://lib.umich.edu/locations-and-hours/hatcher-library/hatcher-north-information-services-desk\">Hatcher North Information Services Desk</a>."
   end
-  def not_renewed_text
-    "#{@not_renewed} #{item(@not_renewed)} #{verb(@not_renewed)} unable to be renewed for one of the following reasons:"
+  def icon
+    "check"
   end
-  def unrenewable_reasons
-    [
-      "Item has exceeded the number of renews allowed",
-      "Item is for building-use only",
-      "Item has been reported as lost",
-    ]
+  def status
+    "success"
   end
-  def not_renewed_continued_text
-    [
-      "Review the <span class='strong'>Actions</span> column of your checkouts to see which items did not renew.",
-      "If you do not see any changes after attempting to renew items, there may have been an unexpected network error. Please refresh the page and try again.",
-      "If you have questions or need help, please contact the <a href=\"https://lib.umich.edu/locations-and-hours/hatcher-library/hatcher-north-information-services-desk\">Hatcher North Information Services Desk</a>.",
-    ]
-  end
-  private
-  def verb(count)
-    count == 1 ? "was" : "were"
-  end
-  def item(count)
-    count == 1 ? "item" : "items"
+
+  class NoElligibleItems < self
+    def renewed_text
+      "None of your items are eligible for renewal. If you need help, please contact the <a href=\"https://lib.umich.edu/locations-and-hours/hatcher-library/hatcher-north-information-services-desk\">Hatcher North Information Services Desk</a>."
+    end
+    def icon
+      "warning"
+    end
+    def status
+      "warning"
+    end
   end
 end
