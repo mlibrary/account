@@ -1,9 +1,3 @@
-<div class="message-callout message-callout--<%=message.status%> can-close" role="status">
-  <button class="button--light button--close close-message" disabled>
-    <m-icon name="close"></m-icon><span class="visually-hidden">Close</span>
-  </button>
-  <div class="message-callout-icon">
-    <m-icon name="<%=message.icon%>"></m-icon>
-  </div>
+<m-callout subtle icon dismissable variant="<%=message.status%>">
   <p><%= message.renewed_text %></p>
-</div>
+</m-callout>
