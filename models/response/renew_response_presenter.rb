@@ -15,9 +15,6 @@ class RenewResponsePresenter
     "Your new return dates are shown, starting with items due first.</br></br>" +
     "If you have questions or need help, please contact the <a href=\"https://lib.umich.edu/locations-and-hours/hatcher-library/hatcher-north-information-services-desk\">Hatcher North Information Services Desk</a>."
   end
-  def icon
-    "check"
-  end
   def status
     "success"
   end
@@ -25,9 +22,6 @@ class RenewResponsePresenter
   class NoElligibleItems < self
     def renewed_text
       "None of your items are eligible for renewal. If you need help, please contact the <a href=\"https://lib.umich.edu/locations-and-hours/hatcher-library/hatcher-north-information-services-desk\">Hatcher North Information Services Desk</a>."
-    end
-    def icon
-      "warning"
     end
     def status
       "warning"

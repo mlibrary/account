@@ -24,13 +24,4 @@ describe RenewResponsePresenter do
       expect(subject.status).to eq("success")
     end
   end
-  context "#icon" do
-    it "handles zero items" do
-      expect(subject.icon).to eq("warning")
-    end
-    it "handles greater than one item" do
-      @renewed = 1
-      expect(subject.icon).to eq("check")
-    end
-  end
 end
