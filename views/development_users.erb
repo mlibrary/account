@@ -1,39 +1,34 @@
-  <% test_users = [
-    {
-      label: "Faculty (many)",
-      value: 'mlibrary.acct.testing1@gmail.com'
-    },
-    {
-      label: 'Graduate student (few)',
-      value: 'mlibrary.acct.testing2@gmail.com'
-    },
-    {
-      label: "New student (none)",
-      value: 'mlibrary.acct.testing3@gmail.com'
-    },
-    {
-      label: 'Not in Alma',
-      value: 'definitelynotinalma'
-    },
-  ]
-%>
-  <div class="message-callout">
-    <div class="prose owl">
-      <h2 style="margin-top: 0;">Design &amp; Development Options</h2>
-  
-      <form method="get" action="/session_switcher" class="prose owl">
-        <label for="test-user">
-          <p>Active user account:</p>
-        </label>
-  
-        <input type="text" list="users" id="test-user" name="uniqname" autocomplete="on" value="<%=session[:uniqname] || "" %>">
-        <datalist id="users">
-          <% test_users.each do |user| %>
-            <option value="<%=user[:value]%>"><%=user[:label]%></option>
-            <% end %>
-        </datalist>
-  
-        <button>Save</button>
-      </form>
-    </div>
-  </div>
+<% test_users = [
+  {
+    label: "Faculty (many)",
+    value: 'mlibrary.acct.testing1@gmail.com'
+  },
+  {
+    label: 'Graduate student (few)',
+    value: 'mlibrary.acct.testing2@gmail.com'
+  },
+  {
+    label: "New student (none)",
+    value: 'mlibrary.acct.testing3@gmail.com'
+  },
+  {
+    label: 'Not in Alma',
+    value: 'definitelynotinalma'
+  },
+] %>
+
+<m-callout subtle>
+  <h2>Design &amp; Development Options</h2>
+  <form method="get" action="/session_switcher" class="prose owl">
+    <label for="test-user">
+      <p>Active user account:</p>
+    </label>
+    <input type="text" list="users" id="test-user" name="uniqname" autocomplete="on" value="<%=session[:uniqname] || "" %>">
+    <datalist id="users">
+      <% test_users.each do |user| %>
+        <option value="<%=user[:value]%>"><%=user[:label]%></option>
+        <% end %>
+    </datalist>
+    <button>Save</button>
+  </form>
+</m-callout>
