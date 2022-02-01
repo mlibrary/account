@@ -14,7 +14,12 @@ services:
       - .env
       - .env-dev-values
     command:
-      - "bundle exec ruby my_account.rb -o 0.0.0.0"
+      - bundle 
+      - exec 
+      - ruby 
+      - my_account.rb 
+      - -o 
+      - 0.0.0.0
         
   nelnet-test:
     build: ./nelnet_test/.
