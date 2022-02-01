@@ -11,6 +11,10 @@ gem 'addressable'
 gem 'omniauth'
 gem 'omniauth_openid_connect'
 gem 'redcarpet'
+
+#In order to get rspec to work for ruby 3.1. Maybe later see if it's still necessary
+gem 'net-smtp', require: false
+
 gem 'alma_rest_client',
   git: 'https://github.com/mlibrary/alma_rest_client', 
   tag: '1.0.1'
