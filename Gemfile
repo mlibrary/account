@@ -17,7 +17,7 @@ gem 'net-smtp', require: false
 
 gem 'alma_rest_client',
   git: 'https://github.com/mlibrary/alma_rest_client', 
-  tag: '1.0.1'
+  tag: '1.3.0'
 
 group :development, :test do
   gem 'pry'

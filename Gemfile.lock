@@ -1,11 +1,12 @@
 GIT
   remote: https://github.com/mlibrary/alma_rest_client
-  revision: 39968fed3be48fa64812e59e6592ce43f704daad
-  tag: 1.0.1
+  revision: 844bb2ec67630c425e252424113ef90172c9ec07
+  tag: 1.3.0
   specs:
-    alma_rest_client (1.0.1)
+    alma_rest_client (1.3.0)
+      activesupport (~> 7.0, >= 4.2)
       httparty
-      ox
+      rexml
 
 GEM
   remote: https://rubygems.org/
@@ -83,7 +84,6 @@ GEM
       validate_email
       validate_url
       webfinger (>= 1.0.1)
-    ox (2.14.6)
     pry (0.13.1)
       coderay (~> 1.1)
       method_source (~> 1.0)
