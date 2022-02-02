@@ -23,7 +23,7 @@ require 'climate_control'
 SimpleCov.start
 ENV['RACK_ENV'] = 'test'
 
-require File.expand_path '../../my_account.rb', __FILE__
+require File.expand_path '../../account.rb', __FILE__
 OmniAuth.config.test_mode = true
 
 module RSpecMixin

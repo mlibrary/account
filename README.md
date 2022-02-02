@@ -1,15 +1,15 @@
 # My Account
 
-My Account for Alma. 
+Account.lib 
 https://account.lib.umich.edu
 
-## Setting up My Account for development
+## Setting up patron_account for development
 
 Clone the repo
 
 ```
-git clone git@github.com:mlibrary/my_account.git
-cd my_account
+git clone git@github.com:mlibrary/patron_account.git
+cd patron_account
 ```
 
 copy .env-example to .env
