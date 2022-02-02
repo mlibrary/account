@@ -17,7 +17,7 @@ services:
       - bundle 
       - exec 
       - ruby 
-      - my_account.rb 
+      - account.rb 
       - -o 
       - 0.0.0.0
         

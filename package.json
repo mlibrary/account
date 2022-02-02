@@ -1,7 +1,7 @@
 {
-  "name": "my_account",
+  "name": "account",
   "version": "1.0.0",
-  "description": "My Account for Alma",
+  "description": "for account.lib",
   "dependencies": {
     "sass": "^1.49.6"
   },
@@ -24,12 +24,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mlibrary/my_account.git"
+    "url": "git+https://github.com/mlibrary/patron_account.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/mlibrary/my_account/issues"
+    "url": "https://github.com/mlibrary/patron_account/issues"
   },
-  "homepage": "https://github.com/mlibrary/my_account#readme"
+  "homepage": "https://github.com/mlibrary/patron_account#readme"
 }
