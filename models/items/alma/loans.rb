@@ -77,7 +77,7 @@ class Loan < AlmaItem
     client.post("/users/#{uniqname}/loans/#{loan_id}", query: {op: 'renew'})
   end
   def due_date
-    DateTime.patron_format(@parsed_response["due_date"])
+    DateTime.patron_format(@parsed_response["due_date"]) unless claims_returned?
   end
   def renewable?
     !!@parsed_response["renewable"] #make this a real boolean
@@ -95,6 +95,11 @@ class Loan < AlmaItem
     @parsed_response["publication_year"]
   end
   def due_status
+    return "Reported as returned" if claims_returned?
     LoanDate.parse(@parsed_response["due_date"]).due_status
+  end
+  private
+  def claims_returned?
+    @parsed_response["process_status"]=="CLAIMED_RETURN"
   end
 end
