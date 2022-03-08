@@ -1,0 +1,50 @@
+{
+    "item_loan": [
+      {
+        "loan_id": "21174281390006381",
+        "circ_desk": {
+          "value": "DEFAULT_CIRC_DESK",
+          "desc": "North Information Desk"
+        },
+        "return_circ_desk": {
+          "value": null,
+          "desc": null,
+          "link": null
+        },
+        "library": {
+          "value": "HATCH",
+          "desc": "Hatcher Graduate"
+        },
+        "user_id": "mlibrary.acct.testing1@gmail.com",
+        "item_barcode": "A35473",
+        "due_date": "2022-03-09T04:59:00Z",
+        "loan_status": "ACTIVE",
+        "loan_date": "2022-03-08T14:47:07.839Z",
+        "returned_by": {
+          "value": "",
+          "link": null
+        },
+        "process_status": "CLAIMED_RETURN",
+        "mms_id": "99187521361606381",
+        "holding_id": "221181038150006381",
+        "item_id": "231181038130006381",
+        "title": "Journal of Cats",
+        "author": null,
+        "description": null,
+        "location_code": {
+          "value": "GRAD",
+          "name": "GRAD"
+        },
+        "item_policy": {
+          "value": null,
+          "description": null
+        },
+        "renewable": null,
+        "last_renew_status": {
+          "value": null,
+          "desc": ""
+        }
+      }
+    ],
+    "total_record_count": 1
+  }

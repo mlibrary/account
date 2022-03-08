@@ -157,6 +157,10 @@ describe Loan do
     it "returns due date string" do
       expect(subject.due_date).to eq("07/08/18")
     end
+    it "returns nothing when claims returned" do
+      @loan_response = JSON.parse(File.read("./spec/fixtures/claims_returned.json"))["item_loan"][0]
+      expect(subject.due_date).to eq(nil)
+    end
   end
   context "#due_status" do
     it "returns 'Overdue'" do
@@ -170,6 +174,10 @@ describe Loan do
     it "returns 'Due Soon' for 7 days" do
       @loan_response["due_date"] = (Date.today + 7).strftime("%FT%H:%M:%SZ")
       expect(subject.due_status).to eq("Due Soon")
+    end
+    it "returns reported as returned for claims returned" do
+      @loan_response = JSON.parse(File.read("./spec/fixtures/claims_returned.json"))["item_loan"][0]
+      expect(subject.due_status).to eq('Reported as returned')
     end
     it "returns empty string for far away dates" do
       @loan_response["due_date"] = (Date.today + 8).strftime("%FT%H:%M:%SZ")
