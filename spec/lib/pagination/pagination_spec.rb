@@ -1,4 +1,4 @@
-require 'spec_helper'
+require "spec_helper"
 
 describe Pagination do
   context "many results; first page; default limit" do
@@ -35,9 +35,9 @@ describe Pagination do
       let(:pages) { subject.pages }
       it "returns an array of 5 Pages" do
         expect(pages.count).to eq(5)
-        expect(pages[0].class.name).to eq('Pagination::Page')
+        expect(pages[0].class.name).to eq("Pagination::Page")
       end
-      
+
       it "returns first Page" do
         page = pages[0]
         expect(page.offset).to eq(0)
@@ -98,9 +98,9 @@ describe Pagination do
       let(:pages) { subject.pages }
       it "returns an array of 5 Pages" do
         expect(pages.count).to eq(5)
-        expect(pages[0].class.name).to eq('Pagination::Page')
+        expect(pages[0].class.name).to eq("Pagination::Page")
       end
-      
+
       it "returns first Page" do
         page = pages[0]
         expect(page.offset).to eq(0)
@@ -155,7 +155,7 @@ describe Pagination do
     end
     context "#pages" do
       let(:pages) { subject.pages }
-      
+
       it "returns first Page" do
         page = pages[0]
         expect(page.offset).to eq(30)
@@ -210,7 +210,7 @@ describe Pagination do
     end
     context "#pages" do
       let(:pages) { subject.pages }
-      
+
       it "returns first Page" do
         page = pages[0]
         expect(page.offset).to eq(50)
@@ -275,7 +275,7 @@ describe Pagination do
     end
     context "#pages" do
       let(:pages) { subject.pages }
-      
+
       it "returns first Page" do
         page = pages[0]
         expect(page.offset).to eq(50)

@@ -1,12 +1,12 @@
-require 'spec_helper'
-require 'json'
+require "spec_helper"
+require "json"
 
 describe Requests do
   before(:each) do
-    stub_alma_get_request( url: 'users/tutor/requests', body: File.read("./spec/fixtures/requests.json"), query: {limit: 100, offset: 0} )
+    stub_alma_get_request(url: "users/tutor/requests", body: File.read("./spec/fixtures/requests.json"), query: {limit: 100, offset: 0})
   end
   subject do
-    Requests.for(uniqname: 'tutor')
+    Requests.for(uniqname: "tutor")
   end
   context "#count" do
     it "returns total item count" do
@@ -14,8 +14,8 @@ describe Requests do
     end
   end
   context "#holds" do
-    it "returns an array" do 
-      expect(subject.holds.class.name).to eq('Array')
+    it "returns an array" do
+      expect(subject.holds.class.name).to eq("Array")
     end
     it "returns an array with the correct number of items" do
       expect(subject.holds.count).to eq(1)
@@ -24,34 +24,34 @@ describe Requests do
       expect(subject.holds.first.request_id).to eq("1383955180006381")
     end
     it "returns items with the correct class" do
-      expect(subject.holds.first.class.name).to eq('HoldRequest')
+      expect(subject.holds.first.class.name).to eq("HoldRequest")
     end
   end
   context "#bookings" do
-    it "returns an array" do 
-      expect(subject.bookings.class.name).to eq('Array') 
+    it "returns an array" do
+      expect(subject.bookings.class.name).to eq("Array")
     end
     it "returns an array with the correct number of items" do
       expect(subject.bookings.count).to eq(1)
     end
     it "returns items with the correct class" do
-      expect(subject.bookings.first.class.name).to eq('BookingRequest')
+      expect(subject.bookings.first.class.name).to eq("BookingRequest")
     end
     it "returns the correct item" do
       expect(subject.bookings.first.request_id).to eq("1383955240006381")
     end
   end
 end
-describe Request, '.cancel(request_id:, uniqname:)' do
+describe Request, ".cancel(request_id:, uniqname:)" do
   subject do
-    described_class.cancel(request_id: '1234', uniqname: 'jbister')
+    described_class.cancel(request_id: "1234", uniqname: "jbister")
   end
   it "properly cancels a request in alma" do
-    stub_alma_delete_request( url: 'users/jbister/requests/1234', body: '{}', query: {reason: 'CancelledAtPatronRequest'} )
+    stub_alma_delete_request(url: "users/jbister/requests/1234", body: "{}", query: {reason: "CancelledAtPatronRequest"})
     expect(subject.code).to eq(200)
   end
   it "returns response from alma on failed cancelation request" do
-    stub_alma_delete_request( url: 'users/jbister/requests/1234', body: File.read('./spec/fixtures/alma_error.json'), query: {reason: 'CancelledAtPatronRequest'}, status: 400 )
+    stub_alma_delete_request(url: "users/jbister/requests/1234", body: File.read("./spec/fixtures/alma_error.json"), query: {reason: "CancelledAtPatronRequest"}, status: 400)
     expect(subject.code).to eq(400)
   end
 end
@@ -60,7 +60,7 @@ describe HoldRequest do
     @hold_response = JSON.parse(File.read("./spec/fixtures/requests.json"))["user_request"][1]
   end
   subject do
-    described_class.new(@hold_response) 
+    described_class.new(@hold_response)
   end
   context "#title" do
     it "returns title string" do
@@ -99,12 +99,12 @@ describe HoldRequest do
   end
   context "#status" do
     it "returns 'In process' when IN_PROCESS" do
-      expect(subject.status).to eq('In process')
+      expect(subject.status).to eq("In process")
     end
   end
   context "#status_tag" do
     it "returns '--warning' when 'In process'" do
-      expect(subject.status_tag).to eq('--warning')
+      expect(subject.status_tag).to eq("--warning")
     end
   end
   context "#expiry_date" do
@@ -123,7 +123,7 @@ describe BookingRequest do
     @booking_response = JSON.parse(File.read("./spec/fixtures/requests.json"))["user_request"][0]
   end
   subject do
-    described_class.new(@booking_response) 
+    described_class.new(@booking_response)
   end
   context "#booking_date" do
     it "returns date booking is scheduled for" do
@@ -132,7 +132,7 @@ describe BookingRequest do
   end
   context "#expiry_date" do
     it "returns empty string if nil" do
-      expect(subject.expiry_date).to eq('')
+      expect(subject.expiry_date).to eq("")
     end
   end
   context ".empty_state" do

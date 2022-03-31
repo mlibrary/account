@@ -1,20 +1,20 @@
 describe TableControls::URLGenerator, "self.for" do
   it "picks PastLoans for referrer of 'past-activity'" do
-    url = described_class.for(show: 15, sort: 'title', referrer: 'http://somedomain.com/past-activity/u-m-libary')
+    url = described_class.for(show: 15, sort: "title", referrer: "http://somedomain.com/past-activity/u-m-libary")
     expect(url.class.name.to_s).to eq("TableControls::PastLoansURLGenerator")
   end
   it "picks LoanURLGenerator for current-activity" do
-    url = described_class.for(show: 15, sort: 'title', referrer: 'http://somedomain.com/current-activity/u-m-libary')
+    url = described_class.for(show: 15, sort: "title", referrer: "http://somedomain.com/current-activity/u-m-libary")
     expect(url.class.name.to_s).to eq("TableControls::LoansURLGenerator")
   end
 end
 describe TableControls::LoansURLGenerator do
   before(:each) do
     @show = 15
-    @sort = 'due-asc'
+    @sort = "due-asc"
   end
   subject do
-    described_class.new(show: @show, sort: @sort, referrer: 'http://somedomain.com/thing')
+    described_class.new(show: @show, sort: @sort, referrer: "http://somedomain.com/thing")
   end
   context "#limit" do
     it "returns limit string" do
@@ -60,36 +60,36 @@ describe TableControls::LoansForm do
   end
   context "#show" do
     it "has show with correct default" do
-      expect(subject.show.first.selected).to eq('selected')
+      expect(subject.show.first.selected).to eq("selected")
     end
   end
   context "#sort" do
     it "shows text and value for each sort" do
-      expect(subject.sort.first.text).to eq('Due date: ascending')
-      expect(subject.sort.first.value).to eq('due-asc')
+      expect(subject.sort.first.text).to eq("Due date: ascending")
+      expect(subject.sort.first.value).to eq("due-asc")
     end
     it "has sort with correct default" do
-      expect(subject.sort.first.selected).to eq('selected')
+      expect(subject.sort.first.selected).to eq("selected")
     end
     it "has correct selected for 'due-asc'" do
-      @order_by = 'due_date'
-      @direction = 'ASC'
-      expect(subject.sort[0].selected).to eq('selected')
+      @order_by = "due_date"
+      @direction = "ASC"
+      expect(subject.sort[0].selected).to eq("selected")
     end
     it "has correct selected for 'due-desc'" do
-      @order_by = 'due_date'
-      @direction = 'DESC'
-      expect(subject.sort[1].selected).to eq('selected')
+      @order_by = "due_date"
+      @direction = "DESC"
+      expect(subject.sort[1].selected).to eq("selected")
     end
     it "has correct selected for 'title-asc'" do
-      @order_by = 'title'
-      @direction = 'ASC'
-      expect(subject.sort[2].selected).to eq('selected')
+      @order_by = "title"
+      @direction = "ASC"
+      expect(subject.sort[2].selected).to eq("selected")
     end
     it "has correct selected for 'title-desc'" do
-      @order_by = 'title'
-      @direction = 'DESC'
-      expect(subject.sort[3].selected).to eq('selected')
+      @order_by = "title"
+      @direction = "DESC"
+      expect(subject.sort[3].selected).to eq("selected")
     end
   end
 end

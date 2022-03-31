@@ -1,12 +1,12 @@
-require 'httparty'
+require "httparty"
 
 class CircHistoryClient
   include HTTParty
-  base_uri "#{ENV.fetch('CIRCULATION_HISTORY_URL')}/v1"
+  base_uri "#{ENV.fetch("CIRCULATION_HISTORY_URL")}/v1"
 
   def initialize(uniqname)
-    self.class.headers 'Accept' => 'application/json'
-    self.class.headers 'Authorization' => "apikey #{ENV.fetch('CIRCULATION_HISTORY_API_KEY')}"
+    self.class.headers "Accept" => "application/json"
+    self.class.headers "Authorization" => "apikey #{ENV.fetch("CIRCULATION_HISTORY_API_KEY")}"
     @uniqname = uniqname
   end
 
@@ -14,7 +14,7 @@ class CircHistoryClient
     self.class.get("/users/#{@uniqname}")
   end
 
-  def loans(query={})
+  def loans(query = {})
     self.class.get("/users/#{@uniqname}/loans", query: query)
   end
 
@@ -25,5 +25,4 @@ class CircHistoryClient
   def set_retain_history(retain_history)
     self.class.put("/users/#{@uniqname}", query: {retain_history: retain_history})
   end
-  
 end

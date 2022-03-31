@@ -7,18 +7,19 @@ class PastInterlibraryLoans < InterlibraryLoanItems
     @count = count
   end
 
-
   private
+
   def self.illiad_url(uniqname)
-    "/Transaction/UserRequests/#{uniqname}" 
+    "/Transaction/UserRequests/#{uniqname}"
   end
+
   def self.url
     "/past-activity/interlibrary-loan"
   end
+
   def self.filter
     "RequestType eq 'Loan' and (TransactionStatus eq 'Request Finished' or startswith(TransactionStatus, 'Cancelled'))"
   end
-  
 end
 
 class PastInterlibraryLoan < InterlibraryLoanItem

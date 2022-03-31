@@ -1,37 +1,38 @@
 class Entities::Pages
-  
   def self.all
-    raw.map do |p| 
-      Entities::Page.new(p) 
+    raw.map do |p|
+      Entities::Page.new(p)
     end
   end
 
   def self.page(path)
-    flattened.find{|page| page.path == path} 
+    flattened.find { |page| page.path == path }
   end
+
   private
+
   def self.raw
-    JSON.parse(File.read('./config/navigation.json'))
+    JSON.parse(File.read("./config/navigation.json"))
   end
+
   def self.flattened
-    array = Array.new
+    array = []
     all.each do |page|
       array.push(page)
       array.push(page.children) unless page.children.nil?
     end
     array.flatten
   end
-
 end
 
 class Entities::Page
   attr_reader :parent, :children
-  def initialize(page, parent=nil)
+  def initialize(page, parent = nil)
     @page = page
     @parent = parent
-    @children = page.dig("children")&.map{|p| Entities::Page.new(p, self)}
+    @children = page.dig("children")&.map { |p| Entities::Page.new(p, self) }
   end
-  ['title','description', 'icon_name', 'color', 'dropdown'].each do | name|
+  ["title", "description", "icon_name", "color", "dropdown"].each do |name|
     define_method(name) do
       @page[name]
     end
@@ -39,6 +40,7 @@ class Entities::Page
   def empty_state
     EmptyState.new(@page["empty_state"], parent&.empty_state)
   end
+
   def path
     if @parent.nil?
       "/#{slug}"
@@ -47,15 +49,15 @@ class Entities::Page
     end
   end
 
-  def ==(page)
-    page.path == self.path
+  def ==(other)
+    other.path == path
   end
- 
+
   def slug
-    if title == 'Account Overview'
-      ''
+    if title == "Account Overview"
+      ""
     else
-      title.gsub('/','or').gsub('&','and').gsub(/[\s]/,'-').downcase
+      title.gsub("/", "or").gsub("&", "and").gsub(/\s/, "-").downcase
     end
   end
 end

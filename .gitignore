@@ -1,4 +1,5 @@
 # no environment variables
+.cache/
 .env
 drupal_models
 drupal_models_specs

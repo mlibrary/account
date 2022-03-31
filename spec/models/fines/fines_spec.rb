@@ -1,9 +1,9 @@
 describe Fines do
   before(:each) do
-    stub_alma_get_request( url: 'users/jbister/fees', body: File.read("./spec/fixtures/jbister_fines.json"), query: {limit: 100, offset: 0}  )
+    stub_alma_get_request(url: "users/jbister/fees", body: File.read("./spec/fixtures/jbister_fines.json"), query: {limit: 100, offset: 0})
   end
   subject do
-    described_class.for(uniqname: 'jbister')
+    described_class.for(uniqname: "jbister")
   end
   context "#count" do
     it "returns total item count" do
@@ -14,51 +14,50 @@ describe Fines do
     it "returns float of total amount of fines and fees due" do
       expect(subject.total_sum).to eq(25)
     end
-  end 
+  end
   context "#total_sum_in_dollars" do
     it "returns string of total amount of fines and fees due" do
       expect(subject.total_sum_in_dollars).to eq("25.00")
     end
-  end 
+  end
   context "#each" do
     it "iterates over fine object" do
-      fines_contents = ''
+      fines_contents = ""
       subject.each do |fine|
-        fines_contents = fines_contents + fine.class.name
+        fines_contents += fine.class.name
       end
-      expect(fines_contents).to eq('FineFine')
+      expect(fines_contents).to eq("FineFine")
     end
   end
   context "#select(['fine_id'])" do
     it "returns array of selected fees" do
-      result = subject.select(['690390050000521'])
+      result = subject.select(["690390050000521"])
       expect(result.count).to eq(1)
       expect(result.first.title).to eq("The talent code : greatest isn't born. It's grown. Here's how. / Daniel Coyle.")
     end
   end
-
 end
 describe Fines, "self.pay" do
   it "posts to Alma with user fine info" do
-    stub_alma_post_request(url: "users/jbister/fees/all", query: {op: 'pay', amount: "5.00", method: "ONLINE", external_transaction_id: '12345'}, body: 'Success')
-    expect(Fines.pay(uniqname: 'jbister', amount: '5.00', order_number: '12345').body).to eq('Success')
+    stub_alma_post_request(url: "users/jbister/fees/all", query: {op: "pay", amount: "5.00", method: "ONLINE", external_transaction_id: "12345"}, body: "Success")
+    expect(Fines.pay(uniqname: "jbister", amount: "5.00", order_number: "12345").body).to eq("Success")
   end
 end
 
 describe Fines, "self.verify_payment" do
   before(:each) do
-    @fine_response = JSON.parse(File.read('spec/fixtures/jbister_fines.json'))
-    @order_number = 'number_not_in_alma_response'
+    @fine_response = JSON.parse(File.read("spec/fixtures/jbister_fines.json"))
+    @order_number = "number_not_in_alma_response"
   end
-  let(:stub_fee_request){
-    stub_alma_get_request( url: 'users/jbister/fees', body: @fine_response.to_json, query: {limit: 100, offset: 0}  )
+  let(:stub_fee_request) {
+    stub_alma_get_request(url: "users/jbister/fees", body: @fine_response.to_json, query: {limit: 100, offset: 0})
   }
   subject do
-    described_class.verify_payment(uniqname: 'jbister', order_number: @order_number)
+    described_class.verify_payment(uniqname: "jbister", order_number: @order_number)
   end
   it "returns correct information if order number is already in the transactions" do
     stub_fee_request
-    @order_number = '24010000521'
+    @order_number = "24010000521"
     expect(subject).to eq({has_order_number: true, total_sum: 25})
   end
   it "returns correct information if order number is not already in the transactions" do
@@ -66,8 +65,8 @@ describe Fines, "self.verify_payment" do
     expect(subject).to eq({has_order_number: false, total_sum: 25})
   end
   it "returns alma error if alma request fails" do
-    stub_alma_get_request(url: 'users/jbister/fees', body: File.read('spec/fixtures/alma_error.json'), query: {limit: 100, offset: 0}, status: 500)
-    expect(subject.class.name).to eq('AlmaError')
+    stub_alma_get_request(url: "users/jbister/fees", body: File.read("spec/fixtures/alma_error.json"), query: {limit: 100, offset: 0}, status: 500)
+    expect(subject.class.name).to eq("AlmaError")
   end
 end
 
@@ -76,7 +75,7 @@ describe Fine do
     @fine_response = JSON.parse(File.read("./spec/fixtures/jbister_fines.json"))["fee"][0]
   end
   subject do
-    described_class.new(@fine_response) 
+    described_class.new(@fine_response)
   end
   context "#title" do
     it "returns title string" do
@@ -130,7 +129,7 @@ describe Fine do
 end
 describe Fine, "self.pay" do
   it "posts to Alma with user fine info" do
-    stub_alma_post_request(url: "users/jbister/fees/1234", query: {op: 'pay', amount: "1.00", method: "ONLINE"}, body: 'Success')
-    expect(Fine.pay(uniqname: 'jbister', fine_id: '1234', balance: '1.00').body).to eq('Success')
+    stub_alma_post_request(url: "users/jbister/fees/1234", query: {op: "pay", amount: "1.00", method: "ONLINE"}, body: "Success")
+    expect(Fine.pay(uniqname: "jbister", fine_id: "1234", balance: "1.00").body).to eq("Success")
   end
 end

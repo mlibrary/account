@@ -1,7 +1,8 @@
 class CirculationHistorySettingsText
-  def initialize(markdown=Redcarpet::Markdown.new(Redcarpet::Render::HTML))
+  def initialize(markdown = Redcarpet::Markdown.new(Redcarpet::Render::HTML))
     @markdown = markdown
   end
+
   def self.for(retain_history:, confirmed_history_setting:)
     if confirmed_history_setting
       if retain_history
@@ -9,54 +10,60 @@ class CirculationHistorySettingsText
       else
         DecidedNoHistory.new
       end
+    elsif retain_history
+      UndecidedKeepHistory.new
     else
-      if retain_history
-        UndecidedKeepHistory.new
-      else
-        UndecidedNoHistory.new
-      end
+      UndecidedNoHistory.new
     end
   end
+
   def to_s
     @markdown.render("#{text}\n\n#{post_script}")
   end
-  
 
-  class DecidedNoHistory < CirculationHistorySettingsText 
+  class DecidedNoHistory < CirculationHistorySettingsText
     private
+
     def text
-      "You have chosen not to keep a record of your #{checkout_history}.\n\n" + 
-      "If you would like us to start adding items to your checkout history, please update your preferences."
+      "You have chosen not to keep a record of your #{checkout_history}.\n\n" +
+        "If you would like us to start adding items to your checkout history, please update your preferences."
     end
   end
-  class DecidedKeepHistory < CirculationHistorySettingsText 
+
+  class DecidedKeepHistory < CirculationHistorySettingsText
     private
+
     def text
-      "You have chosen to keep a record of your #{checkout_history}.\n\n" + 
-      "If you would like us to delete your checkout history and stop adding items to it, please update your preferences."
+      "You have chosen to keep a record of your #{checkout_history}.\n\n" +
+        "If you would like us to delete your checkout history and stop adding items to it, please update your preferences."
     end
   end
-  class UndecidedNoHistory < CirculationHistorySettingsText 
+
+  class UndecidedNoHistory < CirculationHistorySettingsText
     private
+
     def text
       "You can choose to either keep a record of your #{checkout_history}, or opt out of having one."
     end
   end
-  class UndecidedKeepHistory < CirculationHistorySettingsText 
+
+  class UndecidedKeepHistory < CirculationHistorySettingsText
     private
-    def text 
+
+    def text
       "We've been preserving your #{checkout_history} since April 2016. If you’d like to continue to keep a record of your checkout history, you can select that option now.\n\n" +
-      "If you prefer to have your checkout history deleted and no longer record future checkouts, you can opt-out."
+        "If you prefer to have your checkout history deleted and no longer record future checkouts, you can opt-out."
     end
   end
 
   private
+
   def post_script
     "You can change this preference at any time.\n\n" +
-    "Learn more about [Checkout History Options](https://lib.umich.edu/about-us/policies/library-privacy-statement/checkout-history-options)."
+      "Learn more about [Checkout History Options](https://lib.umich.edu/about-us/policies/library-privacy-statement/checkout-history-options)."
   end
+
   def checkout_history
     "[checkout history](/past-activity/u-m-library)"
   end
 end
-

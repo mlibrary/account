@@ -6,19 +6,25 @@ class Item
     @title = @parsed_response["title"] || ""
     @description = @parsed_response["description"] || ""
   end
+
   def title
     shorten(:title)
   end
+
   def author
     shorten(:author)
   end
+
   def author?
     @author != ""
   end
+
   def description?
     @description != ""
   end
+
   private
+
   def shorten(type)
     total_character_length = 240 - @description.length
     case type
@@ -36,5 +42,4 @@ class Item
     max_length = half + extra
     main[0, max_length]
   end
-  
 end

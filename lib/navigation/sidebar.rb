@@ -5,5 +5,4 @@ class Navigation::Sidebar < Navigation
       pick_page(active_page: active_page, current_page: page)
     end
   end
-  
 end

@@ -13,7 +13,6 @@ describe RenewResponsePresenter do
       @renewed = 1
       expect(subject.renewed_text).to include("You've successfully renewed")
     end
-
   end
   context "#status" do
     it "handles zero items" do

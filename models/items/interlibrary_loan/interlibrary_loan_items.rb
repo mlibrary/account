@@ -1,20 +1,23 @@
 class InterlibraryLoanItems < Items
-  def self.for(uniqname:, offset: nil, limit: nil,  count: nil, client: ILLiadClient.new)
+  def self.for(uniqname:, offset: nil, limit: nil, count: nil, client: ILLiadClient.new)
     ill_count = ILLCount.for(count: count, offset: offset, limit: limit)
     query = base_query.merge(ill_count.query)
- 
+
     response = client.get(illiad_url(uniqname), query)
     if response.code == 200
       body = response.parsed_response
-      pagination_params = { url: url, total: ill_count.total(body) }.merge(ill_count.pagination_params)
+      pagination_params = {url: url, total: ill_count.total(body)}.merge(ill_count.pagination_params)
 
-      self.new(parsed_response: ill_count.page_of_results(body), pagination: PaginationDecorator.new(**pagination_params), count: ill_count.total(body))
+      new(parsed_response: ill_count.page_of_results(body), pagination: PaginationDecorator.new(**pagination_params), count: ill_count.total(body))
     end
   end
+
   private
+
   def self.base_query
     {"$filter" => filter}
   end
+
   class ILLCount
     attr_reader :offset, :limit
     def initialize(count:, offset:, limit:)
@@ -24,6 +27,7 @@ class InterlibraryLoanItems < Items
       @limit = 15 if limit.nil?
       @count = count
     end
+
     def self.for(count:, offset:, limit:)
       if count.nil?
         NewCount.new(count: count, offset: offset, limit: limit)
@@ -31,6 +35,7 @@ class InterlibraryLoanItems < Items
         SavedCount.new(count: count, offset: offset, limit: limit)
       end
     end
+
     def pagination_params
       q = {}
       q[:limit] = @limit if @limit != 15
@@ -38,6 +43,7 @@ class InterlibraryLoanItems < Items
       q
     end
   end
+
   class SavedCount < ILLCount
     def query
       q = {}
@@ -45,21 +51,25 @@ class InterlibraryLoanItems < Items
       q["$top"] = @limit
       q
     end
+
     def page_of_results(body)
       body
     end
+
     def total(body)
       @count
     end
-    
   end
+
   class NewCount < ILLCount
     def query
       {}
     end
+
     def page_of_results(body)
       body[@offset, @limit]
     end
+
     def total(body)
       body.count
     end

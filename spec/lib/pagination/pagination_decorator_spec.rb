@@ -1,11 +1,10 @@
-require 'spec_helper'
+require "spec_helper"
 
 describe PaginationDecorator do
   context "two page array; default limit; first page" do
-
     before(:each) do
       @input = {
-        url: '/things',
+        url: "/things",
         current_offset: 0,
         total: 20,
         limit: 15
@@ -58,13 +57,12 @@ describe PaginationDecorator do
     end
   end
   context "second page; two pages of results; non default limit" do
-
     before(:each) do
       @input = {
-        url: '/things',
+        url: "/things",
         current_offset: 5,
         total: 10,
-        limit: 5 
+        limit: 5
       }
     end
     subject do
