@@ -148,7 +148,7 @@ class Patron
 
     def type
       # probably too ugly??????????
-      @address["address_note"]&.split(":")&.fetch(1).strip
+      @address["address_note"]&.split(":")&.fetch(1)&.strip
     end
 
     def to_html

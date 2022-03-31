@@ -80,16 +80,12 @@ class BookingRequest < Request
     DateTime.patron_format(@parsed_response["booking_start_date"])
   end
 
-  private
-
   def self.empty_state_text
     "You don't have any active media requests."
   end
 end
 
 class HoldRequest < Request
-  private
-
   def self.empty_state_text
     "You don't have any active requests.\n\nSee [what you can borrow from the library](https://www.lib.umich.edu/find-borrow-request)."
   end

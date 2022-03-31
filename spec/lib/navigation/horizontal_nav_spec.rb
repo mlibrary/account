@@ -14,7 +14,7 @@ describe Navigation::HorizontalNav do
       expect(subject.children.count).to eq(3)
     end
     it "has one active child" do
-      expect(subject.children.select { |x| x.active? }.count).to eq(1)
+      expect(subject.children.count { |x| x.active? }).to eq(1)
       expect(subject.children.first.active?).to eq(true)
     end
     it "shows 'active' for active child" do

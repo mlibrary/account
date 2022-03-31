@@ -63,33 +63,33 @@ describe TableControls::LoansForm do
       expect(subject.show.first.selected).to eq("selected")
     end
   end
-  context "#sort" do
+  context "#order_by" do
     it "shows text and value for each sort" do
-      expect(subject.sort.first.text).to eq("Due date: ascending")
-      expect(subject.sort.first.value).to eq("due-asc")
+      expect(subject.order_by.first.text).to eq("Due (Sooner to Later)")
+      expect(subject.order_by.first.value).to eq("due-asc")
     end
     it "has sort with correct default" do
-      expect(subject.sort.first.selected).to eq("selected")
+      expect(subject.order_by.first.selected).to eq("selected")
     end
     it "has correct selected for 'due-asc'" do
       @order_by = "due_date"
       @direction = "ASC"
-      expect(subject.sort[0].selected).to eq("selected")
+      expect(subject.order_by[0].selected).to eq("selected")
     end
     it "has correct selected for 'due-desc'" do
       @order_by = "due_date"
       @direction = "DESC"
-      expect(subject.sort[1].selected).to eq("selected")
+      expect(subject.order_by[1].selected).to eq("selected")
     end
     it "has correct selected for 'title-asc'" do
       @order_by = "title"
       @direction = "ASC"
-      expect(subject.sort[2].selected).to eq("selected")
+      expect(subject.order_by[2].selected).to eq("selected")
     end
     it "has correct selected for 'title-desc'" do
       @order_by = "title"
       @direction = "DESC"
-      expect(subject.sort[3].selected).to eq("selected")
+      expect(subject.order_by[3].selected).to eq("selected")
     end
   end
 end

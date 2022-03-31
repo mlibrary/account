@@ -142,8 +142,8 @@ post "/updater/" do
   204 # response without entity body
 end
 post "/table-controls" do
-  urlGenerator = TableControls::URLGenerator.for(show: params["show"], sort: params["sort"], referrer: request.referrer)
-  redirect urlGenerator.to_s
+  url_generator = TableControls::URLGenerator.for(show: params["show"], sort: params["sort"], referrer: request.referrer)
+  redirect url_generator.to_s
 end
 # :nocov:
 get "/session_switcher" do
@@ -221,7 +221,6 @@ namespace "/pending-requests" do
   post "/u-m-library/cancel-request" do
     response = Request.cancel(uniqname: session[:uniqname], request_id: params["request_id"])
     if response.code == 204
-      loan = response.parsed_response
       status 200
       {}.to_json
     else
@@ -363,7 +362,7 @@ namespace "/fines-and-fees" do
     total_sum = fines.total_sum.to_f
     amount = params["pay_in_full"] == "true" ? total_sum : params["partial_amount"].to_f
     if amount <= total_sum
-      nelnet = Nelnet.new(amountDue: amount.to_currency)
+      nelnet = Nelnet.new(amount_due: amount.to_currency)
       session["order_number"] = nelnet.orderNumber
       redirect nelnet.url
     else

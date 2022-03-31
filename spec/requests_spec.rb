@@ -276,7 +276,6 @@ describe "requests" do
   end
   context "get /past-activity/scans-and-electronic-items" do
     it "contains 'Scans and Electronic Items'" do
-      query = {"$filter" => "RequestType eq 'Loan' and (TransactionStatus eq 'Request Finished' or startswith(TransactionStatus, 'Cancelled'))"}
       stub_illiad_get_request(url: "Transaction/UserRequests/tutor",
         body: File.read("spec/fixtures/illiad_requests.json"), query: hash_excluding({just_pass: "for_real"}))
       get "/past-activity/scans-and-electronic-items"

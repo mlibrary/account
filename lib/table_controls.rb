@@ -3,7 +3,7 @@ module TableControls
     attr_reader :limit
     def initialize(show:, sort:, referrer: "tbc")
       @limit = show.to_s
-      @sort = sort.split("-")
+      @order_by = sort.split("-")
       @referrer = referrer
     end
 
@@ -20,7 +20,7 @@ module TableControls
     end
 
     def direction
-      @sort[1].upcase
+      @order_by[1].upcase
     end
 
     def to_s
@@ -30,18 +30,18 @@ module TableControls
 
   class LoansURLGenerator < URLGenerator
     def order_by
-      case @sort[0]
+      case @order_by[0]
       when "due"
         "due_date"
       else
-        @sort[0]
+        @order_by[0]
       end
     end
   end
 
   class PastLoansURLGenerator < URLGenerator
     def order_by
-      case @sort[0]
+      case @order_by[0]
       when "return"
         "return_date"
       when "checkout"
@@ -49,7 +49,7 @@ module TableControls
       when "call"
         "call_number"
       else
-        @sort[0]
+        @order_by[0]
       end
     end
   end
@@ -99,7 +99,7 @@ module TableControls
       @direction = direction || "DESC"
     end
 
-    def sort
+    def order_by
       [
         {value: "checkout-desc", text: "Checked Out (Most Recent to Oldest)"},
         {value: "checkout-asc", text: "Checked Out (Oldest to Most Recent)"},
@@ -121,7 +121,7 @@ module TableControls
       super
     end
 
-    def sort
+    def order_by
       [
         {value: "due-asc", text: "Due (Sooner to Later)"},
         {value: "due-desc", text: "Due (Later to Sooner)"},

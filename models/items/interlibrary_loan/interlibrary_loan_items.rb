@@ -12,8 +12,6 @@ class InterlibraryLoanItems < Items
     end
   end
 
-  private
-
   def self.base_query
     {"$filter" => filter}
   end

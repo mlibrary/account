@@ -7,5 +7,6 @@ class Navigation::Title < Navigation
     title = ""
     title = "#{@page.parent.title}: " if @page.parent
     title += @page.title
+    title
   end
 end

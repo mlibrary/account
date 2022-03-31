@@ -13,8 +13,8 @@ class RenewResponse < Response
     @code = code
     @messages = messages
     @renew_statuses = renew_statuses
-    @renewed_count = @renew_statuses.filter { |x| x == :success }.count
-    @not_renewed_count = @renew_statuses.filter { |x| x == :fail }.count
+    @renewed_count = @renew_statuses.count { |x| x == :success }
+    @not_renewed_count = @renew_statuses.count { |x| x == :fail }
   end
 end
 

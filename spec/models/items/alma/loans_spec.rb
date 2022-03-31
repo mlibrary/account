@@ -262,7 +262,6 @@ describe Loans do
     end
     it "handles unrenewable loans" do
       loans = JSON.parse(File.read("./spec/fixtures/loans.json"))
-      loan_id = loans["item_loan"][0]["loan_id"]
       loans["item_loan"][0]["renewable"] = false
       loans["item_loan"][1]["renewable"] = false
       stub_updater({step: "2", count: "0", renewed: "0", uniqname: "jbister"})

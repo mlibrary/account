@@ -54,7 +54,7 @@ describe Receipt, ".for" do
     expect(subject.message).to include("could not be validated")
   end
   it "returns ErrorReceipt for problem in getting alma verification" do
-    stub = stub_alma_get_request(url: "users/tutor/fees", body: alma_error, query: {limit: 100, offset: 0}, status: 500)
+    stub_alma_get_request(url: "users/tutor/fees", body: alma_error, query: {limit: 100, offset: 0}, status: 500)
     expect(subject.class.name).to eq("ErrorReceipt")
     expect(subject.message).to include("There was an error")
   end
@@ -106,9 +106,9 @@ describe Payment do
       expect(subject.amount).to eq("22.50")
     end
   end
-  context "#confirmationNumber" do
+  context "#confirmation_number" do
     it "returns a string" do
-      expect(subject.confirmationNumber).to eq("382481568")
+      expect(subject.confirmation_number).to eq("382481568")
     end
   end
   context "#type" do

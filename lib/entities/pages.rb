@@ -9,8 +9,6 @@ class Entities::Pages
     flattened.find { |page| page.path == path }
   end
 
-  private
-
   def self.raw
     JSON.parse(File.read("./config/navigation.json"))
   end

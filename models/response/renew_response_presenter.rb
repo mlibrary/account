@@ -13,8 +13,8 @@ class RenewResponsePresenter
   end
 
   def renewed_text
-    "You've successfully renewed <span class=\"strong\">all eligible items</span>. " +
-      "Your new return dates are shown, starting with items due first.</br></br>" +
+    "You've successfully renewed <span class=\"strong\">all eligible items</span>. " \
+      "Your new return dates are shown, starting with items due first.</br></br>" \
       "If you have questions or need help, please contact the <a href=\"https://lib.umich.edu/locations-and-hours/hatcher-library/hatcher-north-information-services-desk\">Hatcher North Information Services Desk</a>."
   end
 

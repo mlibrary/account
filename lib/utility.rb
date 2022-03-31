@@ -65,7 +65,7 @@ end
 class Authenticator
   def self.verify(params:, key: ENV.fetch("JWT_SECRET"))
     hash = params["hash"]
-    values = params.to_a.select{|key, value| key != "hash" }.to_h.values.join("")
+    values = params.except("hash").values.join("")
     string = CGI.unescape(values + key)
     hash == (Digest::SHA256.hexdigest string)
   end

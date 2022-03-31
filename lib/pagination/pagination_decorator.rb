@@ -32,7 +32,7 @@ class PaginationDecorator
   end
 
   class Page
-    attr_reader :url, :page_number
+    attr_reader :url
     def initialize(url:, page:)
       @url = url
       @page = page

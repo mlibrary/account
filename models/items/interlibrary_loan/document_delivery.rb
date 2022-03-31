@@ -7,8 +7,6 @@ class DocumentDelivery < InterlibraryLoanItems
     @count = count
   end
 
-  private
-
   def self.illiad_url(uniqname)
     "/Transaction/UserRequests/#{uniqname}"
   end

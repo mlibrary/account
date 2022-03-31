@@ -11,8 +11,6 @@ class PendingLocalDocumentDelivery < InterlibraryLoanItems
     markdown.render("You don’t have any active requests.\n\nLearn more about [requesting scans](https://lib.umich.edu/find-borrow-request/request-digital-copies-or-duplication/scans) and [item delivery](https://lib.umich.edu/find-borrow-request/request-items-pick-or-delivery/delivery-your-department).")
   end
 
-  private
-
   def self.illiad_url(uniqname)
     "/Transaction/UserRequests/#{uniqname}"
   end

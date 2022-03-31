@@ -2,7 +2,7 @@ class Receipt
   attr_reader :balance
   extend Forwardable
   def_delegators :@payment, :order_number, :description, :amount, :payer_name, :type,
-    :email, :date, :street, :city, :state, :zip, :country, :confirmationNumber
+    :email, :date, :street, :city, :state, :zip, :country, :confirmation_number
 
   def initialize(payment:, balance:)
     @payment = payment
@@ -17,7 +17,7 @@ class Receipt
         ErrorReceipt.new("There was an error in processing your payment.<br>Your payment order number is: #{payment.order_number}<br>Server error: #{payment_verification.message}</br>")
       elsif payment_verification[:has_order_number]
         ErrorReceipt.new("Your payment order number, #{order_number}, is already in the fines database.")
-      elsif payment_verification[:total_sum].to_f == 0.0
+      elsif payment_verification[:total_sum].to_f.to_s == "0.0"
         ErrorReceipt.new("You do not have a balance. Your payment order number is: #{order_number}.")
       else # has not already paid
         resp = Fines.pay(uniqname: uniqname, amount: payment.amount, order_number: order_number)
@@ -40,10 +40,10 @@ end
 
 class Payment
   attr_reader :order_number, :description, :amount, :payer_name, :type,
-    :email, :date, :street, :city, :state, :zip, :country, :confirmationNumber
+    :email, :date, :street, :city, :state, :zip, :country, :confirmation_number
   def initialize(params)
     @order_number = params["orderNumber"]
-    @confirmationNumber = params["transactionId"]
+    @confirmation_number = params["transactionId"]
     @description = params["orderDescription"]
     @amount = (params["transactionTotalAmount"].to_f / 100).to_currency
     @type = params["transactionAcountType"]
