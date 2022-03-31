@@ -27,7 +27,7 @@ COPY --chown=${UID}:${GID} Gemfile* /app/
 USER $UNAME
 
 ENV BUNDLE_PATH /gems
-
+ENV BUNDLE_WITHOUT development:test
 
 WORKDIR /app
 RUN bundle install
