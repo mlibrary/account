@@ -13,11 +13,8 @@ class Requests
   def self.for(uniqname:, client: AlmaRestClient.client)
     url = "/users/#{uniqname}/requests"
     response = client.get_all(url: url, record_key: "user_request")
-    if response.code == 200
-      Requests.new(parsed_response: response.parsed_response)
-    else
-      # Error!
-    end
+    raise StandardError unless response.code == 200
+    Requests.new(parsed_response: response.parsed_response)
   end
 end
 

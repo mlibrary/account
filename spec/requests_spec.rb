@@ -125,6 +125,15 @@ describe "requests" do
         expect(last_response.body).to include("current-checkouts-u-m-library.bundle.js")
       end
     end
+    context "in alma user but alma has a network problem" do
+      it "loads the empty state and has an error flash" do
+        stub_alma_get_request(url: "users/tutor/loans", query: {expand: "renewable", limit: 15, order_by: "due_date"}, status: 500)
+        get "/current-checkouts/u-m-library"
+        session = last_request.env["rack.session"]
+        expect(session["flash"][:error]).to include("Error")
+        expect(last_response.body).to include("You don't have")
+      end
+    end
     context "not in alma user" do
       it "has empty checkouts" do
         not_in_alma
@@ -212,6 +221,13 @@ describe "requests" do
         get "/pending-requests/u-m-library"
         expect(last_response.body).to include("U-M Library")
       end
+      it "loads empty state when theres an error with an alma request" do
+        stub_alma_get_request(url: "users/tutor/requests", status: 500, query: {limit: 100, offset: 0})
+        get "/pending-requests/u-m-library"
+        session = last_request.env["rack.session"]
+        expect(session["flash"][:error]).to include("Error")
+        expect(last_response.body).to include("You don't have")
+      end
     end
     context "not in alma" do
       it "shows empty sate pending requests" do
@@ -266,6 +282,29 @@ describe "requests" do
       end
     end
   end
+  context "get /past-activity/u-m-library/download.csv" do
+    it "successfully returns an attachment" do
+      stub_request(:get, "#{ENV["CIRCULATION_HISTORY_URL"]}/v1/users/tutor/loans/download.csv").with(
+        headers: {
+          :accept => "application/json",
+          "Accept-Encoding" => "gzip;q=1.0,deflate;q=0.6,identity;q=0.3",
+          "User-Agent" => "Ruby"
+        }
+      ).to_return(body: "sample csv", status: 200, headers: {
+        content_type: "application/csv",
+        "content-disposition": "attachment; filename=\"my_circ_history.csv\""
+      })
+      get "/past-activity/u-m-library/download.csv"
+      expect(last_response.headers["Content-Type"]).to eq("application/csv")
+      expect(last_response.headers["Content-Disposition"]).to include("my_circ_history.csv")
+    end
+    it "redirects to past activity page with an error message" do
+      stub_circ_history_get_request(url: "users/tutor/loans/download.csv", status: 500)
+      get "/past-activity/u-m-library/download.csv"
+      session = last_request.env["rack.session"]
+      expect(session["flash"][:error]).to include("Error")
+    end
+  end
   context "get /past-activity/interlibrary-loan" do
     it "contains 'Interlibrary Loan'" do
       stub_illiad_get_request(url: "Transaction/UserRequests/tutor",
@@ -295,6 +334,13 @@ describe "requests" do
           body: File.read("spec/fixtures/jbister_fines.json"))
         get "/fines-and-fees"
         expect(last_response.body).to include("Fines")
+      end
+      it "shows error and empty state if there's an failed alma request" do
+        stub_alma_get_request(url: "users/tutor/fees", status: 500, query: {limit: 100, offset: 0})
+        get "/fines-and-fees"
+        session = last_request.env["rack.session"]
+        expect(session["flash"][:error]).to include("Error")
+        expect(last_response.body).to include("You don't have")
       end
     end
     context "not in alma user" do

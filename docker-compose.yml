@@ -43,9 +43,9 @@ services:
     env_file:
       - .env
 
-
   circulation-history-db:
     image: ghcr.io/mlibrary/circulation_history_dev_db:latest
+
   sass:
     build: .
     volumes:

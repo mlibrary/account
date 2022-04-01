@@ -55,18 +55,14 @@ class Loans < Items
     query["limit"] = limit.nil? ? 15 : limit
 
     response = client.get(url, query: query)
-    if response.code == 200
-      pr = response.parsed_response
-      pagination_params = {url: "/current-checkouts/u-m-library", total: pr["total_record_count"]}
-      pagination_params[:limit] = limit unless limit.nil?
-      pagination_params[:current_offset] = offset unless offset.nil?
-      pagination_params[:order_by] = order_by unless order_by.nil?
-      pagination_params[:direction] = direction unless direction.nil?
-      Loans.new(parsed_response: pr, pagination: PaginationDecorator.new(**pagination_params))
-
-    else
-      # Error!
-    end
+    raise StandardError unless response.code == 200
+    pr = response.parsed_response
+    pagination_params = {url: "/current-checkouts/u-m-library", total: pr["total_record_count"]}
+    pagination_params[:limit] = limit unless limit.nil?
+    pagination_params[:current_offset] = offset unless offset.nil?
+    pagination_params[:order_by] = order_by unless order_by.nil?
+    pagination_params[:direction] = direction unless direction.nil?
+    Loans.new(parsed_response: pr, pagination: PaginationDecorator.new(**pagination_params))
   end
 end
 

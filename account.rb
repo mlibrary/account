@@ -159,19 +159,24 @@ end
 
 namespace "/current-checkouts" do
   get "" do
-    redirect_to "/u-m-library" # Redirects to /shelf/loans
+    redirect_to "/u-m-library"
   end
 
   get "/" do
-    redirect_to "/u-m-library" # Redirects to /shelf/loans
+    redirect_to "/u-m-library"
   end
 
   get "/u-m-library" do
     if session[:in_alma]
       loan_controls = TableControls::LoansForm.new(limit: params["limit"], order_by: params["order_by"], direction: params["direction"])
-      loans = Loans.for(uniqname: session[:uniqname], offset: params["offset"], limit: params["limit"], order_by: params["order_by"], direction: params["direction"])
-      message = session.delete(:message)
-      erb :'current-checkouts/u-m-library', locals: {loans: loans, message: message, loan_controls: loan_controls, has_js: true}
+      begin
+        loans = Loans.for(uniqname: session[:uniqname], offset: params["offset"], limit: params["limit"], order_by: params["order_by"], direction: params["direction"])
+        message = session.delete(:message)
+        erb :'current-checkouts/u-m-library', locals: {loans: loans, message: message, loan_controls: loan_controls, has_js: true}
+      rescue
+        flash[:error] = "<span class='strong'>Error:</span> We were unable to load your loans. Please try again."
+        erb :empty_state
+      end
     else
       erb :empty_state
     end
@@ -210,10 +215,15 @@ namespace "/pending-requests" do
 
   get "/u-m-library" do
     if session[:in_alma]
-      requests = Requests.for(uniqname: session[:uniqname])
-      local_document_delivery = PendingLocalDocumentDelivery.for(uniqname: session[:uniqname])
-      illiad_patron = ILLiadPatron.for(uniqname: session[:uniqname])
-      erb :'pending-requests/u-m-library', locals: {holds: requests.holds, bookings: requests.bookings, local_document_delivery: local_document_delivery, illiad_patron: illiad_patron}
+      begin
+        requests = Requests.for(uniqname: session[:uniqname])
+        local_document_delivery = PendingLocalDocumentDelivery.for(uniqname: session[:uniqname])
+        illiad_patron = ILLiadPatron.for(uniqname: session[:uniqname])
+        erb :'pending-requests/u-m-library', locals: {holds: requests.holds, bookings: requests.bookings, local_document_delivery: local_document_delivery, illiad_patron: illiad_patron}
+      rescue
+        flash[:error] = "<span class='strong'>Error:</span> We were unable to load your requests. Please try again."
+        erb :empty_state
+      end
     else
       erb :empty_state
     end
@@ -270,7 +280,8 @@ namespace "/past-activity" do
         attachment filename
         resp.body
       else
-        # Error
+        flash[:error] = "<span class='strong'>Error:</span> We were unable to download your checkout history. Please try again."
+        redirect "/past-activity/u-m-library" # Redirects to /past-activity/um-library
       end
     end
   end
@@ -344,8 +355,13 @@ end
 namespace "/fines-and-fees" do
   get "" do
     if session[:in_alma]
-      fines = Fines.for(uniqname: session[:uniqname])
-      erb :'fines-and-fees/index', locals: {fines: fines}
+      begin
+        fines = Fines.for(uniqname: session[:uniqname])
+        erb :'fines-and-fees/index', locals: {fines: fines}
+      rescue
+        flash[:error] = "<span class='strong'>Error:</span> We were unable to load your fines. Please try again."
+        erb :empty_state
+      end
     else
       erb :empty_state
     end
