@@ -1,13 +1,13 @@
 require "sinatra"
 require "sinatra/namespace"
-require "sinatra/reloader"
+require "sinatra/reloader" if development?
 require "sinatra/flash"
 require "redcarpet"
 require "omniauth"
 require "omniauth_openid_connect"
 require "alma_rest_client"
 require "jwt"
-require "byebug"
+require "byebug" if development?
 
 # Monkey patch for omniauth_openid_connect -> openid_connect -> webfinger -> httpclient SSL errors
 require_relative "./lib/monkey_httpclient"
