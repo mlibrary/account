@@ -1,5 +1,5 @@
 class Entities::Page::EmptyState
-  def initialize(empty_state, parent_empty_state=nil)
+  def initialize(empty_state, parent_empty_state = nil)
     @empty_state = empty_state
     @parent_empty_state = parent_empty_state
   end

@@ -7,13 +7,14 @@ class DocumentDelivery < InterlibraryLoanItems
     @count = count
   end
 
-  private
   def self.illiad_url(uniqname)
-    "/Transaction/UserRequests/#{uniqname}" 
+    "/Transaction/UserRequests/#{uniqname}"
   end
+
   def self.url
     "/current-checkouts/scans-and-electronic-items"
   end
+
   def self.filter
     "RequestType eq 'Article' and TransactionStatus eq 'Delivered to Web'"
   end

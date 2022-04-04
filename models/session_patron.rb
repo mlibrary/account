@@ -1,8 +1,8 @@
 class SessionPatron
-
   def initialize(uniqname)
     @patron = Patron.for(uniqname: uniqname)
   end
+
   def to_h
     {
       uniqname: @patron.uniqname,

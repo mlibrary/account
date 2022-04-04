@@ -7,18 +7,17 @@ class InterlibraryLoans < InterlibraryLoanItems
     @count = count
   end
 
-
-  private
   def self.illiad_url(uniqname)
-    "/Transaction/UserRequests/#{uniqname}" 
+    "/Transaction/UserRequests/#{uniqname}"
   end
+
   def self.url
     "/current-checkouts/interlibrary-loan"
   end
+
   def self.filter
     "RequestType eq 'Loan' and TransactionStatus eq 'Checked Out to Customer' and ProcessType eq 'Borrowing'"
   end
-  
 end
 
 class InterlibraryLoan < InterlibraryLoanItem

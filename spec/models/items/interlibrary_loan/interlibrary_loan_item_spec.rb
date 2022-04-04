@@ -1,12 +1,12 @@
-require 'spec_helper'
-require 'json'
+require "spec_helper"
+require "json"
 
 describe InterlibraryLoanItem do
   before(:each) do
     @item = JSON.parse(File.read("./spec/fixtures/illiad_requests.json"))[2]
   end
   subject do
-    InterlibraryLoanItem.new(@item) 
+    InterlibraryLoanItem.new(@item)
   end
   context "#title" do
     it "returns title string" do
@@ -50,11 +50,11 @@ describe InterlibraryLoanItem do
   end
   context "#expiration_date" do
     it "returns expiration date string" do
-      expect(subject.expiration_date).to eq('')
+      expect(subject.expiration_date).to eq("")
     end
   end
   context "#due_status" do
-    let(:format){"%FT%H:%M:%S.%3N"}
+    let(:format) { "%FT%H:%M:%S.%3N" }
     it "returns 'Overdue'" do
       @item["DueDate"] = (Date.today - 1).strftime(format)
       expect(subject.due_status).to eq("Overdue")
@@ -69,7 +69,7 @@ describe InterlibraryLoanItem do
     end
     it "returns empty string for far away dates" do
       @item["DueDate"] = (Date.today + 8).strftime(format)
-      expect(subject.due_status).to eq('')
+      expect(subject.due_status).to eq("")
     end
   end
   context "#transaction_date" do

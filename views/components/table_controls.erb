@@ -2,8 +2,8 @@
   <label>
     <span>Sort by</span>
     <select name="sort" data-js-submit autocomplete="on">
-      <% table_controls.sort.each do |sort| %>
-        <option value="<%=sort.value%>" <%=sort.selected%>><%=sort.text%></option>
+      <% table_controls.order_by.each do |order_by| %>
+        <option value="<%=order_by.value%>" <%=order_by.selected%>><%=order_by.text%></option>
       <% end %>
     </select>
   </label>
