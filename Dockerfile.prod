@@ -34,7 +34,7 @@ RUN bundle install
 
 COPY --chown=${UID}:${GID} . /app
 
-RUN npm install
+RUN npm ci
 RUN npm run build-css
 RUN npm run build-js
 
