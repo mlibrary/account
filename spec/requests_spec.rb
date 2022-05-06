@@ -26,7 +26,7 @@ describe "requests" do
       env "rack.session", @session
       get "/settings"
       expect(last_request.env["rack.session"][:path_before_login]).to eq("/settings")
-      expect(URI.parse(last_response.location).path).to eq("/auth/openid_connect")
+      expect(URI.parse(last_response.location).path).to eq("/login")
     end
   end
 
