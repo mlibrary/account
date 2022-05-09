@@ -101,8 +101,25 @@ get "/logout" do
   redirect "https://shibboleth.umich.edu/cgi-bin/logout?https://lib.umich.edu/"
 end
 
+get "/login" do
+  <<~HTML
+    <h1>Logging You In...<h1>
+    <script>
+      window.onload = function(){
+        document.forms['login_form'].submit();
+      }
+    </script>
+    <form id='login_form' method='post' action='/auth/openid_connect'>
+      <input type="hidden" name="authenticity_token" value='#{request.env["rack.session"]["csrf"]}'>
+      <noscript>
+        <button type="submit">Login</button>
+      </noscript>
+    </form>
+  HTML
+end
+
 before do
-  pass if ["auth", "stream", "updater", "session_switcher", "logout"].include? request.path_info.split("/")[1]
+  pass if ["auth", "stream", "updater", "session_switcher", "logout", "login"].include? request.path_info.split("/")[1]
   if dev_login?
     if !session[:uniqname]
       redirect "/session_switcher?uniqname=#{CGI.escape("mlibrary.acct.testing1@gmail.com")}"
@@ -111,7 +128,7 @@ before do
   end
   if !session[:authenticated] || Time.now.utc > session[:expires_at]
     session[:path_before_login] = request.path_info
-    redirect "/auth/openid_connect"
+    redirect "/login"
   end
 end
 

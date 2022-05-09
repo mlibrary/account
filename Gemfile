@@ -9,8 +9,8 @@ gem "sinatra-flash"
 gem "telephone_number"
 gem "jwt"
 gem "addressable"
-gem "omniauth", "~>1.9"
-gem "omniauth_openid_connect", "~>0.3.5"
+gem "omniauth"
+gem "omniauth_openid_connect"
 gem "redcarpet"
 
 # In order to get rspec to work for ruby 3.1. Maybe later see if it's still necessary
