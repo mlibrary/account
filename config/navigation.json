@@ -129,5 +129,9 @@
     "icon_name": "settings",
     "color": "green",
     "dropdown": "true"
+  },
+  {
+    "title": "Login",
+    "icon_name": "person-outline"
   }
 ]

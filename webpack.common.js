@@ -5,7 +5,8 @@ module.exports = {
   entry: {
     main: './js/index.js',
     'current-checkouts-u-m-library': './js/current-checkouts.js',
-    settings: './js/settings.js'
+    settings: './js/settings.js',
+    login: './js/login.js'
   },
   output: {
     filename: '[name].bundle.js',

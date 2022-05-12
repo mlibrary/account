@@ -102,20 +102,7 @@ get "/logout" do
 end
 
 get "/login" do
-  <<~HTML
-    <h1>Logging You In...<h1>
-    <script>
-      window.onload = function(){
-        document.forms['login_form'].submit();
-      }
-    </script>
-    <form id='login_form' method='post' action='/auth/openid_connect'>
-      <input type="hidden" name="authenticity_token" value='#{request.env["rack.session"]["csrf"]}'>
-      <noscript>
-        <button type="submit">Login</button>
-      </noscript>
-    </form>
-  HTML
+  erb :'login/index', locals: {has_js: true}
 end
 
 before do
