@@ -132,6 +132,7 @@
   },
   {
     "title": "Login",
-    "icon_name": "person-outline"
+    "icon_name": "person-outline",
+    "sidebar": "false"
   }
 ]

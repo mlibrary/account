@@ -30,7 +30,7 @@ class Entities::Page
     @parent = parent
     @children = page.dig("children")&.map { |p| Entities::Page.new(p, self) }
   end
-  ["title", "description", "icon_name", "color", "dropdown"].each do |name|
+  ["title", "description", "icon_name", "color", "dropdown", "sidebar"].each do |name|
     define_method(name) do
       @page[name]
     end
