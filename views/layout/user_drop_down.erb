@@ -1,23 +1,25 @@
 <% dropdown = Navigation::UserDropdown.for(request.path_info) %>
 
-<nav class="user-navigation dropdown" aria-label="User Dropdown Navigation">
-  <button aria-expanded="false" data-dropdown="user-nav-dropdown" class="button--dropdown">
-    <m-icon name="person-outline"></m-icon>
-    <span><%=session[:uniqname]%></span>
-    <m-icon name="keyboard-arrow-down"></m-icon>
-  </button>
-  <div class="navigation-lists dropdown-container" id="user-nav-dropdown" style="display: none;">
-    <ul class="site-navigation-list">
-      <% dropdown.pages.each do |page| %>
-        <li class="<%= page.active %>">
-          <a href="<%=page.path%>" <% if page.active? %>aria-current="page"<% end %>>
-            <span><%=page.title%></span>
-          </a>
-        </li>
-      <% end %>
-    </ul>
-    <a href="/logout">
-      <span>Log out</span>
-    </a>
-  </div>
-</nav>
+<% if session[:uniqname] %>
+  <nav class="user-navigation dropdown" aria-label="User Dropdown Navigation">
+    <button aria-expanded="false" data-dropdown="user-nav-dropdown" class="button--dropdown">
+      <m-icon name="person-outline"></m-icon>
+      <span><%=session[:uniqname]%></span>
+      <m-icon name="keyboard-arrow-down"></m-icon>
+    </button>
+    <div class="navigation-lists dropdown-container" id="user-nav-dropdown" style="display: none;">
+      <ul class="site-navigation-list">
+        <% dropdown.pages.each do |page| %>
+          <li class="<%= page.active %>">
+            <a href="<%=page.path%>" <% if page.active? %>aria-current="page"<% end %>>
+              <span><%=page.title%></span>
+            </a>
+          </li>
+        <% end %>
+      </ul>
+      <a href="/logout">
+        <span>Log out</span>
+      </a>
+    </div>
+  </nav>
+<% end %>
