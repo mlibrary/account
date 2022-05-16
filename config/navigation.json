@@ -131,8 +131,9 @@
     "dropdown": "true"
   },
   {
-    "title": "Login",
+    "title": "Logging you in...",
     "icon_name": "person-outline",
-    "sidebar": "false"
+    "sidebar": "false",
+    "slug": "login"
   }
 ]

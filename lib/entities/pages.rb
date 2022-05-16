@@ -54,6 +54,8 @@ class Entities::Page
   def slug
     if title == "Account Overview"
       ""
+    elsif @page["slug"]
+      @page["slug"]
     else
       title.gsub("/", "or").gsub("&", "and").gsub(/\s/, "-").downcase
     end

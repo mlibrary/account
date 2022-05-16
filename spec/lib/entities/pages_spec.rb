@@ -59,5 +59,10 @@ describe Entities::Page do
       @page["title"] = "Account Overview"
       expect(subject.slug).to eq("")
     end
+    it "overrides the slug if predefined" do
+      @page["title"] = "Logging you in..."
+      @page["slug"] = "login"
+      expect(subject.slug).to eq("login")
+    end
   end
 end
