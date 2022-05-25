@@ -129,5 +129,11 @@
     "icon_name": "settings",
     "color": "green",
     "dropdown": "true"
+  },
+  {
+    "title": "Logging you in...",
+    "icon_name": "person-outline",
+    "sidebar": "false",
+    "slug": "login"
   }
 ]

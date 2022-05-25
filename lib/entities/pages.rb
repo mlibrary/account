@@ -30,7 +30,7 @@ class Entities::Page
     @parent = parent
     @children = page.dig("children")&.map { |p| Entities::Page.new(p, self) }
   end
-  ["title", "description", "icon_name", "color", "dropdown"].each do |name|
+  ["title", "description", "icon_name", "color", "dropdown", "sidebar"].each do |name|
     define_method(name) do
       @page[name]
     end
@@ -54,6 +54,8 @@ class Entities::Page
   def slug
     if title == "Account Overview"
       ""
+    elsif @page["slug"]
+      @page["slug"]
     else
       title.gsub("/", "or").gsub("&", "and").gsub(/\s/, "-").downcase
     end

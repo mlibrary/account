@@ -1,0 +1,7 @@
+<p>You will be redirected to your account shortly.</p>
+<form id="login-form" method="post" action="/auth/openid_connect">
+  <input type="hidden" name="authenticity_token" value="<%= request.env["rack.session"]["csrf"] %>">
+  <noscript>
+    <button type="submit">Login</button>
+  </noscript>
+</form>
