@@ -102,7 +102,7 @@ get "/logout" do
 end
 
 get "/login" do
-  erb :'login/index', locals: {has_js: true}
+  erb :"login/index", locals: {has_js: true}
 end
 
 before do
@@ -158,7 +158,7 @@ end
 # :nocov:
 
 get "/" do
-  erb :'account-overview/index', locals: {cards: Navigation.cards}
+  erb :"account-overview/index", locals: {cards: Navigation.cards}
 end
 
 namespace "/current-checkouts" do
@@ -176,7 +176,7 @@ namespace "/current-checkouts" do
       begin
         loans = Loans.for(uniqname: session[:uniqname], offset: params["offset"], limit: params["limit"], order_by: params["order_by"], direction: params["direction"])
         message = session.delete(:message)
-        erb :'current-checkouts/u-m-library', locals: {loans: loans, message: message, loan_controls: loan_controls, has_js: true}
+        erb :"current-checkouts/u-m-library", locals: {loans: loans, message: message, loan_controls: loan_controls, has_js: true}
       rescue
         flash[:error] = "<span class='strong'>Error:</span> We were unable to load your loans. Please try again."
         erb :empty_state
@@ -199,12 +199,12 @@ namespace "/current-checkouts" do
   get "/interlibrary-loan" do
     interlibrary_loans = InterlibraryLoans.for(uniqname: session[:uniqname], limit: params["limit"], offset: params["offset"], count: nil)
 
-    erb :'current-checkouts/interlibrary-loan', locals: {interlibrary_loans: interlibrary_loans}
+    erb :"current-checkouts/interlibrary-loan", locals: {interlibrary_loans: interlibrary_loans}
   end
   get "/scans-and-electronic-items" do
     document_delivery = DocumentDelivery.for(uniqname: session[:uniqname], limit: params["limit"], offset: params["offset"], count: nil)
 
-    erb :'current-checkouts/scans-and-electronic-items', locals: {document_delivery: document_delivery}
+    erb :"current-checkouts/scans-and-electronic-items", locals: {document_delivery: document_delivery}
   end
 end
 
@@ -223,7 +223,7 @@ namespace "/pending-requests" do
         requests = Requests.for(uniqname: session[:uniqname])
         local_document_delivery = PendingLocalDocumentDelivery.for(uniqname: session[:uniqname])
         illiad_patron = ILLiadPatron.for(uniqname: session[:uniqname])
-        erb :'pending-requests/u-m-library', locals: {holds: requests.holds, bookings: requests.bookings, local_document_delivery: local_document_delivery, illiad_patron: illiad_patron}
+        erb :"pending-requests/u-m-library", locals: {holds: requests.holds, bookings: requests.bookings, local_document_delivery: local_document_delivery, illiad_patron: illiad_patron}
       rescue
         flash[:error] = "<span class='strong'>Error:</span> We were unable to load your requests. Please try again."
         erb :empty_state
@@ -247,11 +247,11 @@ namespace "/pending-requests" do
   get "/interlibrary-loan" do
     interlibrary_loan_requests = InterlibraryLoanRequests.for(uniqname: session[:uniqname], limit: params["limit"], offset: params["offset"], count: nil)
 
-    erb :'pending-requests/interlibrary-loan', locals: {interlibrary_loan_requests: interlibrary_loan_requests}
+    erb :"pending-requests/interlibrary-loan", locals: {interlibrary_loan_requests: interlibrary_loan_requests}
   end
 
   get "/special-collections" do
-    erb :'pending-requests/special-collections', locals: {special_collections_requests: {}}
+    erb :"pending-requests/special-collections", locals: {special_collections_requests: {}}
   end
 end
 
@@ -269,7 +269,7 @@ namespace "/past-activity" do
       if session[:in_circ_history]
         table_controls = TableControls::PastLoansForm.new(limit: params["limit"], order_by: params["order_by"], direction: params["direction"])
         past_loans = CirculationHistoryItems.for(uniqname: session[:uniqname], offset: params["offset"], limit: params["limit"], order_by: params["order_by"], direction: params["direction"])
-        erb :'past-activity/u-m-library', locals: {past_loans: past_loans, table_controls: table_controls}
+        erb :"past-activity/u-m-library", locals: {past_loans: past_loans, table_controls: table_controls}
       else
         erb :empty_state
       end
@@ -294,16 +294,16 @@ namespace "/past-activity" do
     past_interlibrary_loans = PastInterlibraryLoans.for(uniqname: session[:uniqname], limit: params["limit"], offset: params["offset"], count: nil)
     # session[:past_interlibrary_loans_count] = past_interlibrary_loans.count if session[:past_interlibrary_loans_count].nil?
 
-    erb :'past-activity/interlibrary-loan', locals: {past_interlibrary_loans: past_interlibrary_loans}
+    erb :"past-activity/interlibrary-loan", locals: {past_interlibrary_loans: past_interlibrary_loans}
   end
   get "/scans-and-electronic-items" do
     past_document_delivery = PastDocumentDelivery.for(uniqname: session[:uniqname], limit: params["limit"], offset: params["offset"], count: nil)
     # session[:past_document_delivery_count] = past_document_delivery.count if session[:past_document_delivery_count].nil?
 
-    erb :'past-activity/scans-and-electronic-items', locals: {past_document_delivery: past_document_delivery}
+    erb :"past-activity/scans-and-electronic-items", locals: {past_document_delivery: past_document_delivery}
   end
   get "/special-collections" do
-    erb :'past-activity/special-collections', locals: {past_special_collections: {}}
+    erb :"past-activity/special-collections", locals: {past_special_collections: {}}
   end
 end
 
@@ -314,7 +314,7 @@ end
 namespace "/settings" do
   get "" do
     patron = Patron.for(uniqname: session[:uniqname])
-    erb :'settings/index', locals: {patron: patron, has_js: true}
+    erb :"settings/index", locals: {patron: patron, has_js: true}
   end
   post "/history" do
     response = Patron.set_retain_history(uniqname: session[:uniqname], retain_history: params[:retain_history])
@@ -361,7 +361,7 @@ namespace "/fines-and-fees" do
     if session[:in_alma]
       begin
         fines = Fines.for(uniqname: session[:uniqname])
-        erb :'fines-and-fees/index', locals: {fines: fines}
+        erb :"fines-and-fees/index", locals: {fines: fines}
       rescue
         flash[:error] = "<span class='strong'>Error:</span> We were unable to load your fines. Please try again."
         erb :empty_state
@@ -398,6 +398,6 @@ namespace "/fines-and-fees" do
     else
       flash.now[:error] = receipt.message
     end
-    erb :'fines-and-fees/receipt', locals: {receipt: receipt}
+    erb :"fines-and-fees/receipt", locals: {receipt: receipt}
   end
 end

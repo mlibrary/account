@@ -37,7 +37,7 @@ describe PastInterlibraryLoans do
   end
   context "no count given" do
     before(:each) do
-      stub_illiad_get_request(url: "Transaction/UserRequests/testhelp", body: File.read("./spec/fixtures/illiad_requests.json"), query: {'$filter': query["$filter"]})
+      stub_illiad_get_request(url: "Transaction/UserRequests/testhelp", body: File.read("./spec/fixtures/illiad_requests.json"), query: {"$filter": query["$filter"]})
     end
     subject do
       PastInterlibraryLoans.for(uniqname: "testhelp", limit: "1", count: nil)

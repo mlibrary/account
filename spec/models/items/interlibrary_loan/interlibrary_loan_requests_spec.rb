@@ -45,7 +45,7 @@ describe InterlibraryLoanRequests do
       requests.delete_at(0)
       requests[2]["TransactionStatus"] = "Request Has Been Submitted to ILL"
       requests[3]["TransactionStatus"] = "Awaiting Request Processing"
-      stub_illiad_get_request(url: "Transaction/UserRequests/testhelp", body: requests.to_json, query: {'$filter': query["$filter"]})
+      stub_illiad_get_request(url: "Transaction/UserRequests/testhelp", body: requests.to_json, query: {"$filter": query["$filter"]})
     end
     subject do
       InterlibraryLoanRequests.for(uniqname: "testhelp", limit: "1", count: nil)

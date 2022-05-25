@@ -41,7 +41,7 @@ describe DocumentDelivery do
     before(:each) do
       requests = JSON.parse(File.read("./spec/fixtures/illiad_requests.json"))
       body = [requests[3]].to_json
-      stub_illiad_get_request(url: "Transaction/UserRequests/testhelp", body: body, query: {'$filter': query["$filter"]})
+      stub_illiad_get_request(url: "Transaction/UserRequests/testhelp", body: body, query: {"$filter": query["$filter"]})
     end
     subject do
       DocumentDelivery.for(uniqname: "testhelp", limit: "1", count: nil)
