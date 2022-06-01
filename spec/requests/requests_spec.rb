@@ -46,10 +46,4 @@ describe "requests" do
       expect(last_response.location).to eq("https://apps.lib.umich.edu/my-account/favorites")
     end
   end
-  context "get /-/live" do
-    it "returns an OK status" do
-      get "/-/live"
-      expect(last_response.status).to eq(200)
-    end
-  end
 end
