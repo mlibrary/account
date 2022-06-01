@@ -16,9 +16,10 @@ services:
     command:
       - bundle 
       - exec 
-      - ruby 
-      - account.rb 
-      - -o 
+      - rackup 
+      - -p
+      - "4567"
+      - --host
       - 0.0.0.0
         
   nelnet-test:
