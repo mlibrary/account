@@ -19,7 +19,6 @@ describe "requests" do
     env "rack.session", @session
   end
 
-
   context "post /table-controls" do
     # it "redirects to current-checkouts with appropriate params" do
     # #header "Referer", 'http://localhost:4567/referer'

@@ -75,7 +75,6 @@ set :session_secret, ENV["RACK_COOKIE_SECRET"]
 set server: "thin", connections: []
 use Rack::Logger
 
-
 before do
   pass if ["auth", "stream", "updater", "session_switcher", "logout", "login"].include? request.path_info.split("/")[1]
   if dev_login?
@@ -132,9 +131,6 @@ get "/" do
   erb :"account-overview/index", locals: {cards: Navigation.cards}
 end
 
-
-
-
 get "/favorites" do
   redirect "https://apps.lib.umich.edu/my-account/favorites"
 end
@@ -183,4 +179,3 @@ post "/sms" do
   end
   redirect "/settings"
 end
-

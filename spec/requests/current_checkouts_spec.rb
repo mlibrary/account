@@ -102,7 +102,7 @@ describe "current-checkouts requests" do
     end
   end
 
-  #this has to do with the stream for renew all
+  # this has to do with the stream for renew all
   context "post /updater/" do
     it "returns 403 if message doesn't authenticate" do
       post "/updater/", {msg: "one", uniqname: "tutor", hash: "notcorrect"}

@@ -1,6 +1,6 @@
-require './account'
-require 'prometheus/middleware/collector'
-require 'prometheus/middleware/exporter'
+require "./account"
+require "prometheus/middleware/collector"
+require "prometheus/middleware/exporter"
 
 use Rack::Deflater
 use Prometheus::Middleware::Collector
