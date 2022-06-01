@@ -20,6 +20,8 @@ gem "alma_rest_client",
   git: "https://github.com/mlibrary/alma_rest_client",
   tag: "1.3.1"
 
+gem "prometheus-client"
+
 group :development, :test do
   gem "standard"
   gem "pry"
