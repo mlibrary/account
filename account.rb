@@ -62,6 +62,7 @@ require_relative "./models/items/interlibrary_loan/past_interlibrary_loans"
 require_relative "./models/items/interlibrary_loan/pending_document_delivery"
 
 require_relative "./lib/routes/auth"
+require_relative "./lib/routes/monitoring"
 require_relative "./lib/routes/current_checkouts"
 require_relative "./lib/routes/pending_requests"
 require_relative "./lib/routes/past_activity"
