@@ -45,9 +45,8 @@ describe "requests" do
       it "loads empty state when theres an error with an alma request" do
         stub_alma_get_request(url: "users/tutor/requests", status: 500, query: {limit: 100, offset: 0})
         get "/pending-requests/u-m-library"
-        session = last_request.env["rack.session"]
-        expect(session["flash"][:error]).to include("Error")
         expect(last_response.body).to include("You don't have")
+        expect(last_response.body).to include("Error")
       end
     end
     context "not in alma" do
@@ -55,6 +54,8 @@ describe "requests" do
         not_in_alma
         get "/pending-requests/u-m-library"
         expect(last_response.body).to include("You don't have")
+        session = last_request.env["rack.session"]
+        expect(session["flash"][:error]).to be_nil
       end
     end
   end
@@ -80,6 +81,11 @@ describe "requests" do
       stub_alma_delete_request(url: "users/tutor/requests/1234", status: 204, body: "{}", query: {reason: "CancelledAtPatronRequest"})
       post "/pending-requests/u-m-library/cancel-request", {"request_id" => "1234"}
       expect(last_response.status).to eq(200)
+    end
+    it "handles a bad cancel request" do
+      stub_alma_delete_request(url: "users/tutor/requests/1234", query: {reason: "CancelledAtPatronRequest"}, no_return: true).to_timeout
+      post "/pending-requests/u-m-library/cancel-request", {"request_id" => "1234"}
+      expect(last_response.status).to eq(500)
     end
   end
 end

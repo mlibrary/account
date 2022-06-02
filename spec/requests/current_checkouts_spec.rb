@@ -50,9 +50,8 @@ describe "current-checkouts requests" do
       it "loads the empty state and has an error flash" do
         stub_alma_get_request(url: "users/tutor/loans", query: {expand: "renewable", limit: 15, order_by: "due_date"}, status: 500)
         get "/current-checkouts/u-m-library"
-        session = last_request.env["rack.session"]
-        expect(session["flash"][:error]).to include("Error")
         expect(last_response.body).to include("You don't have")
+        expect(last_response.body).to include("Error")
       end
     end
     context "not in alma user" do
@@ -60,6 +59,8 @@ describe "current-checkouts requests" do
         not_in_alma
         get "/current-checkouts/u-m-library"
         expect(last_response.body).to include("You don't have")
+        session = last_request.env["rack.session"]
+        expect(session["flash"][:error]).to be_nil
       end
     end
   end
@@ -126,6 +127,12 @@ describe "current-checkouts requests" do
       get "/current-checkouts/interlibrary-loan"
       expect(last_response.body).to include("Interlibrary Loan")
     end
+    it "handles a network error" do
+      stub_illiad_get_request(url: "Transaction/UserRequests/tutor", query: hash_excluding({just_pass: "for_real"}), no_return: true).to_timeout
+      get "/current-checkouts/interlibrary-loan"
+      expect(last_response.body).to include("Interlibrary Loan")
+      expect(last_response.body).to include("Error")
+    end
   end
   context "get /current-checkouts/scans-and-electronic-items" do
     it "contains 'Scans and Electronic Items'" do
@@ -133,6 +140,20 @@ describe "current-checkouts requests" do
         body: File.read("spec/fixtures/illiad_requests.json"), query: hash_excluding({just_pass: "for_real"}))
       get "/current-checkouts/scans-and-electronic-items"
       expect(last_response.body).to include("Scans and Electronic Items")
+    end
+    it "handles a network error" do
+      stub_illiad_get_request(url: "Transaction/UserRequests/tutor",
+        query: hash_excluding({just_pass: "for_real"}), no_return: true).to_timeout
+      get "/current-checkouts/scans-and-electronic-items"
+      expect(last_response.body).to include("Scans and Electronic Items")
+      expect(last_response.body).to include("Error")
+    end
+    it "handles a non 200 response" do
+      stub_illiad_get_request(url: "Transaction/UserRequests/tutor",
+        query: hash_excluding({just_pass: "for_real"}), status: 500)
+      get "/current-checkouts/scans-and-electronic-items"
+      expect(last_response.body).to include("Scans and Electronic Items")
+      expect(last_response.body).to include("Error")
     end
   end
   # ToDO

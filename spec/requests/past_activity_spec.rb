@@ -39,6 +39,11 @@ describe "requests" do
         get "/past-activity/u-m-library"
         expect(last_response.status).to eq(200)
       end
+      it "handles network timeout error" do
+        stub_circ_history_get_request(url: "users/tutor/loans", query: {direction: "DESC"}, no_return: true).to_timeout
+        get "/past-activity/u-m-library"
+        expect(last_response.body).to include("Error")
+      end
     end
     context "not in circ history user" do
       it "show do not have circ history" do
@@ -46,6 +51,7 @@ describe "requests" do
         env "rack.session", @session
         get "/past-activity/u-m-library"
         expect(last_response.body).to include("You don't have")
+        expect(last_response.body).not_to include("Error")
       end
     end
   end
@@ -65,8 +71,14 @@ describe "requests" do
       expect(last_response.headers["Content-Type"]).to eq("application/csv")
       expect(last_response.headers["Content-Disposition"]).to include("my_circ_history.csv")
     end
-    it "redirects to past activity page with an error message" do
+    it "redirects to past activity page with an error message when non 200 status" do
       stub_circ_history_get_request(url: "users/tutor/loans/download.csv", status: 500)
+      get "/past-activity/u-m-library/download.csv"
+      session = last_request.env["rack.session"]
+      expect(session["flash"][:error]).to include("Error")
+    end
+    it "redirects to past activity page with an error message when network timeout" do
+      stub_circ_history_get_request(url: "users/tutor/loans/download.csv", no_return: true).to_timeout
       get "/past-activity/u-m-library/download.csv"
       session = last_request.env["rack.session"]
       expect(session["flash"][:error]).to include("Error")
@@ -79,6 +91,12 @@ describe "requests" do
       get "/past-activity/interlibrary-loan"
       expect(last_response.body).to include("Interlibrary Loan")
     end
+    it "handles network error" do
+      stub_illiad_get_request(url: "Transaction/UserRequests/tutor",
+        query: hash_excluding({just_pass: "for_real"}), no_return: true).to_timeout
+      get "/past-activity/interlibrary-loan"
+      expect(last_response.body).to include("Error")
+    end
   end
   context "get /past-activity/scans-and-electronic-items" do
     it "contains 'Scans and Electronic Items'" do
@@ -86,6 +104,12 @@ describe "requests" do
         body: File.read("spec/fixtures/illiad_requests.json"), query: hash_excluding({just_pass: "for_real"}))
       get "/past-activity/scans-and-electronic-items"
       expect(last_response.body).to include("Scans and Electronic Items")
+    end
+    it "handles network error" do
+      stub_illiad_get_request(url: "Transaction/UserRequests/tutor",
+        query: hash_excluding({just_pass: "for_real"}), no_return: true).to_timeout
+      get "/past-activity/scans-and-electronic-items"
+      expect(last_response.body).to include("Error")
     end
   end
   context "get /past-activity/special-collections" do

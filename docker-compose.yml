@@ -9,7 +9,7 @@ services:
       - .:/app
       - gem_cache:/gems
     environment:
-      - WEBLOGIN_ON=true
+      - WEBLOGIN_ON=false
     env_file:
       - .env
       - .env-dev-values

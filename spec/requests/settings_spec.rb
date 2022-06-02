@@ -32,16 +32,22 @@ describe "requests" do
       @patron_json = File.read("./spec/fixtures/mrio_user_alma.json")
       stub_alma_get_request(url: "users/tutor?expand=none&user_id_type=all_unique&view=full", body: @patron_json)
       stub_circ_history_get_request(url: "users/tutor")
-      stub_circ_history_put_request(url: "users/tutor", query: {retain_history: true})
       stub_illiad_get_request(url: "Users/tutor", status: 404)
     end
     it "handles retain history" do
+      stub_circ_history_put_request(url: "users/tutor", query: {retain_history: true})
       @session[:confirmed_history_setting] = false
       env "rack.session", @session
       post "/settings/history", {"retain_history" => "true"}
       follow_redirect!
       expect(last_response.body).to include("History Setting Successfully Changed")
       expect(last_request.env["rack.session"][:confirmed_history_setting]).to eq(true)
+    end
+    it "handles network error" do
+      stub_circ_history_put_request(url: "users/tutor", query: {retain_history: true}, no_return: true).to_timeout
+      post "/settings/history", {"retain_history" => "true"}
+      follow_redirect!
+      expect(last_response.body).to include("Unable to update")
     end
   end
   context "post /sms" do

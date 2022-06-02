@@ -141,12 +141,16 @@ namespace "/settings" do
     erb :"settings/index", locals: {patron: patron, has_js: true}
   end
   post "/history" do
-    response = Patron.set_retain_history(uniqname: session[:uniqname], retain_history: params[:retain_history])
-    if response.code == 200
-      session[:confirmed_history_setting] = true
-      flash[:success] = "<span class='strong'>Success:</span> History Setting Successfully Changed"
-    else
-      flash[:error] = "<span class='strong'>Error:</span> #{response.message}"
+    begin
+      response = Patron.set_retain_history(uniqname: session[:uniqname], retain_history: params[:retain_history])
+      if response.code == 200
+        session[:confirmed_history_setting] = true
+        flash[:success] = "<span class='strong'>Success:</span> History Setting Successfully Changed"
+      else
+        flash[:error] = "<span class='strong'>Error:</span> #{response.message}"
+      end
+    rescue
+      flash[:error] = "Unable to update your checkout history setting. Please try again."
     end
     redirect "/settings"
   end
