@@ -118,28 +118,4 @@ describe "requests" do
       expect(last_response.status).to eq(200)
     end
   end
-  context "get /fines-and-fees" do
-    context "in alma user" do
-      it "contains 'Fines'" do
-        stub_alma_get_request(url: "users/tutor/fees", query: {limit: 100, offset: 0},
-          body: File.read("spec/fixtures/jbister_fines.json"))
-        get "/fines-and-fees"
-        expect(last_response.body).to include("Fines")
-      end
-      it "shows error and empty state if there's an failed alma request" do
-        stub_alma_get_request(url: "users/tutor/fees", status: 500, query: {limit: 100, offset: 0})
-        get "/fines-and-fees"
-        session = last_request.env["rack.session"]
-        expect(session["flash"][:error]).to include("Error")
-        expect(last_response.body).to include("You don't have")
-      end
-    end
-    context "not in alma user" do
-      it "show do not have fines and fees" do
-        not_in_alma
-        get "/fines-and-fees"
-        expect(last_response.body).to include("You don't have")
-      end
-    end
-  end
 end

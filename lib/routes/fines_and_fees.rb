@@ -1,23 +1,18 @@
 namespace "/fines-and-fees" do
-  get "" do
-    if session[:in_alma]
-      begin
-        fines = Fines.for(uniqname: session[:uniqname])
-        erb :"fines-and-fees/index", locals: {fines: fines}
-      rescue
-        flash[:error] = "<span class='strong'>Error:</span> We were unable to load your fines. Please try again."
-        erb :empty_state
-      end
-    else
-      erb :empty_state
-    end
-  end
-
   # :nocov:
   get "/" do
     redirect_to ""
   end
   # :nocov:
+
+  get "" do
+    raise StandardError, "not_in_alma" unless session[:in_alma]
+    fines = Fines.for(uniqname: session[:uniqname])
+    erb :"fines-and-fees/index", locals: {fines: fines}
+  rescue => e
+    flash.now[:error] = "<span class='strong'>Error:</span> We were unable to load your fines. Please try again." unless e.message == "not_in_alma"
+    erb :empty_state
+  end
 
   post "/pay" do
     fines = Fines.for(uniqname: session[:uniqname])
@@ -31,6 +26,9 @@ namespace "/fines-and-fees" do
       flash[:error] = "You don't need to overpay!!!"
       redirect "/fines-and-fees"
     end
+  rescue
+    flash[:error] = "Error: We were unable to redirect you to the payment website. Please try again"
+    redirect "/fines-and-fees"
   end
 
   get "/receipt" do
@@ -41,5 +39,7 @@ namespace "/fines-and-fees" do
       flash.now[:error] = receipt.message
     end
     erb :"fines-and-fees/receipt", locals: {receipt: receipt}
+  rescue
+    redirect "/fines-and-fees"
   end
 end

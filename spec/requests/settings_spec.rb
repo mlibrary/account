@@ -53,7 +53,7 @@ describe "requests" do
   context "post /sms" do
     before(:each) do
       @patron_json = File.read("./spec/fixtures/mrio_user_alma.json")
-      stub_alma_get_request(url: "users/tutor?expand=none&user_id_type=all_unique&view=full", body: @patron_json)
+      @stub = stub_alma_get_request(url: "users/tutor?expand=none&user_id_type=all_unique&view=full", body: @patron_json)
       stub_circ_history_get_request(url: "users/tutor")
       stub_illiad_get_request(url: "Users/tutor", status: 404)
     end
@@ -66,7 +66,7 @@ describe "requests" do
 
       post "/sms", {"text-notifications" => "on", "sms-number" => sms_number}
       follow_redirect!
-      expect(last_response.body).to include("SMS Successfully Updated")
+      expect(last_response.body).to include("successfully updated")
     end
     it "handles bad phone number update" do
       post "/sms", {"text-notifications" => "on", "sms-number" => "aaa"}
@@ -79,7 +79,16 @@ describe "requests" do
       stub_alma_put_request(url: "users/mrio", input: new_phone_patron.to_json, output: new_phone_patron.to_json)
       post "/sms", {"text-notifications" => "off", "sms-number" => ""}
       follow_redirect!
-      expect(last_response.body).to include("SMS Successfully Removed")
+      expect(last_response.body).to include("successfully removed")
+    end
+    it "handles a network error" do
+      remove_request_stub(@stub)
+      stub_alma_get_request(url: "users/tutor?expand=none&user_id_type=all_unique&view=full", no_return: true).to_timeout
+      post "/sms", {"text-notifications" => "off", "sms-number" => ""}
+      session = last_request.env["rack.session"]
+      expect(session["flash"][:error]).to include("We were unable")
+      expect(last_response.status).to eq(302)
+      expect(URI(last_response.headers["Location"]).path).to eq("/settings")
     end
   end
 end
