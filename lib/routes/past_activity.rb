@@ -1,14 +1,10 @@
 namespace "/past-activity" do
-  get "" do
-    redirect_to "/u-m-library" # Redirects to /past-activity/um-library
-  end
-
-  get "/" do
+  get "/?" do
     redirect_to "/u-m-library" # Redirects to /past-activity/um-library
   end
 
   namespace "/u-m-library" do
-    get "" do
+    get "/?" do
       raise StandardError, "not_in_circ_history" unless session[:in_circ_history]
       table_controls = TableControls::PastLoansForm.new(limit: params["limit"], order_by: params["order_by"], direction: params["direction"])
       past_loans = CirculationHistoryItems.for(uniqname: session[:uniqname], offset: params["offset"], limit: params["limit"], order_by: params["order_by"], direction: params["direction"])
@@ -32,7 +28,7 @@ namespace "/past-activity" do
     end
   end
 
-  get "/interlibrary-loan" do
+  get "/interlibrary-loan/?" do
     past_interlibrary_loans = PastInterlibraryLoans.for(uniqname: session[:uniqname], limit: params["limit"], offset: params["offset"], count: nil)
     # session[:past_interlibrary_loans_count] = past_interlibrary_loans.count if session[:past_interlibrary_loans_count].nil?
 
@@ -41,7 +37,7 @@ namespace "/past-activity" do
     flash.now[:error] = "<span class='strong'>Error:</span> We were unable to load your interlibrary loan history. Please try again."
     erb :empty_state
   end
-  get "/scans-and-electronic-items" do
+  get "/scans-and-electronic-items/?" do
     past_document_delivery = PastDocumentDelivery.for(uniqname: session[:uniqname], limit: params["limit"], offset: params["offset"], count: nil)
     # session[:past_document_delivery_count] = past_document_delivery.count if session[:past_document_delivery_count].nil?
 
@@ -50,7 +46,7 @@ namespace "/past-activity" do
     flash.now[:error] = "<span class='strong'>Error:</span> We were unable to load your scans and electronic items history. Please try again."
     erb :empty_state
   end
-  get "/special-collections" do
+  get "/special-collections/?" do
     erb :"past-activity/special-collections", locals: {past_special_collections: {}}
   end
 end

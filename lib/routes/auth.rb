@@ -23,7 +23,7 @@ get "/auth/openid_connect/callback" do
 end
 
 get "/auth/failure" do
-  "You are not authorized"
+  erb :"auth/failure"
 end
 
 get "/logout" do

@@ -1,11 +1,5 @@
 namespace "/fines-and-fees" do
-  # :nocov:
-  get "/" do
-    redirect_to ""
-  end
-  # :nocov:
-
-  get "" do
+  get "/?" do
     raise StandardError, "not_in_alma" unless session[:in_alma]
     fines = Fines.for(uniqname: session[:uniqname])
     erb :"fines-and-fees/index", locals: {fines: fines}
@@ -27,11 +21,11 @@ namespace "/fines-and-fees" do
       redirect "/fines-and-fees"
     end
   rescue
-    flash[:error] = "Error: We were unable to redirect you to the payment website. Please try again"
+    flash[:error] = "<span class='strong'>Error:</span> We were unable to redirect you to the payment website. Please try again"
     redirect "/fines-and-fees"
   end
 
-  get "/receipt" do
+  get "/receipt/?" do
     receipt = Receipt.for(uniqname: session[:uniqname], nelnet_params: params, order_number: session[:order_number])
     if receipt.successful?
       flash.now[:success] = "Fines successfully paid"

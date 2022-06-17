@@ -1,5 +1,5 @@
 namespace "/settings" do
-  get "" do
+  get "/?" do
     patron = Patron.for(uniqname: session[:uniqname])
     erb :"settings/index", locals: {patron: patron, has_js: true}
   end

@@ -135,5 +135,18 @@
     "icon_name": "person-outline",
     "sidebar": "false",
     "slug": "login"
+  },
+  {
+    "title": "Sorry",
+    "sidebar": "false",
+    "slug": "auth/failure"
+  },
+  {
+    "title": "Page not found",
+    "sidebar": "false",
+    "slug": "none",
+    "empty_state": {
+      "heading": "The page you were looking for could not be found"
+    }
   }
 ]
