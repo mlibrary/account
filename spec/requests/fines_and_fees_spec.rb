@@ -104,15 +104,6 @@ describe "fines-and-fees requests" do
         "timestamp" => "1579628471900",
         "hash" => "9baaee6c2a0ee08c63bbbcc0435360b0d5ecef1de876b68d59956c0752fed836"
       }
-      @item = {
-        "id" => "1384289260006381",
-        "balance" => "5.00",
-        "title" => "Short history of Georgia.",
-        "barcode" => "95677",
-        "library" => "Main Library",
-        "type" => "Overdue fine",
-        "creation_time" => "2020-12-09T17:13:29.959Z"
-      }
     end
     it "for valid params, updates Alma, sets success flash, prints receipt" do
       with_modified_env NELNET_SECRET_KEY: "secret" do

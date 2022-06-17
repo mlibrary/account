@@ -72,4 +72,7 @@ describe CirculationHistoryItem do
   it "has expected url" do
     expect(subject.url).to eq("https://search.lib.umich.edu/catalog/record/000546765")
   end
+  it "responds to barcode" do
+    expect(subject.barcode).to eq("39015061357532")
+  end
 end

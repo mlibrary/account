@@ -14,10 +14,6 @@ describe "requests" do
     }
     env "rack.session", @session
   end
-  let(:not_in_alma) do
-    @session[:in_alma] = false
-    env "rack.session", @session
-  end
   context "get /settings" do
     it "contains 'Settings'" do
       stub_alma_get_request(url: "users/tutor?expand=none&user_id_type=all_unique&view=full")

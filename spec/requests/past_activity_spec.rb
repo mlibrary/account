@@ -14,10 +14,6 @@ describe "requests" do
     }
     env "rack.session", @session
   end
-  let(:not_in_alma) do
-    @session[:in_alma] = false
-    env "rack.session", @session
-  end
   context "get /past-activity" do
     it "redirects to '/past-activity/u-m-library'" do
       get "/past-activity"

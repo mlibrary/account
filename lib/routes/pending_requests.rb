@@ -1,13 +1,9 @@
 namespace "/pending-requests" do
-  get "" do
+  get "/?" do
     redirect_to "/u-m-library" # Redirects to /requests/um-library
   end
 
-  get "/" do
-    redirect_to "/u-m-library" # Redirects to /requests/um-library
-  end
-
-  get "/u-m-library" do
+  get "/u-m-library/?" do
     raise StandardError, "not_in_alma" unless session[:in_alma]
     requests = Requests.for(uniqname: session[:uniqname])
     local_document_delivery = PendingLocalDocumentDelivery.for(uniqname: session[:uniqname])
@@ -32,7 +28,7 @@ namespace "/pending-requests" do
     {message: "There was an error"}.to_json
   end
 
-  get "/interlibrary-loan" do
+  get "/interlibrary-loan/?" do
     interlibrary_loan_requests = InterlibraryLoanRequests.for(uniqname: session[:uniqname], limit: params["limit"], offset: params["offset"], count: nil)
 
     erb :"pending-requests/interlibrary-loan", locals: {interlibrary_loan_requests: interlibrary_loan_requests}
@@ -41,7 +37,7 @@ namespace "/pending-requests" do
     erb :empty_state
   end
 
-  get "/special-collections" do
+  get "/special-collections/?" do
     erb :"pending-requests/special-collections", locals: {special_collections_requests: {}}
   end
 end
