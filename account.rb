@@ -61,52 +61,24 @@ require_relative "./models/items/interlibrary_loan/past_document_delivery"
 require_relative "./models/items/interlibrary_loan/past_interlibrary_loans"
 require_relative "./models/items/interlibrary_loan/pending_document_delivery"
 
+require_relative "./lib/routes/auth"
+require_relative "./lib/routes/monitoring"
+require_relative "./lib/routes/current_checkouts"
+require_relative "./lib/routes/pending_requests"
+require_relative "./lib/routes/past_activity"
+require_relative "./lib/routes/settings"
+require_relative "./lib/routes/fines_and_fees"
+
 helpers StyledFlash
 
 enable :sessions
 set :session_secret, ENV["RACK_COOKIE_SECRET"]
 set server: "thin", connections: []
+
 use Rack::Logger
 
-use OmniAuth::Builder do
-  provider :openid_connect, {
-    issuer: "https://weblogin.lib.umich.edu",
-    discovery: true,
-    client_auth_method: "jwks",
-    scope: [:openid, :profile, :email],
-    client_options: {
-      identifier: ENV["WEBLOGIN_ID"],
-      secret: ENV["WEBLOGIN_SECRET"],
-      redirect_uri: "#{ENV["PATRON_ACCOUNT_BASE_URL"]}/auth/openid_connect/callback"
-    }
-  }
-end
-
-get "/auth/openid_connect/callback" do
-  auth = request.env["omniauth.auth"]
-  info = auth[:info]
-  session[:authenticated] = true
-  session[:expires_at] = Time.now.utc + 1.hour
-  patron = SessionPatron.new(info[:nickname])
-  patron.to_h.each { |k, v| session[k] = v }
-  redirect session.delete(:path_before_login) || "/"
-end
-
-get "/auth/failure" do
-  "You are not authorized"
-end
-
-get "/logout" do
-  session.clear
-  redirect "https://shibboleth.umich.edu/cgi-bin/logout?https://lib.umich.edu/"
-end
-
-get "/login" do
-  erb :"login/index", locals: {has_js: true}
-end
-
 before do
-  pass if ["auth", "stream", "updater", "session_switcher", "logout", "login"].include? request.path_info.split("/")[1]
+  pass if ["auth", "stream", "updater", "session_switcher", "logout", "login", "-"].include? request.path_info.split("/")[1]
   if dev_login?
     if !session[:uniqname]
       redirect "/session_switcher?uniqname=#{CGI.escape("mlibrary.acct.testing1@gmail.com")}"
@@ -161,172 +133,10 @@ get "/" do
   erb :"account-overview/index", locals: {cards: Navigation.cards}
 end
 
-namespace "/current-checkouts" do
-  get "" do
-    redirect_to "/u-m-library"
-  end
-
-  get "/" do
-    redirect_to "/u-m-library"
-  end
-
-  get "/u-m-library" do
-    if session[:in_alma]
-      loan_controls = TableControls::LoansForm.new(limit: params["limit"], order_by: params["order_by"], direction: params["direction"])
-      begin
-        loans = Loans.for(uniqname: session[:uniqname], offset: params["offset"], limit: params["limit"], order_by: params["order_by"], direction: params["direction"])
-        message = session.delete(:message)
-        erb :"current-checkouts/u-m-library", locals: {loans: loans, message: message, loan_controls: loan_controls, has_js: true}
-      rescue
-        flash[:error] = "<span class='strong'>Error:</span> We were unable to load your loans. Please try again."
-        erb :empty_state
-      end
-    else
-      erb :empty_state
-    end
-  end
-
-  post "/u-m-library" do
-    response = Loans.renew_all(uniqname: session[:uniqname])
-    if response.code != 200
-      flash[:error] = "<span class='strong'>Error:</span> #{response.message}"
-    else
-      session[:message] = RenewResponsePresenter.for(response.renewed_count)
-      204
-    end
-  end
-
-  get "/interlibrary-loan" do
-    interlibrary_loans = InterlibraryLoans.for(uniqname: session[:uniqname], limit: params["limit"], offset: params["offset"], count: nil)
-
-    erb :"current-checkouts/interlibrary-loan", locals: {interlibrary_loans: interlibrary_loans}
-  end
-  get "/scans-and-electronic-items" do
-    document_delivery = DocumentDelivery.for(uniqname: session[:uniqname], limit: params["limit"], offset: params["offset"], count: nil)
-
-    erb :"current-checkouts/scans-and-electronic-items", locals: {document_delivery: document_delivery}
-  end
-end
-
-namespace "/pending-requests" do
-  get "" do
-    redirect_to "/u-m-library" # Redirects to /requests/um-library
-  end
-
-  get "/" do
-    redirect_to "/u-m-library" # Redirects to /requests/um-library
-  end
-
-  get "/u-m-library" do
-    if session[:in_alma]
-      begin
-        requests = Requests.for(uniqname: session[:uniqname])
-        local_document_delivery = PendingLocalDocumentDelivery.for(uniqname: session[:uniqname])
-        illiad_patron = ILLiadPatron.for(uniqname: session[:uniqname])
-        erb :"pending-requests/u-m-library", locals: {holds: requests.holds, bookings: requests.bookings, local_document_delivery: local_document_delivery, illiad_patron: illiad_patron}
-      rescue
-        flash[:error] = "<span class='strong'>Error:</span> We were unable to load your requests. Please try again."
-        erb :empty_state
-      end
-    else
-      erb :empty_state
-    end
-  end
-  post "/u-m-library/cancel-request" do
-    response = Request.cancel(uniqname: session[:uniqname], request_id: params["request_id"])
-    if response.code == 204
-      status 200
-      {}.to_json
-    else
-      error = AlmaError.new(response)
-      status error.code
-      {message: error.message}.to_json
-    end
-  end
-
-  get "/interlibrary-loan" do
-    interlibrary_loan_requests = InterlibraryLoanRequests.for(uniqname: session[:uniqname], limit: params["limit"], offset: params["offset"], count: nil)
-
-    erb :"pending-requests/interlibrary-loan", locals: {interlibrary_loan_requests: interlibrary_loan_requests}
-  end
-
-  get "/special-collections" do
-    erb :"pending-requests/special-collections", locals: {special_collections_requests: {}}
-  end
-end
-
-namespace "/past-activity" do
-  get "" do
-    redirect_to "/u-m-library" # Redirects to /past-activity/um-library
-  end
-
-  get "/" do
-    redirect_to "/u-m-library" # Redirects to /past-activity/um-library
-  end
-
-  namespace "/u-m-library" do
-    get "" do
-      if session[:in_circ_history]
-        table_controls = TableControls::PastLoansForm.new(limit: params["limit"], order_by: params["order_by"], direction: params["direction"])
-        past_loans = CirculationHistoryItems.for(uniqname: session[:uniqname], offset: params["offset"], limit: params["limit"], order_by: params["order_by"], direction: params["direction"])
-        erb :"past-activity/u-m-library", locals: {past_loans: past_loans, table_controls: table_controls}
-      else
-        erb :empty_state
-      end
-    end
-    get "/download.csv" do
-      resp = CircHistoryClient.new(session[:uniqname]).download_csv
-      if resp.code == 200
-        # mrio: I'm sorry getting the filename from content-disposition is like this. :(
-        filename = resp.headers["content-disposition"]&.split("; ")&.at(1)&.split('"')&.at(1)
-        filename = "my_filename.csv" if filename.nil?
-        content_type "application/csv"
-        attachment filename
-        resp.body
-      else
-        flash[:error] = "<span class='strong'>Error:</span> We were unable to download your checkout history. Please try again."
-        redirect "/past-activity/u-m-library" # Redirects to /past-activity/um-library
-      end
-    end
-  end
-
-  get "/interlibrary-loan" do
-    past_interlibrary_loans = PastInterlibraryLoans.for(uniqname: session[:uniqname], limit: params["limit"], offset: params["offset"], count: nil)
-    # session[:past_interlibrary_loans_count] = past_interlibrary_loans.count if session[:past_interlibrary_loans_count].nil?
-
-    erb :"past-activity/interlibrary-loan", locals: {past_interlibrary_loans: past_interlibrary_loans}
-  end
-  get "/scans-and-electronic-items" do
-    past_document_delivery = PastDocumentDelivery.for(uniqname: session[:uniqname], limit: params["limit"], offset: params["offset"], count: nil)
-    # session[:past_document_delivery_count] = past_document_delivery.count if session[:past_document_delivery_count].nil?
-
-    erb :"past-activity/scans-and-electronic-items", locals: {past_document_delivery: past_document_delivery}
-  end
-  get "/special-collections" do
-    erb :"past-activity/special-collections", locals: {past_special_collections: {}}
-  end
-end
-
 get "/favorites" do
   redirect "https://apps.lib.umich.edu/my-account/favorites"
 end
 
-namespace "/settings" do
-  get "" do
-    patron = Patron.for(uniqname: session[:uniqname])
-    erb :"settings/index", locals: {patron: patron, has_js: true}
-  end
-  post "/history" do
-    response = Patron.set_retain_history(uniqname: session[:uniqname], retain_history: params[:retain_history])
-    if response.code == 200
-      session[:confirmed_history_setting] = true
-      flash[:success] = "<span class='strong'>Success:</span> History Setting Successfully Changed"
-    else
-      flash[:error] = "<span class='strong'>Error:</span> #{response.message}"
-    end
-    redirect "/settings"
-  end
-end
 # TODO set up renew loan to handle renew in place with top part message???
 post "/renew-loan" do
   response = Loan.renew(uniqname: session[:uniqname], loan_id: params["loan_id"])
@@ -341,63 +151,11 @@ post "/renew-loan" do
   end
 end
 
-post "/sms" do
-  patron = Patron.for(uniqname: session[:uniqname])
-  response = patron.update_sms(params["text-notifications"] == "on" ? params["sms-number"] : "")
-  if response.code == 200
-    flash[:success] = if params["text-notifications"] == "on"
-      "<span class='strong'>Success:</span> SMS Successfully Updated"
-    else
-      "<span class='strong'>Success:</span> SMS Successfully Removed"
-    end
-  else
-    flash[:error] = "<span class='strong'>Error:</span> #{response.message}"
-  end
-  redirect "/settings"
+not_found do
+  erb :empty_state
 end
 
-namespace "/fines-and-fees" do
-  get "" do
-    if session[:in_alma]
-      begin
-        fines = Fines.for(uniqname: session[:uniqname])
-        erb :"fines-and-fees/index", locals: {fines: fines}
-      rescue
-        flash[:error] = "<span class='strong'>Error:</span> We were unable to load your fines. Please try again."
-        erb :empty_state
-      end
-    else
-      erb :empty_state
-    end
-  end
-
-  # :nocov:
-  get "/" do
-    redirect_to ""
-  end
-  # :nocov:
-
-  post "/pay" do
-    fines = Fines.for(uniqname: session[:uniqname])
-    total_sum = fines.total_sum.to_f
-    amount = params["pay_in_full"] == "true" ? total_sum : params["partial_amount"].to_f
-    if amount <= total_sum
-      nelnet = Nelnet.new(amount_due: amount.to_currency)
-      session["order_number"] = nelnet.orderNumber
-      redirect nelnet.url
-    else
-      flash[:error] = "You don't need to overpay!!!"
-      redirect "/fines-and-fees"
-    end
-  end
-
-  get "/receipt" do
-    receipt = Receipt.for(uniqname: session[:uniqname], nelnet_params: params, order_number: session[:order_number])
-    if receipt.successful?
-      flash.now[:success] = "Fines successfully paid"
-    else
-      flash.now[:error] = receipt.message
-    end
-    erb :"fines-and-fees/receipt", locals: {receipt: receipt}
-  end
+error do
+  flash.now[:error] = "Sorry there was an error - " + env["sinatra.error"].message
+  erb :empty_state
 end

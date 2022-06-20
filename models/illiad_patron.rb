@@ -5,11 +5,10 @@ class ILLiadPatron
 
   def self.for(uniqname:, illiad_client: ILLiadClient.new)
     resp = illiad_client.get("/Users/#{uniqname}")
-    if resp.code == 200
-      ILLiadPatron.new(resp.parsed_response)
-    else
-      NotInILLiad.new
-    end
+    raise StandardError if resp.code != 200
+    ILLiadPatron.new(resp.parsed_response)
+  rescue
+    NotInILLiad.new
   end
 
   def in_illiad?

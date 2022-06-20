@@ -9,11 +9,13 @@ class Patron
   def self.for(uniqname:, alma_client: AlmaRestClient.client, circ_history_client: CircHistoryClient.new(uniqname), illiad_data: ILLiadPatron.for(uniqname: uniqname))
     url = "/users/#{uniqname}?user_id_type=all_unique&view=full&expand=none"
     alma_response = alma_client.get(url)
-    circ_history_response = circ_history_client.user_info
-    circ_history_data = if circ_history_response.code == 200
-      circ_history_response.parsed_response
-    else
-      {"confirmed" => false, "retain_history" => false}
+
+    begin
+      circ_history_response = circ_history_client.user_info
+      raise StandardError if circ_history_response.code != 200
+      circ_history_data = circ_history_response.parsed_response
+    rescue
+      circ_history_data = {"confirmed" => false, "retain_history" => false}
     end
 
     if alma_response.code == 200

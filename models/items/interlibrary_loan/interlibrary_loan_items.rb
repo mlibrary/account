@@ -4,12 +4,11 @@ class InterlibraryLoanItems < Items
     query = base_query.merge(ill_count.query)
 
     response = client.get(illiad_url(uniqname), query)
-    if response.code == 200
-      body = response.parsed_response
-      pagination_params = {url: url, total: ill_count.total(body)}.merge(ill_count.pagination_params)
+    raise StandardError if response.code != 200
+    body = response.parsed_response
+    pagination_params = {url: url, total: ill_count.total(body)}.merge(ill_count.pagination_params)
 
-      new(parsed_response: ill_count.page_of_results(body), pagination: PaginationDecorator.new(**pagination_params), count: ill_count.total(body))
-    end
+    new(parsed_response: ill_count.page_of_results(body), pagination: PaginationDecorator.new(**pagination_params), count: ill_count.total(body))
   end
 
   def self.base_query

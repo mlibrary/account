@@ -108,20 +108,4 @@ class Fine
   def library
     @parsed_response["owner"]["desc"]
   end
-
-  def creation_time
-    @parsed_response["creation_time"]
-  end
-
-  def to_h
-    {
-      id: id,
-      balance: balance,
-      title: title,
-      barcode: barcode,
-      library: library,
-      type: type,
-      creation_time: creation_time
-    }
-  end
 end

@@ -2,6 +2,14 @@ describe Entities::Pages do
   it "to have pages" do
     expect(described_class.all.count).to be > 0
   end
+  context ".page" do
+    it "finds a page without a trailing slash" do
+      expect(described_class.page("/current-checkouts/u-m-library").title).to eq("U-M Library")
+    end
+    it "finds a page with a trailing slash" do
+      expect(described_class.page("/current-checkouts/u-m-library/").title).to eq("U-M Library")
+    end
+  end
 end
 describe Entities::Page do
   before(:each) do

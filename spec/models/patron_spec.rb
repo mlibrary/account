@@ -85,6 +85,11 @@ describe Patron do
         expect(subject.user_group).to eq("Staff Level")
       end
     end
+    context "#local_document_delivery_location" do
+      it "returns string" do
+        expect(subject.local_document_delivery_location).to eq("2019 Ad Svcs Bldg / Mail Room")
+      end
+    end
     context "#can_book?" do
       it "returns true for staff" do
         expect(subject.can_book?).to eq(true)

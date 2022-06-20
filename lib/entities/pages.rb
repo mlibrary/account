@@ -6,7 +6,8 @@ class Entities::Pages
   end
 
   def self.page(path)
-    flattened.find { |page| page.path == path }
+    return flattened.find { |x| x.path == "/" } if path == "/"
+    flattened.find { |page| page.path == path.sub(/\/$/, "") } || flattened.find { |x| x.slug == "none" }
   end
 
   def self.raw
