@@ -64,6 +64,19 @@ describe "current-checkouts requests" do
       end
     end
   end
+  context "get /current-checkouts/u-m-library/all" do
+    it "returns json with user's checkouts" do
+      stub_alma_get_request(url: "users/tutor/loans", body: File.read("./spec/fixtures/loans.json"), query: {expand: "renewable", limit: 100, offset: 0})
+      get "/current-checkouts/u-m-library/all"
+      expect(last_response.body).to eq(
+        [
+          {loan_id: "1332733700000521", renewable: true},
+          {loan_id: "1332734190000521", renewable: true}
+        ].to_json
+      )
+      expect(last_response.headers["Content-Type"]).to eq("application/json")
+    end
+  end
   context "post /current-checkouts/u-m-library" do
     before(:each) do
       @alma_loans = JSON.parse(File.read("./spec/fixtures/loans.json"))

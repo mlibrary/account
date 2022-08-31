@@ -2,6 +2,22 @@ require "spec_helper"
 require "json"
 
 describe Loans do
+  context "#all_for" do
+    before(:each) do
+      stub_alma_get_request(url: "users/jbister/loans", body: File.read("./spec/fixtures/loans.json"), query: {expand: "renewable", limit: 100, offset: 0})
+    end
+    subject do
+      Loans.all_for(uniqname: "jbister")
+    end
+    it "returns a json string of the appropriate form" do
+      expect(subject).to eq(
+        [
+          {loan_id: "1332733700000521", renewable: true},
+          {loan_id: "1332734190000521", renewable: true}
+        ].to_json
+      )
+    end
+  end
   context "two loans" do
     before(:each) do
       stub_alma_get_request(url: "users/jbister/loans", body: File.read("./spec/fixtures/loans.json"), query: {expand: "renewable", limit: 15, order_by: "due_date"})

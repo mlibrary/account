@@ -28,6 +28,13 @@ namespace "/current-checkouts" do
     end
   end
 
+  get "/u-m-library/all" do
+    content_type :json
+    Loans.all_for(uniqname: session[:uniqname])
+    # rescue => e
+    # some kind of proper error response
+  end
+
   get "/interlibrary-loan/?" do
     interlibrary_loans = InterlibraryLoans.for(uniqname: session[:uniqname], limit: params["limit"], offset: params["offset"], count: nil)
     erb :"current-checkouts/interlibrary-loan", locals: {interlibrary_loans: interlibrary_loans}

@@ -8,6 +8,17 @@ class Loans < Items
     @pagination = pagination
   end
 
+  def self.all_for(uniqname:, client: AlmaRestClient.client)
+    url = "/users/#{uniqname}/loans"
+    response = client.get_all(url: url, record_key: "item_loan", query: {"expand" => "renewable"})
+    response.parsed_response["item_loan"]&.map do |loan|
+      {
+        loan_id: loan["loan_id"],
+        renewable: loan["renewable"]
+      }
+    end.to_json
+  end
+
   def self.renew_all(uniqname:, client: AlmaRestClient.client, connections: [],
     publisher: Publisher.new)
     url = "/users/#{uniqname}/loans"
