@@ -1,5 +1,7 @@
+@use "breakpoints";
+
 .site-navigation {
-  @media screen and ($breakpoint-small) {
+  @include breakpoints.breakpoint('small') {
     display: none;
     & + .site-layout__center {
       grid-column: 1 / 3;

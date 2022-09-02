@@ -1,3 +1,5 @@
+@use "breakpoints";
+
 * {
   box-sizing: border-box;
 }
@@ -50,7 +52,7 @@ main.layout {
   margin-top: 1rem;
   width: 100%;
 
-  @media screen and ($breakpoint-medium) {
+  @include breakpoints.breakpoint('medium') {
     margin-top: 2.5rem;
   }
 }
@@ -106,16 +108,16 @@ h4 {
 
 .layout {
   padding: 0 1rem;
-  max-width: $desktop;
+  max-width: breakpoints.$desktop;
   margin: 0 auto;
 
-  @media screen and ($breakpoint-medium) {
+  @include breakpoints.breakpoint('medium') {
     padding: 0 2.5rem;
   }
 }
 
 .site-layout {
-  @media screen and ($breakpoint-medium) {
+  @include breakpoints.breakpoint('medium') {
     display: grid;
     grid-template-columns: 14rem auto;
     grid-gap: 3rem;

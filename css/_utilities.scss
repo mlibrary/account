@@ -1,5 +1,7 @@
+@use "breakpoints";
+
 .prose {
-  @media screen and ($breakpoint-large) {
+  @include breakpoints.breakpoint('large') {
     font-size: var(--text-x-small);
   }
 

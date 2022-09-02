@@ -1,3 +1,5 @@
+@use "breakpoints";
+
 [data-dropdown] * {
   // prevent addEventListener from detecting children
   pointer-events: none;
@@ -5,7 +7,7 @@
 
 .dropdown {
   position: relative;
-  @media screen and ($breakpoint-small) {
+  @include breakpoints.breakpoint('small') {
     & > .button--dropdown,
     & .site-navigation-list  {
       display: none;
@@ -24,7 +26,7 @@
   span {
     margin: 0 0.25rem;
   }
-  @media screen and ($breakpoint-medium) {
+  @include breakpoints.breakpoint('medium') {
     &[aria-expanded="true"] > span {
       text-decoration: underline;
       text-decoration-thickness: 0.125rem;
@@ -33,7 +35,7 @@
 }
 
 .dropdown-container {
-  @media screen and ($breakpoint-medium) {
+  @include breakpoints.breakpoint('medium') {
     background: white;
     border-radius: 	0.25rem;
     box-shadow: var(--z-space-medium);
@@ -50,7 +52,7 @@
   }
   ul {
     list-style: none;
-    @media screen and ($breakpoint-medium) {
+    @include breakpoints.breakpoint('medium') {
       & + a {
         border-top: solid 1px var(--color-neutral-100);
         margin-top: 0.5rem;

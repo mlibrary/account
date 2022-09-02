@@ -1,3 +1,5 @@
+@use "buttons";
+
 .pagination {
   margin: 2rem 0;
 
@@ -13,10 +15,10 @@
     margin: 0;
 
     .pagination-page-link {
-      @include button--light;
+      @include buttons.button--light;
 
       &[aria-current="true"] {
-        @include button;
+        @include buttons.button;
       }
     }
   }

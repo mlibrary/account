@@ -1,3 +1,5 @@
+@use "breakpoints";
+
 .empty-state-container {
   display: flex;
   align-items: center;
@@ -9,7 +11,7 @@
   padding: 2rem;
   border-radius: 4px;
 
-  @media screen and ($breakpoint-small) {
+  @include breakpoints.breakpoint('small') {
     flex-direction: column;
     div + div {
       margin-top: 2.5rem;
@@ -20,12 +22,12 @@
     & > *:first-child {
       margin-top: 0;
     }
-    @media screen and ($breakpoint-small) {
+    @include breakpoints.breakpoint('small') {
       align-self: flex-start;
     }
   }
 
-  @media screen and ($breakpoint-medium) {
+  @include breakpoints.breakpoint('medium') {
     div + div {
       margin-left: 2.5rem;
     }

@@ -1,5 +1,7 @@
+@use "breakpoints";
+
 .breadcrumbs {
-  @media screen and ($breakpoint-medium) {
+  @include breakpoints.breakpoint('medium') {
     display: none;
   }
 }
@@ -14,7 +16,7 @@
     list-style: none;
     margin: 0 -1rem;
 
-    @media screen and ($breakpoint-medium) {
+    @include breakpoints.breakpoint('medium') {
       background-color: transparent;
       margin: 0;
     }
@@ -23,7 +25,7 @@
       border-top: solid 1px var(--color-neutral-100);
       margin-bottom: 0;
 
-      @media screen and ($breakpoint-medium) {
+      @include breakpoints.breakpoint('medium') {
         border-top: 0;
         display: inline-block;
         & + li {
@@ -31,7 +33,7 @@
         }
       }
 
-      @media screen and ($breakpoint-large) {
+      @include breakpoints.breakpoint('large') {
         & + li {
           padding-left: 1.5rem;
         }
@@ -46,7 +48,7 @@
       padding: 1rem;
       text-decoration: none;
 
-      @media screen and ($breakpoint-medium) {
+      @include breakpoints.breakpoint('medium') {
         padding: 1rem 0;
       }
 
@@ -68,7 +70,7 @@
           position: absolute;
           top: 0;
           width: 0.25rem;
-          @media screen and ($breakpoint-medium) {
+          @include breakpoints.breakpoint('medium') {
             bottom: 0;
             height: 0.25rem;
             top: auto;

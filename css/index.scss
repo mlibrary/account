@@ -1,24 +1,21 @@
-@import
-"defaults",
-"breakpoints",
-"base",
-"utilities",
-"focus",
-"skip-links",
-"site-navigation",
-"horizontal-navigation",
-"dropdown",
-"site-footer",
-"overview-cards",
-"empty-state-container",
-"tables",
-"buttons",
-"pagination",
-"messages",
-"text-notifications",
-"tags",
-"banner",
-"renew",
-"modal",
-"fines",
-"maybe-design-system/controls";
+@use "defaults";
+@use "base";
+@use "utilities";
+@use "focus";
+@use "skip-links";
+@use "site-navigation";
+@use "horizontal-navigation";
+@use "dropdown";
+@use "site-footer";
+@use "overview-cards";
+@use "empty-state-container";
+@use "tables";
+@use "pagination";
+@use "messages";
+@use "text-notifications";
+@use "tags";
+@use "banner";
+@use "renew";
+@use "modal";
+@use "fines";
+@use "maybe-design-system/controls";
