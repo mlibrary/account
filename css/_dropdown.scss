@@ -22,12 +22,12 @@
   font-weight: normal;
   padding: 0;
   span {
-    margin: 0 var(--space-xx-small);
+    margin: 0 0.25rem;
   }
   @media screen and ($breakpoint-medium) {
     &[aria-expanded="true"] > span {
       text-decoration: underline;
-      text-decoration-thickness: var(--space-xxx-small);
+      text-decoration-thickness: 0.125rem;
     }
   }
 }
@@ -35,9 +35,9 @@
 .dropdown-container {
   @media screen and ($breakpoint-medium) {
     background: white;
-    border-radius: 	var(--space-xx-small);
+    border-radius: 	0.25rem;
     box-shadow: var(--z-space-medium);
-    padding: var(--space-medium) var(--space-large);
+    padding: 1rem 1.5rem;
     position: absolute;
     right: 0;
     top: 100%;
@@ -53,8 +53,8 @@
     @media screen and ($breakpoint-medium) {
       & + a {
         border-top: solid 1px var(--color-neutral-100);
-        margin-top: var(--space-x-small);
-        padding-top: var(--space-x-small);
+        margin-top: 0.5rem;
+        padding-top: 0.5rem;
       }
     }
   }
@@ -62,19 +62,19 @@
     display: block;
     text-decoration: none;
     color: var(--color-neutral-400);
-    padding: var(--space-xx-small) 0;
+    padding: 0.25rem 0;
     white-space: nowrap;
 
     &:hover,
     &:focus {
       text-decoration: underline;
-      text-decoration-thickness: var(--space-xxx-small);
+      text-decoration-thickness: 0.125rem;
     }
 
     m-icon {
       position: relative;
-      top: var(--space-xxx-small);
-      margin-right: var(--space-xx-small);
+      top: 0.125rem;
+      margin-right: 0.25rem;
     }
   }
   li.active a {

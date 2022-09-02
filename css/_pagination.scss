@@ -1,11 +1,11 @@
 .pagination {
-  margin: var(--space-x-large) 0;
+  margin: 2rem 0;
 
   .pagination-pages {
     list-style: none;
     display: grid;
-    grid-gap: var(--space-small);
-    grid-template-columns: repeat(auto-fill, var(--space-xxx-large));
+    grid-gap: 0.75rem;
+    grid-template-columns: repeat(auto-fill, 3rem);
   }
 
   .pagination-page {

@@ -1,5 +1,5 @@
 .site-footer {
-  margin-top: var(--space-xxx-large);
+  margin-top: 3rem;
 }
 
 *[class^="site-footer__"] {
@@ -12,7 +12,7 @@
 
 .site-footer__content {
   background: var(--color-blue-400);
-  padding: var(--space-xxx-large) 0;
+  padding: 3rem 0;
 
   &,
   & * {
@@ -23,7 +23,7 @@
     color: var(--color-blue-200);
     font: var(--bold) 14px var(--font-base-family);
     letter-spacing: 1.25px;
-    margin-bottom: var(--space-medium);
+    margin-bottom: 1rem;
     text-transform: uppercase;
   }
 
@@ -32,7 +32,7 @@
 .site-footer__disclaimer {
   background: var(--color-blue-500);
   color: var(--color-blue-200);
-  padding: var(--space-medium) 0;
+  padding: 1rem 0;
 
   a {
     color: var(--color-blue-200);

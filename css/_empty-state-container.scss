@@ -3,16 +3,16 @@
   align-items: center;
   justify-content: space-between;
 
-  margin-top: var(--space-medium);
+  margin-top: 1rem;
   background: var(--color-blue-100);
   border: solid 1px var(--color-neutral-100);
-  padding: var(--space-x-large);
+  padding: 2rem;
   border-radius: 4px;
 
   @media screen and ($breakpoint-small) {
     flex-direction: column;
     div + div {
-      margin-top: var(--space-xx-large);
+      margin-top: 2.5rem;
     }
   }
 
@@ -27,7 +27,7 @@
 
   @media screen and ($breakpoint-medium) {
     div + div {
-      margin-left: var(--space-xx-large);
+      margin-left: 2.5rem;
     }
     .empty-state-image {
       max-width: 35%;

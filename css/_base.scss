@@ -47,11 +47,11 @@ body {
 main.layout {
   align-content: baseline;
   flex-grow: 1;
-  margin-top: var(--space-medium);
+  margin-top: 1rem;
   width: 100%;
 
   @media screen and ($breakpoint-medium) {
-    margin-top: var(--space-xx-large);
+    margin-top: 2.5rem;
   }
 }
 
@@ -61,7 +61,7 @@ h1 {
   font-family: var(--font-second-family);
   font-size: var(--text-xxx-large);
   line-height: var(--line-height-page-heading);
-  margin-bottom: var(--space-large);
+  margin-bottom: 1.5rem;
   &#maincontent {
     outline: 0;
     position: relative;
@@ -69,9 +69,9 @@ h1 {
       background-color: var(--color-teal-400);
       content: '';
       height: 100%;
-      left: calc(var(--space-medium) * -1);
+      left: -1rem;
       position: absolute;
-      width: var(--space-xx-small);
+      width: 0.25rem;
     }
     &:not(:focus):not(:focus-within) {
       &::before {
@@ -105,12 +105,12 @@ h4 {
 }
 
 .layout {
-  padding: 0 var(--space-medium);
+  padding: 0 1rem;
   max-width: $desktop;
   margin: 0 auto;
 
   @media screen and ($breakpoint-medium) {
-    padding: 0 var(--space-xx-large);
+    padding: 0 2.5rem;
   }
 }
 
@@ -118,7 +118,7 @@ h4 {
   @media screen and ($breakpoint-medium) {
     display: grid;
     grid-template-columns: 14rem auto;
-    grid-gap: var(--space-xxx-large);
+    grid-gap: 3rem;
   }
 }
 

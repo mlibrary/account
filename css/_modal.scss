@@ -5,7 +5,7 @@
   height: 100%;
   left: 0;
   margin: 0;
-  padding: var(--space-medium);
+  padding: 1rem;
   position: fixed;
   right: 0;
   text-align: center;
@@ -20,7 +20,7 @@
     flex-direction: column;
     margin: auto;
     max-width: 580px;
-    padding: var(--space-x-large);
+    padding: 2rem;
     position: relative;
     .modal-icon {
       m-icon {
@@ -40,10 +40,10 @@
       }
     }
     .modal-buttons {
-      margin-top: var(--space-large);
+      margin-top: 1.5rem;
       button {
         display: inline-block;
-        margin: var(--space-x-small);
+        margin: 0.5rem;
       }
     }
   }

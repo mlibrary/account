@@ -11,10 +11,10 @@
         align-items: center;
         display: flex;
         flex-wrap: wrap;
-        margin: 0 calc(var(--space-x-small) * -1);
+        margin: 0 -0.5rem;
         justify-content: space-between;
         & > * {
-          padding: var(--space-x-small);
+          padding: 0.5rem;
         }
         & > & {
           margin: 0;
@@ -39,9 +39,9 @@
     td {
       vertical-align: top;
       @media screen and ($breakpoint-medium) {
-        padding: var(--space-medium) 0;
+        padding: 1rem 0;
         &:not(:last-of-type) {
-          padding-right: var(--space-x-large);
+          padding-right: 2rem;
         }
       }
     }
@@ -73,17 +73,17 @@
         @media screen and ($breakpoint-small) {
           display: grid;
           grid-template-columns: 1fr auto;
-          padding: var(--space-medium) 0;
+          padding: 1rem 0;
           td {
             display: block;
             grid-column: 1 / 2;
             &:first-of-type:not(:only-of-type) {
-              padding-bottom: var(--space-small);
+              padding-bottom: 0.75rem;
             }
             &.table-cell-action {
               grid-column: 2 / 3;
               grid-row: 1 / -1;
-              padding-left: var(--space-medium);
+              padding-left: 1rem;
             }
             a:not(.button) {
               display: block;

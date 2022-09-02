@@ -4,7 +4,7 @@
   }
 
   h1 {
-    margin-bottom: var(--space-x-large);
+    margin-bottom: 2rem;
   }
 
   h2,
@@ -13,7 +13,7 @@
   .h3,
   h4,
   .h4 {
-    margin-top: var(--space-xx-large);
+    margin-top: 2.5rem;
   }
 
   & > p {
@@ -23,7 +23,7 @@
 
 .owl {
   & > * + * {
-    margin-top: var(--space-medium);
+    margin-top: 1rem;
   }
   & > .visually-hidden {
     &,
@@ -35,7 +35,7 @@
 
 .sticky-top {
   position: sticky;
-  top: var(--space-large);
+  top: 1.5rem;
 }
 
 .badge {
@@ -44,7 +44,7 @@
   font-weight: 700;
   border-radius: 4px;
   font-family: var(--font-base-family);
-  padding: var(--space-xxx-small) var(--space-x-small);
+  padding: 0.125rem 0.5rem;
   background: var(--color-neutral-100);
   border: solid 1px var(--color-neutral-300);
   vertical-align: super;
