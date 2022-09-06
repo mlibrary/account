@@ -1,3 +1,5 @@
+@use "breakpoints";
+
 .site-footer {
   margin-top: 3rem;
 }
@@ -6,7 +8,9 @@
   & > .layout {
     display: grid;
     gap: 2rem 1rem;
-    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+    @include breakpoints.breakpoint {
+      grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+    }
   }
 }
 
