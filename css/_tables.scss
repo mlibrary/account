@@ -8,19 +8,25 @@
       text-align: left;
     }
     caption {
-      overflow: hidden;
       .caption-flex {
-        align-items: center;
-        display: flex;
-        flex-wrap: wrap;
-        margin: 0 -0.5rem;
         justify-content: space-between;
-        & > * {
-          padding: 0.5rem;
+        &,
+        form,
+        form > label {
+          align-items: center;
+          display: flex;
         }
-        & > & {
-          margin: 0;
-          padding: 0;
+        &,
+        form {
+          gap: 1rem;
+          flex-wrap: wrap;
+        }
+        form,
+        form > label {
+          justify-content: flex-start;
+        }
+        form > label {
+          gap: 0.5rem;
         }
       }
     }

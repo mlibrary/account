@@ -1,16 +1,16 @@
 <form class="caption-flex" method="post" action="/table-controls">
-  <label>
+  <label for="sort">
     <span>Sort by</span>
-    <select name="sort" data-js-submit autocomplete="on">
+    <select id="sort" name="sort" data-js-submit autocomplete="on">
       <% table_controls.order_by.each do |order_by| %>
         <option value="<%=order_by.value%>" <%=order_by.selected%>><%=order_by.text%></option>
       <% end %>
     </select>
   </label>
 
-  <label>
+  <label for="show">
     <span>Show</span>
-    <select name="show" data-js-submit autocomplete="on">
+    <select id="show" name="show" data-js-submit autocomplete="on">
       <% table_controls.show.each do |show| %>
         <option value="<%=show.value%>" <%=show.selected%>><%=show.text%></option>
       <% end %>
