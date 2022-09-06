@@ -2,7 +2,7 @@
 .tag--fail,
 .tag--success,
 .tag--warning {
-  border-radius: 0.25rem;
+  border-radius: var(--radius-default);
   background: var(--color-neutral-100);
   color: var(--color-neutral-400);
   display: inline-block;

@@ -49,8 +49,8 @@
             value="true"
           >
           <label for="pay-all">
-            <m-icon name="radio-button-checked"></m-icon>
-            <m-icon name="radio-button-unchecked"></m-icon>
+            <span class="material-symbols-sharp radio-button-checked">radio_button_checked</span>
+            <span class="material-symbols-sharp radio-button-unchecked">radio_button_unchecked</span>
             <span>Pay full amount (<span class="strong">$<%=fines.total_sum_in_dollars%></span>)</span>
           </label>
         </div>
@@ -63,8 +63,8 @@
             value="false"
           >
           <label for="pay-some">
-            <m-icon name="radio-button-checked"></m-icon>
-            <m-icon name="radio-button-unchecked"></m-icon>
+            <span class="material-symbols-sharp radio-button-checked">radio_button_checked</span>
+            <span class="material-symbols-sharp radio-button-unchecked">radio_button_unchecked</span>
             <span>Pay partial amount</span>
           </label>
           <div id="pay-some-amount" class="radio-option-extra">
@@ -83,7 +83,8 @@
               autocomplete="off"
             >
             <div id="payment-description" class="input-description">
-              <m-icon name="info"></m-icon><span>Payment amount must include cents. Example:&nbsp;25.00</span>
+              <span class="material-symbols-rounded">info</span>
+              <span>Payment amount must include cents. Example:&nbsp;25.00</span>
             </div>
           </div>
         </div>

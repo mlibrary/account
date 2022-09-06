@@ -1,9 +1,11 @@
+@use "icons";
+
 input:not([type="checkbox"]):not([type="radio"]) {
   font-size: 1rem;
   font-family: var(--font-base-family);
   border: solid 1px rgba(0, 0, 0, 0.3);
-  border-radius: 4px;
-  padding: var(--space-small);
+  border-radius: var(--radius-default);
+  padding: 0.75rem;
   margin: 0;
   width: 100%;
   &:invalid {
@@ -29,8 +31,8 @@ select {
   line-height: inherit;
 
   border: 1px solid var(--color-neutral-300);
-  border-radius: 0.25em;
-  padding: var(--space-x-small);
+  border-radius: var(--radius-default);
+  padding: 0.5rem;
   cursor: pointer;
   background-color: #fff;
   &:not(:hover) {
@@ -58,52 +60,51 @@ select::-ms-expand {
   display: none;
 }
 
-.input-description {
-  color: inherit;
-  position: relative;
-  span {
-    font-size: var(--space-medium);
-  }
-  input:invalid + & {
-    color: var(--color-pink-500);
-  }
-  m-icon:first-child {
-    position: absolute;
-    & ~ span {
-      display: inline-block;
-      padding-left: var(--space-large);
-    }
-  }
-}
-
 .radio-option {
   input[type="radio"] {
-    &:checked + label m-icon[name="radio-button-unchecked"],
-    &:not(:checked) + label m-icon[name="radio-button-checked"],
+    &:checked + label span.radio-button-unchecked,
+    &:not(:checked) + label span.radio-button-checked,
     &:not(:checked) ~ .radio-option-extra {
       display: none;
     }
-    &:not(:checked) + label m-icon {
-      color: var(--color-neutral-200);
+    &:not(:checked) + label {
+      @include icons.material-symbols {
+        color: var(--color-neutral-200);
+      }
     }
-    &:focus + label m-icon[name^="radio-button"] {
+    &:focus + label {
       outline: 0;
       box-shadow: 0 0 0 2px var(--color-maize-400),0 0 0 3px var(--color-neutral-400);
       border-radius: 2px;
     }
   }
-  m-icon {
+  @include icons.material-symbols {
     color: var(--color-teal-500);
-    position: relative;
-    margin-right: var(--space-xx-small);
-    top: var(--space-xxx-small);
+    margin-right: 0.25rem;
   }
   .radio-option-extra {
-    margin-top: var(--space-medium);
+    margin-top: 1rem;
     padding-left: 1.5rem;
     position: relative;
-    m-icon {
+    @include icons.material-symbols {
       color: inherit;
     }
+  }
+}
+
+.input-description {
+  color: inherit;
+  display: flex;
+  gap: 0.5rem;
+  position: relative;
+  span {
+    font-size: 1rem;
+  }
+  input:invalid + & {
+    color: var(--color-pink-500);
+  }
+  @include icons.material-symbols {
+    margin-right: 0;
+    top: 0.25rem;
   }
 }

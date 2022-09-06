@@ -21,13 +21,11 @@
 .button--dropdown {
   background-color: transparent;
   color: var(--color-neutral-400);
+  gap: 0.25rem;
   font-weight: normal;
   padding: 0;
-  span {
-    margin: 0 0.25rem;
-  }
   @include breakpoints.breakpoint('medium') {
-    &[aria-expanded="true"] > span {
+    &[aria-expanded="true"] > .username {
       text-decoration: underline;
       text-decoration-thickness: 0.125rem;
     }
@@ -71,12 +69,6 @@
     &:focus {
       text-decoration: underline;
       text-decoration-thickness: 0.125rem;
-    }
-
-    m-icon {
-      position: relative;
-      top: 0.125rem;
-      margin-right: 0.25rem;
     }
   }
   li.active a {

@@ -1,3 +1,5 @@
+@use "icons";
+
 @keyframes spin {
   from {
     transform: rotate(0deg);
@@ -7,11 +9,13 @@
   }
 }
 
-.loading m-icon {
-  animation-name: spin;
-  animation-duration: 2500ms;
-  animation-iteration-count: infinite;
-  animation-timing-function: linear;
+.loading {
+  @include icons.material-symbols {
+    animation-name: spin;
+    animation-duration: 1500ms;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+  }
 }
 
 .progress-heading {

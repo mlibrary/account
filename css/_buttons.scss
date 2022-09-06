@@ -1,25 +1,27 @@
+@use "icons";
+
 @mixin button {
-  border: none;
-  font-size: 1rem;
-  font-family: var(--font-base-family);
-  color: white;
-  display: flex;
   align-items: center;
-  justify-content: center;
-  border-radius: 4px;
-  padding: 0.75rem 1rem;
   background: var(--color-teal-400);
+  border: none;
+  border-radius: var(--radius-default);
+  color: white;
   cursor: pointer;
-  text-decoration: none;
+  display: flex;
+  font-family: var(--font-base-family);
+  font-size: 1rem;
+  font-weight: var(--bold);
+  gap: 0.25rem;
+  justify-content: center;
+  margin: 3px; // Prevent hover/focus cutoff
   min-width: 3rem;
   min-height: 3rem;
-  font-weight: var(--bold);
-  // Prevent hover/focus cutoff
-  margin: 3px;
+  padding: 0.75rem 1rem;
+  text-decoration: none;
 
   &:not([disabled]):hover {
     box-shadow: 0 0 0 2px white, 0 0 0 3px var(--color-neutral-400);
-    border-radius: 4px !important;
+    border-radius: var(--radius-default) !important;
   }
 
   &[disabled] {
@@ -28,19 +30,16 @@
   }
 
   * {
-    // prevent addEventListener from detecting children
-    pointer-events: none;
+    pointer-events: none; // prevent addEventListener from detecting children
   }
 
-  // prevent icons in buttons from shrinking.
-  svg {
-    flex-shrink: 0;
+  @include icons.material-symbols {
+    top: 0;
   }
 }
 
 @mixin button--light {
   @include button;
-
   background: var(--color-neutral-100);
   color: var(--color-neutral-400);
 }

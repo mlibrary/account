@@ -1,12 +1,12 @@
+@use "icons";
+
 .banner {
   background: var(--color-teal-200);
   padding: 0.5rem 0;
   * {
     color: var(--color-neutral-400);
   }
-  m-icon {
-    position: relative;
+  @include icons.material-symbols {
     margin-right: 0.25rem;
-    top: 0.125rem;
   }
 }
