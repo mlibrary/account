@@ -168,7 +168,7 @@ describe Loan do
       expect(subject.due_status).to eq("Overdue")
     end
     it "returns 'Due Soon' for today" do
-      @loan_response["due_date"] = (Date.today).strftime("%FT%H:%M:%SZ")
+      @loan_response["due_date"] = Date.today.strftime("%FT%H:%M:%SZ")
       expect(subject.due_status).to eq("Due Soon")
     end
     it "returns 'Due Soon' for 7 days" do
