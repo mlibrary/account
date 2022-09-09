@@ -39,7 +39,7 @@
   {
     "title": "Pending Requests",
     "description": "View the status of requested items.",
-    "icon_name": "date-range",
+    "icon_name": "date_range",
     "color": "orange",
     "children": [
       {
@@ -101,7 +101,7 @@
   {
     "title": "Fines and Fees",
     "description": "View and pay fines for lost items.",
-    "icon_name": "attach-money",
+    "icon_name": "attach_money",
     "color": "indigo",
     "children": [
       {
@@ -132,7 +132,7 @@
   },
   {
     "title": "Logging you in...",
-    "icon_name": "person-outline",
+    "icon_name": "person_outline",
     "sidebar": "false",
     "slug": "login"
   },

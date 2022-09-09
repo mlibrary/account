@@ -1,3 +1,5 @@
+@use "icons";
+
 .modal {
   background: rgba(0, 0, 0, 0.25);
   bottom: 0;
@@ -5,7 +7,7 @@
   height: 100%;
   left: 0;
   margin: 0;
-  padding: var(--space-medium);
+  padding: 1rem;
   position: fixed;
   right: 0;
   text-align: center;
@@ -20,30 +22,26 @@
     flex-direction: column;
     margin: auto;
     max-width: 580px;
-    padding: var(--space-x-large);
+    padding: 2rem;
     position: relative;
     .modal-icon {
-      m-icon {
+      @include icons.material-symbols {
         background: var(--color-pink-100);
         border-radius: 100%;
         color: var(--color-pink-400);
         display: flex;
-        font-size: 4rem;
-        height: 1em;
+        font-size: 2rem;
         margin: auto;
-        width: 1em;
-        & > svg {
-          height: auto;
-          margin: auto;
-          width: 0.5em;
-        }
+        padding: 0.5em;
+        top: 0;
+        width: fit-content;
       }
     }
     .modal-buttons {
-      margin-top: var(--space-large);
+      margin-top: 1.5rem;
       button {
         display: inline-block;
-        margin: var(--space-x-small);
+        margin: 0.5rem;
       }
     }
   }

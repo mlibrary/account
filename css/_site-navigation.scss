@@ -1,5 +1,7 @@
+@use "breakpoints";
+
 .site-navigation {
-  @media screen and ($breakpoint-small) {
+  @include breakpoints.breakpoint('small') {
     display: none;
     & + .site-layout__center {
       grid-column: 1 / 3;
@@ -30,7 +32,7 @@
         left: 0;
         position: absolute;
         top: 0;
-        width: var(--space-xx-small);
+        width: 0.25rem;
       }
     }
   }
@@ -38,23 +40,18 @@
   a {
     color: var(--color-neutral-400);
     display: block;
-    padding: var(--space-medium);
+    padding: 1rem;
     position: relative;
     text-decoration: none;
 
     &:hover,
     &:focus {
       text-decoration: underline;
-      text-decoration-thickness: var(--space-xxx-small);
+      text-decoration-thickness: 0.125rem;
     }
 
     > * + * {
-      margin-left: var(--space-xx-small);
-    }
-
-    m-icon {
-      position: relative;
-      top: var(--space-xxx-small);
+      margin-left: 0.25rem;
     }
   }
 }

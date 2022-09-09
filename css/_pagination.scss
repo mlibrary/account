@@ -1,11 +1,14 @@
+@use "buttons";
+@use "icons";
+
 .pagination {
-  margin: var(--space-x-large) 0;
+  margin: 2rem 0;
 
   .pagination-pages {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
     list-style: none;
-    display: grid;
-    grid-gap: var(--space-small);
-    grid-template-columns: repeat(auto-fill, var(--space-xxx-large));
   }
 
   .pagination-page {
@@ -13,10 +16,18 @@
     margin: 0;
 
     .pagination-page-link {
-      @include button--light;
+      @include buttons.button--light;
+      position: relative;
 
       &[aria-current="true"] {
-        @include button;
+        @include buttons.button;
+      }
+
+      @include icons.material-symbols {
+        font-size: 1.5rem;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
       }
     }
   }

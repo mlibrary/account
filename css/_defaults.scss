@@ -20,7 +20,7 @@ a {
 
 ul {
   list-style: disc;
-  margin-left: var(--space-large);
+  margin-left: 1.5rem;
   &.no-list-style {
     list-style: none;
     margin-left: 0;
@@ -35,7 +35,7 @@ ol {
 }
 
 li:not(:last-child) {
-  margin-bottom: var(--space-small);
+  margin-bottom: 0.75rem;
 }
 
 code,

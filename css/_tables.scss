@@ -1,3 +1,5 @@
+@use "breakpoints";
+
 .responsive-table {
   overflow-x: auto;
   table {
@@ -6,25 +8,31 @@
       text-align: left;
     }
     caption {
-      overflow: hidden;
       .caption-flex {
-        align-items: center;
-        display: flex;
-        flex-wrap: wrap;
-        margin: 0 calc(var(--space-x-small) * -1);
         justify-content: space-between;
-        & > * {
-          padding: var(--space-x-small);
+        &,
+        form,
+        form > label {
+          align-items: center;
+          display: flex;
         }
-        & > & {
-          margin: 0;
-          padding: 0;
+        &,
+        form {
+          gap: 1rem;
+          flex-wrap: wrap;
+        }
+        form,
+        form > label {
+          justify-content: flex-start;
+        }
+        form > label {
+          gap: 0.5rem;
         }
       }
     }
     thead {
       border-bottom: solid 2px var(--color-maize-400);
-      @media screen and ($breakpoint-small) {
+      @include breakpoints.breakpoint('small') {
         border: none;
         clip: rect(0 0 0 0);
         height: 1px;
@@ -38,10 +46,10 @@
     th,
     td {
       vertical-align: top;
-      @media screen and ($breakpoint-medium) {
-        padding: var(--space-medium) 0;
+      @include breakpoints.breakpoint('medium') {
+        padding: 1rem 0;
         &:not(:last-of-type) {
-          padding-right: var(--space-x-large);
+          padding-right: 2rem;
         }
       }
     }
@@ -50,12 +58,12 @@
       font-weight: 800;
       letter-spacing: 1.25px;
       text-transform: uppercase;
-      @media screen and ($breakpoint-large) {
+      @include breakpoints.breakpoint('large') {
         white-space: nowrap;
       }
       &[scope="row"] {
         line-height: 2;
-        @media screen and ($breakpoint-small) {
+        @include breakpoints.breakpoint('small') {
           border: none;
           clip: rect(0 0 0 0);
           height: 1px;
@@ -70,20 +78,20 @@
     tbody {
       tr {
         border-bottom: solid 1px var(--color-neutral-100);
-        @media screen and ($breakpoint-small) {
+        @include breakpoints.breakpoint('small') {
           display: grid;
           grid-template-columns: 1fr auto;
-          padding: var(--space-medium) 0;
+          padding: 1rem 0;
           td {
             display: block;
             grid-column: 1 / 2;
             &:first-of-type:not(:only-of-type) {
-              padding-bottom: var(--space-small);
+              padding-bottom: 0.75rem;
             }
             &.table-cell-action {
               grid-column: 2 / 3;
               grid-row: 1 / -1;
-              padding-left: var(--space-medium);
+              padding-left: 1rem;
             }
             a:not(.button) {
               display: block;
@@ -95,7 +103,7 @@
         }
         span[aria-hidden="true"] {
           font-weight: 600;
-          @media screen and ($breakpoint-medium) {
+          @include breakpoints.breakpoint('medium') {
             display: none;
           }
         }

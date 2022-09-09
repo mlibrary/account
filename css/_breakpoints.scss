@@ -1,6 +1,16 @@
+@use 'sass:map';
+
 $mobile: 1000px;
 $desktop: 1280px;
 
-$breakpoint-small: 'max-width: #{$mobile}';
-$breakpoint-medium: 'min-width: #{$mobile + 1}';
-$breakpoint-large: 'min-width: #{$desktop}';
+$breakpoints: (
+  'small': 'max-width: #{$mobile}',
+  'medium': 'min-width: #{$mobile + 1}',
+  'large': 'min-width: #{$desktop}'
+);
+
+@mixin breakpoint($breakpoint: 'medium') {
+  @media (map.get($breakpoints, $breakpoint)) {
+    @content;
+  }
+}

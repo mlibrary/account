@@ -1,3 +1,5 @@
+@use "icons";
+
 .overview-cards {
   // resets
   list-style: none;
@@ -10,18 +12,18 @@
   }
 
   // styles
-  margin: var(--space-x-large) 0;
+  margin: 2rem 0;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: var(--space-large);
+  gap: 1.5rem;
 }
 
 .overview-card {
   display: flex;
   border: solid 1px var(--color-neutral-100);
   border-radius: var(--radius-default);
-  padding: var(--space-large);
-  padding-bottom: var(--space-x-large);
+  padding: 1.5rem;
+  padding-bottom: 2rem;
   text-decoration: none;
   align-items: center;
   justify-content: space-between;
@@ -32,6 +34,10 @@
     text-decoration-thickness: 2px;
     text-decoration-color: var(--color-teal-400);
   }
+
+  @include icons.material-symbols {
+    top: 0;
+  }
 }
 
 .overview-card-heading {
@@ -39,8 +45,10 @@
   margin: 0 !important;
   color: var(--color-neutral-400);
 
-  m-icon {
-    margin-left: var(--space-x-small);
+  @include icons.material-symbols {
+    font-size: 0.675em;
+    margin-left: 0.5rem;
+    vertical-align: middle;
   }
 }
 
@@ -54,18 +62,13 @@
 
   display: flex;
   justify-content: space-evenly;
-  margin-left: var(--space-medium);
+  margin-left: 1rem;
   border-radius: 100%;
-  padding: var(--space-medium);
+  padding: 1rem;
   background: var(--overview-card-icon-background-color);
 
-  m-icon {
-    display: flex;
-  }
-
-  svg {
+  @include icons.material-symbols {
     color: var(--overview-card-icon-color);
-    width: var(--space-xx-large);
-    height: var(--space-xx-large);
+    font-size: 2.5rem;
   }
 }
