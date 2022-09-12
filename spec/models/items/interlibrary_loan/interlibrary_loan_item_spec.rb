@@ -40,7 +40,7 @@ describe InterlibraryLoanItem do
   end
   context "#url_request_renewal" do
     it "returns url to the form to request a renewal of the ILLiad transaction" do
-      expect(subject.url_request_renewal).to eq("https://ill.lib.umich.edu/illiad/illiad.dll?Action=11&Form=71&Value=3298020")
+      expect(subject.url_request_renewal).to eq("https://ill.lib.umich.edu/illiad/illiad.dll?Action=10&Form=72&Value=3298020")
     end
   end
   context "#creation_date" do

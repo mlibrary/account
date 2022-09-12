@@ -33,7 +33,7 @@ class InterlibraryLoanItem < Item
   end
 
   def url_request_renewal
-    illiad_url(11, 71)
+    illiad_url(10, 72)
   end
 
   def creation_date
