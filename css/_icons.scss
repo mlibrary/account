@@ -1,0 +1,11 @@
+@mixin material-symbols {
+  span[class^="material-symbols-"] {
+    @content;
+  }
+}
+
+@include material-symbols {
+  font-size: 1rem;
+  position: relative;
+  top: 0.125rem;
+};

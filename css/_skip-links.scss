@@ -10,13 +10,13 @@
   }
   a {
     color: white;
-    padding: var(--space-x-small);
+    padding: 0.5rem;
   }
   ul {
-    margin: var(--space-medium) 0;
+    margin: 1rem 0;
     text-align: center;
     li + li {
-      margin-top: var(--space-medium);
+      margin-top: 1rem;
     }
   }
 }

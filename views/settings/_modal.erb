@@ -6,11 +6,11 @@
 >
   <div class="modal-container" role="dialog"  aria-labelledby="<%= modal[:id] %>-heading" aria-describedby="<%= modal[:id] %>-text">
     <button class="button--light button--close close-message" disabled>
-      <m-icon name="close"></m-icon><span class="visually-hidden">Close</span>
+      <span class="material-symbols-rounded">close</span><span class="visually-hidden">Close</span>
     </button>
     <% if modal[:state] %>
       <div class="modal-icon state-<%= modal[:state] %>">
-        <m-icon name="warning"></m-icon>
+        <span class="material-symbols-rounded">warning</span>
       </div>
     <% end %>
     <div class="modal-content owl">

@@ -1,5 +1,7 @@
+@use "breakpoints";
+
 .breadcrumbs {
-  @media screen and ($breakpoint-medium) {
+  @include breakpoints.breakpoint('medium') {
     display: none;
   }
 }
@@ -12,9 +14,9 @@
     background: var(--color-blue-100);
     border-bottom: solid 1px var(--color-neutral-100);
     list-style: none;
-    margin: 0 calc(-1 * var(--space-medium));
+    margin: 0 -1rem;
 
-    @media screen and ($breakpoint-medium) {
+    @include breakpoints.breakpoint('medium') {
       background-color: transparent;
       margin: 0;
     }
@@ -23,17 +25,17 @@
       border-top: solid 1px var(--color-neutral-100);
       margin-bottom: 0;
 
-      @media screen and ($breakpoint-medium) {
+      @include breakpoints.breakpoint('medium') {
         border-top: 0;
         display: inline-block;
         & + li {
-          padding-left: var(--space-medium);
+          padding-left: 1rem;
         }
       }
 
-      @media screen and ($breakpoint-large) {
+      @include breakpoints.breakpoint('large') {
         & + li {
-          padding-left: var(--space-large);
+          padding-left: 1.5rem;
         }
       }
     }
@@ -43,16 +45,16 @@
       display: block;
       font-weight: 600;
       margin-bottom: -1px;
-      padding: var(--space-medium);
+      padding: 1rem;
       text-decoration: none;
 
-      @media screen and ($breakpoint-medium) {
-        padding: var(--space-medium) 0;
+      @include breakpoints.breakpoint('medium') {
+        padding: 1rem 0;
       }
 
       &:hover {
         text-decoration: underline;
-        text-decoration-thickness: var(--space-xxx-small);
+        text-decoration-thickness: 0.125rem;
       }
 
       &[aria-current='page'] {
@@ -67,10 +69,10 @@
           left: 0;
           position: absolute;
           top: 0;
-          width: var(--space-xx-small);
-          @media screen and ($breakpoint-medium) {
+          width: 0.25rem;
+          @include breakpoints.breakpoint('medium') {
             bottom: 0;
-            height: var(--space-xx-small);
+            height: 0.25rem;
             top: auto;
             width: 100%;
           }

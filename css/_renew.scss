@@ -1,3 +1,5 @@
+@use "icons";
+
 @keyframes spin {
   from {
     transform: rotate(0deg);
@@ -7,30 +9,32 @@
   }
 }
 
-.loading m-icon {
-  animation-name: spin;
-  animation-duration: 2500ms;
-  animation-iteration-count: infinite;
-  animation-timing-function: linear;
+.loading {
+  @include icons.material-symbols {
+    animation-name: spin;
+    animation-duration: 1500ms;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+  }
 }
 
 .progress-heading {
   margin-top: 0!important;
-  margin-bottom: var(--space-small);
+  margin-bottom: 0.75rem;
 }
 
 .progress-container {
   text-align: center;
-  margin-bottom: var(--space-x-large);
+  margin-bottom: 2rem;
 }
 
 .progress-container progress {
-  margin: var(--space-small) 0;
+  margin: 0.75rem 0;
 }
 
 .progress-label-text {
   display: block;
-  margin-bottom: var(--space-x-small);
+  margin-bottom: 0.5rem;
 }
 
 .progress-percent {
@@ -38,7 +42,7 @@
 }
 
 @mixin progress-bar-border-radius {
-  border-radius: var(--space-small);
+  border-radius: 0.75rem;
 }
 
 @mixin progress-bar-background {
@@ -54,7 +58,7 @@
 progress {
   width: 32rem;
   max-width: 100%;
-  height: var(--space-large);
+  height: 1.5rem;
   @include progress-bar-background;
 }
 progress::-webkit-progress-bar {
