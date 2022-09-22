@@ -18,26 +18,16 @@
   }
 }
 
-.progress-heading {
-  margin-top: 0!important;
-  margin-bottom: 0.75rem;
-}
-
-.progress-container {
+.progress-bar {
   text-align: center;
   margin-bottom: 2rem;
 }
 
-.progress-container progress {
+.progress-bar progress {
   margin: 0.75rem 0;
 }
 
-.progress-label-text {
-  display: block;
-  margin-bottom: 0.5rem;
-}
-
-.progress-percent {
+.progress-bar p {
   color: var(--color-neutral-300);
 }
 
