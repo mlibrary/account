@@ -98,7 +98,7 @@ const getEligibleItems = async () => {
     // Update loan count on button and progress details
     renewAllEligibleButton.dataset.jsRenewAll = progressDescriptionTotal.innerText = totalEligibleItems;
     progress.setAttribute('max', totalEligibleItems);
-    // Undisable button if there are loans that can be renewed
+    // Remove `disabled` attribute in button if there are loans that can be renewed
     renewAllEligibleButton.disabled = totalEligibleItems === 0;
     // Reset progress
     progress.setAttribute('value', 0);
@@ -111,9 +111,23 @@ const getEligibleItems = async () => {
   await getEligibleItems();
 }());
 
+const responsiveTable = document.querySelector('.responsive-table');
+const calloutClass = 'renewal-message';
+
 renewAllEligibleButton.addEventListener('click', async function (event) {
   // Start loading animation
   event.target.classList.add('loading');
+  // Remove existing m-callout component
+  const existingCallout = document.querySelector(`m-callout.${calloutClass}`);
+  if (existingCallout) {
+    existingCallout.remove();
+  }
+  // Prepare new m-callout component
+  const mCallout = document.createElement('m-callout');
+  mCallout.classList.add(calloutClass);
+  ['subtle', 'icon', 'dismissable'].forEach((attribute) => {
+    mCallout.setAttribute(attribute, '');
+  });
   // Show progress bar
   progressBar.style.display = 'block';
   progress.setAttribute('aria-busy', true);
@@ -122,22 +136,33 @@ renewAllEligibleButton.addEventListener('click', async function (event) {
     if (!eligibleItems) {
       errorMessage();
     }
+    // Set m-callout details
+    mCallout.setAttribute('variant', 'success');
+    mCallout.innerHTML = `
+      <p>You've successfully renewed <span class="strong">all eligible items</span>. 
+         Your new return dates are shown, starting with items due first.</p>
+      <p>If you have questions or need help, please contact the <a href="https://lib.umich.edu/locations-and-hours/hatcher-library/hatcher-north-information-services-desk">Hatcher North Information Services Desk</a>.</p>
+    `;
     return await Promise.allSettled(eligibleItems.map((eligibleItem, index) => {
       // Update renewal progress
       const currentCount = index + 1;
       progressDescriptionRenewed.innerText = progress.value = currentCount;
       return renewingItem(eligibleItem);
     }));
-    // Assign message
   } catch (error) {
-    // Assign message
+    // Set m-callout details
+    mCallout.setAttribute('variant', 'warning');
+    mCallout.innerHTML = `
+      <p>None of your items are eligible for renewal. If you need help, please contact the <a href="https://lib.umich.edu/locations-and-hours/hatcher-library/hatcher-north-information-services-desk">Hatcher North Information Services Desk</a>.</p>
+    `;
   } finally {
     // Stop loading animation
     event.target.classList.remove('loading');
     // Hide progress bar
     progressBar.style.display = 'none';
     progress.setAttribute('aria-busy', false);
-    // Show message
+    // Display m-callout
+    responsiveTable.prepend(mCallout);
     // Fetch items again
     await getEligibleItems();
   }
