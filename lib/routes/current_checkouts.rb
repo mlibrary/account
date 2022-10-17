@@ -14,8 +14,12 @@ namespace "/current-checkouts" do
     message = session.delete(:message)
     erb :"current-checkouts/u-m-library", locals: {loans: loans, message: message, loan_controls: loan_controls, has_js: true}
   rescue => e
-    flash.now[:error] = "<span class='strong'>Error:</span> We were unable to load your loans. Please try again." unless e.message == "not_in_alma"
-    erb :empty_state
+    if e.message == "not_in_alma"
+      erb :empty_state
+    else
+      flash.now[:error] = "<span class='strong'>Error:</span> We were unable to load your loans. Please try again." unless e.message == "not_in_alma"
+      erb :error
+    end
   end
 
   post "/u-m-library" do
@@ -33,7 +37,7 @@ namespace "/current-checkouts" do
     erb :"current-checkouts/interlibrary-loan", locals: {interlibrary_loans: interlibrary_loans}
   rescue
     flash.now[:error] = "<span class='strong'>Error:</span> We were unable to load your interlibrary oans. Please try again."
-    erb :empty_state
+    erb :error
   end
   get "/scans-and-electronic-items/?" do
     document_delivery = DocumentDelivery.for(uniqname: session[:uniqname], limit: params["limit"], offset: params["offset"], count: nil)
