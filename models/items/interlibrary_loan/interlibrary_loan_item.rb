@@ -32,8 +32,12 @@ class InterlibraryLoanItem < Item
     illiad_url(21, 10, true)
   end
 
-  def url_request_renewal
-    illiad_url(10, 72)
+  def renew_text
+    if renewable?
+      "Yes - select title to request renewal"
+    else
+      "No - not eligible for renewal"
+    end
   end
 
   def creation_date

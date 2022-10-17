@@ -1,1 +1,1 @@
-require_relative "my_account"
+require_relative "account"

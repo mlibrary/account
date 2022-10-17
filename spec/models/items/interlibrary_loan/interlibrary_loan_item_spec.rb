@@ -38,11 +38,6 @@ describe InterlibraryLoanItem do
       expect(subject.url_cancel_request).to eq("https://ill.lib.umich.edu/illiad/illiad.dll?Action=21&Type=10&Value=3298020")
     end
   end
-  context "#url_request_renewal" do
-    it "returns url to the form to request a renewal of the ILLiad transaction" do
-      expect(subject.url_request_renewal).to eq("https://ill.lib.umich.edu/illiad/illiad.dll?Action=10&Form=72&Value=3298020")
-    end
-  end
   context "#creation_date" do
     it "returns creation date string" do
       expect(subject.creation_date).to eq("03/09/21")
@@ -75,6 +70,15 @@ describe InterlibraryLoanItem do
   context "#transaction_date" do
     it "returns transaction date string" do
       expect(subject.transaction_date).to eq("03/09/21")
+    end
+  end
+  context "#renew_text" do
+    it "returns correct text when renewable" do
+      @item["RenewalsAllowed"] = true
+      expect(subject.renew_text).to eq("Yes - select title to request renewal")
+    end
+    it "returns correct text when not_renewable" do
+      expect(subject.renew_text).to eq("No - not eligible for renewal")
     end
   end
   context "#renewable?" do
