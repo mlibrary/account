@@ -15,7 +15,7 @@
     <tr>
       <th>Title &amp; author</th>
       <th>Due date</th>
-      <th>Action</th>
+      <th>Eligible for renewal</th>
     </tr>
   </thead>
   <tbody>
@@ -34,11 +34,7 @@
           <% end %>
         </td>
         <td class="table-cell-action">
-          <% if interlibrary_loan.renewable? %>
-            <a href="<%= interlibrary_loan.url_request_renewal %>">Request Renewal</a>
-          <% else %>
-            <p>Not eligible for renewal</p>
-          <% end %>
+          <%= interlibrary_loan.renew_text %>
         </td>
       </tr>
     <% end %>
