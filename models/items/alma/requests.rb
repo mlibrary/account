@@ -49,11 +49,11 @@ class Request < AlmaItem
 
   def status
     case @parsed_response["request_status"]
-    when "IN_PROCESS"
+    when "In Process"
       "In process"
-    when "ON_HOLD_SHELF"
+    when "On Hold Shelf"
       "Ready"
-    when "NOT_STARTED"
+    when "Not Started"
       "Not started"
     else
       ""
