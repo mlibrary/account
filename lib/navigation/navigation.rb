@@ -1,6 +1,6 @@
 class Navigation
   def self.cards
-    Entities::Pages.all[1, 6]
+    Entities::Pages.all[1, 5]
   end
 
   def self.home

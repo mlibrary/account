@@ -4,7 +4,7 @@ describe Navigation::Sidebar do
       described_class.for("/")
     end
     it "has pages all top-level pages that are not hidden from the sidebar" do
-      expect(subject.pages.count).to eq(7)
+      expect(subject.pages.count).to eq(6)
     end
     it "has correct active page" do
       expect(subject.pages.first.active?).to eq(true)

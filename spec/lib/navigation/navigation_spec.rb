@@ -7,7 +7,7 @@ describe Navigation do
       expect(subject.find { |x| x.title == "Account Overview" }).to be_nil
     end
     it "should have 6 elements" do
-      expect(subject.count).to eq(6)
+      expect(subject.count).to eq(5)
     end
   end
   context ".home" do
