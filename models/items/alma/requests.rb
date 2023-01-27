@@ -48,12 +48,14 @@ class Request < AlmaItem
   end
 
   def status
-    case @parsed_response["request_status"]
-    when "In Process"
+    request_status = @parsed_response["request_status"] || ""
+    normalized_status = request_status.upcase.tr(" ", "_")
+    case normalized_status
+    when "IN_PROCESS"
       "In process"
-    when "On Hold Shelf"
+    when "ON_HOLD_SHELF"
       "Ready"
-    when "Not Started"
+    when "NOT_STARTED"
       "Not started"
     else
       ""

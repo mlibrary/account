@@ -98,7 +98,17 @@ describe HoldRequest do
     end
   end
   context "#status" do
+    # both of these are here because the Alma API isn't consistent with
+    # what is returned for "request_status"
+    it "returns 'In process' when In Process" do
+      expect(subject.status).to eq("In process")
+    end
+    it "handles nil request status" do
+      @hold_response["request_status"] = nil
+      expect(subject.status).to eq("")
+    end
     it "returns 'In process' when IN_PROCESS" do
+      @hold_response["request_status"] = "IN_PROCESS"
       expect(subject.status).to eq("In process")
     end
   end
