@@ -1,4 +1,4 @@
-FROM ruby:3.1
+FROM ruby:3.2
 ARG UNAME=app
 ARG UID=1000
 ARG GID=1000
@@ -9,7 +9,7 @@ RUN apt-get update -yqq && apt-get install -yqq --no-install-recommends \
   apt-transport-https \
   vim-tiny
 
-RUN gem install bundler:2.3.22
+RUN gem install bundler:2.4.7
 
 RUN groupadd -g ${GID} -o ${UNAME}
 RUN useradd -m -d /app -u ${UID} -g ${GID} -o -s /bin/bash ${UNAME}
