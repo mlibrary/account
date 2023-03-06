@@ -3,10 +3,10 @@
   "version": "1.0.0",
   "description": "for account.lib",
   "dependencies": {
-    "sass": "^1.58.0"
+    "sass": "^1.58.3"
   },
   "devDependencies": {
-    "eslint": "^8.33.0",
+    "eslint": "^8.35.0",
     "eslint-config-standard": "^17.0.0",
     "eslint-plugin-import": "^2.27.5",
     "eslint-plugin-node": "^11.1.0",
