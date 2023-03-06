@@ -19,6 +19,6 @@ class Items
   end
 
   def item_text
-    count == 1 ? "item" : "items"
+    (count == 1) ? "item" : "items"
   end
 end

@@ -1,6 +1,6 @@
 describe Entities::Page::EmptyState do
   let(:default_heading) { "You have no items." }
-  let(:default_message) { "See <a href=\"https://www.lib.umich.edu/find-borrow-request\">what you can borrow from the library<\/a>." }
+  let(:default_message) { "See <a href=\"https://www.lib.umich.edu/find-borrow-request\">what you can borrow from the library</a>." }
 
   before(:each) do
     @empty_state = {"heading" => "This is a heading", "message" => "This is a message."}

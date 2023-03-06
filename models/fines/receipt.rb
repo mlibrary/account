@@ -55,7 +55,7 @@ class Payment
     @city = params["city"]
     @state = params["state"]
     @zip = params["zip"]
-    @country = params["country"] == "UNITED STATES" ? "" : params["country"]
+    @country = (params["country"] == "UNITED STATES") ? "" : params["country"]
   end
 end
 
