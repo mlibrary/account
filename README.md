@@ -22,13 +22,13 @@ edit .env with the following environment variables.
 
 ```ruby
 #.env/development/web
-ALMA_API_KEY='YOURAPIKEY'
+ALMA_API_KEY='YOUR-ALMA-API-KEY'
 ALMA_API_HOST='https://api-na.hosted.exlibrisgroup.com'
-ILLIAD_API_KEY='YOURAPIKEY'
-ILLIAD_API_HOST='https://yourilliadhost.com'
-WEBLOGIN_SECRET = 'YOURWEBLOGINSECRET'
-NELNET_SECRET_KEY='YOURNELNETSECRETKEY'
-NELNET_PAYMENT_URL='https://yournelnethost.com'
+ILLIAD_API_KEY='YOUR-ILLIAD-API-KEY'
+ILLIAD_API_HOST='http://illiad-api-host.com'
+WEBLOGIN_SECRET='YOUR-WEBLOGIN-SECRET'
+NELNET_SECRET_KEY='YOUR-NELNET-SECRET-KEY'
+NELNET_PAYMENT_URL='https://nelnet-api-host.com'
 ```
 
 build web container
