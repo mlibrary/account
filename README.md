@@ -27,6 +27,8 @@ ALMA_API_HOST='https://api-na.hosted.exlibrisgroup.com'
 ILLIAD_API_KEY='YOURAPIKEY'
 ILLIAD_API_HOST='https://yourilliadhost.com'
 WEBLOGIN_SECRET = 'YOURWEBLOGINSECRET'
+NELNET_SECRET_KEY='YOURNELNETSECRETKEY'
+NELNET_PAYMENT_URL='https://yournelnethost.com'
 ```
 
 build web container
