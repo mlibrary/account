@@ -61,7 +61,7 @@ class Patron
     return Error.new(message: "Phone number #{sms} is invalid") unless phone.valid? || sms.empty?
     url = "/users/#{uniqname}"
     response = client.put(url, body: patron_with_internal_sms(phone.national_number).to_json)
-    response.code == 200 ? response : AlmaError.new(response)
+    (response.code == 200) ? response : AlmaError.new(response)
   end
 
   def uniqname

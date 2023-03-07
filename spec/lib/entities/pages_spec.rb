@@ -59,7 +59,7 @@ describe Entities::Page do
       @page["title"] = "Fines & Fees"
       expect(subject.slug).to eq("fines-and-fees")
     end
-    it "handles '\'" do
+    it "handles ''" do
       @page["title"] = "Document Delivery / Scans"
       expect(subject.slug).to eq("document-delivery-or-scans")
     end

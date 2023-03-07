@@ -20,7 +20,7 @@ class Entities::Page::EmptyState
     elsif @parent_empty_state&.message
       @parent_empty_state.message
     else
-      "See <a href=\"https://www.lib.umich.edu/find-borrow-request\">what you can borrow from the library<\/a>."
+      "See <a href=\"https://www.lib.umich.edu/find-borrow-request\">what you can borrow from the library</a>."
     end
   end
 

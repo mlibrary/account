@@ -11,7 +11,7 @@ namespace "/fines-and-fees" do
   post "/pay" do
     fines = Fines.for(uniqname: session[:uniqname])
     total_sum = fines.total_sum.to_f
-    amount = params["pay_in_full"] == "true" ? total_sum : params["partial_amount"].to_f
+    amount = (params["pay_in_full"] == "true") ? total_sum : params["partial_amount"].to_f
     if amount <= total_sum
       nelnet = Nelnet.new(amount_due: amount.to_currency)
       session["order_number"] = nelnet.orderNumber
