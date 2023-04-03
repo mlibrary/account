@@ -3,16 +3,16 @@
   "version": "1.0.0",
   "description": "for account.lib",
   "dependencies": {
-    "sass": "^1.58.3"
+    "sass": "^1.60.0"
   },
   "devDependencies": {
-    "eslint": "^8.35.0",
+    "eslint": "^8.37.0",
     "eslint-config-standard": "^17.0.0",
     "eslint-plugin-import": "^2.27.5",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^6.1.1",
     "eslint-webpack-plugin": "^4.0.0",
-    "webpack": "^5.75.0",
+    "webpack": "^5.77.0",
     "webpack-cli": "^5.0.1",
     "webpack-merge": "^5.8.0"
   },
