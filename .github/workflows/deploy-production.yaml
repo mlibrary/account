@@ -13,7 +13,7 @@ jobs:
     environment: production
     steps:
     - name: Deploy to Production
-      uses: mlibrary/deploy-to-kubernetes@v2
+      uses: mlibrary/deploy-to-kubernetes@v3
       with:
         registry_token: ${{ secrets.GITHUB_TOKEN }}
         image: ghcr.io/mlibrary/${{ secrets.IMAGE_NAME }}:${{ github.event.inputs.tag }}
