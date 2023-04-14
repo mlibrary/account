@@ -31,7 +31,7 @@ List instructions on how to test the pull request. Some examples:
   - [x] Chrome
   - [x] Firefox
   - [x] Safari
-  - [ ] Edge
+  - [ ] Edge (the assignee was not able to test the pull request in this browser)
 - Run accessibility tests:
   - [x] WAVE
   - [x] ARC Toolkit
