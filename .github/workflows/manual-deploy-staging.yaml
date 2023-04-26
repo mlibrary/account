@@ -17,23 +17,23 @@ jobs:
     environment: staging
     steps:
     - name: Clone latest repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
       with:
         fetch-depth: 0
     - name: Check that the tag exists in repo
       id: tag_check
       run: |
         if git rev-parse 'refs/tags/${{ github.event.inputs.tag }}' &> /dev/null; then
-          echo '::set-output name=tag::${{ github.event.inputs.tag }}'
+          echo 'tag=${{ github.event.inputs.tag }}' >> $GITHUB_OUTPUT
         elif git rev-parse '${{ github.event.inputs.tag }}' &> /dev/null; then
-          echo "::set-output name=tag::`git rev-parse '${{ github.event.inputs.tag }}'`"
+          echo "tag=`git rev-parse '${{ github.event.inputs.tag }}'`" >> $GITHUB_OUTPUT
         else
           echo "Couldn't figure out tag from input: ${{ github.event.inputs.tag }}"
           echo "Aborting deployment."
           false
         fi
     - name: Log into Github Container Registry
-      uses: docker/login-action@v1
+      uses: docker/login-action@v2
       with:
         registry: ghcr.io
         username: ${{ github.actor }}
@@ -42,26 +42,26 @@ jobs:
       id: image_check
       run: |
         if docker manifest inspect ghcr.io/mlibrary/${{ secrets.IMAGE_NAME }}:${{ steps.tag_check.outputs.tag }} > /dev/null; then
-          echo '::set-output name=image_exists::true'
+          echo 'image_exists=true' >> $GITHUB_OUTPUT
           echo "image exists!"
         else
           echo "image doesn't exist; Starting to Build and push image"
         fi
     - name: Checkout Correct repository
       if: ${{ steps.image_check.outputs.image_exists != 'true' }}
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
       with:
         ref: ${{ github.event.inputs.tag }}
     - name: Build and Push
       if: ${{ steps.image_check.outputs.image_exists != 'true' }}
-      uses: docker/build-push-action@v2
+      uses: docker/build-push-action@v4
       with:
         context: .
         file: Dockerfile.prod
         push: true
         tags: ghcr.io/mlibrary/${{ secrets.IMAGE_NAME }}:${{steps.tag_check.outputs.tag}}
     - name: Deploy to ${{ env.environment }}
-      uses: mlibrary/deploy-to-kubernetes@v2
+      uses: mlibrary/deploy-to-kubernetes@v3
       with:
         registry_token: ${{ secrets.GITHUB_TOKEN }}
         image: ghcr.io/mlibrary/${{ secrets.IMAGE_NAME }}:${{ steps.tag_check.outputs.tag }}

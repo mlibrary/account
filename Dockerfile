@@ -1,7 +1,6 @@
 ARG RUBY_VERSION=3.2
 FROM ruby:${RUBY_VERSION}
 
-ARG BUNDLER_VERSION=2.4.7
 ARG UNAME=app
 ARG UID=1000
 ARG GID=1000
@@ -11,13 +10,13 @@ LABEL maintainer="mrio@umich.edu"
 RUN apt-get update -yqq && apt-get install -yqq --no-install-recommends \
   apt-transport-https
 
-RUN curl -sL https://deb.nodesource.com/setup_16.x | bash -
+RUN curl -sL https://deb.nodesource.com/setup_18.x | bash -
 
 RUN apt-get update -yqq && apt-get install -yqq --no-install-recommends \
   nodejs \
   vim-tiny
 
-RUN gem install bundler:${BUNDLER_VERSION}
+RUN gem install bundler
 RUN curl -qL https://www.npmjs.com/install.sh | sh
 
 RUN groupadd -g ${GID} -o ${UNAME}
