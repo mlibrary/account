@@ -3,17 +3,17 @@
   "version": "1.0.0",
   "description": "for account.lib",
   "dependencies": {
-    "sass": "^1.60.0"
+    "sass": "^1.62.1"
   },
   "devDependencies": {
-    "eslint": "^8.37.0",
+    "eslint": "^8.39.0",
     "eslint-config-standard": "^17.0.0",
     "eslint-plugin-import": "^2.27.5",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^6.1.1",
-    "eslint-webpack-plugin": "^4.0.0",
-    "webpack": "^5.77.0",
-    "webpack-cli": "^5.0.1",
+    "eslint-webpack-plugin": "^4.0.1",
+    "webpack": "^5.81.0",
+    "webpack-cli": "^5.0.2",
     "webpack-merge": "^5.8.0"
   },
   "scripts": {
