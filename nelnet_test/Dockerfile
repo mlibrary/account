@@ -9,7 +9,7 @@ RUN apt-get update -yqq && apt-get install -yqq --no-install-recommends \
   apt-transport-https \
   vim-tiny
 
-RUN gem install bundler:2.4.7
+RUN gem install bundler
 
 RUN groupadd -g ${GID} -o ${UNAME}
 RUN useradd -m -d /app -u ${UID} -g ${GID} -o -s /bin/bash ${UNAME}
@@ -22,7 +22,5 @@ ENV BUNDLE_PATH /gems
 
 WORKDIR /app
 RUN bundle install
-
-COPY --chown=${UID}:${GID} . /app
 
 CMD ["bundle", "exec", "ruby", "nelnet_test.rb", "-o", "0.0.0.0"]

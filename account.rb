@@ -10,7 +10,7 @@ require "jwt"
 require "byebug" if development?
 
 # Monkey patch for omniauth_openid_connect -> openid_connect -> webfinger -> httpclient SSL errors
-require_relative "./lib/monkey_httpclient"
+# require_relative "./lib/monkey_httpclient"
 
 require_relative "./lib/entities/entities"
 require_relative "./lib/entities/pages"

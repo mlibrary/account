@@ -1,7 +1,8 @@
-# My Account
+# Account
 
-Account.lib 
 https://account.lib.umich.edu
+
+This is the code repository for the University of Michigan Library Account application.
 
 ## Setting up patron_account for development
 
@@ -18,23 +19,12 @@ copy .env-example to .env
 cp .env-example .env
 ```
 
-edit .env with the following environment variables. 
+edit .env with the appropriate environment variables 
 
-```ruby
-#.env/development/web
-ALMA_API_KEY='YOUR-ALMA-API-KEY'
-ALMA_API_HOST='https://api-na.hosted.exlibrisgroup.com'
-ILLIAD_API_KEY='YOUR-ILLIAD-API-KEY'
-ILLIAD_API_HOST='http://illiad-api-host.com'
-WEBLOGIN_SECRET='YOUR-WEBLOGIN-SECRET'
-NELNET_SECRET_KEY='YOUR-NELNET-SECRET-KEY'
-NELNET_PAYMENT_URL='https://nelnet-api-host.com'
-```
-
-build web container
+build the containers
 
 ```
-docker-compose build web
+docker-compose build
 ```
 
 bundle install
@@ -68,7 +58,7 @@ docker-compose up -d
 In a browser, go to http://localhost:4567 to see the website.
 
 ## Turning Weblogin on or off
-In `docker-compose.yml` in the 'web' service there's an environment variable "WEBLOGIN_ON". If it is "true" weblogin will be turned on in development mode. 
+In `.env` there's an environment variable "WEBLOGIN_ON". If it is "true" weblogin will be turned on in development mode. 
 If it is "false" weblogin will be turned off. Having weblogin off will turn on the developer tools form on each page, and you will be able to toggle 
 through the mlibrary.acct.testing friend accounts. These will have circulation data in the Alma sandbox. 
 
@@ -78,7 +68,7 @@ In `webpack.common.js` add a key value pair to entry where the value is the path
 
 Exmaple: the key for a js file to be used at the following path "/current-checkouts/u-m-library" would be "current-checkouts-u-m-library"
 
-In `my_account.rb`, for the route, locals should include has_js: true.
+In `account.rb`, for the route, locals should include has_js: true.
 
 ## Testing with the actual Nelnet testing site
 To try using the actual Nelnet testing site for testing fines and fees, you need to get the correct environment variables. There's extra documentation with example credit cards and input that will trigger different responses. Check the My Account confluenc page for more info.
