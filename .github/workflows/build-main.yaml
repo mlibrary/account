@@ -7,32 +7,17 @@ on:
     types: [ completed ]
 
 jobs:
-  build:
+  build-unstable:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
-    runs-on: ubuntu-latest
-    environment: testing
-    steps:
-    - uses: actions/checkout@v3
-      with:
-        fetch-depth: 0
-    - name: Log into Github Container Registry
-      uses: docker/login-action@v2
-      with:
-        registry: ghcr.io
-        username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }}
-    - name: Build and Push
-      uses: docker/build-push-action@v2
-      with:
-        context: .
-        file: Dockerfile.prod
-        push: true
-        tags: | 
-           ghcr.io/mlibrary/${{ secrets.IMAGE_NAME }}:latest
-           ghcr.io/mlibrary/${{ secrets.IMAGE_NAME }}:${{ github.sha }}
+    uses: mlibrary/platform-engineering-workflows/.github/workflows/build-unstable.yml@v1
+    with:
+      image_name: ${{ vars.IMAGE_NAME }}
+      tag: ${{ github.sha }}
+      dockerfile: Dockerfile.prod
+    secrets: inherit
 
   deploy-testing:
-    needs: build
+    needs: build-unstable
     runs-on: ubuntu-latest
     environment: testing
     steps:
@@ -40,14 +25,14 @@ jobs:
       uses: mlibrary/deploy-to-kubernetes@v3
       with:
         registry_token: ${{ secrets.GITHUB_TOKEN }}
-        image: ghcr.io/mlibrary/${{ secrets.IMAGE_NAME }}:${{ github.sha }}
+        image: ${{ needs.build-unstable.outputs.image }}
         cluster_ca: ${{ secrets.HATCHER_CLUSTER_CA }}
         cluster_server: https://hatcher.kubernetes.lib.umich.edu
         namespace_token: ${{ secrets.HATCHER_TOKEN }}
         namespace: ${{ secrets.NAMESPACE }}
 
   deploy-staging:
-    needs: build
+    needs: build-unstable
     runs-on: ubuntu-latest
     environment: staging
     steps:
@@ -55,7 +40,7 @@ jobs:
       uses: mlibrary/deploy-to-kubernetes@v3
       with:
         registry_token: ${{ secrets.GITHUB_TOKEN }}
-        image: ghcr.io/mlibrary/${{ secrets.IMAGE_NAME }}:${{ github.sha }}
+        image: ${{ needs.build-unstable.outputs.image }}
         cluster_ca: ${{ secrets.HATCHER_CLUSTER_CA }}
         cluster_server: https://hatcher.kubernetes.lib.umich.edu
         namespace_token: ${{ secrets.HATCHER_TOKEN }}

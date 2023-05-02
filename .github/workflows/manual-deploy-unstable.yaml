@@ -1,0 +1,41 @@
+name: Manual Deploy Unstable
+
+on:
+  workflow_dispatch:
+    inputs:
+      deploy_environment:
+        description: 'namespace to deploy to'
+        required: true
+        type: choice
+        default: "testing"
+        options:
+          - "testing"
+          - "staging"
+      tag:
+        description: tag
+        required: true
+
+jobs:
+  build-unstable:
+    name: Build unstable ${{ github.event.inputs.tag }}
+    uses: mlibrary/platform-engineering-workflows/.github/workflows/build-unstable.yml@v1
+    with:
+      image_name: ${{ vars.IMAGE_NAME }}
+      tag: ${{ github.event.inputs.tag }}
+      dockerfile: Dockerfile.prod
+    secrets: inherit
+
+  deploy:
+    needs: build-unstable
+    runs-on: ubuntu-latest
+    environment: ${{ github.event.inputs.deploy_environment }}
+    steps:
+    - name: Deploy to ${{ github.event.inputs.deploy_environment }}
+      uses: mlibrary/deploy-to-kubernetes@v3
+      with:
+        registry_token: ${{ secrets.GITHUB_TOKEN }}
+        image: ${{ needs.build-unstable.outputs.image }}
+        cluster_ca: ${{ secrets.HATCHER_CLUSTER_CA }}
+        cluster_server: https://hatcher.kubernetes.lib.umich.edu
+        namespace_token: ${{ secrets.HATCHER_TOKEN }}
+        namespace: ${{ secrets.NAMESPACE }}
