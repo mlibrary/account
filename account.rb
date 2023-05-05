@@ -72,6 +72,12 @@ require_relative "./lib/routes/fines_and_fees"
 helpers StyledFlash
 
 enable :sessions
+set :sessions,
+  same_site: :none,
+  expire_after: 1.day
+
+set :sessions, secure: true if settings.environment == :production
+
 set :session_secret, ENV["RACK_COOKIE_SECRET"]
 set server: "thin", connections: []
 
