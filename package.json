@@ -6,6 +6,7 @@
     "sass": "^1.62.1"
   },
   "devDependencies": {
+    "esbuild": "^0.17.18",
     "eslint": "^8.39.0",
     "eslint-config-standard": "^17.0.0",
     "eslint-plugin-import": "^2.27.5",
@@ -20,7 +21,9 @@
     "watch-css": "sass --watch css:public/bundles",
     "build-css": "sass css:public/bundles --style=compressed",
     "watch-js": "webpack --config webpack.dev.js --watch",
-    "build-js": "webpack --config webpack.prod.js"
+    "build-js": "webpack --config webpack.prod.js",
+    "build-js:esbuild": "npx esbuild --bundle --sourcemap js/*.js --outdir=public/bundles --outbase=js",
+    "watch-js:esbuild": "npx esbuild --bundle --sourcemap js/*.js --outdir=public/bundles --outbase=js --watch"
   },
   "repository": {
     "type": "git",
