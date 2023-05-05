@@ -4,18 +4,18 @@ https://account.lib.umich.edu
 
 This is the code repository for the University of Michigan Library Account application.
 
-## Setting up patron_account for development
+## Setting up account for development
 
 Clone the repo
 
-```
-git clone git@github.com:mlibrary/patron_account.git
-cd patron_account
+```bash
+git clone git@github.com:mlibrary/account.git
+cd account
 ```
 
 copy .env-example to .env
 
-```
+```bash
 cp .env-example .env
 ```
 
@@ -23,36 +23,39 @@ edit .env with the appropriate environment variables
 
 build the containers
 
-```
+```bash
 docker-compose build
 ```
 
 bundle install
-```
+```bash
 docker-compose run --rm web bundle install
 ```
 
 npm install
-```
+```bash
 docker-compose run --rm web npm install
 ```
 
-build styles
+build styles and scripts
 
-```
-docker-compose run --rm web npm run build-css
-```
-
-watch then build styles (optional)
-
-```
-docker-compose run --rm web npm run watch-css
+```bash
+docker-compose run --rm web npm run build
 ```
 
 start containers
 
-```
+```bash
 docker-compose up -d
+```
+
+watch then build styles or scripts (optional)
+
+```bash
+# styles
+docker-compose run --rm web npm run watch-css
+# scripts
+docker-compose run --rm web npm run watch-js
 ```
 
 In a browser, go to http://localhost:4567 to see the website.
@@ -64,11 +67,9 @@ through the mlibrary.acct.testing friend accounts. These will have circulation d
 
 
 ## Adding a javascript file for a specific page
-In `webpack.common.js` add a key value pair to entry where the value is the path to the js file, and the key is the path for the page with inner '/' changed to '-'. 
+In `lib/routes/`, find the route for the page you wish to add a `.js` file. For the `erb`, make sure the `locals` includes `has_js:true`.
 
-Exmaple: the key for a js file to be used at the following path "/current-checkouts/u-m-library" would be "current-checkouts-u-m-library"
-
-In `account.rb`, for the route, locals should include has_js: true.
+When creating a `.js` file, they must all be in the `./js` directory. Naming the file matches the slug version of the page's URL path, where the first `/` is removed and all following `/` are replaced with `-`. For example: creating a JavaScript file for `https://account.lib.umich.edu/current-checkouts/u-m-library` would require the file `./js/current-checkouts-u-m-library.js`.
 
 ## Testing with the actual Nelnet testing site
 To try using the actual Nelnet testing site for testing fines and fees, you need to get the correct environment variables. There's extra documentation with example credit cards and input that will trigger different responses. Check the My Account confluenc page for more info.
