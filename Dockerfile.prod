@@ -34,7 +34,6 @@ WORKDIR /app
 RUN bundle install
 
 RUN npm ci
-RUN npm run build-css
-RUN npm run build-js
+RUN npm run build
 
 CMD ["bundle", "exec", "ruby", "account.rb", "-o", "0.0.0.0"]

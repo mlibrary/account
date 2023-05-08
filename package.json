@@ -2,25 +2,21 @@
   "name": "account",
   "version": "1.0.0",
   "description": "for account.lib",
-  "dependencies": {
-    "sass": "^1.62.1"
-  },
   "devDependencies": {
+    "esbuild": "^0.17.18",
     "eslint": "^8.39.0",
     "eslint-config-standard": "^17.0.0",
     "eslint-plugin-import": "^2.27.5",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^6.1.1",
-    "eslint-webpack-plugin": "^4.0.1",
-    "webpack": "^5.81.0",
-    "webpack-cli": "^5.0.2",
-    "webpack-merge": "^5.8.0"
+    "sass": "^1.62.1"
   },
   "scripts": {
-    "watch-css": "sass --watch css:public/bundles",
-    "build-css": "sass css:public/bundles --style=compressed",
-    "watch-js": "webpack --config webpack.dev.js --watch",
-    "build-js": "webpack --config webpack.prod.js"
+    "build": "npm run build-css && npm run build-js",
+    "build-css": "npx sass css:public/bundles --style=compressed",
+    "watch-css": "npm run build-css -- --watch",
+    "build-js": "npx esbuild --bundle --sourcemap --minify js/*.js --outdir=public/bundles --out-extension:.js=.bundle.js --outbase=js",
+    "watch-js": "npm run build-js -- --watch=forever"
   },
   "repository": {
     "type": "git",
