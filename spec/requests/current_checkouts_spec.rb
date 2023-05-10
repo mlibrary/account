@@ -50,8 +50,7 @@ describe "current-checkouts requests" do
       it "loads the empty state and has an error flash" do
         stub_alma_get_request(url: "users/tutor/loans", query: {expand: "renewable", limit: 15, order_by: "due_date"}, status: 500)
         get "/current-checkouts/u-m-library"
-        expect(last_response.body).to include("You don't have")
-        expect(last_response.body).to include("Error")
+        expect(last_response.body).to include("Internal Server Error")
       end
     end
     context "not in alma user" do

@@ -74,6 +74,7 @@ helpers StyledFlash
 enable :sessions
 set :session_secret, ENV["RACK_COOKIE_SECRET"]
 set server: "thin", connections: []
+set :show_exceptions, :after_handler
 
 use Rack::Logger
 
@@ -152,10 +153,11 @@ post "/renew-loan" do
 end
 
 not_found do
-  erb :empty_state
+  erb :not_found
 end
 
 error do
+  logger.info("in error")
   flash.now[:error] = "Sorry there was an error - " + env["sinatra.error"].message
-  erb :empty_state
+  erb :error
 end
