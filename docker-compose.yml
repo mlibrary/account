@@ -1,8 +1,10 @@
-version: '3'
+version: '3.8'
 
 services:
   web:
-    build: .
+    build:
+      context: .
+      target: development
     ports:
       - "4567:4567"
     volumes:
@@ -11,13 +13,6 @@ services:
     env_file:
       - .env
       - .env-dev-values
-    command:
-      - bundle 
-      - exec 
-      - ruby
-      - account.rb
-      - -o
-      - 0.0.0.0
         
   nelnet-test:
     build: ./nelnet_test/.
@@ -45,7 +40,9 @@ services:
     image: ghcr.io/mlibrary/circulation_history_dev_db:latest
 
   sass:
-    build: .
+    build:
+      context: .
+      target: development
     volumes:
       - ./css:/app/css
       - ./public/bundles:/app/public/bundles
@@ -54,7 +51,9 @@ services:
     command: "npm run watch-css"
 
   esbuild:
-    build: .
+    build:
+      context: .
+      target: development
     volumes:
       - ./js:/app/js
       - ./public/bundles:/app/public/bundles

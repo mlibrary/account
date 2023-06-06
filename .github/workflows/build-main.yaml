@@ -13,7 +13,7 @@ jobs:
     with:
       image_name: ${{ vars.IMAGE_NAME }}
       tag: ${{ github.sha }}
-      dockerfile: Dockerfile.prod
+      dockerfile: Dockerfile
     secrets: inherit
 
   deploy-testing:
