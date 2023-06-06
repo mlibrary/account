@@ -4,10 +4,6 @@
 
 <% elsif %>
 
-<m-callout subtle icon>
-  <p>Items checked out prior to <time datetime="2021-07-15">July 15, 2021</time> might not display details such as volume or edition. If you have a question or need help with renewals, please contact the <a href="https://lib.umich.edu/locations-and-hours/hatcher-library/hatcher-north-information-services-desk">Hatcher North Information Services Desk</a>.</p>
-</m-callout>
-
 <% unless message.nil? %>
   <%= erb :'current-checkouts/_message-callout', locals: {message: message} %>
 <% end %>
