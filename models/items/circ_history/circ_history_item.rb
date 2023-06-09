@@ -38,8 +38,7 @@ end
 
 class CirculationHistoryItem < Item
   def url
-    doc_id = mms_id.slice(2, 9)
-    "https://search.lib.umich.edu/catalog/record/#{doc_id}"
+    "https://search.lib.umich.edu/catalog/record/#{mms_id}"
   end
 
   def call_number
