@@ -70,7 +70,7 @@ describe CirculationHistoryItem do
     described_class.new(loans["loans"][0])
   end
   it "has expected url" do
-    expect(subject.url).to eq("https://search.lib.umich.edu/catalog/record/000546765")
+    expect(subject.url).to eq("https://search.lib.umich.edu/catalog/record/990005467650206381")
   end
   it "responds to barcode" do
     expect(subject.barcode).to eq("39015061357532")
