@@ -3,6 +3,7 @@ Monthly dependency update to help maintain Account.
 
 ## NPM
 These dependencies have been updated to their latest versions:
+- `esbuild`
 - `eslint`
 - `eslint-config-standard`
 - `eslint-plugin-import`
@@ -10,9 +11,6 @@ These dependencies have been updated to their latest versions:
 - `eslint-plugin-promise`
 - `eslint-webpack-plugin`
 - `sass`
-- `webpack`
-- `webpack-cli`
-- `webpack-merge`
 
 ## Testing
 - Install the updated packages (`docker-compose run --rm web npm install`).
