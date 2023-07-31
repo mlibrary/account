@@ -179,8 +179,24 @@ describe Loan do
       @loan_response = JSON.parse(File.read("./spec/fixtures/claims_returned.json"))["item_loan"][0]
       expect(subject.due_status).to eq("Reported as returned")
     end
-    it "returns empty string for far away dates" do
+    it "returns 'Renewed' when due date is more than 7 days in the future and last renew was yesterday" do
       @loan_response["due_date"] = (Date.today + 8).strftime("%FT%H:%M:%SZ")
+      @loan_response["last_renew_date"] = (Date.today - 1).strftime("%FT%H:%M:%SZ")
+      expect(subject.due_status).to eq("Renewed")
+    end
+    it "returns 'Renewed' when due date is more than 7 days in the future and last renew was 14 days" do
+      @loan_response["due_date"] = (Date.today + 8).strftime("%FT%H:%M:%SZ")
+      @loan_response["last_renew_date"] = (Date.today - 14).strftime("%FT%H:%M:%SZ")
+      expect(subject.due_status).to eq("Renewed")
+    end
+    it "returns an empty string when due date is more than 7 days in the future and the last renew was over 14 days ago" do
+      @loan_response["due_date"] = (Date.today + 8).strftime("%FT%H:%M:%SZ")
+      @loan_response["last_renew_date"] = (Date.today - 15).strftime("%FT%H:%M:%SZ")
+      expect(subject.due_status).to eq("")
+    end
+    it "returns an empty string when due date is more than 7 days in the future and the last renewed date is nill" do
+      @loan_response["due_date"] = (Date.today + 8).strftime("%FT%H:%M:%SZ")
+      @loan_response["last_renew_date"] = nil
       expect(subject.due_status).to eq("")
     end
   end

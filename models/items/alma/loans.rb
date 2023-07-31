@@ -97,7 +97,7 @@ class Loan < AlmaItem
 
   def due_status
     return "Reported as returned" if claims_returned?
-    LoanDate.parse(@parsed_response["due_date"]).due_status
+    DueStatus.new(due_date: @parsed_response["due_date"], last_renew_date: @parsed_response["last_renew_date"]).to_s
   end
 
   private

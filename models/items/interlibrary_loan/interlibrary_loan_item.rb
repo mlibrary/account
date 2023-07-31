@@ -49,7 +49,7 @@ class InterlibraryLoanItem < Item
   end
 
   def due_status
-    LoanDate.parse(@parsed_response["DueDate"]).due_status if @parsed_response["DueDate"]
+    @parsed_response["DueDate"] ? DueStatus.new(due_date: @parsed_response["DueDate"]).to_s : ""
   end
 
   def transaction_date
