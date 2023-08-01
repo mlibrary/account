@@ -49,7 +49,7 @@ class InterlibraryLoanItem < Item
   end
 
   def due_status
-    @parsed_response["DueDate"] ? DueStatus.new(due_date: @parsed_response["DueDate"]).to_s : ""
+    @parsed_response["DueDate"] ? DueStatus.new(due_date: @parsed_response["DueDate"]) : OpenStruct.new(any?: false)
   end
 
   def transaction_date

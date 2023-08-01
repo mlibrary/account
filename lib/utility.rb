@@ -42,6 +42,23 @@ class DueStatus
       ""
     end
   end
+
+  def any?
+    to_s != ""
+  end
+
+  def tag
+    case to_s
+    when "Overdue"
+      "tag--fail"
+    when "Due Soon"
+      "tag--warning"
+    when "Renewed"
+      "tag--info"
+    else
+      ""
+    end
+  end
 end
 
 class Float

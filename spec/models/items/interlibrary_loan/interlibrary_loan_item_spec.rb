@@ -52,19 +52,19 @@ describe InterlibraryLoanItem do
     let(:format) { "%FT%H:%M:%S.%3N" }
     it "returns 'Overdue'" do
       @item["DueDate"] = (Date.today - 1).strftime(format)
-      expect(subject.due_status).to eq("Overdue")
+      expect(subject.due_status.to_s).to eq("Overdue")
     end
     it "returns 'Due Soon' for today" do
       @item["DueDate"] = Date.today.strftime(format)
-      expect(subject.due_status).to eq("Due Soon")
+      expect(subject.due_status.to_s).to eq("Due Soon")
     end
     it "returns 'Due Soon' for 7 days" do
       @item["DueDate"] = (Date.today + 7).strftime(format)
-      expect(subject.due_status).to eq("Due Soon")
+      expect(subject.due_status.to_s).to eq("Due Soon")
     end
     it "returns empty string for far away dates" do
       @item["DueDate"] = (Date.today + 8).strftime(format)
-      expect(subject.due_status).to eq("")
+      expect(subject.due_status.to_s).to eq("")
     end
   end
   context "#transaction_date" do

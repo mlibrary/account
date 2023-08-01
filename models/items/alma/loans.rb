@@ -96,8 +96,12 @@ class Loan < AlmaItem
   end
 
   def due_status
-    return "Reported as returned" if claims_returned?
-    DueStatus.new(due_date: @parsed_response["due_date"], last_renew_date: @parsed_response["last_renew_date"]).to_s
+    return OpenStruct.new(to_s: "Reported as returned", tag: "tag--warning", any?: true) if claims_returned?
+    DueStatus.new(due_date: @parsed_response["due_date"], last_renew_date: @parsed_response["last_renew_date"])
+  end
+
+  def due_status_tag
+    due_status.tag
   end
 
   private
