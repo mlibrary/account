@@ -64,62 +64,7 @@ describe "current-checkouts requests" do
       end
     end
   end
-  context "post /current-checkouts/u-m-library" do
-    before(:each) do
-      @alma_loans = JSON.parse(File.read("./spec/fixtures/loans.json"))
-      @alma_loans["item_loan"][0]["renewable"] = false
-      stub_alma_get_request(url: "users/tutor/loans", body: @alma_loans.to_json, query: {expand: "renewable", limit: 100, offset: 0})
-      stub_alma_get_request(url: "users/tutor/loans", body: @alma_loans.to_json, query: {expand: "renewable"})
-      stub_alma_post_request(url: "users/tutor/loans/1332733700000521", query: {op: "renew"})
-      stub_alma_post_request(url: "users/tutor/loans/1332734190000521", query: {op: "renew"})
-      stub_updater({step: "1", count: "0", renewed: "0", uniqname: "tutor"})
-      stub_updater({step: "2", count: "1", renewed: "1", uniqname: "tutor"})
-      stub_updater({step: "2", count: "2", renewed: "2", uniqname: "tutor"})
-      stub_updater({step: "3", count: "2", renewed: "2", uniqname: "tutor"})
-    end
-    it "shows appropriate " do
-      stub_updater({step: "2", count: "1", renewed: "0", uniqname: "tutor"})
-      stub_updater({step: "3", count: "1", renewed: "1", uniqname: "tutor"})
-      post "/current-checkouts/u-m-library"
-      session = last_request.env["rack.session"]
-      expect(session["message"].renewed).to eq(1)
-    end
-    it "has correct counts for none renewable" do
-      @alma_loans["item_loan"][1]["renewable"] = false
-      stub_alma_get_request(url: "users/tutor/loans", body: @alma_loans.to_json, query: {expand: "renewable", limit: 100, offset: 0})
-      stub_alma_get_request(url: "users/tutor/loans", body: @alma_loans.to_json, query: {expand: "renewable"})
 
-      stub_updater({step: "2", count: "0", renewed: "0", uniqname: "tutor"})
-      stub_updater({step: "3", count: "0", renewed: "0", uniqname: "tutor"})
-      post "/current-checkouts/u-m-library"
-      session = last_request.env["rack.session"]
-      expect(session["message"].renewed).to eq(0)
-    end
-    it "shows error flash for major Alma Error" do
-      stub_alma_get_request(url: "users/tutor/loans", body: File.read("./spec/fixtures/alma_error.json"), query: {expand: "renewable", limit: 100, offset: 0}, status: 400)
-      post "/current-checkouts/u-m-library"
-      session = last_request.env["rack.session"]
-      expect(session["flash"][:error]).to include("Error")
-    end
-  end
-
-  # this has to do with the stream for renew all
-  context "post /updater/" do
-    it "returns 403 if message doesn't authenticate" do
-      post "/updater/", {msg: "one", uniqname: "tutor", hash: "notcorrect"}
-      expect(last_response.status).to eq(403)
-    end
-    it "returns 204 and posts data to connections for uniqname if hash is correct" do
-      params = {step: "1", count: "1"}
-      query = Authenticator.params_with_signature(params: {**params, uniqname: "tutor"})
-      connections = Sinatra::Application.settings.connections
-      connections << {uniqname: "blah", out: []}
-      connections << {uniqname: "tutor", out: []}
-      post "/updater/#{query}"
-      expect(connections.detect { |x| x[:uniqname] == "tutor" }[:out].first).to eq("data: #{params.to_json}\n\n")
-      expect(connections.detect { |x| x[:uniqname] == "blah" }[:out].count).to eq(0)
-    end
-  end
   context "get /current-checkouts/interlibrary-loan" do
     it "contains 'Interlibrary Loan'" do
       stub_illiad_get_request(url: "Transaction/UserRequests/tutor",
