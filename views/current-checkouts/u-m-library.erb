@@ -2,7 +2,13 @@
 
 <%= erb :empty_state %>
 
-<% elsif %>
+<% else %>
+
+<m-callout subtle icon>
+  <h3>Your checkouts now renew automatically!</h3>
+  <p>Effective August 14, 2023, <a href="https://www.lib.umich.edu/find-borrow-request/borrow-and-return/renew-your-items">eligible items</a> 
+  checked out from the U-M Library will renew one week from their due date.</p>
+</m-callout>
 
 <% unless message.nil? %>
   <%= erb :'current-checkouts/_message-callout', locals: {message: message} %>
