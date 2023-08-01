@@ -97,6 +97,7 @@ module UrlHelper
   end
 end
 
+# This is used authentication with nelnet.
 class Authenticator
   def self.verify(params:, key: ENV.fetch("JWT_SECRET"))
     hash = params["hash"]

@@ -27,7 +27,6 @@ require_relative "./lib/navigation/description"
 require_relative "./lib/utility"
 require_relative "./lib/illiad_client"
 require_relative "./lib/circ_history_client"
-require_relative "./lib/publisher"
 require_relative "./lib/table_controls"
 require_relative "./lib/pagination/pagination"
 require_relative "./lib/pagination/pagination_decorator"
@@ -73,12 +72,12 @@ helpers StyledFlash
 
 enable :sessions
 set :session_secret, ENV["RACK_COOKIE_SECRET"]
-set server: "thin", connections: []
+set server: "puma"
 
 use Rack::Logger
 
 before do
-  pass if ["auth", "stream", "updater", "session_switcher", "logout", "login", "-"].include? request.path_info.split("/")[1]
+  pass if ["auth", "session_switcher", "logout", "login", "-"].include? request.path_info.split("/")[1]
   if dev_login?
     if !session[:uniqname]
       redirect "/session_switcher?uniqname=#{CGI.escape("mlibrary.acct.testing1@gmail.com")}"

@@ -24,7 +24,7 @@ ENV BUNDLE_PATH /gems
 
 WORKDIR /app
 
-CMD ["bundle", "exec", "ruby", "account.rb", "-o", "0.0.0.0"]
+CMD ["bundle", "exec", "rackup", "-p", "4567", "--host", "0.0.0.0"]
 
 FROM development AS production
 

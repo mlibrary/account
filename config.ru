@@ -1,9 +1,10 @@
 require "./account"
+require "yabeda/prometheus"
 require "prometheus/middleware/collector"
-require "prometheus/middleware/exporter"
+
+Yabeda.configure!
 
 use Rack::Deflater
 use Prometheus::Middleware::Collector
-use Prometheus::Middleware::Exporter
 
 run Sinatra::Application
