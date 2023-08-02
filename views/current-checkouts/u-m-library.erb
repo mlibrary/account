@@ -35,7 +35,7 @@
         <%= erb :'components/table_controls', locals: { table_controls: loan_controls} %>
         <div class="renew-all">
           <button class="button" data-js-renew-all="<%= loans.count %>" disabled>
-            <span class="material-symbols-rounded">autorenew</span> <span>Renew all eligible</span>
+            <span class="material-symbols-rounded" aria-hidden="true">autorenew</span> <span>Renew all eligible</span>
           </button>
         </div>
       </div>

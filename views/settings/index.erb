@@ -55,8 +55,8 @@
             <% if patron.sms_number? %>checked<% end%>
           >
           <label for="confirm-sms">
-            <span class="material-symbols-sharp radio-button-checked">radio_button_checked</span>
-            <span class="material-symbols-sharp radio-button-unchecked">radio_button_unchecked</span>
+            <span class="material-symbols-sharp radio-button-checked" aria-hidden="true">radio_button_checked</span>
+            <span class="material-symbols-sharp radio-button-unchecked" aria-hidden="true">radio_button_unchecked</span>
             <span>Yes, please send me text notifications</span>
           </label>
           <div class="radio-option-extra">
@@ -73,7 +73,7 @@
               autocomplete="on"
             />
             <div id="sms-number-description" class="input-description">
-              <span class="material-symbols-rounded">info</span>
+              <span class="material-symbols-rounded" aria-hidden="true">info</span>
               <span>Phone number must be 10 digits. Acceptable formats are: (123)&nbsp;456&#8209;7890, 123&#8209;456&#8209;7890, and 1234567890.</span>
             </div>
           </div>
@@ -88,8 +88,8 @@
             <% if !patron.sms_number? %>checked<% end%>
           >
           <label for="deny-sms">
-            <span class="material-symbols-sharp radio-button-checked">radio_button_checked</span>
-            <span class="material-symbols-sharp radio-button-unchecked">radio_button_unchecked</span>
+            <span class="material-symbols-sharp radio-button-checked" aria-hidden="true">radio_button_checked</span>
+            <span class="material-symbols-sharp radio-button-unchecked" aria-hidden="true">radio_button_unchecked</span>
             <span>No, do not send me text notifications</span>
           </label>
         </div>
@@ -115,8 +115,8 @@
           <% if patron.confirmed_history_setting? && patron.retain_history? %>checked<% end %>
         >
         <label for="opt-in">
-          <span class="material-symbols-sharp radio-button-checked">radio_button_checked</span>
-          <span class="material-symbols-sharp radio-button-unchecked">radio_button_unchecked</span>
+          <span class="material-symbols-sharp radio-button-checked" aria-hidden="true">radio_button_checked</span>
+          <span class="material-symbols-sharp radio-button-unchecked" aria-hidden="true">radio_button_unchecked</span>
           <span>Yes, record my checkout history.</span>
         </label>
       </div>
@@ -130,8 +130,8 @@
           <% if patron.confirmed_history_setting? && !patron.retain_history? %>checked<% end %>
         >
         <label for="opt-out">
-          <span class="material-symbols-sharp radio-button-checked">radio_button_checked</span>
-          <span class="material-symbols-sharp radio-button-unchecked">radio_button_unchecked</span>
+          <span class="material-symbols-sharp radio-button-checked" aria-hidden="true">radio_button_checked</span>
+          <span class="material-symbols-sharp radio-button-unchecked" aria-hidden="true">radio_button_unchecked</span>
           <span>No, do not record my checkout history.</span>
         </label>
       </div>
