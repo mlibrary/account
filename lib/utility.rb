@@ -13,13 +13,48 @@ class DateTime
   end
 end
 
-class LoanDate < Date
-  def due_status
-    diff = (self - Date.today).to_i
-    if diff < 0
+class DueStatus
+  def initialize(due_date:, last_renew_date: nil)
+    @due_date = Date.parse(due_date)
+    @last_renew_date = last_renew_date
+    @last_renew_date = Date.parse(last_renew_date) unless @last_renew_date.nil?
+  end
+
+  # Using the due date and last renew date if it exists, return the appropriate
+  # string to display to the user. Statuses are the same for umich and
+  # interlibrary loans.
+  #
+  # @return [String] display string based on the due date and last renew date
+  def to_s
+    due_diff = (@due_date - Date.today).to_i
+
+    renew_diff = -1
+
+    renew_diff = (Date.today - @last_renew_date).to_i unless @last_renew_date.nil?
+
+    if due_diff < 0
       "Overdue"
-    elsif diff <= 7
+    elsif due_diff <= 7
       "Due Soon"
+    elsif renew_diff >= 0 && renew_diff <= 14
+      "Renewed"
+    else
+      ""
+    end
+  end
+
+  def any?
+    to_s != ""
+  end
+
+  def tag
+    case to_s
+    when "Overdue"
+      "tag--fail"
+    when "Due Soon"
+      "tag--warning"
+    when "Renewed"
+      "tag--info"
     else
       ""
     end
@@ -62,6 +97,7 @@ module UrlHelper
   end
 end
 
+# This is used authentication with nelnet.
 class Authenticator
   def self.verify(params:, key: ENV.fetch("JWT_SECRET"))
     hash = params["hash"]

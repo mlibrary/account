@@ -165,23 +165,38 @@ describe Loan do
   context "#due_status" do
     it "returns 'Overdue'" do
       @loan_response["due_date"] = (Date.today - 1).strftime("%FT%H:%M:%SZ")
-      expect(subject.due_status).to eq("Overdue")
+      expect(subject.due_status.to_s).to eq("Overdue")
     end
     it "returns 'Due Soon' for today" do
       @loan_response["due_date"] = Date.today.strftime("%FT%H:%M:%SZ")
-      expect(subject.due_status).to eq("Due Soon")
+      expect(subject.due_status.to_s).to eq("Due Soon")
     end
     it "returns 'Due Soon' for 7 days" do
       @loan_response["due_date"] = (Date.today + 7).strftime("%FT%H:%M:%SZ")
-      expect(subject.due_status).to eq("Due Soon")
+      expect(subject.due_status.to_s).to eq("Due Soon")
     end
     it "returns reported as returned for claims returned" do
       @loan_response = JSON.parse(File.read("./spec/fixtures/claims_returned.json"))["item_loan"][0]
-      expect(subject.due_status).to eq("Reported as returned")
+      expect(subject.due_status.to_s).to eq("Reported as returned")
     end
-    it "returns empty string for far away dates" do
+    it "returns 'Renewed' when due date is more than 7 days in the future and last renew was yesterday" do
       @loan_response["due_date"] = (Date.today + 8).strftime("%FT%H:%M:%SZ")
-      expect(subject.due_status).to eq("")
+      @loan_response["last_renew_date"] = (Date.today - 1).strftime("%FT%H:%M:%SZ")
+      expect(subject.due_status.to_s).to eq("Renewed")
+    end
+    it "returns 'Renewed' when due date is more than 7 days in the future and last renew was 14 days" do
+      @loan_response["due_date"] = (Date.today + 8).strftime("%FT%H:%M:%SZ")
+      @loan_response["last_renew_date"] = (Date.today - 14).strftime("%FT%H:%M:%SZ")
+    end
+    it "returns an empty string when due date is more than 7 days in the future and the last renew was over 14 days ago" do
+      @loan_response["due_date"] = (Date.today + 8).strftime("%FT%H:%M:%SZ")
+      @loan_response["last_renew_date"] = (Date.today - 15).strftime("%FT%H:%M:%SZ")
+      expect(subject.due_status.to_s).to eq("")
+    end
+    it "returns an empty string when due date is more than 7 days in the future and the last renewed date is nill" do
+      @loan_response["due_date"] = (Date.today + 8).strftime("%FT%H:%M:%SZ")
+      @loan_response["last_renew_date"] = nil
+      expect(subject.due_status.to_s).to eq("")
     end
   end
   context "#loan_id" do
@@ -198,89 +213,5 @@ describe Loan do
     it "returns barcode string" do
       expect(subject.barcode).to eq("67576")
     end
-  end
-  context "#renewable?" do
-    it "returns boolean" do
-      expect(subject.renewable?).to eq(true)
-    end
-  end
-end
-describe Loans do
-  context ".renew(uniqname:, loans:)" do
-    subject do
-      loan_1 = instance_double(Loan, :loan_id => "1234", :parsed_response => {}, "renewable?" => "true")
-      loan_2 = instance_double(Loan, :loan_id => "5678", :parsed_response => {}, "renewable?" => "true")
-      publisher = instance_double(Publisher, publish: nil)
-      Loans.renew(loans: [loan_1, loan_2], uniqname: "jbister", publisher: publisher)
-    end
-    it "returns a HTTParty response of success" do
-      stub_alma_post_request(url: "users/jbister/loans/1234", body: "{}", query: {op: "renew"})
-      stub_alma_post_request(url: "users/jbister/loans/5678", body: "{}", query: {op: "renew"})
-      expect(subject.code).to eq(200)
-      expect(subject.renewed_count).to eq(2)
-    end
-    it "returns errors for unrenewable items" do
-      error = File.read("./spec/fixtures/alma_error.json")
-      stub_alma_post_request(status: 500, url: "users/jbister/loans/1234", body: error, query: {op: "renew"})
-      stub_alma_post_request(status: 500, url: "users/jbister/loans/5678", body: error, query: {op: "renew"})
-      expect(subject.code).to eq(200)
-      expect(subject.not_renewed_count).to eq(2)
-    end
-  end
-  context ".renew_all(uniqname:)" do
-    before(:each) do
-      stub_alma_get_request(url: "users/jbister/loans", body: File.read("./spec/fixtures/loans.json"), query: {expand: "renewable", limit: 100, offset: 0})
-      stub_updater({step: "1", count: "0", renewed: "0", uniqname: "jbister"})
-      stub_updater({step: "2", count: "1", renewed: "1", uniqname: "jbister"})
-      stub_updater({step: "2", count: "2", renewed: "2", uniqname: "jbister"})
-      stub_updater({step: "3", count: "2", renewed: "2", uniqname: "jbister"})
-    end
-    subject do
-      Loans.renew_all(uniqname: "jbister")
-    end
-    def stub_renew1(body = "{}")
-      stub_alma_post_request(url: "users/jbister/loans/1332733700000521", body: body, query: {op: "renew"})
-    end
-
-    def stub_renew2(body = "{}")
-      stub_alma_post_request(url: "users/jbister/loans/1332734190000521", body: body, query: {op: "renew"})
-    end
-    it "renews all items" do
-      renew1 = stub_renew1
-      renew2 = stub_renew2
-
-      expect(subject.code).to eq(200)
-      expect(renew1).to have_been_requested
-      expect(renew2).to have_been_requested
-    end
-    it "returns appropriate response for renews" do
-      stub_renew1(File.read("./spec/fixtures/renew_loan1.json"))
-      stub_renew2(File.read("./spec/fixtures/renew_loan2.json"))
-      response = subject
-      expect(response.code).to eq(200)
-      expect(response.renewed_count).to eq(2)
-    end
-    it "handles unrenewable loans" do
-      loans = JSON.parse(File.read("./spec/fixtures/loans.json"))
-      loans["item_loan"][0]["renewable"] = false
-      loans["item_loan"][1]["renewable"] = false
-      stub_updater({step: "2", count: "0", renewed: "0", uniqname: "jbister"})
-      stub_updater({step: "3", count: "0", renewed: "0", uniqname: "jbister"})
-      stub_alma_get_request(url: "users/jbister/loans", body: loans.to_json, query: {expand: "renewable", limit: 100, offset: 0})
-      expect(subject.not_renewed_count).to eq(0)
-    end
-  end
-end
-describe Loan, ".renew(loan_id:, uniqname:)" do
-  subject do
-    Loan.renew(loan_id: "1234", uniqname: "jbister")
-  end
-  it "returns HTTParty response for renewal" do
-    stub_alma_post_request(url: "users/jbister/loans/1234", body: "{}", query: {op: "renew"})
-    expect(subject.code).to eq(200)
-  end
-  it "returns Renew Unsuccessful message for unsuccessful renews" do
-    stub_alma_post_request(url: "users/jbister/loans/1234", body: File.read("./spec/fixtures/alma_error.json"), query: {op: "renew"}, status: 400)
-    expect(subject.code).to eq(400)
   end
 end

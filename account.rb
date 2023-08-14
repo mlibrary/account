@@ -27,7 +27,6 @@ require_relative "./lib/navigation/description"
 require_relative "./lib/utility"
 require_relative "./lib/illiad_client"
 require_relative "./lib/circ_history_client"
-require_relative "./lib/publisher"
 require_relative "./lib/table_controls"
 require_relative "./lib/pagination/pagination"
 require_relative "./lib/pagination/pagination_decorator"
@@ -73,12 +72,12 @@ helpers StyledFlash
 
 enable :sessions
 set :session_secret, ENV["RACK_COOKIE_SECRET"]
-set server: "thin", connections: []
+set server: "puma"
 
 use Rack::Logger
 
 before do
-  pass if ["auth", "stream", "updater", "session_switcher", "logout", "login", "-"].include? request.path_info.split("/")[1]
+  pass if ["auth", "session_switcher", "logout", "login", "-"].include? request.path_info.split("/")[1]
   if dev_login?
     if !session[:uniqname]
       redirect "/session_switcher?uniqname=#{CGI.escape("mlibrary.acct.testing1@gmail.com")}"
@@ -97,26 +96,6 @@ helpers do
   end
 end
 
-get "/stream", provides: "text/event-stream" do
-  stream :keep_open do |out|
-    settings.connections << {uniqname: session[:uniqname], out: out}
-    out.callback do
-      settings.connections.delete(settings.connections.detect { |x| x[:out] == out })
-    end
-  end
-end
-post "/updater/" do
-  return 403 unless Authenticator.verify(params: params)
-  data = {}
-  params.each do |key, value|
-    if key != "uniqname" && key != "hash"
-      data[key] = value
-    end
-  end
-  data = data.to_json
-  settings.connections.each { |x| x[:out] << "data: #{data}\n\n" if x[:uniqname] == params[:uniqname] }
-  204 # response without entity body
-end
 post "/table-controls" do
   url_generator = TableControls::URLGenerator.for(show: params["show"], sort: params["sort"], referrer: request.referrer)
   redirect url_generator.to_s
@@ -135,20 +114,6 @@ end
 
 get "/favorites" do
   redirect "https://apps.lib.umich.edu/my-account/favorites"
-end
-
-# TODO set up renew loan to handle renew in place with top part message???
-post "/renew-loan" do
-  response = Loan.renew(uniqname: session[:uniqname], loan_id: params["loan_id"])
-  if response.code == 200
-    loan = response.parsed_response
-    status 200
-    {due_date: DateTime.patron_format(loan["due_date"]), loan_id: loan["loan_id"]}.to_json
-  else
-    error = AlmaError.new(response)
-    status error.code
-    {message: error.message}.to_json
-  end
 end
 
 not_found do

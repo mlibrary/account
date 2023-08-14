@@ -3,7 +3,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 gem "sinatra"
 gem "sinatra-contrib"
-gem "thin"
+gem "puma"
 gem "httparty"
 gem "sinatra-flash"
 gem "telephone_number"
@@ -20,7 +20,8 @@ gem "alma_rest_client",
   git: "https://github.com/mlibrary/alma_rest_client",
   tag: "1.3.1"
 
-gem "prometheus-client"
+gem "yabeda-puma-plugin"
+gem "yabeda-prometheus"
 
 group :development, :test do
   gem "standard"

@@ -1,6 +1,7 @@
 .tag,
 .tag--fail,
 .tag--success,
+.tag--info,
 .tag--warning {
   border-radius: var(--radius-default);
   background: var(--color-neutral-100);
@@ -16,6 +17,10 @@
 
 .tag--success {
   background: var(--color-green-200);
+}
+
+.tag--info {
+  background: var(--color-teal-200);
 }
 
 .tag--warning {

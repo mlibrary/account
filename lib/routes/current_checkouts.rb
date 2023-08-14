@@ -18,21 +18,11 @@ namespace "/current-checkouts" do
     erb :empty_state
   end
 
-  post "/u-m-library" do
-    response = Loans.renew_all(uniqname: session[:uniqname])
-    if response.code != 200
-      flash[:error] = "<span class='strong'>Error:</span> #{response.message}"
-    else
-      session[:message] = RenewResponsePresenter.for(response.renewed_count)
-      204
-    end
-  end
-
   get "/interlibrary-loan/?" do
     interlibrary_loans = InterlibraryLoans.for(uniqname: session[:uniqname], limit: params["limit"], offset: params["offset"], count: nil)
     erb :"current-checkouts/interlibrary-loan", locals: {interlibrary_loans: interlibrary_loans}
   rescue
-    flash.now[:error] = "<span class='strong'>Error:</span> We were unable to load your interlibrary oans. Please try again."
+    flash.now[:error] = "<span class='strong'>Error:</span> We were unable to load your interlibrary loans. Please try again."
     erb :empty_state
   end
   get "/scans-and-electronic-items/?" do
