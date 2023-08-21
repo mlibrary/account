@@ -13,35 +13,12 @@ git clone git@github.com:mlibrary/account.git
 cd account
 ```
 
-copy .env-example to .env
-
+run the `init.sh` script. 
 ```bash
-cp .env-example .env
+./init.sh
 ```
 
 edit .env with the appropriate environment variables 
-
-build the containers
-
-```bash
-docker-compose build
-```
-
-bundle install
-```bash
-docker-compose run --rm web bundle install
-```
-
-npm install
-```bash
-docker-compose run --rm web npm install
-```
-
-build styles and scripts
-
-```bash
-docker-compose run --rm web npm run build
-```
 
 start containers
 

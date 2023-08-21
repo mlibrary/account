@@ -1,0 +1,25 @@
+#!/bin/sh
+#
+# An example hook script to verify what is about to be committed.
+# Called by "git commit" with no arguments.  The hook should
+# exit with non-zero status after issuing an appropriate message if
+# it wants to stop the commit.
+#
+# To enable this hook, rename this file to "pre-commit".
+#!/bin/sh
+
+set -e
+rubyfiles=$(git diff --cached --name-only --diff-filter=ACM "*.rb" "Gemfile"  | tr '\n' ' ')
+[ -z "$rubyfiles" ] && exit 0
+
+# Standardize all ruby files
+echo "🧹 Formatting staged Ruby files using standardrb ($(echo $rubyfiles | wc -w | awk '{print $1}') total)"
+echo "$rubyfiles" | xargs docker-compose run --rm web bundle exec standardrb --fix
+
+# Add back the modified/prettified files to staging
+echo "$rubyfiles" | xargs git add
+
+echo "📋 Running tests with rspec"
+docker-compose run --rm web bundle exec rspec --format progress
+
+exit 0
