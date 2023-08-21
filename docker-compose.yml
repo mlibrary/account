@@ -13,7 +13,7 @@ services:
       - gem_cache:/gems
     env_file:
       - .env
-      - .env-dev-values
+      - env.development
         
   nelnet-test:
     build: ./nelnet_test/.
@@ -22,7 +22,7 @@ services:
     volumes:
       - ./nelnet_test/.:/app
     env_file:
-      - .env-dev-values
+      - env.development
 
   circulation-history:
     image: ghcr.io/mlibrary/circulation_history_unstable:latest
