@@ -1,9 +1,11 @@
 class Response
-  attr_reader :code, :message, :parsed_response
+  attr_reader :status, :body, :code, :message, :parsed_response
   def initialize(code: 200, message: "Success", parsed_response: {})
     @code = code
     @message = message
     @parsed_response = parsed_response
+    @status = code
+    @body = parsed_response
   end
 end
 
