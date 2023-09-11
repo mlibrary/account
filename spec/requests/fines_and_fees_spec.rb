@@ -23,7 +23,7 @@ describe "fines-and-fees requests" do
     context "in alma user" do
       it "contains 'Fines'" do
         stub_alma_get_request(url: "users/tutor/fees", query: {limit: 100, offset: 0},
-          body: File.read("spec/fixtures/jbister_fines.json"))
+          output: File.read("spec/fixtures/jbister_fines.json"))
         get "/fines-and-fees"
         expect(last_response.body).to include("Fines")
       end
@@ -50,7 +50,7 @@ describe "fines-and-fees requests" do
   end
   context "post /fines-and-fees/pay" do
     before(:each) do
-      @stub = stub_alma_get_request(url: "users/tutor/fees", body: File.read("./spec/fixtures/jbister_fines.json"), query: {limit: 100, offset: 0})
+      @stub = stub_alma_get_request(url: "users/tutor/fees", output: File.read("./spec/fixtures/jbister_fines.json"), query: {limit: 100, offset: 0})
     end
     it "for pay in full redirects to nelnet with total amountDue" do
       post "/fines-and-fees/pay", {"pay_in_full" => "true", "partial_amount" => "0.00"}
@@ -108,10 +108,10 @@ describe "fines-and-fees requests" do
     it "for valid params, updates Alma, sets success flash, prints receipt" do
       with_modified_env NELNET_SECRET_KEY: "secret" do
         stub_alma_get_request(url: "users/tutor/fees", query: {limit: 100, offset: 0},
-          body: File.read("spec/fixtures/jbister_fines.json"))
+          output: File.read("spec/fixtures/jbister_fines.json"))
         @session[:order_number] = "382481568"
         env "rack.session", @session
-        stub_alma_post_request(url: "users/tutor/fees/all", query: {op: "pay", amount: "22.50", method: "ONLINE", external_transaction_id: "382481568"}, body: File.read("spec/fixtures/fines_pay_amount.json"))
+        stub_alma_post_request(url: "users/tutor/fees/all", query: {op: "pay", amount: "22.50", method: "ONLINE", external_transaction_id: "382481568"}, output: File.read("spec/fixtures/fines_pay_amount.json"))
 
         get "/fines-and-fees/receipt", @params
         expect(last_response.body).to include("Fines successfully paid")

@@ -58,8 +58,8 @@ class Fines
   def self.for(uniqname:, client: AlmaRestClient.client)
     url = "/users/#{uniqname}/fees"
     response = client.get_all(url: url, record_key: "fee")
-    raise StandardError if response.code != 200
-    Fines.new(parsed_response: response.parsed_response)
+    raise StandardError if response.status != 200
+    Fines.new(parsed_response: response.body)
   end
 end
 
