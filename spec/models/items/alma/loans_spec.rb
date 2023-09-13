@@ -4,7 +4,7 @@ require "json"
 describe Loans do
   context "two loans" do
     before(:each) do
-      stub_alma_get_request(url: "users/jbister/loans", body: File.read("./spec/fixtures/loans.json"), query: {expand: "renewable", limit: 15, order_by: "due_date"})
+      stub_alma_get_request(url: "users/jbister/loans", output: File.read("./spec/fixtures/loans.json"), query: {expand: "renewable", limit: 15, order_by: "due_date"})
     end
     subject do
       Loans.for(uniqname: "jbister")
@@ -31,7 +31,7 @@ describe Loans do
   end
   context "no loans" do
     before(:each) do
-      stub_alma_get_request(url: "users/jbister/loans", body: File.read("./spec/fixtures/no_loans.json"), query: {expand: "renewable", limit: 15, order_by: "due_date"})
+      stub_alma_get_request(url: "users/jbister/loans", output: File.read("./spec/fixtures/no_loans.json"), query: {expand: "renewable", limit: 15, order_by: "due_date"})
     end
     subject do
       Loans.for(uniqname: "jbister")
@@ -53,7 +53,7 @@ describe Loans do
       @loan = one_loan["item_loan"].delete_at(0).to_json
     end
     it "requests loans sorted by title" do
-      stub_alma_get_request(url: "users/jbister/loans", body: @loan, query: {"expand" => "renewable", "offset" => 1, "limit" => 1, "direction" => "DESC", "order_by" => "title"})
+      stub_alma_get_request(url: "users/jbister/loans", output: @loan, query: {"expand" => "renewable", "offset" => 1, "limit" => 1, "direction" => "DESC", "order_by" => "title"})
       loans = Loans.for(uniqname: "jbister", offset: 1, limit: 1, direction: "DESC", order_by: "title")
       expect(loans.pagination.next.url).to include("direction=DESC")
       expect(loans.pagination.next.url).to include("order_by=title")
@@ -64,7 +64,7 @@ describe Loans do
     before(:each) do
       one_loan = JSON.parse(File.read("./spec/fixtures/loans.json"))
       one_loan["item_loan"].delete_at(0)
-      stub_alma_get_request(url: "users/jbister/loans", body: one_loan.to_json, query: {"expand" => "renewable", "offset" => 1, "limit" => 1, "order_by" => "due_date"})
+      stub_alma_get_request(url: "users/jbister/loans", output: one_loan.to_json, query: {"expand" => "renewable", "offset" => 1, "limit" => 1, "order_by" => "due_date"})
     end
     subject do
       Loans.for(uniqname: "jbister", offset: 1, limit: 1)
