@@ -10,7 +10,7 @@ class Response
 end
 
 class RenewResponse < Response
-  attr_reader :code, :renewed, :not_renewed, :messages, :renewed_count, :not_renewed_count
+  attr_reader :code, :status, :renewed, :not_renewed, :messages, :renewed_count, :not_renewed_count
   def initialize(code: 200, messages: [], renew_statuses: [])
     @code = code
     @messages = messages
@@ -28,8 +28,9 @@ end
 
 class AlmaError < Error
   def initialize(response)
-    @parsed_response = response.parsed_response
-    @code = response.code
+    @parsed_response = response.body
+    @body = response.body
+    @status = response.status
     @message = get_messages
   end
 
