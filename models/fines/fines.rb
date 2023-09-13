@@ -39,8 +39,8 @@ class Fines
   def self.verify_payment(uniqname:, order_number:, client: AlmaRestClient.client)
     url = "/users/#{uniqname}/fees"
     response = client.get_all(url: url, record_key: "fee")
-    if response.code == 200
-      parsed_response = response.parsed_response
+    if response.status == 200
+      parsed_response = response.body
       transactions = parsed_response["fee"].filter_map do |fee|
         fee["transaction"]
       end.flatten

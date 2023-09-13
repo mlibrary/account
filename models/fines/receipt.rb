@@ -25,7 +25,7 @@ class Receipt
           error = AlmaError.new(resp)
           ErrorReceipt.new("#{error.message}<br>Your payment order number is: #{order_number}")
         else
-          Receipt.new(payment: payment, balance: resp.parsed_response["total_sum"])
+          Receipt.new(payment: payment, balance: resp.body["total_sum"])
         end
       end
     else # not valid
