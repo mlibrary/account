@@ -31,4 +31,14 @@ class Entities::Page::EmptyState
       "h3"
     end
   end
+
+  def image
+    if @empty_state&.key?("image")
+      @empty_state["image"]
+    elsif @parent_empty_state&.image
+      @parent_empty_state.image
+    else
+      "<img src=\"/not-found.png\" alt=\"Pile of books\" />"
+    end
+  end
 end

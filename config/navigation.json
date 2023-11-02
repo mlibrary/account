@@ -136,7 +136,8 @@
     "sidebar": "false",
     "slug": "none",
     "empty_state": {
-      "heading": "The page you were looking for could not be found"
+      "heading": "The page you were looking for could not be found",
+      "image": "<img src=\"/not-found-v2.png\" alt=\"Three airplanes searching with spotlights\" />"
     }
   }
 ]
