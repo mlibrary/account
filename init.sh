@@ -16,13 +16,13 @@ else
 fi
 
 echo "🚢 Build docker images"
-docker-compose build
+docker compose build
 
 echo "📦 Installing Gems"
-docker-compose run --rm web bundle
+docker compose run --rm web bundle
 
 echo "📦 Installing Node modules"
-docker-compose run --rm web npm install
+docker compose run --rm web npm install
 
 echo "📦 Building js and css"
-docker-compose run --rm web npm run build
+docker compose run --rm web npm run build
