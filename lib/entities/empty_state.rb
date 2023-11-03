@@ -38,7 +38,7 @@ class Entities::Page::EmptyState
     elsif @parent_empty_state&.image
       @parent_empty_state.image
     else
-      "<img src=\"/not-found.png\" alt=\"A pile of books\" />"
+      "<img src=\"/not-found.png\" alt=\"Pile of books\" />"
     end
   end
 end
