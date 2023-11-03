@@ -23,16 +23,16 @@ edit .env with the appropriate environment variables
 start containers
 
 ```bash
-docker-compose up -d
+docker compose up -d
 ```
 
 watch then build styles or scripts (optional)
 
 ```bash
 # styles
-docker-compose run --rm web npm run watch-css
+docker compose run --rm web npm run watch-css
 # scripts
-docker-compose run --rm web npm run watch-js
+docker compose run --rm web npm run watch-js
 ```
 
 In a browser, go to http://localhost:4567 to see the website.
