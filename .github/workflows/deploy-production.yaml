@@ -16,7 +16,7 @@ jobs:
       tag: ${{ github.event.inputs.tag }}
       dockerfile: Dockerfile
     secrets: inherit
-
+      
   deploy-production:
     needs: build-production
     runs-on: ubuntu-latest
