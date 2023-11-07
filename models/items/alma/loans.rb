@@ -8,38 +8,6 @@ class Loans < Items
     @pagination = pagination
   end
 
-  def self.renew_all(uniqname:, client: AlmaRestClient.client, connections: [],
-    publisher: Publisher.new)
-    url = "/users/#{uniqname}/loans"
-    publisher.publish({step: 1, count: 0, renewed: 0, uniqname: uniqname})
-    response = client.get_all(url: url, record_key: "item_loan", query: {"expand" => "renewable"})
-
-    return response if response.code != 200
-    loans = response.parsed_response["item_loan"]&.map do |loan|
-      Loan.new(loan)
-    end
-    renew(uniqname: uniqname, loans: loans, publisher: publisher)
-  end
-
-  def self.renew(uniqname:, loans:, publisher: Publisher.new)
-    count = 0
-    renewed = 0
-    renew_statuses = []
-    loans.filter { |x| x.renewable? }.each do |loan|
-      response = Loan.renew(uniqname: uniqname, loan_id: loan.loan_id)
-      if response.code != 200
-        renew_statuses.push(:fail)
-      else
-        renewed += 1
-        renew_statuses.push(:success)
-      end
-      count += 1
-      publisher.publish({step: 2, count: count, renewed: renewed, uniqname: uniqname})
-    end
-    publisher.publish({step: 3, count: count, renewed: renewed, uniqname: uniqname})
-    RenewResponse.new(renew_statuses: renew_statuses)
-  end
-
   def count
     @parsed_response["total_record_count"]
   end
@@ -55,8 +23,8 @@ class Loans < Items
     query["limit"] = limit.nil? ? 15 : limit
 
     response = client.get(url, query: query)
-    raise StandardError unless response.code == 200
-    pr = response.parsed_response
+    raise StandardError unless response.status == 200
+    pr = response.body
     pagination_params = {url: "/current-checkouts/u-m-library", total: pr["total_record_count"]}
     pagination_params[:limit] = limit unless limit.nil?
     pagination_params[:current_offset] = offset unless offset.nil?
@@ -67,10 +35,6 @@ class Loans < Items
 end
 
 class Loan < AlmaItem
-  def self.renew(uniqname:, loan_id:, client: AlmaRestClient.client)
-    client.post("/users/#{uniqname}/loans/#{loan_id}", query: {op: "renew"})
-  end
-
   def due_date
     DateTime.patron_format(@parsed_response["due_date"]) unless claims_returned?
   end

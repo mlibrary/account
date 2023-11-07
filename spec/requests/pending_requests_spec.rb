@@ -35,7 +35,7 @@ describe "requests" do
   context "get /pending-requests/u-m-library" do
     context "in alma" do
       it "contains 'U-M Library'" do
-        stub_alma_get_request(url: "users/tutor/requests", body: File.read("./spec/fixtures/requests.json"), query: {limit: 100, offset: 0})
+        stub_alma_get_request(url: "users/tutor/requests", output: File.read("./spec/fixtures/requests.json"), query: {limit: 100, offset: 0})
         stub_illiad_get_request(url: "Users/tutor", status: 404)
         stub_illiad_get_request(url: "Transaction/UserRequests/tutor",
           body: "[]", query: hash_excluding({just_pass: "for_real"}))
@@ -75,10 +75,10 @@ describe "requests" do
   end
   context "post /pending-requests/u-m-library/cancel-request" do
     before(:each) do
-      @req = stub_alma_get_request(url: "users/tutor/requests", body: File.read("./spec/fixtures/requests.json"))
+      @req = stub_alma_get_request(url: "users/tutor/requests", output: File.read("./spec/fixtures/requests.json"))
     end
     it "handles good cancel request" do
-      stub_alma_delete_request(url: "users/tutor/requests/1234", status: 204, body: "{}", query: {reason: "CancelledAtPatronRequest"})
+      stub_alma_delete_request(url: "users/tutor/requests/1234", status: 204, output: "{}", query: {reason: "CancelledAtPatronRequest"})
       post "/pending-requests/u-m-library/cancel-request", {"request_id" => "1234"}
       expect(last_response.status).to eq(200)
     end

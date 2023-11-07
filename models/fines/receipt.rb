@@ -21,11 +21,11 @@ class Receipt
         ErrorReceipt.new("You do not have a balance. Your payment order number is: #{order_number}.")
       else # has not already paid
         resp = Fines.pay(uniqname: uniqname, amount: payment.amount, order_number: order_number)
-        if resp.code != 200
+        if resp.status != 200
           error = AlmaError.new(resp)
           ErrorReceipt.new("#{error.message}<br>Your payment order number is: #{order_number}")
         else
-          Receipt.new(payment: payment, balance: resp.parsed_response["total_sum"])
+          Receipt.new(payment: payment, balance: resp.body["total_sum"])
         end
       end
     else # not valid

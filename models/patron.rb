@@ -18,8 +18,8 @@ class Patron
       circ_history_data = {"confirmed" => false, "retain_history" => false}
     end
 
-    if alma_response.code == 200
-      Patron.new(alma_data: alma_response.parsed_response, circ_history_data: circ_history_data, illiad_data: illiad_data)
+    if alma_response.status == 200
+      Patron.new(alma_data: alma_response.body, circ_history_data: circ_history_data, illiad_data: illiad_data)
     else
       NotInAlma.new(uniqname, circ_history_data)
     end
@@ -61,7 +61,7 @@ class Patron
     return Error.new(message: "Phone number #{sms} is invalid") unless phone.valid? || sms.empty?
     url = "/users/#{uniqname}"
     response = client.put(url, body: patron_with_internal_sms(phone.national_number).to_json)
-    (response.code == 200) ? response : AlmaError.new(response)
+    (response.status == 200) ? response : AlmaError.new(response)
   end
 
   def uniqname

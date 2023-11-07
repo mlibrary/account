@@ -14,12 +14,14 @@
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 
+require "alma_rest_client"
 require "rack/test"
 require "rspec"
 require "pry-byebug"
 require "webmock/rspec"
 require "simplecov"
 require "climate_control"
+require "httpx/adapters/webmock"
 SimpleCov.start
 ENV["APP_ENV"] = "test"
 
@@ -32,6 +34,7 @@ module RSpecMixin
 end
 RSpec.configure do |config|
   config.include RSpecMixin
+  include AlmaRestClient::Test::Helpers
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest
   # assertions if you prefer.
@@ -129,35 +132,35 @@ end
   end
 end
 
-[:get, :post, :delete].each do |name|
-  define_method("stub_alma_#{name}_request") do |url:, body: "{}", status: 200, query: {}, no_return: nil|
-    req = stub_request(name, "#{ENV["ALMA_API_HOST"]}/almaws/v1/#{url}").with(
-      headers: {
-        :accept => "application/json",
-        :Authorization => "apikey #{ENV["ALMA_API_KEY"]}",
-        "Accept-Encoding" => "gzip;q=1.0,deflate;q=0.6,identity;q=0.3",
-        "User-Agent" => "Ruby"
-      },
-      query: query
-    )
-    req.to_return(body: body, status: status, headers: {content_type: "application/json"}) if no_return.nil?
-    req
-  end
-end
-def stub_alma_put_request(url:, input:, output:, status: 200, no_return: nil)
-  req = stub_request(:put, "#{ENV["ALMA_API_HOST"]}/almaws/v1/#{url}").with(
-    body: input,
-    headers: {
-      :accept => "application/json",
-      :Authorization => "apikey #{ENV["ALMA_API_KEY"]}",
-      "Accept-Encoding" => "gzip;q=1.0,deflate;q=0.6,identity;q=0.3",
-      "User-Agent" => "Ruby",
-      "Content-Type" => "application/json"
-    }
-  )
-  req.to_return(body: output, status: status, headers: {content_type: "application/json"}) if no_return.nil?
-  req
-end
+# [:get, :post, :delete].each do |name|
+# define_method("stub_alma_#{name}_request") do |url:, body: "{}", status: 200, query: {}, no_return: nil|
+# req = stub_request(name, "#{ENV["ALMA_API_HOST"]}/almaws/v1/#{url}").with(
+# headers: {
+# :accept => "application/json",
+# :Authorization => "apikey #{ENV["ALMA_API_KEY"]}",
+# "Accept-Encoding" => "gzip;q=1.0,deflate;q=0.6,identity;q=0.3",
+# "User-Agent" => "Ruby"
+# },
+# query: query
+# )
+# req.to_return(body: body, status: status, headers: {content_type: "application/json"}) if no_return.nil?
+# req
+# end
+# end
+# def stub_alma_put_request(url:, input:, output:, status: 200, no_return: nil)
+# req = stub_request(:put, "#{ENV["ALMA_API_HOST"]}/almaws/v1/#{url}").with(
+# body: input,
+# headers: {
+# :accept => "application/json",
+# :Authorization => "apikey #{ENV["ALMA_API_KEY"]}",
+# "Accept-Encoding" => "gzip;q=1.0,deflate;q=0.6,identity;q=0.3",
+# "User-Agent" => "Ruby",
+# "Content-Type" => "application/json"
+# }
+# )
+# req.to_return(body: output, status: status, headers: {content_type: "application/json"}) if no_return.nil?
+# req
+# end
 
 def stub_illiad_get_request(url:, body: "{}", status: 200, query: nil, no_return: nil)
   req = stub_request(:get, "#{ENV["ILLIAD_API_HOST"]}/webplatform/#{url}").with(

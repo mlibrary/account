@@ -15,7 +15,7 @@ namespace "/pending-requests" do
   end
   post "/u-m-library/cancel-request" do
     response = Request.cancel(uniqname: session[:uniqname], request_id: params["request_id"])
-    if response.code == 204
+    if response.status == 204
       status 200
       {}.to_json
     else

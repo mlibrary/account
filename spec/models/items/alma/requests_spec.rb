@@ -3,7 +3,7 @@ require "json"
 
 describe Requests do
   before(:each) do
-    stub_alma_get_request(url: "users/tutor/requests", body: File.read("./spec/fixtures/requests.json"), query: {limit: 100, offset: 0})
+    stub_alma_get_request(url: "users/tutor/requests", output: File.read("./spec/fixtures/requests.json"), query: {limit: 100, offset: 0})
   end
   subject do
     Requests.for(uniqname: "tutor")
@@ -47,12 +47,12 @@ describe Request, ".cancel(request_id:, uniqname:)" do
     described_class.cancel(request_id: "1234", uniqname: "jbister")
   end
   it "properly cancels a request in alma" do
-    stub_alma_delete_request(url: "users/jbister/requests/1234", body: "{}", query: {reason: "CancelledAtPatronRequest"})
-    expect(subject.code).to eq(200)
+    stub_alma_delete_request(url: "users/jbister/requests/1234", output: "{}", query: {reason: "CancelledAtPatronRequest"})
+    expect(subject.status).to eq(200)
   end
   it "returns response from alma on failed cancelation request" do
-    stub_alma_delete_request(url: "users/jbister/requests/1234", body: File.read("./spec/fixtures/alma_error.json"), query: {reason: "CancelledAtPatronRequest"}, status: 400)
-    expect(subject.code).to eq(400)
+    stub_alma_delete_request(url: "users/jbister/requests/1234", output: File.read("./spec/fixtures/alma_error.json"), query: {reason: "CancelledAtPatronRequest"}, status: 400)
+    expect(subject.status).to eq(400)
   end
 end
 describe HoldRequest do

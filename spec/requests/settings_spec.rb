@@ -16,7 +16,7 @@ describe "requests" do
   end
   context "get /settings" do
     it "contains 'Settings'" do
-      stub_alma_get_request(url: "users/tutor?expand=none&user_id_type=all_unique&view=full")
+      stub_alma_get_request(url: "users/tutor?expand=none&user_id_type=all_unique&view=full", output: "{}")
       stub_circ_history_get_request(url: "users/tutor")
       stub_illiad_get_request(url: "Users/tutor", status: 404)
       get "/settings"
@@ -26,7 +26,7 @@ describe "requests" do
   context "post /settings/history" do
     before(:each) do
       @patron_json = File.read("./spec/fixtures/mrio_user_alma.json")
-      stub_alma_get_request(url: "users/tutor?expand=none&user_id_type=all_unique&view=full", body: @patron_json)
+      stub_alma_get_request(url: "users/tutor?expand=none&user_id_type=all_unique&view=full", output: @patron_json)
       stub_circ_history_get_request(url: "users/tutor")
       stub_illiad_get_request(url: "Users/tutor", status: 404)
     end
@@ -49,7 +49,7 @@ describe "requests" do
   context "post /sms" do
     before(:each) do
       @patron_json = File.read("./spec/fixtures/mrio_user_alma.json")
-      @stub = stub_alma_get_request(url: "users/tutor?expand=none&user_id_type=all_unique&view=full", body: @patron_json)
+      @stub = stub_alma_get_request(url: "users/tutor?expand=none&user_id_type=all_unique&view=full", output: @patron_json)
       stub_circ_history_get_request(url: "users/tutor")
       stub_illiad_get_request(url: "Users/tutor", status: 404)
     end

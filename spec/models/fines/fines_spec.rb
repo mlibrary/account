@@ -1,6 +1,6 @@
 describe Fines do
   before(:each) do
-    stub_alma_get_request(url: "users/jbister/fees", body: File.read("./spec/fixtures/jbister_fines.json"), query: {limit: 100, offset: 0})
+    stub_alma_get_request(url: "users/jbister/fees", output: File.read("./spec/fixtures/jbister_fines.json"), query: {limit: 100, offset: 0})
   end
   subject do
     described_class.for(uniqname: "jbister")
@@ -39,8 +39,9 @@ describe Fines do
 end
 describe Fines, "self.pay" do
   it "posts to Alma with user fine info" do
-    stub_alma_post_request(url: "users/jbister/fees/all", query: {op: "pay", amount: "5.00", method: "ONLINE", external_transaction_id: "12345"}, body: "Success")
-    expect(Fines.pay(uniqname: "jbister", amount: "5.00", order_number: "12345").body).to eq("Success")
+    stub_alma_post_request(url: "users/jbister/fees/all", output: {status: "success"}.to_json, query: {op: "pay", amount: "5.00", method: "ONLINE", external_transaction_id: "12345"})
+    response = Fines.pay(uniqname: "jbister", amount: "5.00", order_number: "12345")
+    expect(response.body).to eq({"status" => "success"})
   end
 end
 
@@ -50,7 +51,7 @@ describe Fines, "self.verify_payment" do
     @order_number = "number_not_in_alma_response"
   end
   let(:stub_fee_request) {
-    stub_alma_get_request(url: "users/jbister/fees", body: @fine_response.to_json, query: {limit: 100, offset: 0})
+    stub_alma_get_request(url: "users/jbister/fees", output: @fine_response.to_json, query: {limit: 100, offset: 0})
   }
   subject do
     described_class.verify_payment(uniqname: "jbister", order_number: @order_number)
@@ -65,7 +66,7 @@ describe Fines, "self.verify_payment" do
     expect(subject).to eq({has_order_number: false, total_sum: 25})
   end
   it "returns alma error if alma request fails" do
-    stub_alma_get_request(url: "users/jbister/fees", body: File.read("spec/fixtures/alma_error.json"), query: {limit: 100, offset: 0}, status: 500)
+    stub_alma_get_request(url: "users/jbister/fees", output: File.read("spec/fixtures/alma_error.json"), query: {limit: 100, offset: 0}, status: 500)
     expect(subject.class.name).to eq("AlmaError")
   end
 end
@@ -129,7 +130,7 @@ describe Fine do
 end
 describe Fine, "self.pay" do
   it "posts to Alma with user fine info" do
-    stub_alma_post_request(url: "users/jbister/fees/1234", query: {op: "pay", amount: "1.00", method: "ONLINE"}, body: "Success")
-    expect(Fine.pay(uniqname: "jbister", fine_id: "1234", balance: "1.00").body).to eq("Success")
+    stub_alma_post_request(url: "users/jbister/fees/1234", query: {op: "pay", amount: "1.00", method: "ONLINE"}, output: {status: "success"}.to_json)
+    expect(Fine.pay(uniqname: "jbister", fine_id: "1234", balance: "1.00").body).to eq({"status" => "success"})
   end
 end

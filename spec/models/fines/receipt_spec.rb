@@ -30,20 +30,20 @@ describe Receipt, ".for" do
     @fine_payment_response = JSON.parse(File.read("spec/fixtures/fines_pay_amount.json"))
     @fine_response = JSON.parse(File.read("spec/fixtures/jbister_fines.json"))
     @is_valid = true
-    stub_alma_get_request(url: "users/tutor/fees", body: @fine_response.to_json, query: {limit: 100, offset: 0})
+    stub_alma_get_request(url: "users/tutor/fees", output: @fine_response.to_json, query: {limit: 100, offset: 0})
   end
   let(:alma_error) { File.read("spec/fixtures/alma_error.json") }
   subject do
     described_class.for(uniqname: "tutor", nelnet_params: @params, order_number: @order_number, is_valid: @is_valid)
   end
   it "returns full receipt if alma update goes through" do
-    stub_alma_post_request(url: "users/tutor/fees/all", query: {op: "pay", method: "ONLINE", amount: "22.50", external_transaction_id: @order_number}, body: @fine_payment_response.to_json)
+    stub_alma_post_request(url: "users/tutor/fees/all", query: {op: "pay", method: "ONLINE", amount: "22.50", external_transaction_id: @order_number}, output: @fine_payment_response.to_json)
     expect(subject.balance).to eq("15.00")
     expect(subject.order_number).to eq(@order_number)
     expect(subject.successful?).to eq(true)
   end
   it "returns an ErrorReceipt with error messages for failed Alma Update" do
-    stub_alma_post_request(url: "users/tutor/fees/all", query: {op: "pay", method: "ONLINE", amount: "22.50", external_transaction_id: @order_number}, body: alma_error, status: 500)
+    stub_alma_post_request(url: "users/tutor/fees/all", query: {op: "pay", method: "ONLINE", amount: "22.50", external_transaction_id: @order_number}, output: alma_error, status: 500)
     expect(subject.class.name).to eq("ErrorReceipt")
     expect(subject.message).to include("User with identifier mrioaaa was not found.")
     expect(subject.successful?).to eq(false)
@@ -54,7 +54,7 @@ describe Receipt, ".for" do
     expect(subject.message).to include("could not be validated")
   end
   it "returns ErrorReceipt for problem in getting alma verification" do
-    stub_alma_get_request(url: "users/tutor/fees", body: alma_error, query: {limit: 100, offset: 0}, status: 500)
+    stub_alma_get_request(url: "users/tutor/fees", output: alma_error, query: {limit: 100, offset: 0}, status: 500)
     expect(subject.class.name).to eq("ErrorReceipt")
     expect(subject.message).to include("There was an error")
   end
@@ -65,7 +65,7 @@ describe Receipt, ".for" do
   end
   it "returns ErrorReceipt if balance in Alma is 0" do
     @fine_response["total_sum"] = "0"
-    stub_alma_get_request(url: "users/tutor/fees", body: @fine_response.to_json, query: {limit: 100, offset: 0})
+    stub_alma_get_request(url: "users/tutor/fees", output: @fine_response.to_json, query: {limit: 100, offset: 0})
     expect(subject.class.name).to eq("ErrorReceipt")
     expect(subject.message).to include("balance")
   end
