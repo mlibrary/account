@@ -115,7 +115,7 @@ RSpec.configure do |config|
   #   Kernel.srand config.seed
 end
 [:get, :put].each do |name|
-  define_method("stub_circ_history_#{name}_request") do |url:, output: "{}", status: 200, query: {}, no_return: nil|
+  define_method(:"stub_circ_history_#{name}_request") do |url:, output: "{}", status: 200, query: {}, no_return: nil|
     req = stub_request(name, "#{ENV["CIRCULATION_HISTORY_URL"]}/v1/#{url}").with(
       headers: {
         :accept => "application/json",
@@ -130,7 +130,7 @@ end
 end
 
 [:get, :post, :delete].each do |name|
-  define_method("stub_alma_#{name}_request") do |url:, body: "{}", status: 200, query: {}, no_return: nil|
+  define_method(:"stub_alma_#{name}_request") do |url:, body: "{}", status: 200, query: {}, no_return: nil|
     req = stub_request(name, "#{ENV["ALMA_API_HOST"]}/almaws/v1/#{url}").with(
       headers: {
         :accept => "application/json",
@@ -160,7 +160,7 @@ def stub_alma_put_request(url:, input:, output:, status: 200, no_return: nil)
 end
 
 def stub_illiad_get_request(url:, body: "{}", status: 200, query: nil, no_return: nil)
-  req = stub_request(:get, "#{ENV["ILLIAD_API_HOST"]}/webplatform/#{url}").with(
+  req = stub_request(:get, "#{ENV["ILLIAD_API_HOST"]}/ILLiadWebPlatform/#{url}").with(
     headers: {
       :accept => "application/json",
       :ApiKey => ENV["ILLIAD_API_KEY"],
