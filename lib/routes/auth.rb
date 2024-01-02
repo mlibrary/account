@@ -1,6 +1,6 @@
 use OmniAuth::Builder do
   provider :openid_connect, {
-    issuer: "https://weblogin.lib.umich.edu",
+    issuer: ENV["WEBLOGIN_URL"],
     discovery: true,
     client_auth_method: "jwks",
     scope: [:openid, :profile, :email],
