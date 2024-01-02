@@ -12,6 +12,7 @@ gem "addressable"
 gem "omniauth"
 gem "omniauth_openid_connect"
 gem "redcarpet"
+gem "csv" # included here because httparty uses it and ought to requirequire it
 
 # In order to get rspec to work for ruby 3.1. Maybe later see if it's still necessary
 gem "net-smtp", require: false
