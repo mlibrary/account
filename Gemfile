@@ -12,6 +12,7 @@ gem "addressable"
 gem "omniauth"
 gem "omniauth_openid_connect"
 gem "redcarpet"
+gem "rackup"
 # needed for when we go to ruby 3.3, but we aren't there yet
 # gem "csv" # included here because httparty uses it and ought to requirequire it
 
