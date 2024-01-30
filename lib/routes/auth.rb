@@ -1,3 +1,20 @@
+# Patch because "https://shibboleth.umich.edu/oidc/keyset.jwk" doesn't get
+# parsed into JSON
+module OpenIDConnect
+  module Discovery
+    module Provider
+      class Config
+        class Response
+          def jwks
+            @jwks ||= JSON.parse(OpenIDConnect.http_client.get(jwks_uri).body).with_indifferent_access
+            JSON::JWK::Set.new @jwks[:keys]
+          end
+        end
+      end
+    end
+  end
+end
+
 use OmniAuth::Builder do
   provider :openid_connect, {
     issuer: ENV["WEBLOGIN_URL"],
