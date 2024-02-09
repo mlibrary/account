@@ -37,66 +37,6 @@
         <% end %>
       </table>
     </div>
-
-    <form class="owl" method="post" action="/sms">
-      <h2>Text Notifications</h2>
-
-      <p>Add a phone number to receive text notifications on the status of your request and loans. Special collections requests are not included. Message and data rates may apply.</p>
-
-      <fieldset class="owl">
-        <legend class="visually-hidden">Do you wish to receive text notifications?</legend>
-        <div class="radio-option">
-          <input 
-            type="radio"
-            name="text-notifications"
-            class="visually-hidden"
-            id="confirm-sms"
-            value="on"
-            <% if patron.sms_number? %>checked<% end%>
-          >
-          <label for="confirm-sms">
-            <span class="material-symbols-sharp radio-button-checked" aria-hidden="true">radio_button_checked</span>
-            <span class="material-symbols-sharp radio-button-unchecked" aria-hidden="true">radio_button_unchecked</span>
-            <span>Yes, please send me text notifications</span>
-          </label>
-          <div class="radio-option-extra">
-            <label class="text-notifications-label" for="sms-number">
-              Phone number
-            </label>
-            <input
-              type="tel"
-              name="sms-number"
-              id="sms-number"
-              value="<%= patron.sms_number %>"
-              pattern="\d{10}|\(\d{3}\) \d{3}-\d{4}|\d{3}-\d{3}-\d{4}"
-              aria-describedby="sms-number-description"
-              autocomplete="on"
-            />
-            <div id="sms-number-description" class="input-description">
-              <span class="material-symbols-rounded" aria-hidden="true">info</span>
-              <span>Phone number must be 10 digits. Acceptable formats are: (123)&nbsp;456&#8209;7890, 123&#8209;456&#8209;7890, and 1234567890.</span>
-            </div>
-          </div>
-        </div>
-        <div class="radio-option">
-          <input 
-            type="radio"
-            name="text-notifications"
-            class="visually-hidden"
-            id="deny-sms"
-            value="off"
-            <% if !patron.sms_number? %>checked<% end%>
-          >
-          <label for="deny-sms">
-            <span class="material-symbols-sharp radio-button-checked" aria-hidden="true">radio_button_checked</span>
-            <span class="material-symbols-sharp radio-button-unchecked" aria-hidden="true">radio_button_unchecked</span>
-            <span>No, do not send me text notifications</span>
-          </label>
-        </div>
-      </fieldset>
-
-      <button>Update notification preferences</button>
-    </form>
   <% end %>
 
   <form class="owl" method="post" action="/settings/history">
@@ -157,4 +97,66 @@
       }
     %>
   </form>
+
+  <% if patron.in_alma? %>
+    <form class="owl" method="post" action="/sms">
+      <h2>Text Notifications</h2>
+
+      <p>Add a phone number to receive text notifications on the status of your request and loans. Special collections requests are not included. Message and data rates may apply.</p>
+
+      <fieldset class="owl">
+        <legend class="visually-hidden">Do you wish to receive text notifications?</legend>
+        <div class="radio-option">
+          <input 
+            type="radio"
+            name="text-notifications"
+            class="visually-hidden"
+            id="confirm-sms"
+            value="on"
+            <% if patron.sms_number? %>checked<% end%>
+          >
+          <label for="confirm-sms">
+            <span class="material-symbols-sharp radio-button-checked" aria-hidden="true">radio_button_checked</span>
+            <span class="material-symbols-sharp radio-button-unchecked" aria-hidden="true">radio_button_unchecked</span>
+            <span>Yes, please send me text notifications</span>
+          </label>
+          <div class="radio-option-extra">
+            <label class="text-notifications-label" for="sms-number">
+              Phone number
+            </label>
+            <input
+              type="tel"
+              name="sms-number"
+              id="sms-number"
+              value="<%= patron.sms_number %>"
+              pattern="\d{10}|\(\d{3}\) \d{3}-\d{4}|\d{3}-\d{3}-\d{4}"
+              aria-describedby="sms-number-description"
+              autocomplete="on"
+            />
+            <div id="sms-number-description" class="input-description">
+              <span class="material-symbols-rounded" aria-hidden="true">info</span>
+              <span>Phone number must be 10 digits. Acceptable formats are: (123)&nbsp;456&#8209;7890, 123&#8209;456&#8209;7890, and 1234567890.</span>
+            </div>
+          </div>
+        </div>
+        <div class="radio-option">
+          <input 
+            type="radio"
+            name="text-notifications"
+            class="visually-hidden"
+            id="deny-sms"
+            value="off"
+            <% if !patron.sms_number? %>checked<% end%>
+          >
+          <label for="deny-sms">
+            <span class="material-symbols-sharp radio-button-checked" aria-hidden="true">radio_button_checked</span>
+            <span class="material-symbols-sharp radio-button-unchecked" aria-hidden="true">radio_button_unchecked</span>
+            <span>No, do not send me text notifications</span>
+          </label>
+        </div>
+      </fieldset>
+
+      <button>Update notification preferences</button>
+    </form>
+  <% end %>
 </div>
