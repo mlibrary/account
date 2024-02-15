@@ -33,6 +33,10 @@
     pointer-events: none; // prevent addEventListener from detecting children
   }
 
+  .owl > * + & {
+    margin-top: inherit;
+  }
+
   @include icons.material-symbols {
     top: 0;
   }

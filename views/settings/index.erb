@@ -37,7 +37,68 @@
         <% end %>
       </table>
     </div>
+  <% end %>
 
+  <form class="owl" method="post" action="/settings/history">
+    <h2>Checkout History</h2>
+    <%=patron.circulation_history_text%>
+    <a class="button" href="/past-activity/u-m-library/download.csv" style="display: inline-block">Download checkout history (CSV file)</a>
+    <p>If you’d like to continue to keep a record of your checkout history, you can select that option now. If you prefer to have your checkout history deleted and no longer record future checkouts, you can opt out.</p>
+    <p>You can change this preference at any time.</p>
+
+    <fieldset class="owl">
+      <legend class="visually-hidden">Do you wish to record your checkout history?</legend>
+      <div class="radio-option">
+        <input 
+          type="radio" 
+          name="retain_history" 
+          class="visually-hidden"
+          id="opt-in" 
+          value="true" 
+          <% if patron.confirmed_history_setting? && patron.retain_history? %>checked<% end %>
+        >
+        <label for="opt-in">
+          <span class="material-symbols-sharp radio-button-checked" aria-hidden="true">radio_button_checked</span>
+          <span class="material-symbols-sharp radio-button-unchecked" aria-hidden="true">radio_button_unchecked</span>
+          <span>Yes, record my checkout history</span>
+        </label>
+      </div>
+      <div class="radio-option">
+        <input 
+          type="radio" 
+          name="retain_history"
+          class="visually-hidden" 
+          id="opt-out" 
+          value="false" 
+          <% if patron.confirmed_history_setting? && !patron.retain_history? %>checked<% end %>
+        >
+        <label for="opt-out">
+          <span class="material-symbols-sharp radio-button-checked" aria-hidden="true">radio_button_checked</span>
+          <span class="material-symbols-sharp radio-button-unchecked" aria-hidden="true">radio_button_unchecked</span>
+          <span>No, do not record my checkout history and delete my past checkout history</span>
+        </label>
+      </div>
+    </fieldset>
+
+    <button class="button--light" id="update-history" data-js-modal="delete-history" disabled>Update history preferences</button>
+
+    <%= 
+      erb :'settings/_modal',
+      locals: {
+        modal: {
+          id: 'delete-history',
+          state: 'caution',
+          content: {
+            heading: 'Delete checkout history',
+            text: 'Once you opt out, your previous checkout history is deleted and cannot be recovered, even if you opt back in later.'
+          },
+          button: 'Delete history'
+        }
+      }
+    %>
+  </form>
+
+  <% if patron.in_alma? %>
     <form class="owl" method="post" action="/sms">
       <h2>Text Notifications</h2>
 
@@ -95,66 +156,7 @@
         </div>
       </fieldset>
 
-      <button>Update notification preferences</button>
+      <button class="button--light">Update notification preferences</button>
     </form>
   <% end %>
-
-  <form class="owl" method="post" action="/settings/history">
-    <h2>Checkout History</h2>
-    <%=patron.circulation_history_text%>
-
-    <fieldset class="owl">
-      <legend class="visually-hidden">Do you wish to record your checkout history?</legend>
-      <div class="radio-option">
-        <input 
-          type="radio" 
-          name="retain_history" 
-          class="visually-hidden"
-          id="opt-in" 
-          value="true" 
-          <% if patron.confirmed_history_setting? && patron.retain_history? %>checked<% end %>
-        >
-        <label for="opt-in">
-          <span class="material-symbols-sharp radio-button-checked" aria-hidden="true">radio_button_checked</span>
-          <span class="material-symbols-sharp radio-button-unchecked" aria-hidden="true">radio_button_unchecked</span>
-          <span>Yes, record my checkout history.</span>
-        </label>
-      </div>
-      <div class="radio-option">
-        <input 
-          type="radio" 
-          name="retain_history"
-          class="visually-hidden" 
-          id="opt-out" 
-          value="false" 
-          <% if patron.confirmed_history_setting? && !patron.retain_history? %>checked<% end %>
-        >
-        <label for="opt-out">
-          <span class="material-symbols-sharp radio-button-checked" aria-hidden="true">radio_button_checked</span>
-          <span class="material-symbols-sharp radio-button-unchecked" aria-hidden="true">radio_button_unchecked</span>
-          <span>No, do not record my checkout history.</span>
-        </label>
-      </div>
-    </fieldset>
-
-    <p>If you’d like to make a copy of your checkout history up to this point, you can download it to your device in a spreadsheet format (CSV file).</p>
-    <a class="button button--light" href="/past-activity/u-m-library/download.csv" style="display: inline-block;">Download your checkout history</a>
-
-    <button id="update-history" data-js-modal="delete-history" disabled>Update history preferences</button>
-
-    <%= 
-      erb :'settings/_modal',
-      locals: {
-        modal: {
-          id: 'delete-history',
-          state: 'caution',
-          content: {
-            heading: 'Delete checkout history',
-            text: 'Once you opt out, your previous checkout history is deleted and cannot be recovered, even if you opt back in later.'
-          },
-          button: 'Delete history'
-        }
-      }
-    %>
-  </form>
 </div>
