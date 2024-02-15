@@ -3,14 +3,6 @@ name: Manual Deploy Unstable
 on:
   workflow_dispatch:
     inputs:
-      deploy_environment:
-        description: 'namespace to deploy to'
-        required: true
-        type: choice
-        default: "testing"
-        options:
-          - "testing"
-          - "staging"
       tag:
         description: tag
         required: true
