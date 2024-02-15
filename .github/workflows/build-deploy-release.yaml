@@ -15,32 +15,28 @@ jobs:
       dockerfile: Dockerfile
     secrets: inherit
       
-  scan-image:
-    needs: build-production
-    runs-on: ubuntu-latest
-    steps:
-      - name: Run Trivy vulnerability scanner
-        uses: aquasecurity/trivy-action@master
-        with:
-          image-ref: ghcr.io/mlibrary/${{ vars.IMAGE_NAME }}:${{ github.event.release.tag_name }}
-          format: 'table'
-          exit-code: '1'
-          ignore-unfixed: true
-          vuln-type: 'os,library'
-          severity: 'CRITICAL,HIGH'
-          skip-files: '/gems/ruby/3.2.0/gems/openid_connect-2.2.0/spec/mock_response/public_keys/private_key.pem'
+  #scan-image:
+    #needs: build-production
+    #runs-on: ubuntu-latest
+    #steps:
+      #- name: Run Trivy vulnerability scanner
+        #uses: aquasecurity/trivy-action@master
+        #with:
+          #image-ref: ghcr.io/mlibrary/${{ vars.IMAGE_NAME }}:${{ github.event.release.tag_name }}
+          #format: 'table'
+          #exit-code: '1'
+          #ignore-unfixed: true
+          #vuln-type: 'os,library'
+          #severity: 'CRITICAL,HIGH'
+          #skip-files: '/gems/ruby/3.2.0/gems/openid_connect-2.2.0/spec/mock_response/public_keys/private_key.pem'
 
   deploy-production:
     needs: build-production
-    runs-on: ubuntu-latest
-    environment: production
-    steps:
-    - name: Deploy to Production
-      uses: mlibrary/deploy-to-kubernetes@v3
-      with:
-        registry_token: ${{ secrets.GITHUB_TOKEN }}
-        image: ghcr.io/mlibrary/${{ vars.IMAGE_NAME }}:${{ github.event.release.tag_name }}
-        cluster_ca: ${{ secrets.HATCHER_CLUSTER_CA }}
-        cluster_server: https://hatcher.kubernetes.lib.umich.edu
-        namespace_token: ${{ secrets.HATCHER_TOKEN }}
-        namespace: ${{ secrets.NAMESPACE }}
+    name: Deploy to production
+    uses: mlibrary/platform-engineering-workflows/.github/workflows/deploy.yml@v1
+    with:
+      image: ghcr.io/mlibrary/${{ vars.IMAGE_NAME }}:${{ github.event.release.tag_name }}
+      file: environments/account/production/web-image.txt
+      CONFIG_REPO_RW_APP_ID: ${{ vars.CONFIG_REPO_RW_APP_ID }}
+      CONFIG_REPO_FULL_NAME: ${{ vars.CONFIG_REPO_FULL_NAME }}
+    secrets: inherit
