@@ -37,6 +37,4 @@ jobs:
     with:
       image: ghcr.io/mlibrary/${{ vars.IMAGE_NAME }}:${{ github.event.release.tag_name }}
       file: environments/account/production/web-image.txt
-      CONFIG_REPO_RW_APP_ID: ${{ vars.CONFIG_REPO_RW_APP_ID }}
-      CONFIG_REPO_FULL_NAME: ${{ vars.CONFIG_REPO_FULL_NAME }}
     secrets: inherit
