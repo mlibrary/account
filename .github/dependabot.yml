@@ -1,0 +1,41 @@
+version: 2
+updates:
+  # Enable version updates for npm
+  - package-ecosystem: npm
+    # Look for `package.json` and `lock` files in the `root` directory
+    directory: /
+    # Check the npm registry for updates every first day of the month at 6am EST
+    schedule:
+      interval: monthly
+      timezone: America/Detroit
+      time: "06:00"
+    # Assign to the lead developer
+    assignees:
+      - erinesullivan
+    # Add the `dependencies` label
+    labels:
+      - dependencies
+
+  # Enable version updates for GitHub Actions with similar scheduling details
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
+      timezone: America/Detroit
+      time: "06:00"
+    assignees:
+      - erinesullivan
+    labels:
+      - dependencies
+
+  # Enable version updates for Gems with similar scheduling details
+  - package-ecosystem: bundler
+    directory: /
+    schedule:
+      interval: monthly
+      timezone: America/Detroit
+      time: "06:00"
+    assignees:
+      - niquerio
+    labels:
+      - dependencies
