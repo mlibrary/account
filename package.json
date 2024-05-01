@@ -3,29 +3,28 @@
   "version": "1.0.0",
   "description": "for account.lib",
   "devDependencies": {
+    "@eslint/js": "^9.1.1",
     "esbuild": "^0.20.2",
-    "eslint": "^8.57.0",
-    "eslint-config-standard": "^17.1.0",
-    "eslint-plugin-import": "^2.29.1",
-    "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-promise": "^6.1.1",
+    "eslint": "^9.1.1",
+    "globals": "^15.1.0",
     "sass": "^1.76.0"
   },
   "scripts": {
     "build": "npm run build-css && npm run build-js",
     "build-css": "npx sass css:public/bundles --style=compressed",
+    "build-js": "npx eslint js/*.js && npx esbuild --bundle --sourcemap --minify js/*.js --outdir=public/bundles --out-extension:.js=.bundle.js --outbase=js $*",
+    "eslint": "npx eslint js/*.js",
     "watch-css": "npm run build-css -- --watch",
-    "build-js": "npx esbuild --bundle --sourcemap --minify js/*.js --outdir=public/bundles --out-extension:.js=.bundle.js --outbase=js",
     "watch-js": "npm run build-js -- --watch=forever"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mlibrary/patron_account.git"
+    "url": "git+https://github.com/mlibrary/account.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/mlibrary/patron_account/issues"
+    "url": "https://github.com/mlibrary/account/issues"
   },
-  "homepage": "https://github.com/mlibrary/patron_account#readme"
+  "homepage": "https://github.com/mlibrary/account#readme"
 }

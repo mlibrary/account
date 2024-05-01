@@ -38,7 +38,7 @@ let previousFocus = false;
 document.addEventListener('keydown', (event) => {
   previousFocus = event.shiftKey && event.key === 'Tab';
 });
-document.addEventListener('focusin', (event) => {
+document.addEventListener('focusin', () => {
   if (getModal.style.display !== 'none' && !getModal.querySelectorAll(':focus').length) {
     previousFocus ? deleteHistoryButton.focus() : closeButton.focus();
   }

@@ -39,7 +39,7 @@
         }
         event.target.innerHTML = 'Error!';
         throw new Error(`Could not cancel request id ${requestID}.`);
-      }).then((data) => {
+      }).then(() => {
         event.target.innerHTML = 'Canceled!';
         event.target.disabled = true;
       }).catch((error) => {
@@ -120,7 +120,7 @@
         }
       });
     });
-    window.addEventListener('resize', (event) => {
+    window.addEventListener('resize', () => {
       if (
         (window.innerWidth <= breakpoint && !getAriaExpanded) ||
         (window.innerWidth > breakpoint && getAriaExpanded)

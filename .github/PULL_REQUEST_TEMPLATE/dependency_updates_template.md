@@ -3,13 +3,10 @@ Monthly dependency update to help maintain Account.
 
 ## NPM
 These dependencies have been updated to their latest versions:
+- `@eslint/js`
 - `esbuild`
 - `eslint`
-- `eslint-config-standard`
-- `eslint-plugin-import`
-- `eslint-plugin-node`
-- `eslint-plugin-promise`
-- `eslint-webpack-plugin`
+- `globals`
 - `sass`
 
 ## Workflows
