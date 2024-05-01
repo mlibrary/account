@@ -9,7 +9,7 @@
     "eslint-plugin-import": "^2.29.1",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^6.1.1",
-    "sass": "^1.72.0"
+    "sass": "^1.76.0"
   },
   "scripts": {
     "build": "npm run build-css && npm run build-js",
