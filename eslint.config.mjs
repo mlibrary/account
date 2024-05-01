@@ -1,8 +1,8 @@
 import globals from "globals";
 import pluginJs from "@eslint/js";
 
-
 export default [
+  pluginJs.configs.recommended,
   {
     languageOptions: {
       globals: globals.browser
@@ -17,6 +17,5 @@ export default [
       "no-var": "error", // Discourages using `var` and recommends using `let` or `const` instead
       "semi": ["error", "always"] // Requires a semicolon wherever necessary
     }
-  },
-  pluginJs.configs.recommended,
+  }
 ];
