@@ -21,7 +21,7 @@ gem "net-smtp", require: false
 
 gem "alma_rest_client",
   git: "https://github.com/mlibrary/alma_rest_client",
-  tag: "1.3.1"
+  tag: "v2.0.0"
 
 gem "yabeda-puma-plugin"
 gem "yabeda-prometheus"
