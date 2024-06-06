@@ -2,7 +2,7 @@ require "digest"
 require "securerandom"
 class Nelnet
   include UrlHelper
-  attr_reader :orderNumber
+  attr_reader :order_number
   def initialize(amount_due:,
     redirect_url: absolute_url(path: "fines-and-fees/receipt"),
     order_description: "U-M Library Circulation Fines",

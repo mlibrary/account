@@ -14,21 +14,26 @@ class Receipt
     if is_valid
       payment_verification = Fines.verify_payment(uniqname: uniqname, order_number: order_number)
       if payment_verification.instance_of?(AlmaError)
+        S.logger.error("Fine payment error: order_number: #{payment.order_number}; message: #{payment_verification.message}")
         ErrorReceipt.new("There was an error in processing your payment.<br>Your payment order number is: #{payment.order_number}<br>Server error: #{payment_verification.message}</br>")
       elsif payment_verification[:has_order_number]
+        S.logger.error("Fine payment error: order number #{order_number} is already in Alma.")
         ErrorReceipt.new("Your payment order number, #{order_number}, is already in the fines database.")
       elsif payment_verification[:total_sum].to_f.to_s == "0.0"
+        S.logger.error("Fine payment error: order number #{order_number} tried to pay $0.00")
         ErrorReceipt.new("You do not have a balance. Your payment order number is: #{order_number}.")
       else # has not already paid
         resp = Fines.pay(uniqname: uniqname, amount: payment.amount, order_number: order_number)
         if resp.code != 200
           error = AlmaError.new(resp)
+          S.logger.error("Fine payment error: order number #{order_number}; message: #{error.message}")
           ErrorReceipt.new("#{error.message}<br>Your payment order number is: #{order_number}")
         else
           Receipt.new(payment: payment, balance: resp.parsed_response["total_sum"])
         end
       end
     else # not valid
+      S.logger.error("Fine payment error: order number #{order_number} payment could not be validated.")
       ErrorReceipt.new("Your payment could not be validated. Your payment order number is: #{payment.order_number}")
     end
   end

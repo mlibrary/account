@@ -14,7 +14,8 @@ namespace "/fines-and-fees" do
     amount = (params["pay_in_full"] == "true") ? total_sum : params["partial_amount"].to_f
     if amount <= total_sum
       nelnet = Nelnet.new(amount_due: amount.to_currency)
-      session["order_number"] = nelnet.orderNumber
+      session["order_number"] = nelnet.order_number
+      S.logger.info("Fee payment attempt: order_number: #{nelnet.order_number}")
       redirect nelnet.url
     else
       flash[:error] = "You don't need to overpay!!!"
@@ -31,6 +32,7 @@ namespace "/fines-and-fees" do
       flash.now[:success] = "Fines successfully paid"
     else
       flash.now[:error] = receipt.message
+      S.logger.error(receipt.message)
     end
     erb :"fines-and-fees/receipt", locals: {receipt: receipt}
   rescue
