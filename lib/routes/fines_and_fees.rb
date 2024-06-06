@@ -11,6 +11,13 @@ namespace "/fines-and-fees" do
   post "/pay" do
     fines = Fines.for(uniqname: session[:uniqname])
     total_sum = fines.total_sum.to_f
+    # 2024-06-06 This messages mrio when there's a fine to make it easier to determine if the fines bug is still happening.
+    begin
+      HTTParty.post(S.slack_url, headers: {"Content-type" => "application/json"}, body: {text: "Someone started a fine payment attempt in account"}.to_json)
+    rescue
+      S.logger.error("Couldn't send slack message")
+    end
+
     amount = (params["pay_in_full"] == "true") ? total_sum : params["partial_amount"].to_f
     if amount <= total_sum
       nelnet = Nelnet.new(amount_due: amount.to_currency)

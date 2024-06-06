@@ -29,6 +29,7 @@ class Receipt
           S.logger.error("Fine payment error: order number #{order_number}; message: #{error.message}")
           ErrorReceipt.new("#{error.message}<br>Your payment order number is: #{order_number}")
         else
+          S.logger.info("Fine payment success")
           Receipt.new(payment: payment, balance: resp.parsed_response["total_sum"])
         end
       end

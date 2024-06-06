@@ -51,6 +51,7 @@ describe "fines-and-fees requests" do
   context "post /fines-and-fees/pay" do
     before(:each) do
       @stub = stub_alma_get_request(url: "users/tutor/fees", body: File.read("./spec/fixtures/jbister_fines.json"), query: {limit: 100, offset: 0})
+      stub_request(:post, S.slack_url) # Don't care about the slack url for testing purposes
     end
     it "for pay in full redirects to nelnet with total amountDue" do
       post "/fines-and-fees/pay", {"pay_in_full" => "true", "partial_amount" => "0.00"}
