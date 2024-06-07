@@ -25,9 +25,11 @@ jobs:
           BUNDLE_RUBYGEMS__PKG__GITHUB__COM: ${{ secrets.GITHUB_TOKEN }}
       - name: Get gems to update
         continue-on-error: true
-        run: | 
-          bundle outdated > /tmp/bundle_summary.txt
+        run: bundle outdated > /tmp/bundle_summary.txt
+      - name: clean up bundle_summary.txt
+        run: |
           sed -i -n '/^Gem\s.*Current/,$p' /tmp/bundle_summary.txt
+          cat /tmp/bundle_summary.txt
       - name: Update bundler
         run: bundle update --bundler
       - name: Update gems
