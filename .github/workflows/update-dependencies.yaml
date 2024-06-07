@@ -1,0 +1,88 @@
+name: Update dependencies
+
+on: 
+  workflow_dispatch:
+  schedule:
+    - cron:  '0 8 1 * *' #8AM first of the month
+
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    outputs: 
+      sha: ${{ steps.cpr.outputs.pull-request-head-sha }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Create .env file
+        run: cat env.* > .env
+      - name: Load .env file
+        uses: xom9ikk/dotenv@v2
+      - name: Set up Ruby 3.3
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.3'
+        env: 
+          BUNDLE_RUBYGEMS__PKG__GITHUB__COM: ${{ secrets.GITHUB_TOKEN }}
+      - name: Get gems to update
+        continue-on-error: true
+        run: | 
+          bundle outdated > /tmp/bundle_summary.txt
+          sed -i -n '/^Gem\s.*Current/,$p' /tmp/bundle_summary.txt
+      - name: Update bundler
+        run: bundle update --bundler
+      - name: Update gems
+        run: bundle update
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+      - name: get npm summary
+        continue-on-error: true
+        run: |
+          npm install
+          npm outdated > /tmp/npm_summary.txt
+      - name: cat pr body
+        run: cat /tmp/npm_summary.txt
+      - name: Update node dependencies
+        run: |
+          npx -p npm-check-updates ncu -u
+          npm install
+          npm list
+      - name: Run tests
+        run: bundle exec rspec
+      - name: generate pr body
+        run: |
+          sed $'/BUNDLER_SUMMARY/{r /tmp/bundle_summary.txt\nd}' .github/update_dependencies_template.md > /tmp/pr_body_first.md
+          sed $'/NPM_SUMMARY/{r /tmp/npm_summary.txt\nd}' /tmp/pr_body_first.md > /tmp/pr_body.md
+      - name: Get PR title
+        run: echo "PR_TITLE=$(date +'%B %Y') dependency updates" >> $GITHUB_ENV
+      - name: Create Pull Request
+        id: cpr
+        uses: peter-evans/create-pull-request@v6
+        with: 
+          commit-message: "Update dependencies"
+          title: ${{ env.PR_TITLE }}
+          body-path: /tmp/pr_body.md
+          assignees: niquerio, erinesullivan
+
+  build-unstable:
+    needs: update
+    name: Build unstable ${{ needs.update.outputs.sha }}
+    uses: mlibrary/platform-engineering-workflows/.github/workflows/build-unstable.yml@v1
+    with:
+      image_name: ${{ vars.IMAGE_NAME }}
+      tag: ${{ needs.update.outputs.sha}}
+      dockerfile: Dockerfile
+    secrets: inherit
+      
+  deploy-unstable:
+    needs: build-unstable
+    name: Deploy to workshop
+    uses: mlibrary/platform-engineering-workflows/.github/workflows/deploy.yml@v1
+    with:
+      image: ${{ needs.build-unstable.outputs.image }}
+      file: environments/account/workshop/web-image.txt
+      CONFIG_REPO_RW_APP_ID: ${{ vars.CONFIG_REPO_RW_APP_ID }}
+      CONFIG_REPO_FULL_NAME: ${{ vars.CONFIG_REPO_FULL_NAME }}
+    secrets: inherit
+
