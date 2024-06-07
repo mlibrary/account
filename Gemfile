@@ -13,7 +13,8 @@ gem "omniauth"
 gem "omniauth_openid_connect"
 gem "redcarpet"
 gem "rackup"
-# needed for when we go to ruby 3.3, but we aren't there yet
+gem "canister"
+gem "semantic_logger"
 gem "csv" # included here because httparty uses it and ought to require it
 
 # In order to get rspec to work for ruby 3.1. Maybe later see if it's still necessary
