@@ -10,8 +10,8 @@ services:
       - .:/app
       - gem_cache:/gems
     env_file:
-      - .env
       - env.development
+      - .env
         
   nelnet-test:
     build: ./nelnet_test/.
