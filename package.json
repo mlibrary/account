@@ -3,11 +3,11 @@
   "version": "1.0.0",
   "description": "for account.lib",
   "devDependencies": {
-    "@eslint/js": "^9.4.0",
-    "esbuild": "^0.21.4",
-    "eslint": "^9.4.0",
-    "globals": "^15.4.0",
-    "sass": "^1.77.4"
+    "@eslint/js": "^9.6.0",
+    "esbuild": "^0.22.0",
+    "eslint": "^9.6.0",
+    "globals": "^15.7.0",
+    "sass": "^1.77.6"
   },
   "scripts": {
     "build": "npm run build-css && npm run build-js",
