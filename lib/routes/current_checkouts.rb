@@ -12,7 +12,7 @@ namespace "/current-checkouts" do
     loan_controls = TableControls::LoansForm.new(limit: params["limit"], order_by: params["order_by"], direction: params["direction"])
     loans = Loans.for(uniqname: session[:uniqname], offset: params["offset"], limit: params["limit"], order_by: params["order_by"], direction: params["direction"])
     message = session.delete(:message)
-    erb :"current-checkouts/u-m-library", locals: {loans: loans, message: message, loan_controls: loan_controls, has_js: true}
+    erb :"current-checkouts/u-m-library", locals: {loans: loans, message: message, loan_controls: loan_controls}
   rescue => e
     flash.now[:error] = "<span class='strong'>Error:</span> We were unable to load your loans. Please try again." unless e.message == "not_in_alma"
     erb :empty_state

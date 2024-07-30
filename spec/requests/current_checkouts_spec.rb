@@ -41,10 +41,6 @@ describe "current-checkouts requests" do
         get "/current-checkouts/u-m-library"
         expect(last_response.body).to include("U-M Library")
       end
-      it "has checkouts js" do
-        get "/current-checkouts/u-m-library"
-        expect(last_response.body).to include("current-checkouts-u-m-library.bundle.js")
-      end
     end
     context "in alma user but alma has a network problem" do
       it "loads the empty state and has an error flash" do
