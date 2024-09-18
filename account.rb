@@ -8,6 +8,7 @@ require "omniauth_openid_connect"
 require "alma_rest_client"
 require "jwt"
 require "byebug" if development?
+require "ostruct"
 
 # Monkey patch for omniauth_openid_connect -> openid_connect -> webfinger -> httpclient SSL errors
 # require_relative "./lib/monkey_httpclient"
