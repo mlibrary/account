@@ -16,6 +16,7 @@ gem "rackup"
 gem "canister"
 gem "semantic_logger"
 gem "csv" # included here because httparty uses it and ought to require it
+gem "ostruct"
 
 # In order to get rspec to work for ruby 3.1. Maybe later see if it's still necessary
 gem "net-smtp", require: false
