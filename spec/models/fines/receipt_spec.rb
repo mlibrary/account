@@ -69,6 +69,11 @@ describe Receipt, ".for" do
     expect(subject.class.name).to eq("ErrorReceipt")
     expect(subject.message).to include("balance")
   end
+  it "returns ErrorReceipt if transactionResultMessage is not Approved" do
+    @params["transactionResultMessage"] = "Declined"
+    expect(subject.class.name).to eq("ErrorReceipt")
+    expect(subject.message).to include("Declined")
+  end
 end
 describe Payment do
   before(:each) do
