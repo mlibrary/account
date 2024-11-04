@@ -44,8 +44,11 @@
 
 @mixin button--light {
   @include button;
-  background: var(--color-neutral-100);
-  color: var(--color-neutral-400);
+  
+  & {
+    background: var(--color-neutral-100);
+    color: var(--color-neutral-400);
+  }
 }
 
 button,
