@@ -16,7 +16,7 @@ jobs:
       - name: Create .env file
         run: cat env.* > .env
       - name: Load .env file
-        uses: xom9ikk/dotenv@v2
+        uses: xom9ikk/dotenv@v2.3.0
       - name: Set up Ruby 3.3
         uses: ruby/setup-ruby@v1
         with:
@@ -65,7 +65,7 @@ jobs:
           commit-message: "Update dependencies"
           title: ${{ env.PR_TITLE }}
           body-path: /tmp/pr_body.md
-          assignees: niquerio, erinesullivan
+          reviewers: niquerio, erinesullivan
 
   build-unstable:
     needs: update
