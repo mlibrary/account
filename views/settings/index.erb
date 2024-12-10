@@ -46,36 +46,30 @@
     <p>If you’d like to continue to keep a record of your checkout history, you can select that option now. If you prefer to have your checkout history deleted and no longer record future checkouts, you can opt out.</p>
     <p>You can change this preference at any time.</p>
 
-    <fieldset class="owl">
+    <fieldset>
       <legend class="visually-hidden">Do you wish to record your checkout history?</legend>
       <div class="radio-option">
         <input 
           type="radio" 
           name="retain_history" 
-          class="visually-hidden"
           id="opt-in" 
           value="true" 
           <% if patron.confirmed_history_setting? && patron.retain_history? %>checked<% end %>
         >
         <label for="opt-in">
-          <span class="material-symbols-sharp radio-button-checked" aria-hidden="true">radio_button_checked</span>
-          <span class="material-symbols-sharp radio-button-unchecked" aria-hidden="true">radio_button_unchecked</span>
-          <span>Yes, record my checkout history</span>
+          Yes, record my checkout history
         </label>
       </div>
       <div class="radio-option">
         <input 
           type="radio" 
           name="retain_history"
-          class="visually-hidden" 
           id="opt-out" 
           value="false" 
           <% if patron.confirmed_history_setting? && !patron.retain_history? %>checked<% end %>
         >
         <label for="opt-out">
-          <span class="material-symbols-sharp radio-button-checked" aria-hidden="true">radio_button_checked</span>
-          <span class="material-symbols-sharp radio-button-unchecked" aria-hidden="true">radio_button_unchecked</span>
-          <span>No, do not record my checkout history and delete my past checkout history</span>
+          No, do not record my checkout history and delete my past checkout history
         </label>
       </div>
     </fieldset>
@@ -104,24 +98,21 @@
 
       <p>Add a phone number to receive text notifications on the status of your request and loans. Special collections requests are not included. Message and data rates may apply.</p>
 
-      <fieldset class="owl">
+      <fieldset>
         <legend class="visually-hidden">Do you wish to receive text notifications?</legend>
         <div class="radio-option">
           <input 
             type="radio"
             name="text-notifications"
-            class="visually-hidden"
             id="confirm-sms"
             value="on"
             <% if patron.sms_number? %>checked<% end%>
           >
           <label for="confirm-sms">
-            <span class="material-symbols-sharp radio-button-checked" aria-hidden="true">radio_button_checked</span>
-            <span class="material-symbols-sharp radio-button-unchecked" aria-hidden="true">radio_button_unchecked</span>
-            <span>Yes, please send me text notifications</span>
+            Yes, please send me text notifications
           </label>
           <div class="radio-option-extra">
-            <label class="text-notifications-label" for="sms-number">
+            <label for="sms-number">
               Phone number
             </label>
             <input
@@ -143,15 +134,12 @@
           <input 
             type="radio"
             name="text-notifications"
-            class="visually-hidden"
             id="deny-sms"
             value="off"
             <% if !patron.sms_number? %>checked<% end%>
           >
           <label for="deny-sms">
-            <span class="material-symbols-sharp radio-button-checked" aria-hidden="true">radio_button_checked</span>
-            <span class="material-symbols-sharp radio-button-unchecked" aria-hidden="true">radio_button_unchecked</span>
-            <span>No, do not send me text notifications</span>
+            No, do not send me text notifications
           </label>
         </div>
       </fieldset>
