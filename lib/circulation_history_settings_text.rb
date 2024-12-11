@@ -51,7 +51,7 @@ class CirculationHistorySettingsText
     private
 
     def text
-      "We’ve been preserving your #{checkout_history} since spring 2016, which includes any items owned by the U-M Library that you have checked out. You can download your checkout history as a CSV file here. Learn more about checkout history options in our [Privacy Statement](https://lib.umich.edu/about-us/policies/library-privacy-statement/checkout-history-options) and update your preferences below."
+      "We've been preserving your #{checkout_history} since spring 2016, which includes any items owned by the U-M Library that you have checked out. You can download your checkout history as a CSV file here. Learn more about checkout history options in our [Privacy Statement](https://lib.umich.edu/about-us/policies/library-privacy-statement/checkout-history-options) and update your preferences below."
     end
   end
 
