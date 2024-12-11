@@ -24,10 +24,15 @@
   gap: 0.25rem;
   font-weight: normal;
   padding: 0;
-  @include breakpoints.breakpoint('medium') {
-    &[aria-expanded="true"] > .username {
-      text-decoration: underline;
-      text-decoration-thickness: 0.125rem;
+  &[aria-expanded="true"] {
+    & > .material-symbols-rounded {
+      transform: rotate(180deg);
+    }
+    @include breakpoints.breakpoint('medium') {
+      & > .username {
+        text-decoration: underline;
+        text-decoration-thickness: 0.125rem;
+      }
     }
   }
 }
@@ -35,7 +40,7 @@
 .dropdown-container {
   @include breakpoints.breakpoint('medium') {
     background: white;
-    border-radius: 	0.25rem;
+    border-radius: 0.25rem;
     box-shadow: var(--z-space-medium);
     padding: 1rem 1.5rem;
     position: absolute;
