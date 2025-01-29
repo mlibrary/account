@@ -98,13 +98,8 @@
       // Toggle `aria-expanded` as true or false
       getAriaExpanded = !getAriaExpanded;
       event.target.setAttribute('aria-expanded', getAriaExpanded);
-      // Toggle display for dropdown and arrow keys
-      const getArrowKeys = [...dropdown.children].filter((arrowKey) => {
-        return arrowKey.innerText.startsWith('keyboard_arrow_');
-      });
-      [getDropdown, ...getArrowKeys].forEach((toggle) => {
-        toggle.style.display = toggle.style.display === 'block' ? 'none' : 'block';
-      });
+      // Toggle display for dropdown
+      getDropdown.style.display = getDropdown.style.display === 'block' ? 'none' : 'block';
     });
     // Close dropdown if `Escape` has been pressed or clicked outside of dropdown
     ['click', 'keyup'].forEach((listener) => {

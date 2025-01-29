@@ -38,34 +38,28 @@
 
       <h2>How much would you like to pay today?</h2>
 
-      <fieldset class="owl">
+      <fieldset>
         <legend class="visually-hidden">Pick a payment amount option</legend>
         <div class="radio-option">
           <input
             type="radio"
             name="pay_in_full"
-            class="visually-hidden"
             id="pay-all"
             value="true"
           >
           <label for="pay-all">
-            <span class="material-symbols-sharp radio-button-checked" aria-hidden="true">radio_button_checked</span>
-            <span class="material-symbols-sharp radio-button-unchecked" aria-hidden="true">radio_button_unchecked</span>
-            <span>Pay full amount (<span class="strong">$<%=fines.total_sum_in_dollars%></span>)</span>
+            Pay full amount (<span class="strong">$<%=fines.total_sum_in_dollars%></span>)
           </label>
         </div>
         <div class="radio-option">
           <input
             type="radio"
             name="pay_in_full"
-            class="visually-hidden"
             id="pay-some"
             value="false"
           >
           <label for="pay-some">
-            <span class="material-symbols-sharp radio-button-checked" aria-hidden="true">radio_button_checked</span>
-            <span class="material-symbols-sharp radio-button-unchecked" aria-hidden="true">radio_button_unchecked</span>
-            <span>Pay partial amount</span>
+            Pay partial amount
           </label>
           <div id="pay-some-amount" class="radio-option-extra">
             <span>$</span>

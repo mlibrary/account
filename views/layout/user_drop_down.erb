@@ -3,10 +3,9 @@
 <% if session[:uniqname] %>
   <nav class="user-navigation dropdown" aria-label="User Dropdown Navigation">
     <button aria-expanded="false" data-dropdown="user-nav-dropdown" class="button--dropdown">
-      <span class="material-symbols-sharp" aria-hidden="true">person</span>
+      <span class="material-symbols-rounded" aria-hidden="true">person</span>
       <span class="username"><%=session[:uniqname]%></span>
-      <span class="material-symbols-rounded" style="display: block;" aria-hidden="true">keyboard_arrow_down</span>
-      <span class="material-symbols-rounded" style="display: none;" aria-hidden="true">keyboard_arrow_up</span>
+      <span class="material-symbols-rounded" aria-hidden="true">keyboard_arrow_down</span>
     </button>
     <div class="navigation-lists dropdown-container" id="user-nav-dropdown" style="display: none;">
       <ul class="site-navigation-list">

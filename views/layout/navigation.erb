@@ -6,7 +6,7 @@
       <% my_pages.pages.each do |page| %>
         <li class="<%= page.active %>">
           <a href="<%=page.path%>" <% if page.active? %>aria-current="page"<% end %>>
-            <span class="material-symbols-rounded" aria-hidden="true"><%=page.icon_name%></span><span><%=page.title%></span><%= erb :'components/open_in_new', locals: { title: page.title } %>
+            <span class="material-symbols-rounded icon__filled" aria-hidden="true"><%=page.icon_name%></span><span><%=page.title%></span><%= erb :'components/open_in_new', locals: { title: page.title } %>
           </a>
         </li>
       <% end %>

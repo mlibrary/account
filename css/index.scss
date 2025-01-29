@@ -1,10 +1,10 @@
 @use "defaults";
 @use "base";
 @use "utilities";
-@use "focus";
 @use "skip-links";
 @use "site-navigation";
 @use "horizontal-navigation";
+@use "icons";
 @use "dropdown";
 @use "site-footer";
 @use "overview-cards";
@@ -12,7 +12,6 @@
 @use "tables";
 @use "pagination";
 @use "messages";
-@use "text-notifications";
 @use "tags";
 @use "banner";
 @use "renew";
