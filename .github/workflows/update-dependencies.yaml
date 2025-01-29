@@ -62,6 +62,7 @@ jobs:
         id: cpr
         uses: peter-evans/create-pull-request@v6
         with: 
+          branch: update-dependencies
           commit-message: "Update dependencies"
           title: ${{ env.PR_TITLE }}
           body-path: /tmp/pr_body.md

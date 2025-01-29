@@ -16,21 +16,6 @@ jobs:
       dockerfile: Dockerfile
     secrets: inherit
       
-  #scan-image:
-    #needs: build-unstable
-    #runs-on: ubuntu-latest
-    #steps:
-      #- name: Run Trivy vulnerability scanner
-        #uses: aquasecurity/trivy-action@master
-        #with:
-          #image-ref: ${{ needs.build-unstable.outputs.image }}
-          #format: 'table'
-          #exit-code: '1'
-          #ignore-unfixed: true
-          #vuln-type: 'os,library'
-          #severity: 'CRITICAL,HIGH'
-          #skip-files: '/gems/ruby/3.2.0/gems/openid_connect-2.2.0/spec/mock_response/public_keys/private_key.pem'
-
   deploy-unstable:
     needs: build-unstable
     name: Deploy to workshop

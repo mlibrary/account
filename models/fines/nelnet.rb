@@ -9,7 +9,6 @@ class Nelnet
     order_type: "UMLibraryCirc",
     timestamp: DateTime.timestamp,
     order_number: "#{SecureRandom.alphanumeric(4)}.#{timestamp}")
-
     @payment_url = ENV.fetch("NELNET_PAYMENT_URL")
     @amount_due = amount_due.delete(".")
     @order_number = order_number
