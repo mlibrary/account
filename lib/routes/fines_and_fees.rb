@@ -11,24 +11,19 @@ namespace "/fines-and-fees" do
   post "/pay" do
     fines = Fines.for(uniqname: session[:uniqname])
     total_sum = fines.total_sum.to_f
-    # 2024-06-06 This messages mrio when there's a fine to make it easier to determine if the fines bug is still happening.
-    begin
-      HTTParty.post(S.slack_url, headers: {"Content-type" => "application/json"}, body: {text: "Someone started a fine payment attempt in account"}.to_json)
-    rescue
-      S.logger.error("Couldn't send slack message")
-    end
 
     amount = (params["pay_in_full"] == "true") ? total_sum : params["partial_amount"].to_f
     if amount <= total_sum
       nelnet = Nelnet.new(amount_due: amount.to_currency)
       session["order_number"] = nelnet.order_number
-      S.logger.info("Fee payment attempt: order_number: #{nelnet.order_number}")
+      S.logger.info("fine_payment_start", message: "Fine payment started", order_number: nelnet.order_number)
       redirect nelnet.url
     else
       flash[:error] = "You don't need to overpay!!!"
       redirect "/fines-and-fees"
     end
-  rescue
+  rescue => e
+    S.logger.error("fine_payment_error", message: "Unable to redirect to payment website: #{e.detailed_message}")
     flash[:error] = "<span class='strong'>Error:</span> We were unable to redirect you to the payment website. Please try again"
     redirect "/fines-and-fees"
   end
