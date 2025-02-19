@@ -79,6 +79,10 @@ set server: "puma"
 
 use Rack::Logger
 
+def dev_login?
+  ENV["WEBLOGIN_ON"] == "false" && settings.environment == :development
+end
+
 before do
   pass if ["auth", "session_switcher", "logout", "login", "-"].include? request.path_info.split("/")[1]
   if dev_login?
@@ -93,21 +97,17 @@ before do
   end
 end
 
-helpers do
-  def dev_login?
-    ENV["WEBLOGIN_ON"] == "false" && settings.environment == :development
-  end
-end
-
 post "/table-controls" do
   url_generator = TableControls::URLGenerator.for(show: params["show"], sort: params["sort"], referrer: request.referrer)
   redirect url_generator.to_s
 end
 # :nocov:
-get "/session_switcher" do
-  patron = SessionPatron.new(params[:uniqname])
-  patron.to_h.each { |k, v| session[k] = v }
-  redirect back
+if dev_login?
+  get "/session_switcher" do
+    patron = SessionPatron.new(params[:uniqname])
+    patron.to_h.each { |k, v| session[k] = v }
+    redirect back
+  end
 end
 # :nocov:
 
