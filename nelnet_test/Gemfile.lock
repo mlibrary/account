@@ -7,7 +7,7 @@ GEM
     mustermann (3.0.0)
       ruby2_keywords (~> 0.0.1)
     public_suffix (5.0.1)
-    rack (2.2.9)
+    rack (2.2.13)
     rack-protection (3.0.6)
       rack
     ruby2_keywords (0.0.5)
