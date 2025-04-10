@@ -115,10 +115,6 @@ get "/" do
   erb :"account-overview/index", locals: {cards: Navigation.cards}
 end
 
-get "/favorites" do
-  redirect "https://apps.lib.umich.edu/my-account/favorites"
-end
-
 not_found do
   erb :empty_state
 end
