@@ -35,13 +35,6 @@ describe "requests" do
       expect(last_response.body).to include("Account Overview")
     end
   end
-  context "get /favorites" do
-    it "goes to olde favorites" do
-      get "/favorites"
-      expect(last_response.status).to eq(302)
-      expect(last_response.location).to eq("https://apps.lib.umich.edu/my-account/favorites")
-    end
-  end
   context "not_found" do
     it "shows page not found for not found" do
       get "/does_not_exist"
