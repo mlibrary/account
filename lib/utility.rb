@@ -36,7 +36,7 @@ class DueStatus
       "Overdue"
     elsif due_diff <= 7
       "Due Soon"
-    elsif renew_diff >= 0 && renew_diff <= 14
+    elsif renew_diff.between?(0, 14)
       "Renewed"
     else
       ""
