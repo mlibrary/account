@@ -85,6 +85,7 @@ end
 
 before do
   pass if ["auth", "session_switcher", "logout", "login", "-"].include? request.path_info.split("/")[1]
+
   if dev_login?
     if !session[:uniqname]
       redirect "/session_switcher?uniqname=#{CGI.escape("mlibrary.acct.testing1@gmail.com")}"

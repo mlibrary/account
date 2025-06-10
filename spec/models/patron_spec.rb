@@ -2,7 +2,7 @@ require "spec_helper"
 require "json"
 
 describe Patron do
-  context "found uniqname and circ history" do
+  context "found uniqname and circ history and in illiad" do
     before(:each) do
       @alma_response = JSON.parse(File.read("./spec/fixtures/mrio_user_alma.json"))
       @circ_history_response = JSON.parse(File.read("./spec/fixtures/circ_history_user.json"))
@@ -178,8 +178,22 @@ describe Patron do
         end
       end
     end
+    context "#session_hash" do
+      it "has the appropriate key value pairs" do
+        expected = {
+          uniqname: "mrio",
+          in_alma: true,
+          can_book: true,
+          confirmed_history_setting: true,
+          in_circ_history: true,
+          in_illiad: true
+        }
+
+        expect(subject.session_hash).to eq(expected)
+      end
+    end
   end
-  context "has alma; does not have circ history" do
+  context "has alma; does not have circ history; not in illiad" do
     before(:each) do
       @alma_response = JSON.parse(File.read("./spec/fixtures/mrio_user_alma.json"))
       @circ_history_response = JSON.parse(File.read("./spec/fixtures/circ_history_user.json"))
@@ -212,8 +226,22 @@ describe Patron do
         expect(subject.in_circ_history?).to eq(false)
       end
     end
+    context "#session_hash" do
+      it "has the appropriate key value pairs" do
+        expected = {
+          uniqname: "mrio",
+          in_alma: true,
+          can_book: true,
+          confirmed_history_setting: false,
+          in_circ_history: false,
+          in_illiad: false
+        }
+
+        expect(subject.session_hash).to eq(expected)
+      end
+    end
   end
-  context "nonexistent uniqname and not in circ history" do
+  context "nonexistent uniqname and not in circ history; not in illiad" do
     before(:each) do
       @alma_response = File.read("./spec/fixtures/alma_error.json")
       @patron_url = "users/mrioaaa?user_id_type=all_unique&view=full&expand=none"
@@ -249,6 +277,20 @@ describe Patron do
         it "returns nil" do
           expect(subject.send(method)).to be_nil
         end
+      end
+    end
+    context "#session_hash" do
+      it "has the appropriate key value pairs" do
+        expected = {
+          uniqname: "mrioaaa",
+          in_alma: false,
+          can_book: false,
+          confirmed_history_setting: false,
+          in_circ_history: false,
+          in_illiad: false
+        }
+
+        expect(subject.session_hash).to eq(expected)
       end
     end
   end
