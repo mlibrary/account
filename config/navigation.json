@@ -127,11 +127,6 @@
     "slug": "login"
   },
   {
-    "title": "Sorry",
-    "sidebar": "false",
-    "slug": "auth/failure"
-  },
-  {
     "title": "Page not found",
     "sidebar": "false",
     "slug": "none",

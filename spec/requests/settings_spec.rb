@@ -13,6 +13,7 @@ describe "requests" do
       expires_at: Time.now + 1.day
     }
     env "rack.session", @session
+    env "HTTP_X_AUTH_REQUEST_USER", "tutor"
   end
   context "get /settings" do
     it "contains 'Settings'" do

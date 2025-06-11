@@ -24,7 +24,6 @@ SimpleCov.start
 ENV["APP_ENV"] = "test"
 
 require File.expand_path "../../account.rb", __FILE__
-OmniAuth.config.test_mode = true
 
 module RSpecMixin
   include Rack::Test::Methods

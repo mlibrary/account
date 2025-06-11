@@ -1,17 +1,14 @@
 require "sinatra"
 require "sinatra/namespace"
-require "sinatra/reloader" if development?
 require "sinatra/flash"
 require "redcarpet"
-require "omniauth"
-require "omniauth_openid_connect"
 require "alma_rest_client"
 require "jwt"
-require "byebug" if development?
 require "ostruct"
+require "active_support"
+require "active_support/core_ext/numeric"
 
-# Monkey patch for omniauth_openid_connect -> openid_connect -> webfinger -> httpclient SSL errors
-# require_relative "./lib/monkey_httpclient"
+require "byebug" if development?
 
 require_relative "lib/services"
 
@@ -37,7 +34,6 @@ require_relative "lib/circulation_history_settings_text"
 
 require_relative "models/illiad_patron"
 require_relative "models/patron"
-require_relative "models/session_patron"
 
 require_relative "models/response/response"
 require_relative "models/response/renew_response_presenter"
@@ -63,7 +59,7 @@ require_relative "models/items/interlibrary_loan/past_document_delivery"
 require_relative "models/items/interlibrary_loan/past_interlibrary_loans"
 require_relative "models/items/interlibrary_loan/pending_document_delivery"
 
-require_relative "lib/routes/auth"
+# require_relative "lib/routes/auth"
 require_relative "lib/routes/monitoring"
 require_relative "lib/routes/current_checkouts"
 require_relative "lib/routes/pending_requests"
@@ -80,21 +76,29 @@ set server: "puma"
 use Rack::Logger
 
 def dev_login?
-  ENV["WEBLOGIN_ON"] == "false" && settings.environment == :development
+  settings.environment == :development
+end
+
+def set_patron
+  uniqname = request.get_header("HTTP_X_AUTH_REQUEST_USER")
+  halt 401, "Unauthorized" if uniqname.nil?
+  if uniqname != session[:uniqname] || Time.now.utc > session[:expires_at]
+    patron = Patron.for(uniqname: uniqname)
+    patron.session_hash.each { |k, v| session[k] = v }
+    session[:expires_at] = Time.now.utc + 1.hour
+  end
 end
 
 before do
-  pass if ["auth", "session_switcher", "logout", "login", "-"].include? request.path_info.split("/")[1]
+  pass if ["session_switcher", "logout", "-"].include? request.path_info.split("/")[1]
+
   if dev_login?
     if !session[:uniqname]
       redirect "/session_switcher?uniqname=#{CGI.escape("mlibrary.acct.testing1@gmail.com")}"
     end
     pass
   end
-  if !session[:authenticated] || Time.now.utc > session[:expires_at]
-    session[:path_before_login] = request.path_info
-    redirect "/login"
-  end
+  set_patron
 end
 
 post "/table-controls" do
@@ -104,8 +108,8 @@ end
 # :nocov:
 if dev_login?
   get "/session_switcher" do
-    patron = SessionPatron.new(params[:uniqname])
-    patron.to_h.each { |k, v| session[k] = v }
+    patron = Patron.for(uniqname: params[:uniqname])
+    patron.session_hash.each { |k, v| session[k] = v }
     redirect back
   end
 end
@@ -113,6 +117,11 @@ end
 
 get "/" do
   erb :"account-overview/index", locals: {cards: Navigation.cards}
+end
+
+get "/logout" do
+  session.clear
+  redirect "https://shibboleth.umich.edu/cgi-bin/logout?https://lib.umich.edu/"
 end
 
 not_found do
