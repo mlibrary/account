@@ -83,6 +83,15 @@ def dev_login?
   ENV["WEBLOGIN_ON"] == "false" && settings.environment == :development
 end
 
+def set_patron
+  uniqname = request.get_header("HTTP_X_AUTH_REQUEST_USER")
+  if uniqname != session[:uniqname] || Time.now.utc > session[:expires_at]
+    patron = Patron.for(uniqname: uniqname)
+    patron.session_hash.each { |k, v| session[k] = v }
+    session[:expires_at] = Time.now.utc + 1.hour
+  end
+end
+
 before do
   pass if ["auth", "session_switcher", "logout", "login", "-"].include? request.path_info.split("/")[1]
 
@@ -92,10 +101,11 @@ before do
     end
     pass
   end
-  if !session[:authenticated] || Time.now.utc > session[:expires_at]
-    session[:path_before_login] = request.path_info
-    redirect "/login"
-  end
+  set_patron
+  # if !session[:authenticated] || Time.now.utc > session[:expires_at]
+  # session[:path_before_login] = request.path_info
+  # redirect "/login"
+  # end
 end
 
 post "/table-controls" do

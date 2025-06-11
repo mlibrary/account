@@ -14,14 +14,58 @@ describe "authentication requests" do
 
     }
     env "rack.session", @session
+    env "HTTP_X_AUTH_REQUEST_USER", "tutor"
   end
   context "not yet logged in" do
-    it "sets the path in the session before sending off to omniauth" do
-      @session[:authenticated] = false
+    it "sets the session to the uniqname in the header" do
+      env "rack.session", {}
+      stub_alma_get_request(url: "users/tutor?expand=none&user_id_type=all_unique&view=full", status: 400)
+      stub_circ_history_get_request(url: "users/tutor")
+      stub_illiad_get_request(url: "Users/tutor", status: 404)
+      get "/"
+      session = last_request.env["rack.session"]
+      expect(session[:uniqname]).to eq("tutor")
+      expect(session[:in_illiad]).to eq(false)
+      expect(session[:expires_at]).to be >= Time.now.utc
+    end
+  end
+  context "session has different patron" do
+    it "sets the patron to the one in header" do
+      @session[:uniqname] = "nottutor"
       env "rack.session", @session
-      get "/settings"
-      expect(last_request.env["rack.session"][:path_before_login]).to eq("/settings")
-      expect(URI.parse(last_response.location).path).to eq("/login")
+      stub_alma_get_request(url: "users/tutor?expand=none&user_id_type=all_unique&view=full", status: 400)
+      stub_circ_history_get_request(url: "users/tutor")
+      stub_illiad_get_request(url: "Users/tutor", status: 404)
+      get "/"
+      session = last_request.env["rack.session"]
+      expect(session[:uniqname]).to eq("tutor")
+      expect(session[:in_illiad]).to eq(false)
+      expect(session[:expires_at]).to be >= Time.now.utc
+    end
+  end
+  context "session has expired" do
+    it "it calls for patron info" do
+      @session[:expires_at] = Time.now - 1.hour
+      env "rack.session", @session
+      stub_alma_get_request(url: "users/tutor?expand=none&user_id_type=all_unique&view=full", status: 400)
+      stub_circ_history_get_request(url: "users/tutor")
+      stub_illiad_get_request(url: "Users/tutor", status: 404)
+      get "/"
+      session = last_request.env["rack.session"]
+      expect(session[:uniqname]).to eq("tutor")
+      expect(session[:in_illiad]).to eq(false)
+      expect(session[:expires_at]).to be >= Time.now.utc
+    end
+  end
+  context "same patron in header as in session and session not expired" do
+    it "does not call any patron related apis" do
+      alma_stub = stub_alma_get_request(url: "users/tutor?expand=none&user_id_type=all_unique&view=full", status: 400)
+      get "/"
+      session = last_request.env["rack.session"]
+      expect(session[:uniqname]).to eq("tutor")
+      expect(session[:in_illiad]).to eq(true)
+      expect(alma_stub).not_to have_been_requested
+      expect(session[:expires_at]).to eq(@session[:expires_at])
     end
   end
 
