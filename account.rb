@@ -34,7 +34,6 @@ require_relative "lib/circulation_history_settings_text"
 
 require_relative "models/illiad_patron"
 require_relative "models/patron"
-require_relative "models/session_patron"
 
 require_relative "models/response/response"
 require_relative "models/response/renew_response_presenter"
@@ -109,8 +108,8 @@ end
 # :nocov:
 if dev_login?
   get "/session_switcher" do
-    patron = SessionPatron.new(params[:uniqname])
-    patron.to_h.each { |k, v| session[k] = v }
+    patron = Patron.for(uniqname: params[:uniqname])
+    patron.session_hash.each { |k, v| session[k] = v }
     redirect back
   end
 end
