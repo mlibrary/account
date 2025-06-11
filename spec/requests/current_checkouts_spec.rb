@@ -13,6 +13,7 @@ describe "current-checkouts requests" do
       expires_at: Time.now + 1.day
     }
     env "rack.session", @session
+    env "HTTP_X_AUTH_REQUEST_USER", "tutor"
   end
   let(:not_in_alma) do
     @session[:in_alma] = false
