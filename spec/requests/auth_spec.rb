@@ -74,4 +74,12 @@ describe "authentication requests" do
       expect_session_from_fresh_api_calls
     end
   end
+  context "empty X_AUTH header not found in alma" do
+    it "returns 401 response" do
+      env "HTTP_X_AUTH_REQUEST_USER", nil
+      get "/"
+      stub_alma_get_request(url: "users/?expand=none&user_id_type=all_unique&view=full", status: 400)
+      expect(last_response.status).to eq(401)
+    end
+  end
 end
