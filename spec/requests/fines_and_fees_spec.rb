@@ -14,6 +14,7 @@ describe "fines-and-fees requests" do
 
     }
     env "rack.session", @session
+    env "HTTP_X_AUTH_REQUEST_USER", "tutor"
   end
   let(:not_in_alma) do
     @session[:in_alma] = false

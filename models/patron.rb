@@ -96,6 +96,17 @@ class Patron
     @alma_data.dig("contact_info", "address")&.map { |x| Address.new(x) }
   end
 
+  def session_hash
+    {
+      uniqname: uniqname,
+      in_alma: in_alma?,
+      can_book: can_book?,
+      confirmed_history_setting: confirmed_history_setting?,
+      in_circ_history: in_circ_history?,
+      in_illiad: in_illiad?
+    }
+  end
+
   private
 
   def patron_with_internal_sms(sms_number)
