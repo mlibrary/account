@@ -59,7 +59,6 @@ require_relative "models/items/interlibrary_loan/past_document_delivery"
 require_relative "models/items/interlibrary_loan/past_interlibrary_loans"
 require_relative "models/items/interlibrary_loan/pending_document_delivery"
 
-# require_relative "lib/routes/auth"
 require_relative "lib/routes/monitoring"
 require_relative "lib/routes/current_checkouts"
 require_relative "lib/routes/pending_requests"
@@ -121,7 +120,9 @@ end
 
 get "/logout" do
   session.clear
-  redirect "https://shibboleth.umich.edu/cgi-bin/logout?https://lib.umich.edu/"
+  weblogin_logout_url = URI.encode_www_form_component("https://shibboleth.umich.edu/cgi-bin/logout?https://lib.umich.edu/")
+  log_out_url = "/oauth2/sign_out?rd=#{weblogin_logout_url}"
+  redirect log_out_url
 end
 
 not_found do
