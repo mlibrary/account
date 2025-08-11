@@ -72,8 +72,6 @@ enable :sessions
 set :session_secret, ENV["RACK_COOKIE_SECRET"]
 set server: "puma"
 
-use Rack::Logger
-
 def dev_login?
   settings.environment == :development
 end
