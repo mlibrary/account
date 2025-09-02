@@ -13,15 +13,6 @@ services:
       - env.development
       - .env
         
-  nelnet-test:
-    build: ./nelnet_test/.
-    ports: 
-      - "4444:4567"
-    volumes:
-      - ./nelnet_test/.:/app
-    env_file:
-      - env.development
-
   circulation-history:
     image: ghcr.io/mlibrary/circulation_history_unstable:latest
     ports:
