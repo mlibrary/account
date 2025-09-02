@@ -12,7 +12,7 @@ jobs:
     outputs: 
       sha: ${{ steps.cpr.outputs.pull-request-head-sha }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Create .env file
         run: cat env.* > .env
       - name: Load .env file
@@ -60,7 +60,7 @@ jobs:
         run: echo "PR_TITLE=$(date +'%B %Y') dependency updates" >> $GITHUB_ENV
       - name: Create Pull Request
         id: cpr
-        uses: peter-evans/create-pull-request@v6
+        uses: peter-evans/create-pull-request@v7
         with: 
           branch: update-dependencies
           commit-message: "Update dependencies"
