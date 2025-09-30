@@ -1,6 +1,7 @@
 require "spec_helper"
 describe "requests" do
   include Rack::Test::Methods
+
   before(:each) do
     @session = {
       uniqname: "tutor",
