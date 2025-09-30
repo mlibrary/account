@@ -27,6 +27,7 @@ require File.expand_path "../../account.rb", __FILE__
 
 module RSpecMixin
   include Rack::Test::Methods
+
   def app = Sinatra::Application
 end
 RSpec.configure do |config|

@@ -2,6 +2,7 @@ require "httparty"
 
 class ILLiadClient
   include HTTParty
+
   base_uri "#{ENV.fetch("ILLIAD_API_HOST")}/ILLiadWebPlatform"
 
   def initialize

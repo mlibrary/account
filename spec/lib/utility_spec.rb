@@ -6,6 +6,7 @@ end
 
 describe UrlHelper, "absolute_url" do
   include UrlHelper
+
   it "returns an absolute url" do
     with_modified_env PATRON_ACCOUNT_BASE_URL: "http://example.com:55" do
       url = absolute_url(path: "things/stuff", query: {things: "1", stuff: "2"})

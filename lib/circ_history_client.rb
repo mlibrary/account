@@ -2,6 +2,7 @@ require "httparty"
 
 class CircHistoryClient
   include HTTParty
+
   base_uri "#{ENV.fetch("CIRCULATION_HISTORY_URL")}/v1"
 
   def initialize(uniqname)

@@ -1,6 +1,7 @@
 require "spec_helper"
 describe "authentication requests" do
   include Rack::Test::Methods
+
   let(:previous_session) {
     {
       uniqname: "tutor",

@@ -1,6 +1,7 @@
 class Receipt
   attr_reader :balance
   extend Forwardable
+
   def_delegators :@payment, :order_number, :description, :amount, :payer_name, :type,
     :email, :date, :street, :city, :state, :zip, :country, :confirmation_number
 
