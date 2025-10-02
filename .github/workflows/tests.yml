@@ -3,6 +3,24 @@ name: Run Tests
 on: push
 
 jobs:
+  # Run ESLint
+  eslint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - name: Install latest LTS version of Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: lts/*
+          check-latest: true
+      - name: Clean install
+        run: npm ci
+      - name: Run ESLint
+        run: npm run lint
+
   # Run tests
   test:
     runs-on: ubuntu-latest
