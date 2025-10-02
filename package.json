@@ -13,7 +13,7 @@
     "build": "npm run build-css && npm run build-js",
     "build-css": "npx sass css:public/bundles --style=compressed",
     "build-js": "npx eslint js/*.js && npx esbuild --bundle --sourcemap --minify js/*.js --outdir=public/bundles --out-extension:.js=.bundle.js --outbase=js $*",
-    "eslint": "npx eslint js/*.js",
+    "lint": "npx eslint js/*.js",
     "watch-css": "npm run build-css -- --watch",
     "watch-js": "npm run build-js -- --watch=forever"
   },
