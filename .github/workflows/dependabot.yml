@@ -29,6 +29,5 @@ jobs:
           github-token: "${{ secrets.GITHUB_TOKEN }}"
       - name: Approve the PR
         run: gh pr review --approve "$PR_URL"
-      # Prevent merging for testing
-      # - name: Merge the PR
-      #   run: gh pr merge --squash --auto "$PR_URL"
+      - name: Merge the PR
+        run: gh pr merge --squash --auto "$PR_URL"
