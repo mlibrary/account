@@ -1,13 +1,18 @@
 name: Dependabot pull requests
 
 on:
+  workflow_run:
+    # Make sure `test.yml` successfully completes
+    workflows: ["Run Tests"]
+    types:
+      - completed
   pull_request:
 
 jobs:
   dependabot:
     name: Auto-merge Dependabot PRs
     runs-on: ubuntu-latest
-    if: ${{github.event.pull_request.user.login == 'dependabot[bot]'}}
+    if: ${{github.event.pull_request.user.login == 'dependabot[bot]' && github.event_name == 'pull_request'}}
     permissions:
       pull-requests: write
       contents: write
@@ -21,5 +26,6 @@ jobs:
           github-token: "${{ secrets.GITHUB_TOKEN }}"
       - name: Approve the PR
         run: gh pr review --approve "$PR_URL"
-      - name: Merge the PR
-        run: gh pr merge --squash --auto "$PR_URL"
+      # Prevent merging for testing
+      # - name: Merge the PR
+      #   run: gh pr merge --squash --auto "$PR_URL"
